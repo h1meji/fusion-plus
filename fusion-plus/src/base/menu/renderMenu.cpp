@@ -43,11 +43,11 @@ void Menu::RenderMenu()
 	ImGui::SetColumnWidth(0, columnWidth);
 	//ImGui::GetWindowDrawList()->AddText(Menu::Font, distTextSize, ImVec2(posX, posY), ImColor();
 	ImVec2 windowPos = ImGui::GetWindowPos();
-	ImVec2 textSize = Menu::FontBold->CalcTextSizeA(28, FLT_MAX, 0.0f, "FUSION");
+	ImVec2 textSize = Menu::FontBold->CalcTextSizeA(28, FLT_MAX, 0.0f, "FUSION+");
 	float posX = windowPos.x + (columnWidth / 2) - (textSize.x / 2);
 	float posY = windowPos.y + 20;
 
-	Menu::GlitchText("FUSION", ImVec2(posX, posY));
+	Menu::GlitchText("FUSION+", ImVec2(posX, posY));
 	ImGui::SetCursorPosY(textSize.y + 30);
 
 	if (Menu::TabButton("Visual", (currentTab == 0 ? ImVec4(0.3f, 0.3f, 0.3f,0.2f) : ImVec4(0.1f, 0.1f, 0.1f, 0.f)))) currentTab = 0;

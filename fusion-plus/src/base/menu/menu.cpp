@@ -7,7 +7,7 @@
 
 void Menu::Init()
 {
-	Menu::Title = "fusion internal | rip lunar";
+	Menu::Title = "fusion+";
 	Menu::Initialized = false;
 	Menu::Open = false;
 	Menu::Keybind = VK_INSERT;
