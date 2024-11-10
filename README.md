@@ -47,7 +47,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - [ ] Improved module list in the internal GUI
 - [ ] Color customizations for different modules and internal GUI
 - [ ] Config files for saving and loading cheat settings
-- [ ] Improved module system for developers
+- [x] Improved module system for developers
 
 ### Planned Modules
 - [ ] **Arraylist**: Displays a list of the users active modules

@@ -233,15 +233,15 @@ void AimAssist::RenderMenu()
 
 	if (ImGui::BeginChild("", ImVec2(425, 381))) {
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-		Menu::DoToggleButtonStuff(234402345634000, "Toggle Aim Assist", &AimAssist::Enabled);
+		Menu::DoToggleButtonStuff(234402345634000, "Toggle Aim Assist", &Enabled);
 
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 		ImGui::Separator();
-		Menu::DoSliderStuff(23084562545, "FOV", &AimAssist::fov, 5.0f, 180.0f);
-		Menu::DoSliderStuff(869765007, "Lock Distance", &AimAssist::aimDistance, 1.0f, 8.0f);
-		Menu::DoSliderStuff(2314057445345, "Smoothness", &AimAssist::smooth, 1.0f, 90.0f);
-		Menu::DoToggleButtonStuff(22645342, "Visbility Check", &AimAssist::visibilityCheck);
-		Menu::DoToggleButtonStuff(206573465433442, "Left Button To Aim", &AimAssist::aimKey);
+		Menu::DoSliderStuff(23084562545, "FOV", &fov, 5.0f, 180.0f);
+		Menu::DoSliderStuff(869765007, "Lock Distance", &aimDistance, 1.0f, 8.0f);
+		Menu::DoSliderStuff(2314057445345, "Smoothness", &smooth, 1.0f, 90.0f);
+		Menu::DoToggleButtonStuff(22645342, "Visbility Check", &visibilityCheck);
+		Menu::DoToggleButtonStuff(206573465433442, "Left Button To Aim", &aimKey);
 
 		ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
 		ImGui::Text("Target Priority");
@@ -253,25 +253,25 @@ void AimAssist::RenderMenu()
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0.65, 0.65, 1));
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0.8, 0.8, 1));
 
-		ImGui::Combo("tp", &AimAssist::targetPriority, AimAssist::targetPriorityList, 3);
+		ImGui::Combo("tp", &targetPriority, targetPriorityList, 3);
 
 		ImGui::PopStyleColor(3);
 		ImGui::PopStyleVar();
 
 		ImGui::Separator();
 
-		Menu::DoToggleButtonStuff(5635678756247, "Adapt to strafing", &AimAssist::adaptive);
-		Menu::DoSliderStuff(457323434, "Adaptive strafing offset", &AimAssist::adaptiveOffset, 0.1f, 15.f);
+		Menu::DoToggleButtonStuff(5635678756247, "Adapt to strafing", &adaptive);
+		Menu::DoSliderStuff(457323434, "Adaptive strafing offset", &adaptiveOffset, 0.1f, 15.f);
 		ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
 
 		ImGui::Separator();
-		Menu::DoSliderStuff(3464340056, "Yaw Randomness", &AimAssist::randomYaw, 0.0f, 10.0f);
-		Menu::DoSliderStuff(54034352347, "Pitch Randomness", &AimAssist::randomPitch, 0.0f, 1);
+		Menu::DoSliderStuff(3464340056, "Yaw Randomness", &randomYaw, 0.0f, 10.0f);
+		Menu::DoSliderStuff(54034352347, "Pitch Randomness", &randomPitch, 0.0f, 1);
 		ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
 
 		ImGui::Separator();
-		Menu::DoToggleButtonStuff(76523436400, "FOV Circle", &AimAssist::fovCircle);
-		Menu::DoToggleButtonStuff(230476545677654654, "Feedback Line", &AimAssist::aimAssistFeedback);
+		Menu::DoToggleButtonStuff(76523436400, "FOV Circle", &fovCircle);
+		Menu::DoToggleButtonStuff(230476545677654654, "Feedback Line", &aimAssistFeedback);
 
 		ImGui::EndChild();
 	}

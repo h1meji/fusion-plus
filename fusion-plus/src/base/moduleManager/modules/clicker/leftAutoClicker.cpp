@@ -31,7 +31,7 @@ void LeftAutoClicker::Update()
 
 		std::random_device rd;
 		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> distrib(LeftAutoClicker::leftMinCps , LeftAutoClicker::leftMaxCps);
+		std::uniform_int_distribution<> distrib(leftMinCps , leftMaxCps);
 		nextCps = distrib(gen);
 	}
 }
@@ -44,12 +44,12 @@ void LeftAutoClicker::RenderMenu()
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 	if (ImGui::BeginChild("autoclicker", ImVec2(425, 130))) {
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-		Menu::DoToggleButtonStuff(857834, "Toggle Left Auto Clicker", &LeftAutoClicker::Enabled);
+		Menu::DoToggleButtonStuff(857834, "Toggle Left Auto Clicker", &Enabled);
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 		ImGui::Separator();
-		Menu::DoSliderStuff(3280, "Min CPS", &LeftAutoClicker::leftMinCps, 1, LeftAutoClicker::leftMaxCps);
-		Menu::DoSliderStuff(675, "Max CPS", &LeftAutoClicker::leftMaxCps, LeftAutoClicker::leftMinCps, 20);
-		Menu::DoToggleButtonStuff(2136, "Ignore Blocks", &LeftAutoClicker::ignoreBlocks);
+		Menu::DoSliderStuff(3280, "Min CPS", &leftMinCps, 1, LeftAutoClicker::leftMaxCps);
+		Menu::DoSliderStuff(675, "Max CPS", &leftMaxCps, LeftAutoClicker::leftMinCps, 20);
+		Menu::DoToggleButtonStuff(2136, "Ignore Blocks", &ignoreBlocks);
 
 		ImGui::EndChild();
 	}

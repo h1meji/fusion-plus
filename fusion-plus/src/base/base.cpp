@@ -33,13 +33,15 @@ void Base::Init()
 	SDK::Init();
 	Patcher::Init();
 	Menu::Init();
-	ModuleManager::Init();
+
+	g_ModuleManager = std::make_unique<ModuleManager>();
+	g_ModuleManager->Init();
 
 	Base::Running = true;
 
 	while (Base::Running)
 	{
-		ModuleManager::UpdateModules();
+		g_ModuleManager->UpdateModules();
 		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	}
 

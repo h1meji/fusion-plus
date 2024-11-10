@@ -239,13 +239,13 @@ void Esp::RenderMenu()
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 	if (ImGui::BeginChild("esp", ImVec2(425, 150))) {
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-		Menu::DoToggleButtonStuff(28374, "Toggle ESP", &Esp::Enabled);
+		Menu::DoToggleButtonStuff(28374, "Toggle ESP", &Enabled);
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 		ImGui::Separator();
-		Menu::DoToggleButtonStuff(23445, "Show Healthbar", &Esp::HealthBar);
-		Menu::DoToggleButtonStuff(34576, "Show Text", &Esp::Text);
-		Menu::DoSliderStuff(34875, "Fade Distance", &Esp::FadeDistance, 0, 10);
-		Menu::DoSliderStuff(128763, "Text Size", &Esp::TextSize, 12, 24);
+		Menu::DoToggleButtonStuff(23445, "Show Healthbar", &HealthBar);
+		Menu::DoToggleButtonStuff(34576, "Show Text", &Text);
+		Menu::DoSliderStuff(34875, "Fade Distance", &FadeDistance, 0, 10);
+		Menu::DoSliderStuff(128763, "Text Size", &TextSize, 12, 24);
 
 		ImGui::EndChild();
 	}

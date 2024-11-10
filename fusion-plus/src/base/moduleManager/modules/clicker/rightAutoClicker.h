@@ -1,13 +1,26 @@
 #pragma once
-struct RightAutoClicker
+
+#include "../../moduleBase.h"
+
+class RightAutoClicker : public ModuleBase
 {
-	inline static bool Enabled = false;
+public:
+	void Update() override;
+	void RenderUpdate() override {}
 
-	inline static float rightMaxCps = 20;
-	inline static float rightMinCps = 15;
-	inline static bool blocksOnly = true;
+	void RenderMenu() override;
 
-	static void Update();
-	static void RenderMenu();
+	bool IsEnabled() override { return Enabled; }
+	std::string GetName() override { return Name; }
+	std::string GetCategory() override { return Category; }
+
+private:
+	bool Enabled = false;
+	std::string Name = "Right Auto Clicker";
+	std::string Category = "Clicker";
+
+	float rightMaxCps = 20;
+	float rightMinCps = 15;
+	bool blocksOnly = true;
 };
 

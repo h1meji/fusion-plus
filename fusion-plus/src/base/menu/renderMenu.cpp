@@ -8,26 +8,12 @@
 
 #include "../util/window/borderless.h"
 
-#include "../moduleManager/modules/visual/esp.h"
-#include "../moduleManager/modules/combat/aimAssist.h"
-#include "../moduleManager/modules/combat/reach.h"
-#include "../moduleManager/modules/clicker/leftAutoClicker.h"
-#include "../moduleManager/modules/clicker/rightAutoClicker.h"
+#include "../moduleManager/moduleManager.h"
 
 #include "../sdk/net/minecraft/client/Minecraft.h"
 #include "../util/logger.h"
 
 int currentTab = -1;
-
-/*
-
-DO NOT COPY & PASTE FUSIONS MENU!
-
-Fusions menu is really not flexible at all, I *highly* discourage copying and pasting from fusions menu.
-Although it looks good, it was my (deadshell's) first time making an imgui menu and it was kind of rushed to release fusion.
-
-*/
-
 
 void Menu::RenderMenu()
 {
@@ -50,10 +36,11 @@ void Menu::RenderMenu()
 	Menu::GlitchText("FUSION+", ImVec2(posX, posY));
 	ImGui::SetCursorPosY(textSize.y + 30);
 
-	if (Menu::TabButton("Visual", (currentTab == 0 ? ImVec4(0.3f, 0.3f, 0.3f,0.2f) : ImVec4(0.1f, 0.1f, 0.1f, 0.f)))) currentTab = 0;
-	if (Menu::TabButton("Combat", (currentTab == 1 ? ImVec4(0.3f, 0.3f, 0.3f, 0.2f) : ImVec4(0.1f, 0.1f, 0.1f, 0.f)))) currentTab = 1;
-	if (Menu::TabButton("Clicker", (currentTab == 2 ? ImVec4(0.3f, 0.3f, 0.3f, 0.2f) : ImVec4(0.1f, 0.1f, 0.1f, 0.f)))) currentTab = 2;
-
+	std::vector<std::string> categories = g_ModuleManager->GetCategories();
+	for (int i = 0; i < categories.size(); i++)
+	{
+		if (Menu::TabButton(categories[i].c_str(), (currentTab == i ? ImVec4(0.3f, 0.3f, 0.3f, 0.2f) : ImVec4(0.1f, 0.1f, 0.1f, 0.f)))) currentTab = i;
+	}
 
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20, 5));
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
@@ -80,25 +67,8 @@ void Menu::RenderMenu()
 
 		ImGui::PushID("menus");
 
-		if (currentTab == 0)
-		{
-			Esp::RenderMenu();
-			ImGui::InvisibleButton("", ImVec2(1, 100));
-		}
-
-		if (currentTab == 1)
-		{
-			AimAssist::RenderMenu();
-			Reach::RenderMenu();
-			ImGui::InvisibleButton("", ImVec2(1, 100));
-		}
-
-		if (currentTab == 2)
-		{
-			LeftAutoClicker::RenderMenu();
-			RightAutoClicker::RenderMenu();
-			ImGui::InvisibleButton("", ImVec2(1, 100));
-		}
+		g_ModuleManager->RenderMenu(currentTab);
+		ImGui::InvisibleButton("", ImVec2(1, 100));
 
 		ImGui::PopID();
 

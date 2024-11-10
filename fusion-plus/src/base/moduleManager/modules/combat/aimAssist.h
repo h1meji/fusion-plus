@@ -4,37 +4,45 @@
 #include <string>
 #include <vector>
 
-struct AimAssist
+#include "../../moduleBase.h"
+
+class AimAssist : public ModuleBase
 {
+public:
+	Vector3 renderData;
 
-	inline static Vector3 renderData;
+	void Update() override;
 
-	inline static bool Enabled = false;
+	void RenderUpdate() override;
+	void RenderMenu() override;
 
-	inline static bool visibilityCheck = true;
-	inline static bool aimAssistFeedback = true;
-	inline static bool fovCircle = true;
+	bool IsEnabled() override { return Enabled; }
+	std::string GetName() override { return Name; }
+	std::string GetCategory() override { return Category; }
 
-	inline static Vector3 data;
-	inline static bool pitchInfluenced = false;
-	inline static bool aimKey = true;
+private:
+	bool Enabled = false;
+	std::string Name = "Aim Assist";
+	std::string Category = "Combat";
 
-	inline static bool adaptive = true;
-	inline static float adaptiveOffset = 3;
+	bool visibilityCheck = true;
+	bool aimAssistFeedback = true;
+	bool fovCircle = true;
 
-	inline static float fov = 35.0f;
-	inline static float smooth = 15.f;
-	inline static float aimDistance = 4.f;
-	inline static float randomYaw = 2;
-	inline static float randomPitch = .075f;
+	Vector3 data;
+	bool pitchInfluenced = false;
+	bool aimKey = true;
 
-	inline static int targetPriority = 2;
-	inline static const char* targetPriorityList[3] { "Distance", "Health", "Closest to Crosshair"};
+	bool adaptive = true;
+	float adaptiveOffset = 3;
 
+	float fov = 35.0f;
+	float smooth = 15.f;
+	float aimDistance = 4.f;
+	float randomYaw = 2;
+	float randomPitch = .075f;
 
-	static void Update();
-
-	static void RenderUpdate();
-	static void RenderMenu();
+	int targetPriority = 2;
+	const char* targetPriorityList[3]{ "Distance", "Health", "Closest to Crosshair" };
 };
 

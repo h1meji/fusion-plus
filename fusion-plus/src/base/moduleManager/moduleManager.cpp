@@ -9,6 +9,11 @@
 
 void ModuleManager::Init()
 {
+	modules.push_back(std::make_unique<Esp>());
+	modules.push_back(std::make_unique<AimAssist>());
+	modules.push_back(std::make_unique<Reach>());
+	modules.push_back(std::make_unique<LeftAutoClicker>());
+	modules.push_back(std::make_unique<RightAutoClicker>());
 }
 
 void ModuleManager::UpdateModules()
@@ -16,11 +21,45 @@ void ModuleManager::UpdateModules()
 	if (!CommonData::SanityCheck()) return;
 
 	CommonData::UpdateData();
-	Esp::Update();
 
-	AimAssist::Update();
-	Reach::Update();
+	for (auto& module : modules)
+	{
+		if (module->IsEnabled())
+			module->Update();
+	}
+}
 
-	LeftAutoClicker::Update();
-	RightAutoClicker::Update();
+void ModuleManager::RenderUpdate()
+{
+	for (auto& module : modules)
+	{
+		if (module->IsEnabled())
+			module->RenderUpdate();
+	}
+}
+
+void ModuleManager::RenderMenu(int index)
+{
+	if (index == -1)
+		return;
+
+	std::vector<std::string> categories = GetCategories();
+	for (auto& module : modules)
+	{
+		if (module->GetCategory() == categories[index])
+			module->RenderMenu();
+	}
+}
+
+std::vector<std::string> ModuleManager::GetCategories()
+{
+	std::vector<std::string> categories;
+
+	for (auto& module : modules)
+	{
+		if (std::find(categories.begin(), categories.end(), module->GetCategory()) == categories.end())
+			categories.push_back(module->GetCategory());
+	}
+
+	return categories;
 }

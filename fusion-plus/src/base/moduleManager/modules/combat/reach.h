@@ -4,14 +4,25 @@
 #include <string>
 #include <vector>
 
-struct Reach
+#include "../../moduleBase.h"
+
+class Reach : public ModuleBase
 {
-	inline static bool Enabled = false;
+public:
+	void Update() override;
+	void RenderUpdate() override {}
 
-	inline static float ReachDistance = 3.0f;
+	void RenderMenu() override;
 
-	static void Update();
+	bool IsEnabled() override { return Enabled; }
+	std::string GetName() override { return Name; }
+	std::string GetCategory() override { return Category; }
 
-	static void RenderMenu();
+private:
+	bool Enabled = false;
+	std::string Name = "Reach";
+	std::string Category = "Combat";
+
+	float ReachDistance = 3.0f;
 };
 

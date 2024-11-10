@@ -46,11 +46,11 @@ void Reach::RenderMenu()
 	{
 
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-		Menu::DoToggleButtonStuff(230044, "Toggle Reach", &Reach::Enabled);
+		Menu::DoToggleButtonStuff(230044, "Toggle Reach", &Enabled);
 
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 		ImGui::Separator();
-		Menu::DoSliderStuff(560117, "Reach Distance", &Reach::ReachDistance, 0, 4);
+		Menu::DoSliderStuff(560117, "Reach Distance", &ReachDistance, 0, 4);
 
 	}
 	ImGui::EndChild();

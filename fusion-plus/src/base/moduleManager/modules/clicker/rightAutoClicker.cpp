@@ -48,12 +48,12 @@ void RightAutoClicker::RenderMenu()
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 	if (ImGui::BeginChild("rightautoclicker", ImVec2(425, 130))) {
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-		Menu::DoToggleButtonStuff(2344, "Toggle Right Auto Clicker", &RightAutoClicker::Enabled);
+		Menu::DoToggleButtonStuff(2344, "Toggle Right Auto Clicker", &Enabled);
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 		ImGui::Separator();
-		Menu::DoSliderStuff(3280, "Min CPS", &RightAutoClicker::rightMinCps, 1, RightAutoClicker::rightMaxCps);
-		Menu::DoSliderStuff(675, "Max CPS", &RightAutoClicker::rightMaxCps, RightAutoClicker::rightMinCps, 20);
-		Menu::DoToggleButtonStuff(73451, "Blocks Only", &RightAutoClicker::blocksOnly);
+		Menu::DoSliderStuff(3280, "Min CPS", &rightMinCps, 1, rightMaxCps);
+		Menu::DoSliderStuff(675, "Max CPS", &rightMaxCps, rightMinCps, 20);
+		Menu::DoToggleButtonStuff(73451, "Blocks Only", &blocksOnly);
 
 		ImGui::EndChild();
 	}

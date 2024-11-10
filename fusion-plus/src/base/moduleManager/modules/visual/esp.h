@@ -4,9 +4,19 @@
 #include <vector>
 #include <string>
 
-struct Esp
+#include "../../moduleBase.h"
+
+class Esp : public ModuleBase
 {
-	inline static bool Enabled = true;
+public:
+	void Update() override;
+	void RenderUpdate() override;
+
+	void RenderMenu() override;
+
+	bool IsEnabled() override { return Enabled; }
+	std::string GetName() override { return Name; }
+	std::string GetCategory() override { return Category; }
 
 	struct Data {
 		std::vector<Vector3> boxVerticies;
@@ -18,33 +28,32 @@ struct Esp
 		float maxHealth;
 	};
 
-	inline static std::vector<Data> renderData;
+private:
+	bool Enabled = true;
+	std::string Name = "ESP";
+	std::string Category = "Visual";
 
-	inline static bool Box = true;
-	inline static float BoxColor[4]{ 0, 0, 0, 1 };
+	std::vector<Data> renderData;
 
-	inline static bool FilledBox = true;
-	inline static float FilledBoxColor[3]{ 0, 0, 0 };
-	inline static float SecondFilledBoxColor[3]{ 0, 0, 0 };
-	inline static float FilledBoxOpacity = 0.15f;
+	bool Box = true;
+	float BoxColor[4]{ 0, 0, 0, 1 };
 
-	inline static bool Outline = true;
-	inline static float OutlineColor[4]{ 0, 0, 0, 0.25 };
+	bool FilledBox = true;
+	float FilledBoxColor[3]{ 0, 0, 0 };
+	float SecondFilledBoxColor[3]{ 0, 0, 0 };
+	float FilledBoxOpacity = 0.15f;
 
-	inline static bool Text = true;
-	inline static float TextSize = 18;
-	inline static float TextColor[4]{ 1.0f, 1.0f, 1.0f, 1.0f };
-	inline static bool TextOutline = true;
-	inline static float TextOutlineColor[4]{ 0, 0, 0, 1.0f };
-	inline static float TextUnrenderDistance = 14.0f;
+	bool Outline = true;
+	float OutlineColor[4]{ 0, 0, 0, 0.25 };
 
-	inline static float FadeDistance = 3.0f;
+	bool Text = true;
+	float TextSize = 18;
+	float TextColor[4]{ 1.0f, 1.0f, 1.0f, 1.0f };
+	bool TextOutline = true;
+	float TextOutlineColor[4]{ 0, 0, 0, 1.0f };
+	float TextUnrenderDistance = 14.0f;
 
-	inline static bool HealthBar = true;
+	float FadeDistance = 3.0f;
 
-
-	static void Update();
-
-	static void RenderUpdate();
-	static void RenderMenu();
+	bool HealthBar = true;
 };

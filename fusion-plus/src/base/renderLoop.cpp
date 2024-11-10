@@ -1,11 +1,10 @@
 #include "base.h"
 #include "sdk/sdk.h"
 
-#include "moduleManager/modules/visual/esp.h"
-#include "moduleManager/modules/combat/aimAssist.h"
-
 #include "../../ext/imgui/imgui.h"
 #include "menu/menu.h"
+
+#include "moduleManager/moduleManager.h"
 
 void Base::RenderLoop() // Runs every frame
 {
@@ -36,6 +35,5 @@ void Base::RenderLoop() // Runs every frame
 	ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size, textPosfusionplus, ImColor(255, 255, 255), watermarkfusionplus);
 	ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size, textPosfusion, ImColor(255, 255, 255), watermarkfusion);
 
-	Esp::RenderUpdate();
-	AimAssist::RenderUpdate();
+	g_ModuleManager->RenderUpdate();
 }
