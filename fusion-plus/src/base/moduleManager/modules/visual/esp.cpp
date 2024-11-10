@@ -22,11 +22,16 @@ void Esp::Update()
 	Vector3 renderPos = CommonData::renderPos;
 	Vector3 pos = player->GetPos();
 
-	// This is to fix the third person issue, there is still one issue with it.
-	// When the camera collides in the wall or the ground, or something like that, the calculation fails entirely because the position is obviously not the same.
 	if (CommonData::thirdPersonView != 0) {
+		Vector3 cameraPos = CWorldToScreen::GetCameraPosition(CommonData::modelView);
 		Vector2 angles = player->GetAngles();
-		float distance = 8;
+		float eyeHeight = player->IsSneaking() ? 1.54f : 1.62f;
+
+		Vector3 relativeEyePosToPlayer = { 0, eyeHeight, 0 };
+		cameraPos = cameraPos - relativeEyePosToPlayer;
+
+		float distance = sqrt(cameraPos.x * cameraPos.x + cameraPos.y * cameraPos.y + cameraPos.z * cameraPos.z) * 2;
+
 		if (CommonData::thirdPersonView == 2) {
 			distance = -distance;
 		}
@@ -52,7 +57,6 @@ void Esp::Update()
 	std::vector<Data> newData;
 	
 	float renderPartialTicks = CommonData::renderPartialTicks;
-
 	for (CommonData::PlayerData entity : playerList)
 	{
 		Vector3 entityPos = entity.pos;
@@ -73,7 +77,7 @@ void Esp::Update()
 		//Vector3 fixedEntityPos{ entityLastPos + (entityLastPos - entityPos) * renderPartialTicks };
 		
 		// This stops the jittering, the calculations must be inverted for some reason from the original
-		Vector3 origin { renderPos - entityLastPos + (entityLastPos - entityPos) * renderPartialTicks }; // At the feet
+		Vector3 origin { renderPos - entityLastPos + (entityLastPos - entityPos) * renderPartialTicks}; // At the feet
 
 		// Same with the offset of the point, it must be offset from the render position, not the entity position for some weird reason.
 		Vector3 top{ (renderPos - Vector3{0, entityHeight * 2, 0}) - entityLastPos + (entityLastPos - entityPos) * renderPartialTicks }; // Over the head
@@ -94,7 +98,7 @@ void Esp::Update()
 		// Another note for this data, is we cannot use the bounding box values because it can be changed by the reach module, so its best we make our own values with the cost
 		// of consuming a little bit of resources for a bit of math.
 		std::vector<Vector3> boxVerticies{
-			origin, top, left, right, back, front, left2, right2,back2, front2
+			origin, top, left, right, back, front, left2, right2, back2, front2
 		};
 
 		// For when the player gets close to an entity, a fade factor; a value between 0 and 1, with basic math, can get a cool looking fade effect if the player is too close

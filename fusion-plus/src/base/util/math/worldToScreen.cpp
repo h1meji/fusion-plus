@@ -4,6 +4,17 @@
 
 #include <limits>
 
+Vector3 CWorldToScreen::GetCameraPosition(const Matrix& modelView) {
+	Matrix inversed = modelView.inverse();
+
+	// Position is relative to the position of the player.
+	// inversed.m30 = x
+	// inversed.m31 = y
+	// inversed.m32 = z
+
+	return Vector3{ inversed.m30, inversed.m31, inversed.m32 };
+}
+
 Vector4 CWorldToScreen::Multiply(Vector4 v, Matrix m) {
 	return Vector4{
 		v.x * m.m00 + v.y * m.m10 + v.z * m.m20 + v.w * m.m30,
@@ -29,8 +40,6 @@ bool CWorldToScreen::WorldToScreen(Vector3 point, Matrix modelView, Matrix proje
 		csp.y / csp.w,
 		csp.z / csp.w
 	};
-
-	//Logger::Log("NDC.Z: " + std::to_string(ndc.z));
 
 	if (ndc.z > 1 && ndc.z < 1.15) {
 		screenPos = Vector2{
