@@ -1,53 +1,72 @@
+# FUSION+
 
-# FUSION
-
-### THIS PROJECT IS NO LONGER MAINTAINED!
-We might work on a completely new version of fusion in the future, however for now we're pretty busy with other important things, so this project can't be maintained.
-This should not matter to anyone because this project is meant for other developers and the code should still be extremely benificial for them.
+This project is based on the original **Fusion** by [deity]() and [deadshell](https://github.com/deadshxll), which is no longer maintained. *Fusion+* aims to carry the project forward with additional features, optimizations, and enhancements for personal use as well as for developers seeking a solid foundation for further customization.
 
 ---
 
-Press `Insert` to open the menu once it is injected.
+[Content](#content)・[Download](#download)・[How to inject](#how-to-inject)・[Project Status](#project-status)・[Credits](#credits)
 
-## \\/ DOWNLOAD HERE \\/
-To abide by unknown cheats rules, the DLL is uploaded on UC Downloads
+## Content
 
-1.14 (fusion version not minecraft): https://www.unknowncheats.me/forum/downloads.php?do=file&id=41988
+### Modules
+- **Visual**
+  - **ESP**: Displays player names, health, and distance
+- **Combat**
+  - **Aim Assist**: Automatically aims at the nearest player
+  - **Reach**: Increases the player's reach distance
+- **Clicker**
+  - **Left Auto Clicker**: Automatically clicks the left mouse button
+  - **Right Auto Clicker**: Automatically clicks the right mouse button
 
+### Features
+- **Internal GUI**: Press `Insert` to open the internal GUI
 
-### IT IS NOT RECOMMENDED TO CHEAT USING FUSION AS YOU ARE LIKELY TO BE BANNED, USE AT YOUR OWN RISK.
+### Screenshots
+<img src="https://github.com/deadshxll/fusion/assets/67878277/5a732ba9-3d81-44e4-b745-f34f39555716" alt="original gui - by deadshell"/>
+<img src="https://github.com/deadshxll/fusion/assets/67878277/fac3f084-0255-4999-b03f-3e2e0a15bde8" alt="animated - by deashell (rip _Sponky__)" width=586>
 
-A Lunar Client 1.8.9 Ghost Internal Cheat.
+## Download
+You can download the latest release of *Fusion+* [here](https://github.com/h1meji/fusion-plus/releases) or you can build the `.dll` file yourself by cloning the repository and building the project in Visual Studio.
+> [!WARNING]
+> Use at your own risk. I am not responsible for any bans or other consequences resulting from the use of this cheat.
 
-Released as a public repository by hackers for hackers, not pasters.
+## How to inject
+Use a trusted DLL injector like [Process Hacker](https://processhacker.sourceforge.io/) or [Xenos](https:://github.com/DarthTon/Xenos) to inject the cheat into Lunar Client. Press `Insert` to open the menu once it is injected.
+> [!NOTE]
+> I am planning to build a dedicated injector specifically for *Fusion+*.
 
-### Why is this a public release?
-Because we wanted a decent resource for other cheat developers to use for when they are stuck with a certain problem when developing their cheats, NOT for random children to download the project and pretend to know what they are doing.
+### Why is this project open-source?
+The goal of the original *Fusion* project was to provide a solid foundation for developers to build upon, and *Fusion+* continues this mission by offering an updated version with additional features and optimizations. By making this project open-source, I hope to provide a valuable resource for developers seeking to learn more about cheat development and improve their skills. I also welcome contributions from the community to help make *Fusion+* even better.
+
+## Project Status
+*Fusion+* is currently in active development, with new features and optimizations being added regularly. I want to to provide a high-quality cheat that is both reliable and easy to use. If you encounter any issues or have suggestions for improvements, please let me know by opening an issue on the GitHub repository.
+
+### Planned Features
+- [ ] Dedicated injector for *Fusion+*
+- [ ] Fix for ESP in third-person view
+- [ ] Improved module list in the internal GUI
+- [ ] Color customizations for different modules and internal GUI
+- [ ] Config files for saving and loading cheat settings
+- [ ] Improved module system for developers
+
+### Planned Modules
+- [ ] **Arraylist**: Displays a list of the users active modules
+- [ ] **BlockESP**: Displays blocks selected in the world
+- [ ] **Chest Stealer**: Automatically steals items from chests
+- [ ] **W-Tap**: Automatically W-taps for the user.
+- [ ] **Bridge Assist**: Automatically ninja bridges for the user (without block placement).
 
 ### Notices
-- This cheat only works on Lunar Client 1.8.9
-- The ESP in works well in third person until your camera starts colliding with blocks, a solution was found however it was not very reliable.
-- After having fusion injected for a while, you may experience minor lag spikes, no solution was found.
-
-### How to inject
-I'd recommend using a trust worthy dll injector such as [Process Hacker](https://processhacker.sourceforge.io/), the reason why we did not make an injector is because this cheat is meant for other cheat developers.
-
-### Content
-
-<img src="https://github.com/deadshxll/fusion/assets/67878277/5a732ba9-3d81-44e4-b745-f34f39555716" />
-<img src="https://github.com/deadshxll/fusion/assets/67878277/fac3f084-0255-4999-b03f-3e2e0a15bde8" alt="animated" / width=853>
+- This cheat currently works on Lunar Client 1.8.9 only, but may be updated to support other versions in the future.
+- Some features, such as the ESP in third-person view, may experience minor issues when interacting with blocks. A solution is under development.
+- After extended use, you may experience minor lag spikes, no solution was found.
+- This cheat is nothing close to screen sharing proof, use at your own risk.
 
 ## Credits
-deity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Developed the base of the cheat
+**Original Fusion Development Team**:
+- **deity**: Developed the base of the cheat
+- **deadshell**: Developed modules and the GUI
+- **Lefrauder**: Remade the reach module
+- **noahswtf**: Fixed critical fullscreen issues
 
-deadshell&nbsp;&nbsp;&nbsp;: Developed the modules and the gui
-
-Lefrauder&nbsp;&nbsp;&nbsp;: Remade reach module
-
-noahswtf&nbsp;&nbsp;&nbsp;: Fixed critical fullscreen issues
-
-## Extra resources
-
-https://github.com/zorftw/gasper-cpp/tree/master
-
-https://github.com/ssverify/dope-ghost-2.0/blob/main/dope-ghost-2.0.zip
+Big thanks to the original developers of *Fusion* for creating the solid foundation upon which *Fusion+* is built. You can find the original repository [here](https://github.com/deadshxll/fusion).
