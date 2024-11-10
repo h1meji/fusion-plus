@@ -87,6 +87,20 @@ void Menu::DoToggleButtonStuff(int id, const char* text, bool* bruh) {
 	ImGui::PopID();
 }
 
+void Menu::DoColorPickerStuff(int id, const char* text, float* color)
+{
+	ImVec2 textSize = Menu::Font->CalcTextSizeA(Menu::Font->FontSize, FLT_MAX, 0.0f, text);
+
+	ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
+
+	ImGui::PushID(id);
+	ImGui::Text(text);
+	ImGui::SameLine();
+	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 340 - textSize.x);
+	ImGui::ColorEdit4("", color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+	ImGui::PopID();
+}
+
 
 void Menu::GlitchText(const char* text, ImVec2 pos)
 {

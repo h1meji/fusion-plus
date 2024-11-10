@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\base\moduleManager\moduleBase.h" />
+    <ClInclude Include="src\base\moduleManager\settings.h" />
     <ClInclude Include="src\base\patcher\data.h" />
     <ClInclude Include="src\base\patcher\miniz.h" />
     <ClInclude Include="src\base\patcher\patcher.h" />

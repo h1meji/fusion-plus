@@ -10,17 +10,12 @@ public:
 
 	void RenderMenu() override;
 
-	bool IsEnabled() override { return Enabled; }
+	bool IsEnabled() override { return settings::LAC_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
 
 private:
-	bool Enabled = false;
 	std::string Name = "Left Auto Clicker";
 	std::string Category = "Clicker";
-
-	float leftMaxCps = 14;
-	float leftMinCps = 8;
-	bool ignoreBlocks = true;
 };
 

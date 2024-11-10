@@ -68,7 +68,7 @@ void Menu::RenderMenu()
 		ImGui::PushID("menus");
 
 		g_ModuleManager->RenderMenu(currentTab);
-		ImGui::InvisibleButton("", ImVec2(1, 100));
+		ImGui::Spacing();
 
 		ImGui::PopID();
 

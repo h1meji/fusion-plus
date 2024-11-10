@@ -11,7 +11,7 @@
 
 void Esp::Update()
 {
-	if (!Enabled) return;
+	if (!settings::ESP_Enabled) return;
 	if (!CommonData::SanityCheck()) return;
 
 	CEntityPlayerSP* player = SDK::Minecraft->thePlayer;
@@ -104,8 +104,8 @@ void Esp::Update()
 		// For when the player gets close to an entity, a fade factor; a value between 0 and 1, with basic math, can get a cool looking fade effect if the player is too close
 		// or inside the FadeDistance radius.
 		float fadeFactor = 1.0f;
-		if ((dist - 1) <= FadeDistance)
-			fadeFactor = ((dist - 1) / FadeDistance);
+		if ((dist - 1) <= settings::ESP_FadeDistance)
+			fadeFactor = ((dist - 1) / settings::ESP_FadeDistance);
 
 		// To render the distance value under the ESP box.
 		char distC[32];
@@ -128,7 +128,7 @@ void Esp::Update()
 
 void Esp::RenderUpdate()
 {
-	if (!Enabled || !CommonData::dataUpdated) return;
+	if (!settings::ESP_Enabled || !CommonData::dataUpdated) return;
 
 	for (Data data : renderData)
 	{
@@ -168,28 +168,28 @@ void Esp::RenderUpdate()
 
 		// The rest is just rendering the ESP with the customizable options, self explanitory.
 
-		if (FilledBox)
+		if (settings::ESP_FilledBox)
 		{
-			ImColor bottomColor = ImColor(SecondFilledBoxColor[0], SecondFilledBoxColor[1], SecondFilledBoxColor[2], FilledBoxOpacity * data.opacityFadeFactor);
-			ImColor topColor = ImColor(FilledBoxColor[0], FilledBoxColor[1], FilledBoxColor[2], FilledBoxOpacity * data.opacityFadeFactor);
+			ImColor bottomColor = ImColor(settings::ESP_SecondFilledBoxColor[0], settings::ESP_SecondFilledBoxColor[1], settings::ESP_SecondFilledBoxColor[2], settings::ESP_SecondFilledBoxColor[3] * data.opacityFadeFactor);
+			ImColor topColor = ImColor(settings::ESP_FilledBoxColor[0], settings::ESP_FilledBoxColor[1], settings::ESP_FilledBoxColor[2], settings::ESP_FilledBoxColor[3] * data.opacityFadeFactor);
 
 			ImGui::GetWindowDrawList()->AddRectFilledMultiColor(ImVec2(left, top), ImVec2(right, bottom), topColor, topColor, bottomColor, bottomColor);
 		}
 
-		if (Box)
+		if (settings::ESP_Box)
 		{
-			ImGui::GetWindowDrawList()->AddRect(ImVec2(left, top), ImVec2(right, bottom), ImColor(BoxColor[0], BoxColor[1], BoxColor[2], BoxColor[3] * data.opacityFadeFactor));
+			ImGui::GetWindowDrawList()->AddRect(ImVec2(left, top), ImVec2(right, bottom), ImColor(settings::ESP_BoxColor[0], settings::ESP_BoxColor[1], settings::ESP_BoxColor[2], settings::ESP_BoxColor[3] * data.opacityFadeFactor));
 		}
 
-		if (Outline)
+		if (settings::ESP_Outline)
 		{
-			ImGui::GetWindowDrawList()->AddRect(ImVec2(left - 1, top - 1), ImVec2(right + 1, bottom + 1), ImColor(OutlineColor[0], OutlineColor[1], OutlineColor[2], OutlineColor[3] * data.opacityFadeFactor));
-			ImGui::GetWindowDrawList()->AddRect(ImVec2(left + 1, top + 1), ImVec2(right - 1, bottom - 1), ImColor(OutlineColor[0], OutlineColor[1], OutlineColor[2], OutlineColor[3] * data.opacityFadeFactor));
+			ImGui::GetWindowDrawList()->AddRect(ImVec2(left - 1, top - 1), ImVec2(right + 1, bottom + 1), ImColor(settings::ESP_OutlineColor[0], settings::ESP_OutlineColor[1], settings::ESP_OutlineColor[2], settings::ESP_OutlineColor[3] * data.opacityFadeFactor));
+			ImGui::GetWindowDrawList()->AddRect(ImVec2(left + 1, top + 1), ImVec2(right - 1, bottom - 1), ImColor(settings::ESP_OutlineColor[0], settings::ESP_OutlineColor[1], settings::ESP_OutlineColor[2], settings::ESP_OutlineColor[3] * data.opacityFadeFactor));
 		}
 
-		if (HealthBar)
+		if (settings::ESP_HealthBar)
 		{
-			ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(left - 3, top), ImVec2(left - 1, bottom), ImColor(FilledBoxColor[0], FilledBoxColor[1], FilledBoxColor[2], FilledBoxOpacity * data.opacityFadeFactor));
+			ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(left - 3, top), ImVec2(left - 1, bottom), ImColor(settings::ESP_FilledBoxColor[0], settings::ESP_FilledBoxColor[1], settings::ESP_FilledBoxColor[2], settings::ESP_FilledBoxColor[3] * data.opacityFadeFactor));
 
 			if (data.health <= 0)
 				data.health = 0.00001f;
@@ -200,36 +200,36 @@ void Esp::RenderUpdate()
 			ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(left - 3, bottom - (diff * scaleFactor)), ImVec2(left - 1, bottom), ImColor((int)(255 * (1.0 - scaleFactor)), (int)(255 * scaleFactor), 0, (int)(255 * data.opacityFadeFactor)));
 		}
 
-		if (Text && Menu::Font->IsLoaded())
+		if (settings::ESP_Text && Menu::Font->IsLoaded())
 		{
 			const char* name = data.name.c_str();
-			ImVec2 textSize = Menu::Font->CalcTextSizeA(TextSize, FLT_MAX, 0.0f, name);
+			ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::ESP_TextSize, FLT_MAX, 0.0f, name);
 			float posX = left + ((right - left) / 2) - (textSize.x / 2);
 			float posY = top - textSize.y - 1;
 
-			if (data.dist > TextUnrenderDistance) {
-				if (TextOutline)
+			if (data.dist > settings::ESP_TextUnrenderDistance) {
+				if (settings::ESP_TextOutline)
 				{
-					RenderQOLF::DrawOutlinedText(Menu::Font, TextSize, ImVec2(posX, posY), ImColor(TextColor[0], TextColor[1], TextColor[2], TextColor[3] * data.opacityFadeFactor), ImColor(TextOutlineColor[0], TextOutlineColor[1], TextOutlineColor[2], TextOutlineColor[3] * data.opacityFadeFactor), name);
+					RenderQOLF::DrawOutlinedText(Menu::Font, settings::ESP_TextSize, ImVec2(posX, posY), ImColor(settings::ESP_TextColor[0], settings::ESP_TextColor[1], settings::ESP_TextColor[2], settings::ESP_TextColor[3] * data.opacityFadeFactor), ImColor(settings::ESP_TextOutlineColor[0], settings::ESP_TextOutlineColor[1], settings::ESP_TextOutlineColor[2], settings::ESP_TextOutlineColor[3] * data.opacityFadeFactor), name);
 				}
 				else {
 
-					ImGui::GetWindowDrawList()->AddText(Menu::Font, TextSize, ImVec2(posX, posY), ImColor(TextColor[0], TextColor[1], TextColor[2], TextColor[3] * data.opacityFadeFactor), name);
+					ImGui::GetWindowDrawList()->AddText(Menu::Font, settings::ESP_TextSize, ImVec2(posX, posY), ImColor(settings::ESP_TextColor[0], settings::ESP_TextColor[1], settings::ESP_TextColor[2], settings::ESP_TextColor[3] * data.opacityFadeFactor), name);
 				}
 			}
 
 			const char* dist = data.distText.c_str();
-			float distTextSize = TextSize / 1.5;
+			float distTextSize = settings::ESP_TextSize / 1.5;
 			textSize = Menu::Font->CalcTextSizeA(distTextSize, FLT_MAX, 0.0f, dist);
 			posX = left + ((right - left) / 2) - (textSize.x / 2);
 			posY = bottom;
 
-			if (TextOutline)
+			if (settings::ESP_TextOutline)
 			{
-				RenderQOLF::DrawOutlinedText(Menu::Font, distTextSize, ImVec2(posX, posY), ImColor(TextColor[0], TextColor[1], TextColor[2], TextColor[3] * data.opacityFadeFactor), ImColor(TextOutlineColor[0], TextOutlineColor[1], TextOutlineColor[2], TextOutlineColor[3] * data.opacityFadeFactor), dist);
+				RenderQOLF::DrawOutlinedText(Menu::Font, distTextSize, ImVec2(posX, posY), ImColor(settings::ESP_TextColor[0], settings::ESP_TextColor[1], settings::ESP_TextColor[2], settings::ESP_TextColor[3] * data.opacityFadeFactor), ImColor(settings::ESP_TextOutlineColor[0], settings::ESP_TextOutlineColor[1], settings::ESP_TextOutlineColor[2], settings::ESP_TextOutlineColor[3] * data.opacityFadeFactor), dist);
 			}
 			else {
-				ImGui::GetWindowDrawList()->AddText(Menu::Font, distTextSize, ImVec2(posX, posY), ImColor(TextColor[0], TextColor[1], TextColor[2], TextColor[3] * data.opacityFadeFactor), dist);
+				ImGui::GetWindowDrawList()->AddText(Menu::Font, distTextSize, ImVec2(posX, posY), ImColor(settings::ESP_TextColor[0], settings::ESP_TextColor[1], settings::ESP_TextColor[2], settings::ESP_TextColor[3] * data.opacityFadeFactor), dist);
 			}
 		}
 	}
@@ -237,19 +237,64 @@ void Esp::RenderUpdate()
 
 void Esp::RenderMenu()
 {
+	static bool renderSettings = false;
+
 	ImGui::BeginGroup();
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 20);
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
-	if (ImGui::BeginChild("esp", ImVec2(425, 150))) {
+	if (ImGui::BeginChild("esp", ImVec2(425, renderSettings ? 260 : 35))) {
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-		Menu::DoToggleButtonStuff(28374, "Toggle ESP", &Enabled);
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-		ImGui::Separator();
-		Menu::DoToggleButtonStuff(23445, "Show Healthbar", &HealthBar);
-		Menu::DoToggleButtonStuff(34576, "Show Text", &Text);
-		Menu::DoSliderStuff(34875, "Fade Distance", &FadeDistance, 0, 10);
-		Menu::DoSliderStuff(128763, "Text Size", &TextSize, 12, 24);
+
+		ImGui::BeginGroup();
+		Menu::DoToggleButtonStuff(28374, "Toggle ESP", &settings::ESP_Enabled);
+		ImGui::EndGroup();
+		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+		{
+			renderSettings = !renderSettings;
+		}
+
+		if (renderSettings)
+		{
+			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+			ImGui::Separator();
+
+			Menu::DoToggleButtonStuff(23445, "Show Healthbar", &settings::ESP_HealthBar);
+			Menu::DoToggleButtonStuff(34576, "Show Text", &settings::ESP_Text);
+			if (settings::ESP_Text)
+			{
+				Menu::DoColorPickerStuff(45687, "Text Color", settings::ESP_TextColor);
+				Menu::DoSliderStuff(128763, "Text Size", &settings::ESP_TextSize, 12, 24);
+
+				Menu::DoToggleButtonStuff(23456, "Show Text Outline", &settings::ESP_TextOutline);
+				if (settings::ESP_TextOutline)
+				{
+					Menu::DoColorPickerStuff(34567, "Text Outline Color", settings::ESP_TextOutlineColor);
+				}
+			}
+			Menu::DoSliderStuff(34875, "Fade Distance", &settings::ESP_FadeDistance, 0, 10);
+
+			Menu::DoToggleButtonStuff(23453, "Show Box", &settings::ESP_Box);
+			if (settings::ESP_Box)
+			{
+				Menu::DoColorPickerStuff(45678, "Box Color", settings::ESP_BoxColor);
+			}
+
+			Menu::DoToggleButtonStuff(34566, "Show Filled Box", &settings::ESP_FilledBox);
+			if (settings::ESP_FilledBox)
+			{
+				Menu::DoColorPickerStuff(56789, "Filled Box Color", settings::ESP_FilledBoxColor);
+				Menu::DoColorPickerStuff(67890, "Second Filled Box Color", settings::ESP_SecondFilledBoxColor);
+			}
+
+			Menu::DoToggleButtonStuff(45677, "Show Outline", &settings::ESP_Outline);
+			if (settings::ESP_Outline)
+			{
+				Menu::DoColorPickerStuff(56788, "Outline Color", settings::ESP_OutlineColor);
+			}
+
+			ImGui::Spacing();
+		}
 
 		ImGui::EndChild();
 	}

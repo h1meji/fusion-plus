@@ -14,7 +14,7 @@ public:
 
 	void RenderMenu() override;
 
-	bool IsEnabled() override { return Enabled; }
+	bool IsEnabled() override { return settings::ESP_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
 
@@ -29,13 +29,13 @@ public:
 	};
 
 private:
-	bool Enabled = true;
+	//bool Enabled = true;
 	std::string Name = "ESP";
 	std::string Category = "Visual";
 
 	std::vector<Data> renderData;
 
-	bool Box = true;
+	/*bool Box = true;
 	float BoxColor[4]{ 0, 0, 0, 1 };
 
 	bool FilledBox = true;
@@ -55,5 +55,5 @@ private:
 
 	float FadeDistance = 3.0f;
 
-	bool HealthBar = true;
+	bool HealthBar = true;*/
 };

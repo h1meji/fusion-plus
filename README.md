@@ -44,7 +44,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 ### Planned Features
 - [ ] Dedicated injector for *Fusion+*
 - [x] Fix for ESP in third-person view
-- [ ] Improved module list in the internal GUI
+- [x] Improved module list in the internal GUI
 - [ ] Color customizations for different modules and internal GUI
 - [ ] Config files for saving and loading cheat settings
 - [x] Improved module system for developers

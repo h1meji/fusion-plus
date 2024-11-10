@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "settings.h"
+
 class ModuleBase
 {
 public:
@@ -15,7 +17,6 @@ public:
 	virtual std::string GetCategory() = 0;
 
 private:
-	bool Enabled;
 	std::string Name;
 	std::string Category;
 };

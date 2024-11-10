@@ -14,15 +14,12 @@ public:
 
 	void RenderMenu() override;
 
-	bool IsEnabled() override { return Enabled; }
+	bool IsEnabled() override { return settings::Reach_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
 
 private:
-	bool Enabled = false;
 	std::string Name = "Reach";
 	std::string Category = "Combat";
-
-	float ReachDistance = 3.0f;
 };
 

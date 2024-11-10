@@ -10,17 +10,12 @@ public:
 
 	void RenderMenu() override;
 
-	bool IsEnabled() override { return Enabled; }
+	bool IsEnabled() override { return settings::RAC_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
 
 private:
-	bool Enabled = false;
 	std::string Name = "Right Auto Clicker";
 	std::string Category = "Clicker";
-
-	float rightMaxCps = 20;
-	float rightMinCps = 15;
-	bool blocksOnly = true;
 };
 
