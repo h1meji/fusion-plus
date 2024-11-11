@@ -232,7 +232,7 @@ void AimAssist::RenderMenu()
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("", ImVec2(425, renderSettings ? 260 : 35))) {
+	if (ImGui::BeginChild("aimassist", ImVec2(425, renderSettings ? 260 : 35))) {
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 
 		ImGui::BeginGroup();
