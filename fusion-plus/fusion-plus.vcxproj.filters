@@ -225,7 +225,16 @@
     <ClInclude Include="src\base\moduleManager\moduleBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\moduleManager\settings.h">
+    <ClInclude Include="src\base\configManager\settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\configManager\configManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\nlohmann\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\nlohmann\json_fwd.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -387,6 +396,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\patcher\miniz.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\configManager\configManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

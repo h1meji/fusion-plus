@@ -3,6 +3,9 @@
 #include <string>
 
 struct settings {
+	// Menu
+	inline static float Menu_AccentColor[4]{ 0, 0, 0, 1.0f };
+
 	// ESP
 	inline static bool ESP_Enabled = false;
 	inline static bool ESP_Box = true;

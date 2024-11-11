@@ -40,7 +40,7 @@ void ModuleManager::RenderUpdate()
 
 void ModuleManager::RenderMenu(int index)
 {
-	if (index == -1)
+	if (index < 0)
 		return;
 
 	std::vector<std::string> categories = GetCategories();

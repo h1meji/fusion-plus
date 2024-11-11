@@ -46,7 +46,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - [x] Fix for ESP in third-person view
 - [x] Improved module list in the internal GUI
 - [ ] Color customizations for different modules and internal GUI
-- [ ] Config files for saving and loading cheat settings
+- [x] Config files for saving and loading cheat settings
 - [x] Improved module system for developers
 
 ### Planned Modules
@@ -55,6 +55,11 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - [ ] **Chest Stealer**: Automatically steals items from chests
 - [ ] **W-Tap**: Automatically W-taps for the user.
 - [ ] **Bridge Assist**: Automatically ninja bridges for the user (without block placement).
+- [ ] **Radar**: Displays a radar of nearby players
+- [ ] **Velocity**: Reduces knockback taken by the player
+
+### Planned Module Changes
+- [ ] Diffrent styles for the ESP module (3D Box, 2D Box, etc.)
 
 ### Notices
 - This cheat currently works on Lunar Client 1.8.9 only, but may be updated to support other versions in the future.
@@ -70,3 +75,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - **noahswtf**: Fixed critical fullscreen issues
 
 Big thanks to the original developers of *Fusion* for creating the solid foundation upon which *Fusion+* is built. You can find the original repository [here](https://github.com/deadshxll/fusion).
+
+---
+
+Contact me on Discord ([`@himeji.`](https://www.discord.com/users/706262422251634809)) for any questions, suggestions or issues.

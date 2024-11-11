@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "settings.h"
+#include "configManager/settings.h"
 
 class ModuleBase
 {

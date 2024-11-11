@@ -12,8 +12,88 @@
 
 #include "sdk/net/minecraft/client/Minecraft.h"
 #include "util/logger.h"
+#include "menu/menu.h"
+#include "configManager/configManager.h"
 
 int currentTab = -1;
+
+void RenderConfigMenu()
+{
+	ImGui::Spacing();
+
+	// list of the config files that are selectable
+	static std::vector<std::string> configFiles = ConfigManager::GetConfigList();
+	static int selectedConfig = 0;
+
+	if (ImGui::BeginChild("##configList", ImVec2(450, 232), false))
+	{
+		for (size_t i = 0; i < configFiles.size(); ++i)
+		{
+			if (ImGui::Selectable(configFiles[i].c_str()))
+			{
+				selectedConfig = i;
+			}
+		}
+	}
+	ImGui::EndChild();
+
+	std::string selectedConfigName = configFiles.size() > 0 ? configFiles[selectedConfig] : "null";
+
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20, 5));
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2, 0.2, 0.2, 0.5));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3, 0.3, 0.3, 1));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4, 0.4, 0.4, 1));
+	// buttons to load config
+	if (ImGui::Button(("Load \"" + selectedConfigName + "\"").c_str(), ImVec2(247, 26)))
+	{
+		if (configFiles.size() > 0)
+			ConfigManager::LoadConfig(selectedConfigName.c_str());
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Open Folder"))
+	{
+		ShellExecuteA(NULL, "open", ConfigManager::GetDocumentsPath().c_str(), NULL, NULL, SW_SHOWNORMAL);
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Refresh"))
+	{
+		configFiles = ConfigManager::GetConfigList();
+	}
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleVar();
+	ImGui::PopStyleVar();
+
+	ImGui::Separator();
+
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
+
+	// input box to save config
+	static char saveConfigName[128] = "";
+	// set width of input box
+	ImGui::SetNextItemWidth(614);
+	// set input box height
+	ImGui::InputText("##saveConfigName", saveConfigName, IM_ARRAYSIZE(saveConfigName));
+
+	ImGui::SameLine();
+
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20, 4));
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2, 0.2, 0.2, 0.5));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3, 0.3, 0.3, 1));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4, 0.4, 0.4, 1));
+	if (ImGui::Button("Save", ImVec2(65, 22)) && saveConfigName != "")
+	{
+		if (ConfigManager::SaveConfig(saveConfigName))
+			configFiles = ConfigManager::GetConfigList();
+	}
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleVar();
+	ImGui::PopStyleVar();
+}
 
 void Menu::RenderMenu()
 {
@@ -23,7 +103,6 @@ void Menu::RenderMenu()
 
 	int buttonAmount = 6;
 	int buttonHeight = 20;
-	ImGui::PushID("Start");
 	ImGui::Columns(2, "stuff");
 	float columnWidth = 110;
 	ImGui::SetColumnWidth(0, columnWidth);
@@ -36,20 +115,49 @@ void Menu::RenderMenu()
 	Menu::GlitchText("FUSION+", ImVec2(posX, posY));
 	ImGui::SetCursorPosY(textSize.y + 30);
 
-	std::vector<std::string> categories = g_ModuleManager->GetCategories();
-	for (int i = 0; i < categories.size(); i++)
-	{
-		if (Menu::TabButton(categories[i].c_str(), (currentTab == i ? ImVec4(0.3f, 0.3f, 0.3f, 0.2f) : ImVec4(0.1f, 0.1f, 0.1f, 0.f)))) currentTab = i;
+	// make scrollbar background invis and bar transparent
+	ImGui::PushStyleColor(ImGuiCol_ScrollbarBg, ImVec4(0, 0, 0, 0));
+	ImGui::PushStyleColor(ImGuiCol_ScrollbarGrab, ImVec4(0, 0, 0, 0.2));
+
+	if (ImGui::BeginChild("child_1", { 0, 140 }, false)) {
+		std::vector<std::string> categories = g_ModuleManager->GetCategories();
+		for (int i = 0; i < categories.size(); i++)
+		{
+			if (Menu::TabButton((categories[i] + " ").c_str(), (currentTab == i ? ImVec4(0.3f, 0.3f, 0.3f, 0.2f) : ImVec4(0.1f, 0.1f, 0.1f, 0.f)))) currentTab = i;
+		}
 	}
+	ImGui::EndChild();
+
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+
+	ImGui::Spacing();
 
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20, 5));
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2, 0.2, 0.2, 0.5));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3, 0.3, 0.3, 1));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4, 0.4, 0.4, 1));
+
+	if (ImGui::Button("Settings", ImVec2(94, 0)))
+	{
+		currentTab = -3;
+	}
+
+	if (ImGui::Button("Config", ImVec2(94, 0)))
+	{
+		currentTab = -2;
+	}
+
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+
 	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.64, 0.2, 0.2, 0.5));
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.74, 0.4, 0.4, 1));
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1, 0.4, 0.4, 1));
 
-	ImGui::SetCursorPos(ImVec2(17.5, ImGui::GetCursorPosY() + 85));
-	if (ImGui::Button("Detach"))
+	if (ImGui::Button("Detach", ImVec2(94, 0)))
 	{
 		Base::Running = false;
 	}
@@ -60,21 +168,20 @@ void Menu::RenderMenu()
 	ImGui::PopStyleVar();
 	ImGui::PopStyleVar();
 
-	ImGui::InvisibleButton("", ImVec2(1, idk.y));
+	ImGui::InvisibleButton("##", ImVec2(1, idk.y));
 	ImGui::NextColumn();
 
 	if (ImGui::BeginChild("child_2", { 0, 0 }, false)) {
-
-		ImGui::PushID("menus");
-
 		g_ModuleManager->RenderMenu(currentTab);
+
+		if (currentTab == -2)
+		{
+			RenderConfigMenu();
+		}
+
 		ImGui::Spacing();
-
-		ImGui::PopID();
-
-		ImGui::EndChild();
 	}
-	ImGui::PopID();
+	ImGui::EndChild();
 
 	ImGui::End();
 }
