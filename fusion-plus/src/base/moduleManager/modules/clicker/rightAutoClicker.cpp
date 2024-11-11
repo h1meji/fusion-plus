@@ -20,6 +20,7 @@ void RightAutoClicker::Update()
 	Java::AssignClass("net.minecraft.item.ItemBlock", blockClass);
 	if (SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem().GetInstance() == NULL) return;
 	if (settings::RAC_blocksOnly && !Java::Env->IsInstanceOf(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem().GetItem(), blockClass)) return;
+	if (GetAsyncKeyState(VK_RBUTTON) && 0) return; // maybe fix the right click bug with this
 
 	long milli = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 	if (rightLastClickTime == 0) rightLastClickTime = milli;
