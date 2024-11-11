@@ -1,9 +1,9 @@
 #include "menu.h"
-#include "../util/logger.h"
-#include "../../../ext/imgui/imgui.h"
-#include "../../../ext/imgui/imgui_internal.h"
-#include "../../../ext/imgui/imgui_impl_win32.h"
-#include "../../../ext/imgui/imgui_impl_opengl2.h"
+#include "util/logger.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
+#include "imgui/imgui_impl_win32.h"
+#include "imgui/imgui_impl_opengl2.h"
 
 void Menu::Init()
 {

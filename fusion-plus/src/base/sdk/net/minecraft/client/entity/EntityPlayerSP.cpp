@@ -1,8 +1,8 @@
 #include "EntityPlayerSP.h"
-#include "../../../../sdk.h"
-#include "../../../../../java/java.h"
+#include "sdk/sdk.h"
+#include "java/java.h"
 
-#include "../../../../../util/logger.h"
+#include "util/logger.h"
 
 CEntityPlayerSP::CEntityPlayerSP() : CEntityPlayer()
 {

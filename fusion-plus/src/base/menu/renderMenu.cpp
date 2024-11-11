@@ -1,17 +1,17 @@
 #include "menu.h"
 #include "../../main.h"
 
-#include "../../../ext/imgui/imgui.h"
-#include "../../../ext/imgui/imgui_internal.h"
-#include "../../../ext/imgui/imgui_impl_win32.h"
-#include "../../../ext/imgui/imgui_impl_opengl2.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
+#include "imgui/imgui_impl_win32.h"
+#include "imgui/imgui_impl_opengl2.h"
 
-#include "../util/window/borderless.h"
+#include "util/window/borderless.h"
 
-#include "../moduleManager/moduleManager.h"
+#include "moduleManager/moduleManager.h"
 
-#include "../sdk/net/minecraft/client/Minecraft.h"
-#include "../util/logger.h"
+#include "sdk/net/minecraft/client/Minecraft.h"
+#include "util/logger.h"
 
 int currentTab = -1;
 

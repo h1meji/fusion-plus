@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../java/IClass.h"
-#include "../../../../util/math/geometry.h"
-#include "../util/AxisAlignedBB.h"
+#include "sdk/java/IClass.h"
+#include "util/math/geometry.h"
+#include "sdk/net/minecraft/util/AxisAlignedBB.h"
 
 struct CEntity : IClass
 {

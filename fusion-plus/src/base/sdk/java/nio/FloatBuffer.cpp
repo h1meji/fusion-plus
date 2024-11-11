@@ -1,7 +1,7 @@
 #include "FloatBuffer.h"
 
-#include "../../../java/java.h"
-#include "../../../util/logger.h"
+#include "java/java.h"
+#include "util/logger.h"
 
 #include <vector>
 

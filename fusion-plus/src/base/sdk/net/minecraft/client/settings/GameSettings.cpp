@@ -1,6 +1,6 @@
 #include "GameSettings.h"
-#include "../../../../sdk.h"
-#include "../../../../../java/java.h"
+#include "sdk/sdk.h"
+#include "java/java.h"
 
 CGameSettings::CGameSettings()
 {

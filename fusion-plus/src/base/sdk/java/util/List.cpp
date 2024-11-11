@@ -1,5 +1,5 @@
 #include "List.h"
-#include "../../../java/java.h"
+#include "java/java.h"
 
 List::List(jobject jlist)
 {

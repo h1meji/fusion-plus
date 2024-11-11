@@ -1,5 +1,5 @@
 #pragma once
-#include "../java/java.h"
+#include "java/java.h"
 
 struct StrayCache {
 

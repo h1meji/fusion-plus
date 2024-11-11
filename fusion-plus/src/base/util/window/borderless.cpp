@@ -1,5 +1,5 @@
 #include "borderless.h"
-#include "../../menu/menu.h"
+#include "menu/menu.h"
 
 void Borderless::Enable(HWND hWindow)
 {

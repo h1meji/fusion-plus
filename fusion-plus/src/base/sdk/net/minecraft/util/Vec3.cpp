@@ -1,8 +1,8 @@
 #include "Vec3.h"
 
-#include "../../../../java/java.h"
-#include "../../../../util/logger.h"
-#include "../../../strayCache.h"
+#include "java/java.h"
+#include "util/logger.h"
+#include "sdk/strayCache.h"
 
 CVec3::CVec3()
 {

@@ -1,9 +1,9 @@
 #include "WorldClient.h"
 
-#include "../../../../sdk.h"
-#include "../../../../../java/java.h"
-#include "../../../../../util/logger.h"
-#include "../../../../java/util/Set.h"
+#include "sdk/sdk.h"
+#include "java/java.h"
+#include "util/logger.h"
+#include "sdk/java/util/Set.h"
 
 CWorldClient::CWorldClient()
 {

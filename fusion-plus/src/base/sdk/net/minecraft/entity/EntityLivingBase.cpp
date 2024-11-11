@@ -1,7 +1,7 @@
 #include "EntityLivingBase.h"
 
-#include "../../../../java/java.h"
-#include "../../../strayCache.h"
+#include "java/java.h"
+#include "sdk/strayCache.h"
 
 CEntityLivingBase::CEntityLivingBase()
 {

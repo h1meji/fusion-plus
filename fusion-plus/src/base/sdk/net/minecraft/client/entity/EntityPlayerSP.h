@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../entity/player/EntityPlayer.h"
+#include "sdk/net/minecraft/entity/player/EntityPlayer.h"
 
 struct CEntityPlayerSP : CEntityPlayer
 {

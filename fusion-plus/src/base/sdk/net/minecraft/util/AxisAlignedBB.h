@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../java/IClass.h"
-#include "../../../../util/math/geometry.h"
-#include "../../../strayCache.h"
+#include "sdk/java/IClass.h"
+#include "util/math/geometry.h"
+#include "sdk/strayCache.h"
 
 struct CAxisAlignedBB : IClass
 {

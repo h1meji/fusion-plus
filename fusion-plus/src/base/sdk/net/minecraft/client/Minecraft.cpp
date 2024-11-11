@@ -1,8 +1,8 @@
 #include "Minecraft.h"
-#include "../../../../java/java.h"
-#include "../../../../util/logger.h"
+#include "java/java.h"
+#include "util/logger.h"
 
-#include "../entity/EntityLivingBase.h"
+#include "sdk/net/minecraft/entity/EntityLivingBase.h"
 
 CMinecraft::CMinecraft()
 {

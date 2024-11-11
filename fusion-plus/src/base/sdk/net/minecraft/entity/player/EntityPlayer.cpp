@@ -1,6 +1,6 @@
 #include "EntityPlayer.h"
 
-#include "../../../../../java/java.h"
+#include "java/java.h"
 
 CEntityPlayer::CEntityPlayer()
 {

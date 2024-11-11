@@ -1,12 +1,12 @@
 #include "World.h"
 
-#include "../../../sdk.h"
-#include "../../../../java/java.h"
-#include "../../../java/util/List.h"
-#include "../util/Vec3.h"
-#include "../util/MovingObjectPosition.h"
+#include "sdk/sdk.h"
+#include "java/java.h"
+#include "sdk/java/util/List.h"
+#include "sdk/net/minecraft/util/Vec3.h"
+#include "sdk/net/minecraft/util/MovingObjectPosition.h"
 
-#include "../../../../util/logger.h"
+#include "util/logger.h"
 
 CWorld::CWorld() 
 {

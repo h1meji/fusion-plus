@@ -1,9 +1,9 @@
 #include "Entity.h"
-#include "../../../../java/java.h"
-#include "../../../java/lang/String.h"
-#include "../../../strayCache.h"
+#include "java/java.h"
+#include "sdk/java/lang/String.h"
+#include "sdk/strayCache.h"
 
-#include "../../../../util/logger.h"
+#include "util/logger.h"
 
 CEntity::CEntity()
 {

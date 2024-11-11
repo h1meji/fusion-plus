@@ -1,8 +1,8 @@
 #include "AxisAlignedBB.h"
 
-#include "../../../../java/java.h"
-#include "../../../../util/logger.h"
-#include "../../../strayCache.h"
+#include "java/java.h"
+#include "util/logger.h"
+#include "sdk/strayCache.h"
 
 CAxisAlignedBB::CAxisAlignedBB()
 {

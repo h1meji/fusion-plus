@@ -74,18 +74,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)build\</OutDir>
     <IntDir>$(ProjectDir)build\etc\</IntDir>
+    <IncludePath>$(ProjectDir)src\base;$(ProjectDir)ext;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)build\</OutDir>
     <IntDir>$(ProjectDir)build\etc\</IntDir>
+    <IncludePath>$(ProjectDir)src\base;$(ProjectDir)ext;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)build\</OutDir>
     <IntDir>$(ProjectDir)build\etc\</IntDir>
+    <IncludePath>$(ProjectDir)src\base;$(ProjectDir)ext;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)build\</OutDir>
     <IntDir>$(ProjectDir)build\etc\</IntDir>
+    <IncludePath>$(ProjectDir)src\base;$(ProjectDir)ext;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

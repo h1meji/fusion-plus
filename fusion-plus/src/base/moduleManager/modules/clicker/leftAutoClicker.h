@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../moduleBase.h"
+#include "moduleManager/moduleBase.h"
 
 class LeftAutoClicker : public ModuleBase
 {

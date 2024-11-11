@@ -1,7 +1,7 @@
 #include "MovingObjectPosition.h"
 
-#include "../../../../java/java.h"
-#include "../../../strayCache.h"
+#include "java/java.h"
+#include "sdk/strayCache.h"
 
 CMovingObjectPosition::CMovingObjectPosition()
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../IClass.h"
-#include "../../../util/math/geometry.h"
+#include "sdk/java/IClass.h"
+#include "util/math/geometry.h"
 
 struct FloatBuffer : IClass
 {

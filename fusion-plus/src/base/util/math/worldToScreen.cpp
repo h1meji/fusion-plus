@@ -1,6 +1,6 @@
 #include "worldToScreen.h"
-#include "../../base.h"
-#include "../logger.h"
+#include "base.h"
+#include "util/logger.h"
 
 #include <limits>
 

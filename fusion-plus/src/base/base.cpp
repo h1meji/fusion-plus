@@ -9,7 +9,7 @@
 #include "util/window/borderless.h"
 #include "patcher/patcher.h"
 
-#include "../../ext/minhook/minhook.h"
+#include "minhook/minhook.h"
 
 #include <thread>
 #include <unordered_map>

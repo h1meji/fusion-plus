@@ -1,6 +1,6 @@
 #include "InventoryPlayer.h"
 
-#include "../../../../strayCache.h"
+#include "sdk/strayCache.h"
 
 CInventoryPlayer::CInventoryPlayer()
 {

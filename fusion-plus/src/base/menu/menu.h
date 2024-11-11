@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include <vector>
 
-#include "../../../ext/imgui/imgui.h"
+#include "imgui/imgui.h"
 
 struct Menu
 {

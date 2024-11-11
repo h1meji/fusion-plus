@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../java/IClass.h"
-#include "../entity/player/EntityPlayer.h"
-#include "../../../../util/math/geometry.h"
+#include "sdk/java/IClass.h"
+#include "sdk/net/minecraft/entity/player/EntityPlayer.h"
+#include "util/math/geometry.h"
 
 #include <vector>
 

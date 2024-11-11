@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../../ext/imgui/imgui.h"
+#include "imgui/imgui.h"
 
 // Render quality of life functions
 

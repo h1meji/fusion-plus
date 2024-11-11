@@ -1,5 +1,5 @@
 #include "ItemStack.h"
-#include "../../../strayCache.h"
+#include "sdk/strayCache.h"
 
 CItemStack::CItemStack()
 {

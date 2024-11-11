@@ -1,18 +1,18 @@
-#include "../menu.h"
+#include "menu/menu.h"
 
 #include <gl/GL.h>
 #include <mutex>
 #include <Shlobj.h>
 
-#include "../../../../ext/minhook/minhook.h"
-#include "../../../../ext/imgui/imgui.h"
-#include "../../../../ext/imgui/imgui_impl_win32.h"
-#include "../../../../ext/imgui/imgui_impl_opengl2.h"
-#include "../../util/logger.h"
-#include "../../util/trimmer.h"
-#include "../../../../ext/fonts/jetbrainsmono.h"
+#include "minhook/minhook.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_win32.h"
+#include "imgui/imgui_impl_opengl2.h"
+#include "util/logger.h"
+#include "util/trimmer.h"
+#include "fonts/jetbrainsmono.h"
 
-#include "../../base.h"
+#include "base.h"
 
 std::once_flag setupFlag;
 std::atomic_flag clipCursor = ATOMIC_FLAG_INIT;

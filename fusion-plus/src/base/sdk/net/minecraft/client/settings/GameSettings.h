@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../../java/IClass.h"
+#include "sdk/java/IClass.h"
 
 struct CGameSettings : IClass
 {

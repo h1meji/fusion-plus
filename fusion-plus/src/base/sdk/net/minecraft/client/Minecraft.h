@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../../../java/IClass.h"
-#include "../client/entity/EntityPlayerSP.h"
+#include "sdk/java/IClass.h"
+#include "entity/EntityPlayerSP.h"
 #include "multiplayer/WorldClient.h"
 #include "renderer/ActiveRenderInfo.h"
 #include "renderer/entity/RenderManager.h"
-#include "../util/Timer.h"
+#include "sdk/net/minecraft/util/Timer.h"
 #include "settings/GameSettings.h"
-#include "../util/MovingObjectPosition.h"
+#include "sdk/net/minecraft/util/MovingObjectPosition.h"
 
 struct CMinecraft : IClass
 {

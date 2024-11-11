@@ -1,12 +1,12 @@
 #include "aimAssist.h"
-#include "../../commonData.h"
-#include "../../../sdk/sdk.h"
-#include "../../../util/logger.h"
-#include "../../../../../ext/imgui/imgui.h"
-#include "../../../util/math/worldToScreen.h"
-#include "../../../util/math/math.h"
-#include "../../../menu/menu.h"
-#include "../../../java/java.h"
+#include "moduleManager/commonData.h"
+#include "sdk/sdk.h"
+#include "util/logger.h"
+#include "imgui/imgui.h"
+#include "util/math/worldToScreen.h"
+#include "util/math/math.h"
+#include "menu/menu.h"
+#include "java/java.h"
 
 #include <chrono>
 #include <random>

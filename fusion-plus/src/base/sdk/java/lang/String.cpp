@@ -1,5 +1,5 @@
 #include "String.h"
-#include "../../../java/java.h"
+#include "java/java.h"
 
 String::String(jobject instance)
 {

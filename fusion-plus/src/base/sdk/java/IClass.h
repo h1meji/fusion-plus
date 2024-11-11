@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../../ext/jni/jni.h"
+#include "jni/jni.h"
 
 #include <string>
 #include <map>

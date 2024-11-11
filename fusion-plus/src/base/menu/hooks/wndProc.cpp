@@ -1,6 +1,6 @@
-#include "../menu.h"
+#include "menu/menu.h"
 
-#include "../../../../ext/imgui/imgui_impl_win32.h"
+#include "imgui/imgui_impl_win32.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 

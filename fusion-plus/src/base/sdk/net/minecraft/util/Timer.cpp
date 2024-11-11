@@ -1,7 +1,7 @@
 #include "Timer.h"
 
-#include "../../../../java/java.h"
-#include "../../../sdk.h"
+#include "java/java.h"
+#include "sdk/sdk.h"
 
 CTimer::CTimer()
 {

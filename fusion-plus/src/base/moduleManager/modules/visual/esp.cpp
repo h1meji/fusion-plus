@@ -1,12 +1,12 @@
 #include "esp.h"
-#include "../../commonData.h"
-#include "../../../sdk/sdk.h"
-#include "../../../util/logger.h"
-#include "../../../../../ext/imgui/imgui.h"
-#include "../../../util/math/math.h"
-#include "../../../util/math/worldToScreen.h"
-#include "../../../util/render/renderqolf.h"
-#include "../../../menu/menu.h"
+#include "moduleManager/commonData.h"
+#include "sdk/sdk.h"
+#include "util/logger.h"
+#include "imgui/imgui.h"
+#include "util/math/math.h"
+#include "util/math/worldToScreen.h"
+#include "util/render/renderqolf.h"
+#include "menu/menu.h"
 #include <gl/GL.h>
 
 void Esp::Update()

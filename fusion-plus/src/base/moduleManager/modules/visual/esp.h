@@ -1,10 +1,10 @@
 #pragma once
-#include "../../../util/math/geometry.h"
+#include "util/math/geometry.h"
 
 #include <vector>
 #include <string>
 
-#include "../../moduleBase.h"
+#include "moduleManager/moduleBase.h"
 
 class Esp : public ModuleBase
 {

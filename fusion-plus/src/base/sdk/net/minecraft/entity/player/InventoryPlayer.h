@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../../../java/IClass.h"
-#include "../../item/ItemStack.h"
+#include "sdk/java/IClass.h"
+#include "sdk/net/minecraft/item/ItemStack.h"
 
 struct CInventoryPlayer : IClass
 {

@@ -1,8 +1,8 @@
 #include "rightAutoClicker.h"
-#include "../../../sdk/sdk.h"
-#include "../../../menu/menu.h"
-#include "../../../util/logger.h"
-#include "../../../menu/menu.h"
+#include "sdk/sdk.h"
+#include "menu/menu.h"
+#include "util/logger.h"
+#include "menu/menu.h"
 
 #include <chrono>
 #include <random>

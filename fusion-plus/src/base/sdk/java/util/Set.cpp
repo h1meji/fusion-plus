@@ -1,5 +1,5 @@
 #include "Set.h"
-#include "../../../java/java.h"
+#include "java/java.h"
 
 Set::Set(jobject jset)
 {

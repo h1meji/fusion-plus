@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../EntityLivingBase.h"
+#include "sdk/net/minecraft/entity/EntityLivingBase.h"
 #include "InventoryPlayer.h"
 
 struct CEntityPlayer : CEntityLivingBase

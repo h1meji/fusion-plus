@@ -1,12 +1,12 @@
 #include "reach.h"
-#include "../../../sdk/sdk.h"
-#include "../../commonData.h"
-#include "../../../util/logger.h"
-#include "../../../java/java.h"
-#include "../../../util/math/math.h"
-#include "../../../../../ext/imgui/imgui.h"
-#include "../../../menu/menu.h"
-#include "../../../patcher/patcher.h"
+#include "sdk/sdk.h"
+#include "moduleManager/commonData.h"
+#include "util/logger.h"
+#include "java/java.h"
+#include "util/math/math.h"
+#include "imgui/imgui.h"
+#include "menu/menu.h"
+#include "patcher/patcher.h"
 
 #include <chrono>
 
