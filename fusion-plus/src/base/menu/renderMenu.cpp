@@ -95,6 +95,13 @@ void RenderConfigMenu()
 	ImGui::PopStyleVar();
 }
 
+void RenderSettingsMenu()
+{
+	ImGui::Spacing();
+
+	Menu::DoColorPickerStuff(3457284, "Menu Accent Color", settings::Menu_AccentColor);
+}
+
 void Menu::RenderMenu()
 {
 	ImGui::SetNextWindowSize(ImVec2(575, 300));
@@ -177,6 +184,11 @@ void Menu::RenderMenu()
 		if (currentTab == -2)
 		{
 			RenderConfigMenu();
+		}
+
+		if (currentTab == -3)
+		{
+			RenderSettingsMenu();
 		}
 
 		ImGui::Spacing();

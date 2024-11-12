@@ -5,6 +5,8 @@
 #include "imgui/imgui_impl_win32.h"
 #include "imgui/imgui_impl_opengl2.h"
 
+#include "configManager/settings.h"
+
 void Menu::Init()
 {
 	Menu::Title = "fusion+";
@@ -30,12 +32,12 @@ void Menu::ToggleButton(const char* format, bool* value)
 	if (ImGui::IsItemHovered()) 
 	{
 		col_circle = *value ? IM_COL32(255, 255, 255, 255) : IM_COL32(230, 230, 230, 255);
-		col_bg = *value ? IM_COL32(0, 255, 255, 255) : IM_COL32(0, 100, 100, 255);
+		col_bg = *value ? IM_COL32(settings::Menu_AccentColor[0] * 255, settings::Menu_AccentColor[1] * 255, settings::Menu_AccentColor[2] * 255, settings::Menu_AccentColor[3] * 255) : IM_COL32(settings::Menu_AccentColor[0] * 125, settings::Menu_AccentColor[1] * 125, settings::Menu_AccentColor[2] * 125, settings::Menu_AccentColor[3] * 255);
 	}
 	else 
 	{
 		col_circle = *value ? IM_COL32(230, 230, 230, 255) : IM_COL32(175, 175, 175, 255);
-		col_bg = *value ? IM_COL32(0, 120, 120, 255) : IM_COL32(0, 50, 50, 255);
+		col_bg = *value ? IM_COL32(settings::Menu_AccentColor[0] * 210, settings::Menu_AccentColor[1] * 210, settings::Menu_AccentColor[2] * 210, settings::Menu_AccentColor[3] * 255) : IM_COL32(settings::Menu_AccentColor[0] * 80, settings::Menu_AccentColor[1] * 80, settings::Menu_AccentColor[2] * 80, settings::Menu_AccentColor[3] * 255);
 	}
 
 	float offsetX = 8;
@@ -56,6 +58,10 @@ bool Menu::TabButton(const char* format, ImVec4 color)
 void Menu::DoSliderStuff(int id, const char* text, float* bruh, float min, float max) {
 	ImVec2 textSize = Menu::Font->CalcTextSizeA(Menu::Font->FontSize, FLT_MAX, 0.0f, text);
 
+	// change the line color
+	ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(settings::Menu_AccentColor[0] * 0.85, settings::Menu_AccentColor[1] * 0.85, settings::Menu_AccentColor[2] * 0.85, settings::Menu_AccentColor[3]));
+	ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
+
 	ImGui::PushID(id);
 	ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
 	ImGui::Text(text);
@@ -72,6 +78,9 @@ void Menu::DoSliderStuff(int id, const char* text, float* bruh, float min, float
 	ImGui::PopID();
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5);
+
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
 }
 
 void Menu::DoToggleButtonStuff(int id, const char* text, bool* bruh) {

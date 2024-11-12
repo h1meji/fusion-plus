@@ -45,7 +45,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - [ ] Dedicated injector for *Fusion+*
 - [x] Fix for ESP in third-person view
 - [x] Improved module list in the internal GUI
-- [ ] Color customizations for different modules and internal GUI
+- [x] Color customizations for different modules and internal GUI
 - [x] Config files for saving and loading cheat settings
 - [x] Improved module system for developers
 
@@ -57,6 +57,8 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - [ ] **Bridge Assist**: Automatically ninja bridges for the user (without block placement).
 - [ ] **Radar**: Displays a radar of nearby players
 - [ ] **Velocity**: Reduces knockback taken by the player
+- [ ] **Restock**: Automatically restocks the player's hotbar
+- [ ] **Inventory Manager**: Automatically sorts the player's inventory
 
 ### Planned Module Changes
 - [ ] Diffrent styles for the ESP module (3D Box, 2D Box, etc.)

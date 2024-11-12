@@ -4,7 +4,7 @@
 
 struct settings {
 	// Menu
-	inline static float Menu_AccentColor[4]{ 0, 0, 0, 1.0f };
+	inline static float Menu_AccentColor[4]{ 0, 0.4, 0.4, 1.0f };
 
 	// ESP
 	inline static bool ESP_Enabled = false;
