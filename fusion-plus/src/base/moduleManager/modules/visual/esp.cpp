@@ -265,6 +265,7 @@ void Esp::RenderMenu()
 			{
 				Menu::DoColorPickerStuff(45687, "Text Color", settings::ESP_TextColor);
 				Menu::DoSliderStuff(128763, "Text Size", &settings::ESP_TextSize, 12, 24);
+				Menu::DoSliderStuff(98745056, "Text Unrender Distance", &settings::ESP_TextUnrenderDistance, 0, 20);
 
 				Menu::DoToggleButtonStuff(23456, "Show Text Outline", &settings::ESP_TextOutline);
 				if (settings::ESP_TextOutline)
