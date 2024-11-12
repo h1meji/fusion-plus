@@ -38,6 +38,17 @@ namespace ConfigManager
                 return true;
             }
         }
+		else if (std::is_same<T, float[4]>::value) {
+			if (j.contains(key) && j.at(key).is_array() && j.at(key).size() == 4) {
+				for (size_t i = 0; i < 4; ++i) {
+					if (!j.at(key)[i].is_number()) {
+						return false;
+					}
+					value[i] = j.at(key)[i].get<float>();
+				}
+				return true;
+			}
+		}
         return false;
     }
 
