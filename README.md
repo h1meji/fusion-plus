@@ -63,7 +63,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 
 ### Notices
 - This cheat currently works on Lunar Client 1.8.9 only, but may be updated to support other versions in the future.
-- Some features, such as the ESP in third-person view, may experience minor issues when interacting with blocks. A solution is under development.
+- When resizing some GUI elements, the program might give an assertion error, no solution was found. Just don't resize the GUI elements.
 - After extended use, you may experience minor lag spikes, no solution was found.
 - This cheat is nothing close to screen sharing proof, use at your own risk.
 
