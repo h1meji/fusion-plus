@@ -237,6 +237,9 @@
     <ClInclude Include="ext\nlohmann\json_fwd.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\base\moduleManager\modules\visual\arrayList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -399,6 +402,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\configManager\configManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\moduleManager\modules\visual\arrayList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

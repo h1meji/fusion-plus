@@ -75,6 +75,14 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["ESP_FadeDistance"] = settings::ESP_FadeDistance;
 	j["ESP_HealthBar"] = settings::ESP_HealthBar;
 
+	// Array List
+	j["AL_Enabled"] = settings::AL_Enabled;
+	j["AL_renderPosition"] = settings::AL_renderPosition;
+	j["AL_textSize"] = settings::AL_textSize;
+	j["AL_textColor"] = settings::AL_textColor;
+	j["AL_backgroundPadding"] = settings::AL_backgroundPadding;
+	j["AL_backgroundColor"] = settings::AL_backgroundColor;
+
 	// Aim Assist
 	j["AA_Enabled"] = settings::AA_Enabled;
 	j["AA_visibilityCheck"] = settings::AA_visibilityCheck;
@@ -133,6 +141,14 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::ESP_TextUnrenderDistance, "ESP_TextUnrenderDistance");
 	ConfigManager::GetJsonValue(j, settings::ESP_FadeDistance, "ESP_FadeDistance");
 	ConfigManager::GetJsonValue(j, settings::ESP_HealthBar, "ESP_HealthBar");
+
+	// Array List
+	ConfigManager::GetJsonValue(j, settings::AL_Enabled, "AL_Enabled");
+	ConfigManager::GetJsonValue(j, settings::AL_renderPosition, "AL_renderPosition");
+	ConfigManager::GetJsonValue(j, settings::AL_textSize, "AL_textSize");
+	ConfigManager::GetJsonValue(j, settings::AL_textColor, "AL_textColor");
+	ConfigManager::GetJsonValue(j, settings::AL_backgroundPadding, "AL_backgroundPadding");
+	ConfigManager::GetJsonValue(j, settings::AL_backgroundColor, "AL_backgroundColor");
 
 	// Aim Assist
 	ConfigManager::GetJsonValue(j, settings::AA_Enabled, "AA_Enabled");

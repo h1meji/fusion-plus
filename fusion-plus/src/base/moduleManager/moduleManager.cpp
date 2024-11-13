@@ -1,6 +1,7 @@
 #include "moduleManager.h"
 
 #include "modules/visual/esp.h"
+#include "modules/visual/arrayList.h"
 #include "modules/combat/aimAssist.h"
 #include "modules/combat/reach.h"
 #include "modules/clicker/leftAutoClicker.h"
@@ -10,6 +11,7 @@
 void ModuleManager::Init()
 {
 	modules.push_back(std::make_unique<Esp>());
+	modules.push_back(std::make_unique<ArrayList>());
 	modules.push_back(std::make_unique<AimAssist>());
 	modules.push_back(std::make_unique<Reach>());
 	modules.push_back(std::make_unique<LeftAutoClicker>());

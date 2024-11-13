@@ -24,6 +24,15 @@ struct settings {
 	inline static float ESP_FadeDistance = 3.0f;
 	inline static bool ESP_HealthBar = true;
 
+	// Array List
+	inline static bool AL_Enabled = false;
+	inline static int AL_renderPosition = 1;
+	inline static const char* AL_renderPositionList[4]{ "Top Left", "Top Right", "Bottom Left", "Bottom Right" };
+	inline static float AL_textSize = 18;
+	inline static float AL_textColor[4]{ 1, 1, 1, 1 };
+	inline static float AL_backgroundPadding = 5;
+	inline static float AL_backgroundColor[4]{ 0, 0, 0, 0.5 };
+
 	// Aim Assist
 	inline static bool AA_Enabled = false;
 	inline static bool AA_visibilityCheck = true;
