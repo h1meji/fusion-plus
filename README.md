@@ -11,6 +11,7 @@ This project is based on the original **Fusion** by [deity]() and [deadshell](ht
 ### Modules
 - **Visual**
   - **ESP**: Displays player names, health, and distance
+  - **Arraylist**: Displays a list of the user's active modules
 - **Combat**
   - **Aim Assist**: Automatically aims at the nearest player
   - **Reach**: Increases the player's reach distance
@@ -23,7 +24,7 @@ This project is based on the original **Fusion** by [deity]() and [deadshell](ht
 
 ### Screenshots
 <img src="https://github.com/deadshxll/fusion/assets/67878277/5a732ba9-3d81-44e4-b745-f34f39555716" alt="original gui - by deadshell"/>
-<img src="https://github.com/deadshxll/fusion/assets/67878277/fac3f084-0255-4999-b03f-3e2e0a15bde8" alt="animated - by deashell (rip _Sponky__)" width=586>
+<img src="https://github.com/deadshxll/fusion/assets/67878277/fac3f084-0255-4999-b03f-3e2e0a15bde8" alt="animated - by deadshell (rip _Sponky__)" width=586>
 
 ## Download
 You can download the latest release of *Fusion+* [here](https://github.com/h1meji/fusion-plus/releases) or you can build the `.dll` file yourself by cloning the repository and building the project in Visual Studio.
@@ -50,7 +51,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - [x] Improved module system for developers
 
 ### Planned Modules
-- [ ] **Arraylist**: Displays a list of the users active modules
+- [x] **Arraylist**: Displays a list of the user's active modules
 - [ ] **BlockESP**: Displays blocks selected in the world
 - [ ] **Chest Stealer**: Automatically steals items from chests
 - [ ] **W-Tap**: Automatically W-taps for the user.
@@ -80,4 +81,4 @@ Big thanks to the original developers of *Fusion* for creating the solid foundat
 
 ---
 
-Contact me on Discord ([`@himeji.`](https://www.discord.com/users/706262422251634809)) for any questions, suggestions or issues.
+Contact me on [Discord](https://www.discord.com/users/706262422251634809) (@himeji.) for any questions, suggestions or issues.
