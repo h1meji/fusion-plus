@@ -6,6 +6,8 @@
 
 #include "imgui/imgui.h"
 
+#include "sdk/sdk.h"
+
 struct Menu
 {
 	static void Init();
@@ -27,6 +29,8 @@ struct Menu
 	static void DoToggleButtonStuff(int id, const char* text, bool* bruh);
 	static void DoColorPickerStuff(int id, const char* text, float* color);
 	static void GlitchText(const char* text, ImVec2 pos);
+
+	static void MoveCursorToCenter(bool checkInGame);
 
 	static inline HWND HandleWindow;
 	static inline HDC HandleDeviceContext;

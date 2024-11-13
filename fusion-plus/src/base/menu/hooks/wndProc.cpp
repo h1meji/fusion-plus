@@ -11,9 +11,15 @@ LRESULT CALLBACK hook_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	if (msg == WM_KEYDOWN)
 	{
 		if (wParam == Menu::Keybind)
+		{
+			if (Menu::Open) Menu::MoveCursorToCenter(true);
 			Menu::Open = !Menu::Open;
+		}
 		if (wParam == VK_ESCAPE && Menu::Open)
+		{
+			Menu::MoveCursorToCenter(false);
 			Menu::Open = false;
+		}
 	}
 
 	if (Menu::Open && Menu::Initialized)

@@ -125,6 +125,28 @@ void Menu::GlitchText(const char* text, ImVec2 pos)
 	ImGui::GetWindowDrawList()->AddText(Menu::FontBold, 28, pos, ImColor(255, 255, 255), text);
 }
 
+void Menu::MoveCursorToCenter(bool checkInGame)
+{
+	if (checkInGame && SDK::Minecraft->IsInGuiState())
+		return;
+
+	RECT clientRect;
+	if (GetClientRect(HandleWindow, &clientRect)) {
+		// Calculate the center of the client area
+		int clientCenterX = (clientRect.right - clientRect.left) / 2;
+		int clientCenterY = (clientRect.bottom - clientRect.top) / 2;
+
+		// Create a POINT to hold the center in client coordinates
+		POINT clientCenterPoint = { clientCenterX, clientCenterY };
+
+		// Convert client coordinates to screen coordinates
+		ClientToScreen(HandleWindow, &clientCenterPoint);
+
+		// Move the cursor to the center of the client area
+		SetCursorPos(clientCenterPoint.x, clientCenterPoint.y);
+	}
+}
+
 void Menu::Kill()
 {
 	Menu::Open = false;

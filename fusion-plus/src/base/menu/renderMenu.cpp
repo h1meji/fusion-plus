@@ -166,6 +166,7 @@ void Menu::RenderMenu()
 
 	if (ImGui::Button("Detach", ImVec2(94, 0)))
 	{
+		Menu::MoveCursorToCenter(true);
 		Base::Running = false;
 	}
 
