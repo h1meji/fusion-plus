@@ -102,16 +102,21 @@ void Esp::Update()
 			origin, top, left, right, back, front, left2, right2, back2, front2
 		};
 
+		Vector3 maxBB = Vector3{ (float)entity.boundingBox.maxX, (float)entity.boundingBox.maxY, (float)entity.boundingBox.maxZ };
+		Vector3 minBB = Vector3{ (float)entity.boundingBox.minX, (float)entity.boundingBox.minY, (float)entity.boundingBox.minZ };
+		Vector3 max = { (renderPos - (maxBB - entityPos)) - entityLastPos + (entityLastPos - entityPos) * renderPartialTicks };
+		Vector3 min = { (renderPos - (minBB - entityPos)) - entityLastPos + (entityLastPos - entityPos) * renderPartialTicks };
+		max.y -= 0.15f;
+		min.y -= 0.15f;
 		std::vector<Vector3> boundingBoxVerticies{
-			Vector3{front2.x, top.y - .05f, front2.z},
-			Vector3{right2.x, top.y - .05f, right2.z},
-			Vector3{back2.x, top.y - .05f, back2.z},
-			Vector3{left2.x, top.y - .05f, left2.z},
-
-			Vector3{front2.x, origin.y - .15f, front2.z},
-			Vector3{right2.x, origin.y - .15f, right2.z},
-			Vector3{back2.x, origin.y - .15f, back2.z},
-			Vector3{left2.x, origin.y - .15f, left2.z},
+			Vector3{max.x, max.y, max.z},
+			Vector3{max.x, min.y, max.z},
+			Vector3{min.x, min.y, max.z},
+			Vector3{min.x, max.y, max.z},
+			Vector3{max.x, max.y, min.z},
+			Vector3{max.x, min.y, min.z},
+			Vector3{min.x, min.y, min.z},
+			Vector3{min.x, max.y, min.z}
 		};
 
 		// For when the player gets close to an entity, a fade factor; a value between 0 and 1, with basic math, can get a cool looking fade effect if the player is too close
