@@ -71,6 +71,7 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["ESP_HealthBar"] = settings::ESP_HealthBar;
 	j["ESP_BoxType"] = settings::ESP_BoxType;
 	j["ESP_3DBoxColor"] = settings::ESP_3DBoxColor;
+	j["ESP_3DBoxThickness"] = settings::ESP_3DBoxThickness;
 	j["ESP_Box"] = settings::ESP_Box;
 	j["ESP_BoxColor"] = settings::ESP_BoxColor;
 	j["ESP_FilledBox"] = settings::ESP_FilledBox;
@@ -142,6 +143,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::ESP_HealthBar, "ESP_HealthBar");
 	ConfigManager::GetJsonValue(j, settings::ESP_BoxType, "ESP_BoxType");
 	ConfigManager::GetJsonValue(j, settings::ESP_3DBoxColor, "ESP_3DBoxColor");
+	ConfigManager::GetJsonValue(j, settings::ESP_3DBoxThickness, "ESP_3DBoxThickness");
 	ConfigManager::GetJsonValue(j, settings::ESP_Box, "ESP_Box");
 	ConfigManager::GetJsonValue(j, settings::ESP_BoxColor, "ESP_BoxColor");
 	ConfigManager::GetJsonValue(j, settings::ESP_FilledBox, "ESP_FilledBox");

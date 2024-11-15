@@ -21,6 +21,7 @@ struct settings {
 	inline static int ESP_BoxType = 0;
 	inline static const char* ESP_BoxTypeList[4]{ "Dynamic 2D Box", "3D Box" };
 	inline static float ESP_3DBoxColor[4]{ 0, 0, 0, 1 };
+	inline static float ESP_3DBoxThickness = 1.0f;
 	inline static bool ESP_Box = true;
 	inline static float ESP_BoxColor[4]{ 0, 0, 0, 1 };
 	inline static bool ESP_FilledBox = true;
