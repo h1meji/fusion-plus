@@ -102,6 +102,10 @@ void RenderSettingsMenu()
 	Menu::DoColorPickerStuff(3457284, "Menu Accent Color", settings::Menu_AccentColor);
 	
 	Menu::DoToggleButtonStuff(9837592, "Show Watermark", &settings::Menu_Watermark);
+
+	ImGui::Separator();
+
+	Menu::DoToggleButtonStuff(83475893, "Disable All Rendering", &settings::Menu_DisableAllRendering);
 }
 
 void Menu::RenderMenu()

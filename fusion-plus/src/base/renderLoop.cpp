@@ -8,7 +8,7 @@
 
 void Base::RenderLoop() // Runs every frame
 {
-	if (!Base::Running) return;
+	if (!Base::Running || settings::Menu_DisableAllRendering) return;
 
 	if (settings::Menu_Watermark)
 	{

@@ -57,6 +57,7 @@ bool ConfigManager::SettingsToJson(json& j)
 	// Menu
 	j["Menu_AccentColor"] = settings::Menu_AccentColor;
 	j["Menu_Watermark"] = settings::Menu_Watermark;
+	j["Menu_DisableAllRendering"] = settings::Menu_DisableAllRendering;
 
 	// ESP
 	j["ESP_Enabled"] = settings::ESP_Enabled;
@@ -127,6 +128,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 	// Menu
 	ConfigManager::GetJsonValue(j, settings::Menu_AccentColor, "Menu_AccentColor");
 	ConfigManager::GetJsonValue(j, settings::Menu_Watermark, "Menu_Watermark");
+	ConfigManager::GetJsonValue(j, settings::Menu_DisableAllRendering, "Menu_DisableAllRendering");
 
 	// ESP
 	ConfigManager::GetJsonValue(j, settings::ESP_Enabled, "ESP_Enabled");
