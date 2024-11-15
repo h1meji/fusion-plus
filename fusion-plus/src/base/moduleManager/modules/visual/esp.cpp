@@ -233,22 +233,42 @@ void Esp::RenderUpdate()
 
 		if (settings::ESP_BoxType == 1 && boxCorners.size() == 8)
 		{
-			// Draw lines for the box
-			ImColor color = ImColor(settings::ESP_3DBoxColor[0], settings::ESP_3DBoxColor[1], settings::ESP_3DBoxColor[2], settings::ESP_3DBoxColor[3] * data.opacityFadeFactor);
-			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[0].x, boxCorners[0].y), ImVec2(boxCorners[1].x, boxCorners[1].y), color, settings::ESP_3DBoxThickness);
-			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[1].x, boxCorners[1].y), ImVec2(boxCorners[2].x, boxCorners[2].y), color, settings::ESP_3DBoxThickness);
-			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[2].x, boxCorners[2].y), ImVec2(boxCorners[3].x, boxCorners[3].y), color, settings::ESP_3DBoxThickness);
-			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[3].x, boxCorners[3].y), ImVec2(boxCorners[0].x, boxCorners[0].y), color, settings::ESP_3DBoxThickness);
+			if (settings::ESP_Outline)
+			{
+				ImColor colorOutline = ImColor(settings::ESP_OutlineColor[0], settings::ESP_OutlineColor[1], settings::ESP_OutlineColor[2], settings::ESP_OutlineColor[3] * data.opacityFadeFactor);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[0].x, boxCorners[0].y), ImVec2(boxCorners[1].x, boxCorners[1].y), colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[1].x, boxCorners[1].y), ImVec2(boxCorners[2].x, boxCorners[2].y), colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[2].x, boxCorners[2].y), ImVec2(boxCorners[3].x, boxCorners[3].y), colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[3].x, boxCorners[3].y), ImVec2(boxCorners[0].x, boxCorners[0].y), colorOutline, settings::ESP_3DBoxThickness);
 
-			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[4].x, boxCorners[4].y), ImVec2(boxCorners[5].x, boxCorners[5].y), color, settings::ESP_3DBoxThickness);
-			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[5].x, boxCorners[5].y), ImVec2(boxCorners[6].x, boxCorners[6].y), color, settings::ESP_3DBoxThickness);
-			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[6].x, boxCorners[6].y), ImVec2(boxCorners[7].x, boxCorners[7].y), color, settings::ESP_3DBoxThickness);
-			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[7].x, boxCorners[7].y), ImVec2(boxCorners[4].x, boxCorners[4].y), color, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[4].x, boxCorners[4].y), ImVec2(boxCorners[5].x, boxCorners[5].y), colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[5].x, boxCorners[5].y), ImVec2(boxCorners[6].x, boxCorners[6].y), colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[6].x, boxCorners[6].y), ImVec2(boxCorners[7].x, boxCorners[7].y), colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[7].x, boxCorners[7].y), ImVec2(boxCorners[4].x, boxCorners[4].y), colorOutline, settings::ESP_3DBoxThickness);
 
-			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[0].x, boxCorners[0].y), ImVec2(boxCorners[4].x, boxCorners[4].y), color, settings::ESP_3DBoxThickness);
-			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[1].x, boxCorners[1].y), ImVec2(boxCorners[5].x, boxCorners[5].y), color, settings::ESP_3DBoxThickness);
-			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[2].x, boxCorners[2].y), ImVec2(boxCorners[6].x, boxCorners[6].y), color, settings::ESP_3DBoxThickness);
-			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[3].x, boxCorners[3].y), ImVec2(boxCorners[7].x, boxCorners[7].y), color, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[0].x, boxCorners[0].y), ImVec2(boxCorners[4].x, boxCorners[4].y), colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[1].x, boxCorners[1].y), ImVec2(boxCorners[5].x, boxCorners[5].y), colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[2].x, boxCorners[2].y), ImVec2(boxCorners[6].x, boxCorners[6].y), colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[3].x, boxCorners[3].y), ImVec2(boxCorners[7].x, boxCorners[7].y), colorOutline, settings::ESP_3DBoxThickness);
+			}
+
+			if (settings::ESP_FilledBox)
+			{
+				ImColor colorFilledBox = ImColor(settings::ESP_FilledBoxColor[0], settings::ESP_FilledBoxColor[1], settings::ESP_FilledBoxColor[2], settings::ESP_FilledBoxColor[3] * data.opacityFadeFactor);
+				ImVec2 faceTop[] = { ImVec2(boxCorners[0].x, boxCorners[0].y), ImVec2(boxCorners[1].x, boxCorners[1].y), ImVec2(boxCorners[2].x, boxCorners[2].y), ImVec2(boxCorners[3].x, boxCorners[3].y) };
+				ImVec2 faceBottom[] = { ImVec2(boxCorners[4].x, boxCorners[4].y), ImVec2(boxCorners[5].x, boxCorners[5].y), ImVec2(boxCorners[6].x, boxCorners[6].y), ImVec2(boxCorners[7].x, boxCorners[7].y) };
+				ImVec2 faceLeft[] = { ImVec2(boxCorners[0].x, boxCorners[0].y), ImVec2(boxCorners[4].x, boxCorners[4].y), ImVec2(boxCorners[7].x, boxCorners[7].y), ImVec2(boxCorners[3].x, boxCorners[3].y) };
+				ImVec2 faceRight[] = { ImVec2(boxCorners[1].x, boxCorners[1].y), ImVec2(boxCorners[5].x, boxCorners[5].y), ImVec2(boxCorners[6].x, boxCorners[6].y), ImVec2(boxCorners[2].x, boxCorners[2].y) };
+				ImVec2 faceFront[] = { ImVec2(boxCorners[0].x, boxCorners[0].y), ImVec2(boxCorners[1].x, boxCorners[1].y), ImVec2(boxCorners[5].x, boxCorners[5].y), ImVec2(boxCorners[4].x, boxCorners[4].y) };
+				ImVec2 faceBack[] = { ImVec2(boxCorners[2].x, boxCorners[2].y), ImVec2(boxCorners[3].x, boxCorners[3].y), ImVec2(boxCorners[7].x, boxCorners[7].y), ImVec2(boxCorners[6].x, boxCorners[6].y) };
+
+				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceTop, 4, colorFilledBox);
+				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceBottom, 4, colorFilledBox);
+				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceLeft, 4, colorFilledBox);
+				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceRight, 4, colorFilledBox);
+				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceFront, 4, colorFilledBox);
+				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceBack, 4, colorFilledBox);
+			}
 		}
 
 		if (settings::ESP_HealthBar)
@@ -348,24 +368,24 @@ void Esp::RenderMenu()
 				{
 					Menu::DoColorPickerStuff(45678, "Box Color", settings::ESP_BoxColor);
 				}
-
-				Menu::DoToggleButtonStuff(34566, "Show Filled Box", &settings::ESP_FilledBox);
-				if (settings::ESP_FilledBox)
-				{
-					Menu::DoColorPickerStuff(56789, "Filled Box Color", settings::ESP_FilledBoxColor);
-					Menu::DoColorPickerStuff(67890, "Second Filled Box Color", settings::ESP_SecondFilledBoxColor);
-				}
-
-				Menu::DoToggleButtonStuff(45677, "Show Outline", &settings::ESP_Outline);
-				if (settings::ESP_Outline)
-				{
-					Menu::DoColorPickerStuff(56788, "Outline Color", settings::ESP_OutlineColor);
-				}
 			}
 			else if (settings::ESP_BoxType == 1)
 			{
-				Menu::DoColorPickerStuff(45678, "Box Color", settings::ESP_3DBoxColor);
 				Menu::DoSliderStuff(73453, "Box Thickness", &settings::ESP_3DBoxThickness, 0.5, 5);
+			}
+
+			Menu::DoToggleButtonStuff(34566, "Show Filled Box", &settings::ESP_FilledBox);
+			if (settings::ESP_FilledBox)
+			{
+				Menu::DoColorPickerStuff(56789, "Filled Box Color", settings::ESP_FilledBoxColor);
+				if (settings::ESP_BoxType == 0)
+					Menu::DoColorPickerStuff(67890, "Second Filled Box Color", settings::ESP_SecondFilledBoxColor);
+			}
+
+			Menu::DoToggleButtonStuff(45677, "Show Outline", &settings::ESP_Outline);
+			if (settings::ESP_Outline)
+			{
+				Menu::DoColorPickerStuff(56788, "Outline Color", settings::ESP_OutlineColor);
 			}
 
 			ImGui::Spacing();
