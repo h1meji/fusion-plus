@@ -26,6 +26,7 @@ public:
 		float opacityFadeFactor;
 		float health;
 		float maxHealth;
+		std::vector<Vector3> boundingBoxVerticies;;
 	};
 
 private:

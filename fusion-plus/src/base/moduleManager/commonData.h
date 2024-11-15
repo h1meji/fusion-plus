@@ -27,6 +27,7 @@ struct CommonData
 		BoundingBox boundingBox;
 		std::string name;
 		float height;
+		float width;
 		float health;
 		float maxHealth;
 	};
@@ -60,6 +61,7 @@ struct CommonData
 					player.GetBB().GetNativeBoundingBox(),
 					player.GetName(),
 					player.GetHeight(),
+					player.GetWidth(),
 					player.GetHealth(),
 					player.GetMaxHealth()
 				});

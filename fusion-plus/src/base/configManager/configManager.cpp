@@ -59,13 +59,6 @@ bool ConfigManager::SettingsToJson(json& j)
 
 	// ESP
 	j["ESP_Enabled"] = settings::ESP_Enabled;
-	j["ESP_Box"] = settings::ESP_Box;
-	j["ESP_BoxColor"] = settings::ESP_BoxColor;
-	j["ESP_FilledBox"] = settings::ESP_FilledBox;
-	j["ESP_FilledBoxColor"] = settings::ESP_FilledBoxColor;
-	j["ESP_SecondFilledBoxColor"] = settings::ESP_SecondFilledBoxColor;
-	j["ESP_Outline"] = settings::ESP_Outline;
-	j["ESP_OutlineColor"] = settings::ESP_OutlineColor;
 	j["ESP_Text"] = settings::ESP_Text;
 	j["ESP_TextSize"] = settings::ESP_TextSize;
 	j["ESP_TextColor"] = settings::ESP_TextColor;
@@ -74,6 +67,15 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["ESP_TextUnrenderDistance"] = settings::ESP_TextUnrenderDistance;
 	j["ESP_FadeDistance"] = settings::ESP_FadeDistance;
 	j["ESP_HealthBar"] = settings::ESP_HealthBar;
+	j["ESP_BoxType"] = settings::ESP_BoxType;
+	j["ESP_3DBoxColor"] = settings::ESP_3DBoxColor;
+	j["ESP_Box"] = settings::ESP_Box;
+	j["ESP_BoxColor"] = settings::ESP_BoxColor;
+	j["ESP_FilledBox"] = settings::ESP_FilledBox;
+	j["ESP_FilledBoxColor"] = settings::ESP_FilledBoxColor;
+	j["ESP_SecondFilledBoxColor"] = settings::ESP_SecondFilledBoxColor;
+	j["ESP_Outline"] = settings::ESP_Outline;
+	j["ESP_OutlineColor"] = settings::ESP_OutlineColor;
 
 	// Array List
 	j["AL_Enabled"] = settings::AL_Enabled;
@@ -126,13 +128,6 @@ bool ConfigManager::JsonToSettings(const json& j)
 
 	// ESP
 	ConfigManager::GetJsonValue(j, settings::ESP_Enabled, "ESP_Enabled");
-	ConfigManager::GetJsonValue(j, settings::ESP_Box, "ESP_Box");
-	ConfigManager::GetJsonValue(j, settings::ESP_BoxColor, "ESP_BoxColor");
-	ConfigManager::GetJsonValue(j, settings::ESP_FilledBox, "ESP_FilledBox");
-	ConfigManager::GetJsonValue(j, settings::ESP_FilledBoxColor, "ESP_FilledBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ESP_SecondFilledBoxColor, "ESP_SecondFilledBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ESP_Outline, "ESP_Outline");
-	ConfigManager::GetJsonValue(j, settings::ESP_OutlineColor, "ESP_OutlineColor");
 	ConfigManager::GetJsonValue(j, settings::ESP_Text, "ESP_Text");
 	ConfigManager::GetJsonValue(j, settings::ESP_TextSize, "ESP_TextSize");
 	ConfigManager::GetJsonValue(j, settings::ESP_TextColor, "ESP_TextColor");
@@ -141,6 +136,15 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::ESP_TextUnrenderDistance, "ESP_TextUnrenderDistance");
 	ConfigManager::GetJsonValue(j, settings::ESP_FadeDistance, "ESP_FadeDistance");
 	ConfigManager::GetJsonValue(j, settings::ESP_HealthBar, "ESP_HealthBar");
+	ConfigManager::GetJsonValue(j, settings::ESP_BoxType, "ESP_BoxType");
+	ConfigManager::GetJsonValue(j, settings::ESP_3DBoxColor, "ESP_3DBoxColor");
+	ConfigManager::GetJsonValue(j, settings::ESP_Box, "ESP_Box");
+	ConfigManager::GetJsonValue(j, settings::ESP_BoxColor, "ESP_BoxColor");
+	ConfigManager::GetJsonValue(j, settings::ESP_FilledBox, "ESP_FilledBox");
+	ConfigManager::GetJsonValue(j, settings::ESP_FilledBoxColor, "ESP_FilledBoxColor");
+	ConfigManager::GetJsonValue(j, settings::ESP_SecondFilledBoxColor, "ESP_SecondFilledBoxColor");
+	ConfigManager::GetJsonValue(j, settings::ESP_Outline, "ESP_Outline");
+	ConfigManager::GetJsonValue(j, settings::ESP_OutlineColor, "ESP_OutlineColor");
 
 	// Array List
 	ConfigManager::GetJsonValue(j, settings::AL_Enabled, "AL_Enabled");

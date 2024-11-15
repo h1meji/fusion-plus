@@ -62,8 +62,9 @@ void Esp::Update()
 		Vector3 entityPos = entity.pos;
 		Vector3 entityLastPos = entity.lastPos;
 
-		float entityWidth = 0.7f;
-		float entityHeight = (float)(entity.height / 2) + 0.2f;
+		float entityWidth = settings::ESP_BoxType == 0 ? 0.7f : (float)(entity.width / 2);
+		float entityHeight = (float)(entity.height / 2);
+		entityHeight += settings::ESP_BoxType == 0 ? 0.2f : 0;
 
 		Vector3 diff = pos - entityPos;
 		float dist = sqrt(pow(diff.x, 2) + pow(diff.y, 2) + pow(diff.z, 2)); // Sqrt((x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2)
@@ -86,7 +87,7 @@ void Esp::Update()
 		Vector3 back{ (renderPos - Vector3{0, entityHeight, entityWidth}) - entityLastPos + (entityLastPos - entityPos) * renderPartialTicks }; // In the middle to the back
 		Vector3 front{ (renderPos - Vector3{0, entityHeight, -entityWidth}) - entityLastPos + (entityLastPos - entityPos) * renderPartialTicks }; // And in the middle to the front
 
-		entityWidth /= 1.388888;
+		entityWidth /= settings::ESP_BoxType == 0 ? 1.388888 : 1;
 		Vector3 left2{ (renderPos - Vector3{entityWidth, entityHeight, entityWidth}) - entityLastPos + (entityLastPos - entityPos) * renderPartialTicks }; // In the middle to the left
 		Vector3 right2{ (renderPos - Vector3{-entityWidth, entityHeight, -entityWidth}) - entityLastPos + (entityLastPos - entityPos) * renderPartialTicks }; // In the middle to the right
 		Vector3 back2{ (renderPos - Vector3{-entityWidth, entityHeight, entityWidth}) - entityLastPos + (entityLastPos - entityPos) * renderPartialTicks }; // In the middle to the back
@@ -99,6 +100,18 @@ void Esp::Update()
 		// of consuming a little bit of resources for a bit of math.
 		std::vector<Vector3> boxVerticies{
 			origin, top, left, right, back, front, left2, right2, back2, front2
+		};
+
+		std::vector<Vector3> boundingBoxVerticies{
+			Vector3{front2.x, top.y - .05f, front2.z},
+			Vector3{right2.x, top.y - .05f, right2.z},
+			Vector3{back2.x, top.y - .05f, back2.z},
+			Vector3{left2.x, top.y - .05f, left2.z},
+
+			Vector3{front2.x, origin.y - .15f, front2.z},
+			Vector3{right2.x, origin.y - .15f, right2.z},
+			Vector3{back2.x, origin.y - .15f, back2.z},
+			Vector3{left2.x, origin.y - .15f, left2.z},
 		};
 
 		// For when the player gets close to an entity, a fade factor; a value between 0 and 1, with basic math, can get a cool looking fade effect if the player is too close
@@ -121,6 +134,7 @@ void Esp::Update()
 			fadeFactor, // Fade factor
 			entity.health, // Entity health
 			entity.maxHealth, // And max health (for health bar)
+			boundingBoxVerticies,
 		});
 	}
 	renderData = newData;
@@ -133,32 +147,59 @@ void Esp::RenderUpdate()
 	for (Data data : renderData)
 	{
 		ImVec2 screenSize = ImGui::GetWindowSize();
-
-		std::vector<Vector3> bv = data.boxVerticies;
-
+		bool skip = false;
+		
 		float left = FLT_MAX;
 		float top = FLT_MAX;
 		float right = FLT_MIN;
 		float bottom = FLT_MIN;
-
-		bool skip = false;
-		for (Vector3 position : bv)
+		if (settings::ESP_BoxType == 0/* || settings::ESP_HealthBar || (settings::ESP_Text && Menu::Font->IsLoaded())*/)
 		{
-			Vector2 p;
+			std::vector<Vector3> bv = data.boxVerticies;
 
-			if (!CWorldToScreen::WorldToScreen(position, CommonData::modelView, CommonData::projection, (int)screenSize.x, (int)screenSize.y, p))
+			for (Vector3 position : bv)
 			{
-				skip = true;
-				break;
+				Vector2 p;
+
+				if (!CWorldToScreen::WorldToScreen(position, CommonData::modelView, CommonData::projection, (int)screenSize.x, (int)screenSize.y, p))
+				{
+					skip = true;
+					break;
+				}
+
+				//ImGui::GetWindowDrawList()->AddCircle(ImVec2(p.x, p.y), 3, ImColor(255, 0, 0), 100, 2);
+
+				// This is a neat trick to get the top left and bottom right corners of all the box verticies quickly.
+				left = fmin(p.x, left);
+				top = fmin(p.y, top);
+				right = fmax(p.x, right);
+				bottom = fmax(p.y, bottom);
 			}
+		}
 
-			//ImGui::GetWindowDrawList()->AddCircle(ImVec2(p.x, p.y), 3, ImColor(255, 0, 0), 100, 2);
+		std::vector<Vector2> boxCorners;
+		if (settings::ESP_BoxType == 1)
+		{
+			std::vector<Vector3> bb = data.boundingBoxVerticies;
 
-			// This is a neat trick to get the top left and bottom right corners of all the box verticies quickly.
-			left = fmin(p.x, left);
-			top = fmin(p.y, top);
-			right = fmax(p.x, right);
-			bottom = fmax(p.y, bottom);
+			for (Vector3 position : bb)
+			{
+				Vector2 p;
+
+				if (!CWorldToScreen::WorldToScreen(position, CommonData::modelView, CommonData::projection, (int)screenSize.x, (int)screenSize.y, p))
+				{
+					skip = true;
+					break;
+				}
+
+				boxCorners.push_back(p);
+
+				// This is a neat trick to get the top left and bottom right corners of all the box verticies quickly.
+				left = fmin(p.x, left);
+				top = fmin(p.y, top);
+				right = fmax(p.x, right);
+				bottom = fmax(p.y, bottom);
+			}
 		}
 
 		// This is for when the world to screen fails, we just want to ignore rendering the entire box completely.
@@ -168,23 +209,46 @@ void Esp::RenderUpdate()
 
 		// The rest is just rendering the ESP with the customizable options, self explanitory.
 
-		if (settings::ESP_FilledBox)
+		if (settings::ESP_BoxType == 0)
 		{
-			ImColor bottomColor = ImColor(settings::ESP_SecondFilledBoxColor[0], settings::ESP_SecondFilledBoxColor[1], settings::ESP_SecondFilledBoxColor[2], settings::ESP_SecondFilledBoxColor[3] * data.opacityFadeFactor);
-			ImColor topColor = ImColor(settings::ESP_FilledBoxColor[0], settings::ESP_FilledBoxColor[1], settings::ESP_FilledBoxColor[2], settings::ESP_FilledBoxColor[3] * data.opacityFadeFactor);
+			if (settings::ESP_FilledBox)
+			{
+				ImColor bottomColor = ImColor(settings::ESP_SecondFilledBoxColor[0], settings::ESP_SecondFilledBoxColor[1], settings::ESP_SecondFilledBoxColor[2], settings::ESP_SecondFilledBoxColor[3] * data.opacityFadeFactor);
+				ImColor topColor = ImColor(settings::ESP_FilledBoxColor[0], settings::ESP_FilledBoxColor[1], settings::ESP_FilledBoxColor[2], settings::ESP_FilledBoxColor[3] * data.opacityFadeFactor);
 
-			ImGui::GetWindowDrawList()->AddRectFilledMultiColor(ImVec2(left, top), ImVec2(right, bottom), topColor, topColor, bottomColor, bottomColor);
+				ImGui::GetWindowDrawList()->AddRectFilledMultiColor(ImVec2(left, top), ImVec2(right, bottom), topColor, topColor, bottomColor, bottomColor);
+			}
+
+			if (settings::ESP_Box)
+			{
+				ImGui::GetWindowDrawList()->AddRect(ImVec2(left, top), ImVec2(right, bottom), ImColor(settings::ESP_BoxColor[0], settings::ESP_BoxColor[1], settings::ESP_BoxColor[2], settings::ESP_BoxColor[3] * data.opacityFadeFactor));
+			}
+
+			if (settings::ESP_Outline)
+			{
+				ImGui::GetWindowDrawList()->AddRect(ImVec2(left - 1, top - 1), ImVec2(right + 1, bottom + 1), ImColor(settings::ESP_OutlineColor[0], settings::ESP_OutlineColor[1], settings::ESP_OutlineColor[2], settings::ESP_OutlineColor[3] * data.opacityFadeFactor));
+				ImGui::GetWindowDrawList()->AddRect(ImVec2(left + 1, top + 1), ImVec2(right - 1, bottom - 1), ImColor(settings::ESP_OutlineColor[0], settings::ESP_OutlineColor[1], settings::ESP_OutlineColor[2], settings::ESP_OutlineColor[3] * data.opacityFadeFactor));
+			}
 		}
 
-		if (settings::ESP_Box)
+		if (settings::ESP_BoxType == 1 && boxCorners.size() == 8)
 		{
-			ImGui::GetWindowDrawList()->AddRect(ImVec2(left, top), ImVec2(right, bottom), ImColor(settings::ESP_BoxColor[0], settings::ESP_BoxColor[1], settings::ESP_BoxColor[2], settings::ESP_BoxColor[3] * data.opacityFadeFactor));
-		}
+			// Draw lines for the box
+			ImColor color = ImColor(settings::ESP_3DBoxColor[0], settings::ESP_3DBoxColor[1], settings::ESP_3DBoxColor[2], settings::ESP_3DBoxColor[3] * data.opacityFadeFactor);
+			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[0].x, boxCorners[0].y), ImVec2(boxCorners[1].x, boxCorners[1].y), color, 1);
+			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[1].x, boxCorners[1].y), ImVec2(boxCorners[2].x, boxCorners[2].y), color, 1);
+			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[2].x, boxCorners[2].y), ImVec2(boxCorners[3].x, boxCorners[3].y), color, 1);
+			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[3].x, boxCorners[3].y), ImVec2(boxCorners[0].x, boxCorners[0].y), color, 1);
 
-		if (settings::ESP_Outline)
-		{
-			ImGui::GetWindowDrawList()->AddRect(ImVec2(left - 1, top - 1), ImVec2(right + 1, bottom + 1), ImColor(settings::ESP_OutlineColor[0], settings::ESP_OutlineColor[1], settings::ESP_OutlineColor[2], settings::ESP_OutlineColor[3] * data.opacityFadeFactor));
-			ImGui::GetWindowDrawList()->AddRect(ImVec2(left + 1, top + 1), ImVec2(right - 1, bottom - 1), ImColor(settings::ESP_OutlineColor[0], settings::ESP_OutlineColor[1], settings::ESP_OutlineColor[2], settings::ESP_OutlineColor[3] * data.opacityFadeFactor));
+			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[4].x, boxCorners[4].y), ImVec2(boxCorners[5].x, boxCorners[5].y), color, 1);
+			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[5].x, boxCorners[5].y), ImVec2(boxCorners[6].x, boxCorners[6].y), color, 1);
+			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[6].x, boxCorners[6].y), ImVec2(boxCorners[7].x, boxCorners[7].y), color, 1);
+			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[7].x, boxCorners[7].y), ImVec2(boxCorners[4].x, boxCorners[4].y), color, 1);
+
+			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[0].x, boxCorners[0].y), ImVec2(boxCorners[4].x, boxCorners[4].y), color, 1);
+			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[1].x, boxCorners[1].y), ImVec2(boxCorners[5].x, boxCorners[5].y), color, 1);
+			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[2].x, boxCorners[2].y), ImVec2(boxCorners[6].x, boxCorners[6].y), color, 1);
+			ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[3].x, boxCorners[3].y), ImVec2(boxCorners[7].x, boxCorners[7].y), color, 1);
 		}
 
 		if (settings::ESP_HealthBar)
@@ -275,23 +339,45 @@ void Esp::RenderMenu()
 			}
 			Menu::DoSliderStuff(34875, "Fade Distance", &settings::ESP_FadeDistance, 0, 10);
 
-			Menu::DoToggleButtonStuff(23453, "Show Box", &settings::ESP_Box);
-			if (settings::ESP_Box)
-			{
-				Menu::DoColorPickerStuff(45678, "Box Color", settings::ESP_BoxColor);
-			}
+			ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
+			ImGui::Text("Box Type");
+			ImGui::SameLine();
+			ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 208);
 
-			Menu::DoToggleButtonStuff(34566, "Show Filled Box", &settings::ESP_FilledBox);
-			if (settings::ESP_FilledBox)
-			{
-				Menu::DoColorPickerStuff(56789, "Filled Box Color", settings::ESP_FilledBoxColor);
-				Menu::DoColorPickerStuff(67890, "Second Filled Box Color", settings::ESP_SecondFilledBoxColor);
-			}
+			ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0.55, 0.55, 1));
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0.65, 0.65, 1));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0.8, 0.8, 1));
 
-			Menu::DoToggleButtonStuff(45677, "Show Outline", &settings::ESP_Outline);
-			if (settings::ESP_Outline)
+			ImGui::Combo("bt", &settings::ESP_BoxType, settings::ESP_BoxTypeList, 2);
+
+			ImGui::PopStyleColor(3);
+			ImGui::PopStyleVar();
+
+			if (settings::ESP_BoxType == 0)
 			{
-				Menu::DoColorPickerStuff(56788, "Outline Color", settings::ESP_OutlineColor);
+				Menu::DoToggleButtonStuff(23453, "Show Box", &settings::ESP_Box);
+				if (settings::ESP_Box)
+				{
+					Menu::DoColorPickerStuff(45678, "Box Color", settings::ESP_BoxColor);
+				}
+
+				Menu::DoToggleButtonStuff(34566, "Show Filled Box", &settings::ESP_FilledBox);
+				if (settings::ESP_FilledBox)
+				{
+					Menu::DoColorPickerStuff(56789, "Filled Box Color", settings::ESP_FilledBoxColor);
+					Menu::DoColorPickerStuff(67890, "Second Filled Box Color", settings::ESP_SecondFilledBoxColor);
+				}
+
+				Menu::DoToggleButtonStuff(45677, "Show Outline", &settings::ESP_Outline);
+				if (settings::ESP_Outline)
+				{
+					Menu::DoColorPickerStuff(56788, "Outline Color", settings::ESP_OutlineColor);
+				}
+			}
+			else if (settings::ESP_BoxType == 1)
+			{
+				Menu::DoColorPickerStuff(45678, "3D Box Color", settings::ESP_3DBoxColor);
 			}
 
 			ImGui::Spacing();
