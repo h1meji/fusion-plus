@@ -100,6 +100,8 @@ void RenderSettingsMenu()
 	ImGui::Spacing();
 
 	Menu::DoColorPickerStuff(3457284, "Menu Accent Color", settings::Menu_AccentColor);
+	
+	Menu::DoToggleButtonStuff(9837592, "Show Watermark", &settings::Menu_Watermark);
 }
 
 void Menu::RenderMenu()
