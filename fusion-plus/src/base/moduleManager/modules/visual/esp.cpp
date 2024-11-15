@@ -339,20 +339,7 @@ void Esp::RenderMenu()
 			}
 			Menu::DoSliderStuff(34875, "Fade Distance", &settings::ESP_FadeDistance, 0, 10);
 
-			ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
-			ImGui::Text("Box Type");
-			ImGui::SameLine();
-			ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 208);
-
-			ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0.55, 0.55, 1));
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0.65, 0.65, 1));
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0.8, 0.8, 1));
-
-			ImGui::Combo("bt", &settings::ESP_BoxType, settings::ESP_BoxTypeList, 2);
-
-			ImGui::PopStyleColor(3);
-			ImGui::PopStyleVar();
+			Menu::DoComboBoxStuff(309485, "Box Type", &settings::ESP_BoxType, settings::ESP_BoxTypeList, 2);
 
 			if (settings::ESP_BoxType == 0)
 			{

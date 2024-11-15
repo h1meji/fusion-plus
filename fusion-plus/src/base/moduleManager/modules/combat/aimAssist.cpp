@@ -253,20 +253,7 @@ void AimAssist::RenderMenu()
 			Menu::DoToggleButtonStuff(22645342, "Visbility Check", &settings::AA_visibilityCheck);
 			Menu::DoToggleButtonStuff(206573465433442, "Left Button To Aim", &settings::AA_aimKey);
 
-			ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
-			ImGui::Text("Target Priority");
-			ImGui::SameLine();
-			ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 170);
-
-			ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0.55, 0.55, 1));
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0.65, 0.65, 1));
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0.8, 0.8, 1));
-
-			ImGui::Combo("tp", &settings::AA_targetPriority, settings::AA_targetPriorityList, 3);
-
-			ImGui::PopStyleColor(3);
-			ImGui::PopStyleVar();
+			Menu::DoComboBoxStuff(987983, "Target Priority", &settings::AA_targetPriority, settings::AA_targetPriorityList, 3);
 
 			ImGui::Separator();
 

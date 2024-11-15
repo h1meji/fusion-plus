@@ -28,6 +28,7 @@ struct Menu
 	static void DoSliderStuff(int id, const char* text, float* bruh, float min, float max);
 	static void DoToggleButtonStuff(int id, const char* text, bool* bruh);
 	static void DoColorPickerStuff(int id, const char* text, float* color);
+	static void DoComboBoxStuff(int id, const char* text, int* bruh, const char* items[], int listSize);
 	static void GlitchText(const char* text, ImVec2 pos);
 
 	static void MoveCursorToCenter(bool checkInGame);

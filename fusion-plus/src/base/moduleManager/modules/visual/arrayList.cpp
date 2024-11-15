@@ -105,20 +105,7 @@ void ArrayList::RenderMenu()
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 			ImGui::Separator();
 
-			ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
-			ImGui::Text("Position");
-			ImGui::SameLine();
-			ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 208);
-
-			ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0.55, 0.55, 1));
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0.65, 0.65, 1));
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0.8, 0.8, 1));
-
-			ImGui::Combo("ap", &settings::AL_renderPosition, settings::AL_renderPositionList, 4);
-
-			ImGui::PopStyleColor(3);
-			ImGui::PopStyleVar();
+			Menu::DoComboBoxStuff(8237409, "Position", &settings::AL_renderPosition, settings::AL_renderPositionList, 4);
 
 			Menu::DoSliderStuff(5436523, "Text Size", &settings::AL_textSize, 10, 40);
 

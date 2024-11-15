@@ -62,7 +62,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - [ ] **Inventory Manager**: Automatically sorts the player's inventory
 
 ### Planned Module Changes
-- [ ] Diffrent styles for the ESP module (3D Box, 2D Box, etc.)
+- [x] Diffrent styles for the ESP module (3D Box, 2D Box, etc.)
 
 ### Notices
 - This cheat currently works on Lunar Client 1.8.9 only, but may be updated to support other versions in the future.
