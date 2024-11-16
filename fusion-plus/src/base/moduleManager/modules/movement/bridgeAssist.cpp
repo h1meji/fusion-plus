@@ -21,7 +21,7 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 {
 	bool isSneaking = (bool)GetAsyncKeyState(VK_SHIFT);
 
-	if (!settings::BA_Enabled || !CommonData::SanityCheck())
+	if (!settings::BA_Enabled || !CommonData::SanityCheck() || SDK::Minecraft->IsInGuiState())
 	{
 		if (!m_has_pressed_shift && isSneaking)
 			UnSneak();
@@ -75,18 +75,8 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 	auto diffY = player->GetPos().y - hitBlockPos.y;
 	diffY -= 1;
 
-	if (diffY != 0 && diffY <= settings::BA_BlockCheck)
-	{
-		UnSneak();
-		return;
-	}
-
 	static bool jumped = false;
-
-	m_prev = m_is_edge;
-	m_is_edge = false;
-
-	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	if (GetAsyncKeyState(VK_SPACE) & 1)
 	{
 		jumped = true;
 	}
@@ -96,10 +86,20 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 		UnSneak();
 
 		// check if we are back on ground or going down
-		if (player->GetMotion().y < -0.4f || diffY == 0.0f)
+		if (player->GetMotion().y < 0.0f || diffY <= 0.0f)
 			jumped = false;
 		return;
 	}
+
+	if (diffY != 0 && diffY <= settings::BA_BlockCheck)
+	{
+		UnSneak();
+		return;
+	}
+
+
+	m_prev = m_is_edge;
+	m_is_edge = false;
 
 	bool isFalling = std::abs(player->GetMotion().y) > 0.5f;
 
