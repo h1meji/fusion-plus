@@ -24,6 +24,9 @@ struct StrayCache {
 	inline static jfieldID entity_prevRotationYaw;
 	inline static jfieldID entity_prevRotationPitch;
 	inline static jfieldID entity_boundingBox;
+	inline static jfieldID entity_motionX;
+	inline static jfieldID entity_motionY;
+	inline static jfieldID entity_motionZ;
 
 	// ENTITY LIVING BASE CLASS
 	inline static jclass entityLivingBase_class;
@@ -79,6 +82,9 @@ struct StrayCache {
 		entity_prevRotationYaw = Java::Env->GetFieldID(entity_class, "prevRotationYaw", "F");
 		entity_prevRotationPitch = Java::Env->GetFieldID(entity_class, "prevRotationPitch", "F");
 		entity_boundingBox = Java::Env->GetFieldID(entity_class, "boundingBox", "Lnet/minecraft/util/AxisAlignedBB;");
+		entity_motionX = Java::Env->GetFieldID(entity_class, "motionX", "D");
+		entity_motionY = Java::Env->GetFieldID(entity_class, "motionY", "D");
+		entity_motionZ = Java::Env->GetFieldID(entity_class, "motionZ", "D");
 
 		Java::AssignClass("net.minecraft.entity.EntityLivingBase", entityLivingBase_class);
 		entityLivingBase_getHealth = Java::Env->GetMethodID(entityLivingBase_class, "getHealth", "()F");

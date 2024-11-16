@@ -60,6 +60,15 @@ Vector3 CEntity::GetLastTickPos()
 	};
 }
 
+Vector3 CEntity::GetMotion()
+{
+	return Vector3{
+		(float)(double)Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_motionX),
+		(float)(double)Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_motionY),
+		(float)(double)Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_motionZ)
+	};
+}
+
 bool CEntity::IsSneaking()
 {
 	return Java::Env->CallBooleanMethod(this->GetInstance(), StrayCache::entity_isSneaking);
