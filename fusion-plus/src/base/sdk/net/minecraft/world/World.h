@@ -15,6 +15,6 @@ struct CWorld : IClass
 
 	std::vector<CEntityPlayer> GetPlayerList();
 
-	Vector3 rayTraceBlocks(Vector3 from, Vector3 to, bool stopOnLiquid, bool ignoreBlockWithoutBoundingBox, bool returnLastUncollidableBlock);
+	bool rayTraceBlocks(Vector3 from, Vector3 to, Vector3& result, bool stopOnLiquid, bool ignoreBlockWithoutBoundingBox, bool returnLastUncollidableBlock);
 };
 

@@ -48,7 +48,7 @@ std::vector<CEntityPlayer> CWorld::GetPlayerList()
 	return finalList;
 }
 
-Vector3 CWorld::rayTraceBlocks(Vector3 from, Vector3 to, bool stopOnLiquid, bool ignoreBlockWithoutBoundingBox, bool returnLastUncollidableBlock)
+bool CWorld::rayTraceBlocks(Vector3 from, Vector3 to, Vector3& result, bool stopOnLiquid, bool ignoreBlockWithoutBoundingBox, bool returnLastUncollidableBlock)
 {
 	// SPECIAL CASE
 	jclass cls;
@@ -71,14 +71,14 @@ Vector3 CWorld::rayTraceBlocks(Vector3 from, Vector3 to, bool stopOnLiquid, bool
 		Java::Env->DeleteLocalRef(j_to);
 		Java::Env->DeleteLocalRef(j_from);
 		Java::Env->DeleteLocalRef(cls);
-		return Vector3(0,0,0);
+		return false;
 	}
 
 	CMovingObjectPosition movingObjPos = CMovingObjectPosition(movingObjPos_j);
 	CVec3 a = movingObjPos.GetBlockPosition();
-	Vector3 blockPos = a.GetNativeVector3();
+	result = a.GetNativeVector3();
 	Java::Env->DeleteLocalRef(j_to);
 	Java::Env->DeleteLocalRef(j_from);
 	Java::Env->DeleteLocalRef(cls);
-	return blockPos;
+	return true;
 }
