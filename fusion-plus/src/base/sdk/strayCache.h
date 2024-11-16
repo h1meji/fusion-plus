@@ -27,6 +27,7 @@ struct StrayCache {
 	inline static jfieldID entity_motionX;
 	inline static jfieldID entity_motionY;
 	inline static jfieldID entity_motionZ;
+	inline static jfieldID entity_hurtResistantTime;
 
 	// ENTITY LIVING BASE CLASS
 	inline static jclass entityLivingBase_class;
@@ -85,6 +86,7 @@ struct StrayCache {
 		entity_motionX = Java::Env->GetFieldID(entity_class, "motionX", "D");
 		entity_motionY = Java::Env->GetFieldID(entity_class, "motionY", "D");
 		entity_motionZ = Java::Env->GetFieldID(entity_class, "motionZ", "D");
+		entity_hurtResistantTime = Java::Env->GetFieldID(entity_class, "hurtResistantTime", "I");
 
 		Java::AssignClass("net.minecraft.entity.EntityLivingBase", entityLivingBase_class);
 		entityLivingBase_getHealth = Java::Env->GetMethodID(entityLivingBase_class, "getHealth", "()F");

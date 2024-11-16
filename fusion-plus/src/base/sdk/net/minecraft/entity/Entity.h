@@ -42,4 +42,6 @@ struct CEntity : IClass
 
 	CAxisAlignedBB GetBB();
 	void SetBB(BoundingBox bb);
+
+	int GetHurtResistantTime();
 };

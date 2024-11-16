@@ -141,3 +141,8 @@ void CEntity::SetBB(BoundingBox bb)
 {
 	this->GetBB().SetBoundingBox(bb);
 }
+
+int CEntity::GetHurtResistantTime()
+{
+	return Java::Env->GetIntField(this->GetInstance(), StrayCache::entity_hurtResistantTime);
+}
