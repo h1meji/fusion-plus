@@ -13,7 +13,7 @@
 
 void ArrayList::RenderUpdate()
 {
-	if (!settings::ESP_Enabled) return;
+	if (!settings::AL_Enabled) return;
 
 	std::vector<std::string> enabledModules;
 
