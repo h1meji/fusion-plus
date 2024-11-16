@@ -121,6 +121,12 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["RAC_rightMinCps"] = settings::RAC_rightMinCps;
 	j["RAC_blocksOnly"] = settings::RAC_blocksOnly;
 
+	// Bridge Assist
+	j["BA_Enabled"] = settings::BA_Enabled;
+	j["BA_OnlyOnShift"] = settings::BA_OnlyOnShift;
+	j["BA_PitchCheck"] = settings::BA_PitchCheck;
+	j["BA_BlockCheck"] = settings::BA_BlockCheck;
+
 	return true;
 }
 
@@ -192,6 +198,12 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::RAC_rightMaxCps, "RAC_rightMaxCps");
 	ConfigManager::GetJsonValue(j, settings::RAC_rightMinCps, "RAC_rightMinCps");
 	ConfigManager::GetJsonValue(j, settings::RAC_blocksOnly, "RAC_blocksOnly");
+
+	// Bridge Assist
+	ConfigManager::GetJsonValue(j, settings::BA_Enabled, "BA_Enabled");
+	ConfigManager::GetJsonValue(j, settings::BA_OnlyOnShift, "BA_OnlyOnShift");
+	ConfigManager::GetJsonValue(j, settings::BA_PitchCheck, "BA_PitchCheck");
+	ConfigManager::GetJsonValue(j, settings::BA_BlockCheck, "BA_BlockCheck");
 
 	return true;
 }

@@ -72,4 +72,10 @@ struct settings {
 	inline static float RAC_rightMaxCps = 15;
 	inline static float RAC_rightMinCps = 12;
 	inline static bool RAC_blocksOnly = true;
+
+	// Bridge Assist
+	inline static bool BA_Enabled = false;
+	inline static bool BA_OnlyOnShift = true;
+	inline static float BA_PitchCheck = 61.0f;
+	inline static int BA_BlockCheck = 1;
 };

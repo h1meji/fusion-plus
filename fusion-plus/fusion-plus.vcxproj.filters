@@ -240,6 +240,12 @@
     <ClInclude Include="src\base\moduleManager\modules\visual\arrayList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\base\moduleManager\modules\movement\bridgeAssist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\sdk\net\minecraft\item\Item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -405,6 +411,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\moduleManager\modules\visual\arrayList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\moduleManager\modules\movement\bridgeAssist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\sdk\net\minecraft\item\Item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

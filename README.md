@@ -18,6 +18,8 @@ This project is based on the original **Fusion** by [deity]() and [deadshell](ht
 - **Clicker**
   - **Left Auto Clicker**: Automatically clicks the left mouse button
   - **Right Auto Clicker**: Automatically clicks the right mouse button
+- **Movement**
+  - **Bridge Assist**: Automatically shifts the player at the edge of blocks while bridging.
 
 ### Features
 - **Internal GUI**: Press `Insert` to open the internal GUI
@@ -55,7 +57,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - [ ] **BlockESP**: Displays blocks selected in the world
 - [ ] **Chest Stealer**: Automatically steals items from chests
 - [ ] **W-Tap**: Automatically W-taps for the user.
-- [ ] **Bridge Assist**: Automatically ninja bridges for the user (without block placement).
+- [x] **Bridge Assist**: Automatically shifts the player at the edge of blocks while bridging.
 - [ ] **Radar**: Displays a radar of nearby players
 - [ ] **Velocity**: Reduces knockback taken by the player
 - [ ] **Restock**: Automatically restocks the player's hotbar

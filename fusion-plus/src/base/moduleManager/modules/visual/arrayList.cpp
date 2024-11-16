@@ -10,6 +10,7 @@
 #include "moduleManager/modules/combat/reach.h"
 #include "moduleManager/modules/clicker/leftAutoClicker.h"
 #include "moduleManager/modules/clicker/rightAutoClicker.h"
+#include "moduleManager/modules/movement/bridgeAssist.h"
 
 void ArrayList::RenderUpdate()
 {
@@ -22,6 +23,7 @@ void ArrayList::RenderUpdate()
 	if (Reach().IsEnabled()) enabledModules.push_back(Reach().GetName());
 	if (LeftAutoClicker().IsEnabled()) enabledModules.push_back(LeftAutoClicker().GetName());
 	if (RightAutoClicker().IsEnabled()) enabledModules.push_back(RightAutoClicker().GetName());
+	if (BridgeAssist().IsEnabled()) enabledModules.push_back(BridgeAssist().GetName());
 
 	// sort string length
 	std::sort(enabledModules.begin(), enabledModules.end(), [](const std::string& a, const std::string& b) { return a.size() > b.size(); });

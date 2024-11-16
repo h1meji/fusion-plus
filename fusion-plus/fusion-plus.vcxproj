@@ -161,10 +161,12 @@
     <ClInclude Include="src\base\configManager\configManager.h" />
     <ClInclude Include="src\base\moduleManager\moduleBase.h" />
     <ClInclude Include="src\base\configManager\settings.h" />
+    <ClInclude Include="src\base\moduleManager\modules\movement\bridgeAssist.h" />
     <ClInclude Include="src\base\moduleManager\modules\visual\arrayList.h" />
     <ClInclude Include="src\base\patcher\data.h" />
     <ClInclude Include="src\base\patcher\miniz.h" />
     <ClInclude Include="src\base\patcher\patcher.h" />
+    <ClInclude Include="src\base\sdk\net\minecraft\item\Item.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\item\ItemStack.h" />
     <ClInclude Include="src\base\moduleManager\modules\clicker\rightAutoClicker.h" />
     <ClInclude Include="src\base\moduleManager\modules\clicker\leftAutoClicker.h" />
@@ -234,9 +236,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\base\configManager\configManager.cpp" />
+    <ClCompile Include="src\base\moduleManager\modules\movement\bridgeAssist.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\visual\arrayList.cpp" />
     <ClCompile Include="src\base\patcher\miniz.c" />
     <ClCompile Include="src\base\patcher\patcher.cpp" />
+    <ClCompile Include="src\base\sdk\net\minecraft\item\Item.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\item\ItemStack.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\clicker\rightAutoClicker.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\clicker\leftAutoClicker.cpp" />
