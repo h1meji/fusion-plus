@@ -2,6 +2,7 @@
 
 #include "java/java.h"
 #include "sdk/strayCache.h"
+#include <iostream>
 
 CMovingObjectPosition::CMovingObjectPosition()
 {
@@ -42,4 +43,12 @@ bool CMovingObjectPosition::IsTypeOfBlock()
 	if (!object) return false;
 
 	return Java::Env->IsSameObject(object, typeOfHit);
+}
+
+CEntity CMovingObjectPosition::GetEntityHit()
+{
+	jobject typeOfHit = Java::Env->GetObjectField(this->GetInstance(), StrayCache::movingObjectPosition_typeOfHit);
+	if (!typeOfHit) return CEntity();
+
+	return CEntity(Java::Env->GetObjectField(this->GetInstance(), StrayCache::movingObjectPosition_entityHit));
 }

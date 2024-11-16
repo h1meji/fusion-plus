@@ -1,6 +1,7 @@
 #pragma once
 #include "sdk/java/IClass.h"
 #include "Vec3.h"
+#include <sdk/net/minecraft/entity/Entity.h>
 
 struct CMovingObjectPosition : IClass
 {
@@ -12,5 +13,6 @@ struct CMovingObjectPosition : IClass
 
 	CVec3 GetBlockPosition();
 	bool IsTypeOfBlock();
+	CEntity GetEntityHit();
 };
 

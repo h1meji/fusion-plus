@@ -49,6 +49,7 @@ struct StrayCache {
 	inline static jclass movingObjectPosition_class;
 	inline static jfieldID movingObjectPosition_hitVec;
 	inline static jfieldID movingObjectPosition_typeOfHit;
+	inline static jfieldID movingObjectPosition_entityHit;
 
 	inline static jclass vec3_class;
 	inline static jfieldID vec3_xCoord;
@@ -104,6 +105,7 @@ struct StrayCache {
 		Java::AssignClass("net.minecraft.util.MovingObjectPosition", movingObjectPosition_class);
 		movingObjectPosition_hitVec = Java::Env->GetFieldID(movingObjectPosition_class, "hitVec", "Lnet/minecraft/util/Vec3;");
 		movingObjectPosition_typeOfHit = Java::Env->GetFieldID(movingObjectPosition_class, "typeOfHit", "Lnet/minecraft/util/MovingObjectPosition$MovingObjectType;");
+		movingObjectPosition_entityHit = Java::Env->GetFieldID(movingObjectPosition_class, "entityHit", "Lnet/minecraft/entity/Entity;");
 
 		Java::AssignClass("net.minecraft.util.Vec3", vec3_class);
 		vec3_xCoord = Java::Env->GetFieldID(vec3_class, "xCoord", "D");
