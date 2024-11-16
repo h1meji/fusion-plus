@@ -83,6 +83,35 @@ void Menu::DoSliderStuff(int id, const char* text, float* bruh, float min, float
 	ImGui::PopStyleColor();
 }
 
+void Menu::DoSliderStuff(int id, const char* text, int* bruh, int min, int max)
+{
+	ImVec2 textSize = Menu::Font->CalcTextSizeA(Menu::Font->FontSize, FLT_MAX, 0.0f, text);
+
+	// change the line color
+	ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(settings::Menu_AccentColor[0] * 0.85, settings::Menu_AccentColor[1] * 0.85, settings::Menu_AccentColor[2] * 0.85, settings::Menu_AccentColor[3]));
+	ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
+
+	ImGui::PushID(id);
+	ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
+	ImGui::Text(text);
+	ImGui::SameLine();
+	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 230 - textSize.x - 20);
+	ImGui::SliderInt("", bruh, min, max);
+	ImGui::SameLine();
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
+	ImGui::PopID();
+
+	ImGui::PushID(id - 9);
+	ImGui::InputInt("", bruh, 0);
+	ImGui::PopStyleVar();
+	ImGui::PopID();
+
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5);
+
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+}
+
 void Menu::DoToggleButtonStuff(int id, const char* text, bool* bruh) {
 	ImVec2 textSize = Menu::Font->CalcTextSizeA(Menu::Font->FontSize, FLT_MAX, 0.0f, text);
 

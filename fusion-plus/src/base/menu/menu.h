@@ -26,6 +26,7 @@ struct Menu
 	static void ToggleButton(const char* format, bool* value);
 	static bool TabButton(const char* format, ImVec4 color);
 	static void DoSliderStuff(int id, const char* text, float* bruh, float min, float max);
+	static void DoSliderStuff(int id, const char* text, int* bruh, int min, int max);
 	static void DoToggleButtonStuff(int id, const char* text, bool* bruh);
 	static void DoColorPickerStuff(int id, const char* text, float* color);
 	static void DoComboBoxStuff(int id, const char* text, int* bruh, const char* items[], int listSize);
