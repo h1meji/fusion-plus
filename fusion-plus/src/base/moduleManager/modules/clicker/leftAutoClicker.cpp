@@ -12,10 +12,22 @@ int nextCps = 10;
 
 void LeftAutoClicker::Update()
 {
+	static bool fix = false;
 	if (!settings::LAC_Enabled) return;
 	if (Menu::Open) return;
 	if (SDK::Minecraft->IsInGuiState()) return;
-	if (settings::LAC_ignoreBlocks && SDK::Minecraft->GetMouseOver().IsTypeOfBlock()) return;
+	if (settings::LAC_ignoreBlocks && SDK::Minecraft->GetMouseOver().IsTypeOfBlock())
+	{
+		if ((GetAsyncKeyState(VK_LBUTTON) && 1) && !fix) // fixes the issue where the autoclicker would not break blocks when already holding the mouse button
+		{
+			POINT pos_cursor;
+			GetCursorPos(&pos_cursor);
+			SendMessage(Menu::HandleWindow, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(pos_cursor.x, pos_cursor.y));
+			fix = true;
+		}
+		return;
+	}
+	fix = false;
 
 	long milli = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 	if (lastClickTime == 0) lastClickTime = milli;
