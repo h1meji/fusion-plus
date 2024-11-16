@@ -161,6 +161,7 @@
     <ClInclude Include="src\base\configManager\configManager.h" />
     <ClInclude Include="src\base\moduleManager\moduleBase.h" />
     <ClInclude Include="src\base\configManager\settings.h" />
+    <ClInclude Include="src\base\moduleManager\modules\combat\wTap.h" />
     <ClInclude Include="src\base\moduleManager\modules\movement\bridgeAssist.h" />
     <ClInclude Include="src\base\moduleManager\modules\visual\arrayList.h" />
     <ClInclude Include="src\base\patcher\data.h" />
@@ -236,6 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\base\configManager\configManager.cpp" />
+    <ClCompile Include="src\base\moduleManager\modules\combat\wTap.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\movement\bridgeAssist.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\visual\arrayList.cpp" />
     <ClCompile Include="src\base\patcher\miniz.c" />

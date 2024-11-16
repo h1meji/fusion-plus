@@ -8,6 +8,7 @@
 #include "moduleManager/modules/visual/esp.h"
 #include "moduleManager/modules/combat/aimAssist.h"
 #include "moduleManager/modules/combat/reach.h"
+#include "moduleManager/modules/combat/wTap.h"
 #include "moduleManager/modules/clicker/leftAutoClicker.h"
 #include "moduleManager/modules/clicker/rightAutoClicker.h"
 #include "moduleManager/modules/movement/bridgeAssist.h"
@@ -21,6 +22,7 @@ void ArrayList::RenderUpdate()
 	if (Esp().IsEnabled()) enabledModules.push_back(Esp().GetName());
 	if (AimAssist().IsEnabled()) enabledModules.push_back(AimAssist().GetName());
 	if (Reach().IsEnabled()) enabledModules.push_back(Reach().GetName());
+	if (WTap().IsEnabled()) enabledModules.push_back(WTap().GetName());
 	if (LeftAutoClicker().IsEnabled()) enabledModules.push_back(LeftAutoClicker().GetName());
 	if (RightAutoClicker().IsEnabled()) enabledModules.push_back(RightAutoClicker().GetName());
 	if (BridgeAssist().IsEnabled()) enabledModules.push_back(BridgeAssist().GetName());

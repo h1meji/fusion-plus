@@ -109,6 +109,11 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["Reach_Enabled"] = settings::Reach_Enabled;
 	j["Reach_ReachDistance"] = settings::Reach_ReachDistance;
 
+	// WTap
+	j["WTap_Enabled"] = settings::WTap_Enabled;
+	j["WTap_DelayBetween"] = settings::WTap_DelayBetween;
+	j["WTap_LetGoDelay"] = settings::WTap_LetGoDelay;
+
 	// Left Auto Clicker
 	j["LAC_Enabled"] = settings::LAC_Enabled;
 	j["LAC_leftMaxCps"] = settings::LAC_leftMaxCps;
@@ -186,6 +191,11 @@ bool ConfigManager::JsonToSettings(const json& j)
 	// Reach
 	ConfigManager::GetJsonValue(j, settings::Reach_Enabled, "Reach_Enabled");
 	ConfigManager::GetJsonValue(j, settings::Reach_ReachDistance, "Reach_ReachDistance");
+
+	// WTap
+	ConfigManager::GetJsonValue(j, settings::WTap_Enabled, "WTap_Enabled");
+	ConfigManager::GetJsonValue(j, settings::WTap_DelayBetween, "WTap_DelayBetween");
+	ConfigManager::GetJsonValue(j, settings::WTap_LetGoDelay, "WTap_LetGoDelay");
 
 	// Left Auto Clicker
 	ConfigManager::GetJsonValue(j, settings::LAC_Enabled, "LAC_Enabled");

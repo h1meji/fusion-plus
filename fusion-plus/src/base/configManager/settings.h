@@ -61,6 +61,11 @@ struct settings {
 	inline static bool Reach_Enabled = false;
 	inline static float Reach_ReachDistance = 3.0f;
 
+	// WTap
+	inline static bool WTap_Enabled = false;
+	inline static int WTap_DelayBetween = 50;
+	inline static int WTap_LetGoDelay = 10;
+
 	// Left Auto Clicker
 	inline static bool LAC_Enabled = false;
 	inline static float LAC_leftMaxCps = 18;

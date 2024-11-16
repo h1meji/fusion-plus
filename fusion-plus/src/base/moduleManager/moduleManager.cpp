@@ -4,6 +4,7 @@
 #include "modules/visual/arrayList.h"
 #include "modules/combat/aimAssist.h"
 #include "modules/combat/reach.h"
+#include "modules/combat/wTap.h"
 #include "modules/clicker/leftAutoClicker.h"
 #include "modules/clicker/rightAutoClicker.h"
 #include "modules/movement/bridgeAssist.h"
@@ -15,6 +16,7 @@ void ModuleManager::Init()
 	modules.push_back(std::make_unique<ArrayList>());
 	modules.push_back(std::make_unique<AimAssist>());
 	modules.push_back(std::make_unique<Reach>());
+	modules.push_back(std::make_unique<WTap>());
 	modules.push_back(std::make_unique<LeftAutoClicker>());
 	modules.push_back(std::make_unique<RightAutoClicker>());
 	modules.push_back(std::make_unique<BridgeAssist>());
