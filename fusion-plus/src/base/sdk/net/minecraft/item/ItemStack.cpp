@@ -22,7 +22,7 @@ jobject CItemStack::GetInstance()
 	return this->Instance;
 }
 
-jobject CItemStack::GetItem()
+CItem CItemStack::GetItem()
 {
-	return Java::Env->CallObjectMethod(this->GetInstance(), StrayCache::itemStack_getItem);
+	return CItem(Java::Env->CallObjectMethod(this->GetInstance(), StrayCache::itemStack_getItem));
 }

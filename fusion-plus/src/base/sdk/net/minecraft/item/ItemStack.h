@@ -1,6 +1,8 @@
 #pragma once
 #include "sdk/java/IClass.h"
 
+#include "Item.h"
+
 struct CItemStack : IClass
 {
 	CItemStack();
@@ -10,5 +12,5 @@ struct CItemStack : IClass
 	jclass GetClass();
 	jobject GetInstance();
 
-	jobject GetItem();
+	CItem GetItem();
 };

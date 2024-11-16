@@ -19,7 +19,7 @@ void RightAutoClicker::Update()
 	jclass blockClass;
 	Java::AssignClass("net.minecraft.item.ItemBlock", blockClass);
 	if (SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem().GetInstance() == NULL) return;
-	if (settings::RAC_blocksOnly && !Java::Env->IsInstanceOf(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem().GetItem(), blockClass)) return;
+	if (settings::RAC_blocksOnly && SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem().GetItem().GetUnlocalizedName().find("tile") == std::string::npos) return;
 	if (GetAsyncKeyState(VK_RBUTTON) && 0) return; // maybe fix the right click bug with this
 
 	long milli = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();

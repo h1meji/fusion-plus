@@ -57,6 +57,9 @@ struct StrayCache {
 	inline static jclass itemStack_class;
 	inline static jmethodID itemStack_getItem;
 
+	inline static jclass item_class;
+	inline static jmethodID item_getUnlocalizedName;
+
 	static void Initialize() {
 		Java::AssignClass("net.minecraft.entity.Entity", entity_class);
 		entity_getName = Java::Env->GetMethodID(entity_class, "getName", "()Ljava/lang/String;");
@@ -104,6 +107,9 @@ struct StrayCache {
 
 		Java::AssignClass("net.minecraft.item.ItemStack", itemStack_class);
 		itemStack_getItem = Java::Env->GetMethodID(itemStack_class, "getItem", "()Lnet/minecraft/item/Item;");
+
+		Java::AssignClass("net.minecraft.item.Item", item_class);
+		item_getUnlocalizedName = Java::Env->GetMethodID(item_class, "getUnlocalizedName", "()Ljava/lang/String;");
 
 		initialized = true;
 	}
