@@ -396,8 +396,8 @@ void Esp::RenderMenu()
 			ImGui::Spacing();
 		}
 
-		ImGui::EndChild();
 	}
+	ImGui::EndChild();
 	ImGui::PopStyleVar();
 	ImGui::PopStyleColor();
 	ImGui::EndGroup();

@@ -62,8 +62,8 @@ void Reach::RenderMenu()
 			Menu::DoSliderStuff(560117, "Reach Distance", &settings::Reach_ReachDistance, 0, 4);
 			ImGui::Spacing();
 		}
-		ImGui::EndChild();
 	}
+	ImGui::EndChild();
 	ImGui::PopStyleVar();
 	ImGui::PopStyleColor();
 

@@ -153,8 +153,8 @@ void BridgeAssist::RenderMenu()
 
 			ImGui::Spacing();
 		}
-		ImGui::EndChild();
 	}
+	ImGui::EndChild();
 	ImGui::PopStyleVar();
 	ImGui::PopStyleColor();
 }
