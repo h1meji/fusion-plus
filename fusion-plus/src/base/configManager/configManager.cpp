@@ -88,6 +88,18 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["AL_backgroundPadding"] = settings::AL_backgroundPadding;
 	j["AL_backgroundColor"] = settings::AL_backgroundColor;
 
+	// Radar
+	j["Radar_Enabled"] = settings::Radar_Enabled;
+	j["Radar_Radius"] = settings::Radar_Radius;
+	j["Radar_RotateWithPlayer"] = settings::Radar_RotateWithPlayer;
+	j["Radar_ShowNames"] = settings::Radar_ShowNames;
+	j["Radar_Size"] = settings::Radar_Size;
+	j["Radar_Square"] = settings::Radar_Square;
+	j["Radar_Position"] = settings::Radar_Position;
+	j["Radar_LocalPlayerColor"] = settings::Radar_LocalPlayerColor;
+	j["Radar_PlayerColor"] = settings::Radar_PlayerColor;
+	j["Radar_BackgroundColor"] = settings::Radar_BackgroundColor;
+
 	// Aim Assist
 	j["AA_Enabled"] = settings::AA_Enabled;
 	j["AA_visibilityCheck"] = settings::AA_visibilityCheck;
@@ -170,6 +182,18 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::AL_textColor, "AL_textColor");
 	ConfigManager::GetJsonValue(j, settings::AL_backgroundPadding, "AL_backgroundPadding");
 	ConfigManager::GetJsonValue(j, settings::AL_backgroundColor, "AL_backgroundColor");
+
+	// Radar
+	ConfigManager::GetJsonValue(j, settings::Radar_Enabled, "Radar_Enabled");
+	ConfigManager::GetJsonValue(j, settings::Radar_Radius, "Radar_Radius");
+	ConfigManager::GetJsonValue(j, settings::Radar_RotateWithPlayer, "Radar_RotateWithPlayer");
+	ConfigManager::GetJsonValue(j, settings::Radar_ShowNames, "Radar_ShowNames");
+	ConfigManager::GetJsonValue(j, settings::Radar_Size, "Radar_Size");
+	ConfigManager::GetJsonValue(j, settings::Radar_Square, "Radar_Square");
+	ConfigManager::GetJsonValue(j, settings::Radar_Position, "Radar_Position");
+	ConfigManager::GetJsonValue(j, settings::Radar_LocalPlayerColor, "Radar_LocalPlayerColor");
+	ConfigManager::GetJsonValue(j, settings::Radar_PlayerColor, "Radar_PlayerColor");
+	ConfigManager::GetJsonValue(j, settings::Radar_BackgroundColor, "Radar_BackgroundColor");
 
 	// Aim Assist
 	ConfigManager::GetJsonValue(j, settings::AA_Enabled, "AA_Enabled");

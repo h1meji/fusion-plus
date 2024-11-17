@@ -164,6 +164,7 @@
     <ClInclude Include="src\base\moduleManager\modules\combat\wTap.h" />
     <ClInclude Include="src\base\moduleManager\modules\movement\bridgeAssist.h" />
     <ClInclude Include="src\base\moduleManager\modules\visual\arrayList.h" />
+    <ClInclude Include="src\base\moduleManager\modules\visual\radar.h" />
     <ClInclude Include="src\base\patcher\data.h" />
     <ClInclude Include="src\base\patcher\miniz.h" />
     <ClInclude Include="src\base\patcher\patcher.h" />
@@ -240,6 +241,7 @@
     <ClCompile Include="src\base\moduleManager\modules\combat\wTap.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\movement\bridgeAssist.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\visual\arrayList.cpp" />
+    <ClCompile Include="src\base\moduleManager\modules\visual\radar.cpp" />
     <ClCompile Include="src\base\patcher\miniz.c" />
     <ClCompile Include="src\base\patcher\patcher.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\item\Item.cpp" />

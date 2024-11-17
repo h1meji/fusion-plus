@@ -39,6 +39,18 @@ struct settings {
 	inline static float AL_backgroundPadding = 5;
 	inline static float AL_backgroundColor[4]{ 0, 0, 0, 0.5 };
 
+	// Radar
+	inline static bool Radar_Enabled = false;
+	inline static float Radar_Radius = 50.0f;
+	inline static bool Radar_RotateWithPlayer = true;
+	inline static bool Radar_ShowNames = false;
+	inline static float Radar_Size = 200.0f;
+	inline static bool Radar_Square = true;
+	inline static float Radar_Position[2]{ 10, 10 };
+	inline static float Radar_LocalPlayerColor[4]{ 1, 0.5, 0, 1 };
+	inline static float Radar_PlayerColor[4]{ 1, 1, 1, 1 };
+	inline static float Radar_BackgroundColor[4]{ 0, 0, 0, 0.5 };
+
 	// Aim Assist
 	inline static bool AA_Enabled = false;
 	inline static bool AA_visibilityCheck = true;

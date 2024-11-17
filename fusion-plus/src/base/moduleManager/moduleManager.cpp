@@ -2,6 +2,7 @@
 
 #include "modules/visual/esp.h"
 #include "modules/visual/arrayList.h"
+#include "modules/visual/radar.h"
 #include "modules/combat/aimAssist.h"
 #include "modules/combat/reach.h"
 #include "modules/combat/wTap.h"
@@ -14,6 +15,7 @@ void ModuleManager::Init()
 {
 	modules.push_back(std::make_unique<Esp>());
 	modules.push_back(std::make_unique<ArrayList>());
+	modules.push_back(std::make_unique<Radar>());
 	modules.push_back(std::make_unique<AimAssist>());
 	modules.push_back(std::make_unique<Reach>());
 	modules.push_back(std::make_unique<WTap>());
@@ -24,8 +26,6 @@ void ModuleManager::Init()
 
 void ModuleManager::UpdateModules()
 {
-	if (!CommonData::SanityCheck()) return;
-
 	CommonData::UpdateData();
 
 	for (auto& module : modules)

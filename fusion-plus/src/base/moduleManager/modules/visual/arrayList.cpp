@@ -5,7 +5,8 @@
 #include "moduleManager/commonData.h"
 
 // Modules
-#include "moduleManager/modules/visual/esp.h"
+#include "esp.h"
+#include "radar.h"
 #include "moduleManager/modules/combat/aimAssist.h"
 #include "moduleManager/modules/combat/reach.h"
 #include "moduleManager/modules/combat/wTap.h"
@@ -20,6 +21,7 @@ void ArrayList::RenderUpdate()
 	std::vector<std::string> enabledModules;
 
 	if (Esp().IsEnabled()) enabledModules.push_back(Esp().GetName());
+	if (Radar().IsEnabled()) enabledModules.push_back(Radar().GetName());
 	if (AimAssist().IsEnabled()) enabledModules.push_back(AimAssist().GetName());
 	if (Reach().IsEnabled()) enabledModules.push_back(Reach().GetName());
 	if (WTap().IsEnabled()) enabledModules.push_back(WTap().GetName());
