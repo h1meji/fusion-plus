@@ -51,6 +51,10 @@ struct settings {
 	inline static float Radar_PlayerColor[4]{ 1, 1, 1, 1 };
 	inline static float Radar_BackgroundColor[4]{ 0, 0, 0, 0.5 };
 
+	// Block ESP
+	inline static bool BlockESP_Enabled = false;
+	inline static int BlockESP_TargetID = 35;
+
 	// Aim Assist
 	inline static bool AA_Enabled = false;
 	inline static bool AA_visibilityCheck = true;

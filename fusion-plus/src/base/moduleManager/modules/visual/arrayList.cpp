@@ -7,6 +7,7 @@
 // Modules
 #include "esp.h"
 #include "radar.h"
+#include "blockEsp.h"
 #include "moduleManager/modules/combat/aimAssist.h"
 #include "moduleManager/modules/combat/reach.h"
 #include "moduleManager/modules/combat/wTap.h"
@@ -22,6 +23,7 @@ void ArrayList::RenderUpdate()
 
 	if (Esp().IsEnabled()) enabledModules.push_back(Esp().GetName());
 	if (Radar().IsEnabled()) enabledModules.push_back(Radar().GetName());
+	if (BlockEsp().IsEnabled()) enabledModules.push_back(BlockEsp().GetName());
 	if (AimAssist().IsEnabled()) enabledModules.push_back(AimAssist().GetName());
 	if (Reach().IsEnabled()) enabledModules.push_back(Reach().GetName());
 	if (WTap().IsEnabled()) enabledModules.push_back(WTap().GetName());
