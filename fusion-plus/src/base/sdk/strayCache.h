@@ -65,6 +65,19 @@ struct StrayCache {
 	inline static jclass item_class;
 	inline static jmethodID item_getUnlocalizedName;
 
+	// BLOCK CLASS
+	inline static jclass block_class;
+	inline static jmethodID block_getIdFromBlock;
+
+	// IBLOCK STATE CLASS
+	inline static jclass iBlockState_class;
+	inline static jmethodID iBlockState_getBlock;
+
+	// BLOCK POS CLASS
+	inline static jclass blockPos_class;
+	inline static jmethodID blockPos_constructorInt;
+	inline static jmethodID blockPos_constructorFloat;
+
 	static void Initialize() {
 		Java::AssignClass("net.minecraft.entity.Entity", entity_class);
 		entity_getName = Java::Env->GetMethodID(entity_class, "getName", "()Ljava/lang/String;");
@@ -120,6 +133,16 @@ struct StrayCache {
 
 		Java::AssignClass("net.minecraft.item.Item", item_class);
 		item_getUnlocalizedName = Java::Env->GetMethodID(item_class, "getUnlocalizedName", "()Ljava/lang/String;");
+
+		Java::AssignClass("net.minecraft.block.Block", block_class);
+		block_getIdFromBlock = Java::Env->GetStaticMethodID(block_class, "getIdFromBlock", "(Lnet/minecraft/block/Block;)I");
+
+		Java::AssignClass("net.minecraft.block.state.IBlockState", iBlockState_class);
+		iBlockState_getBlock = Java::Env->GetMethodID(iBlockState_class, "getBlock", "()Lnet/minecraft/block/Block;");
+
+		Java::AssignClass("net.minecraft.util.BlockPos", blockPos_class);
+		blockPos_constructorInt = Java::Env->GetMethodID(blockPos_class, "<init>", "(III)V");
+		blockPos_constructorFloat = Java::Env->GetMethodID(blockPos_class, "<init>", "(FFF)V");
 
 		initialized = true;
 	}

@@ -14,6 +14,7 @@ CWorld::CWorld()
 	this->FieldIDs["playerEntities"] = Java::Env->GetFieldID(this->Class, "playerEntities", "Ljava/util/List;");
 
 	this->MethodIDs["rayTraceBlocks"] = Java::Env->GetMethodID(this->Class, "rayTraceBlocks", "(Lnet/minecraft/util/Vec3;Lnet/minecraft/util/Vec3;ZZZ)Lnet/minecraft/util/MovingObjectPosition;");
+	this->MethodIDs["getBlockState"] = Java::Env->GetMethodID(this->Class, "getBlockState", "(Lnet/minecraft/util/BlockPos;)Lnet/minecraft/block/state/IBlockState;");
 }
 
 jclass CWorld::GetClass()
@@ -81,4 +82,9 @@ bool CWorld::rayTraceBlocks(Vector3 from, Vector3 to, Vector3& result, bool stop
 	Java::Env->DeleteLocalRef(j_from);
 	Java::Env->DeleteLocalRef(cls);
 	return true;
+}
+
+CIBlockState CWorld::GetBlockState(CBlockPos pos)
+{
+	return CIBlockState(Java::Env->CallObjectMethod(this->GetInstance(), this->MethodIDs["getBlockState"], pos.GetInstance()));
 }

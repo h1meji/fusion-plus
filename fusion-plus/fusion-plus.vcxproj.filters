@@ -252,6 +252,18 @@
     <ClInclude Include="src\base\moduleManager\modules\visual\radar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\base\sdk\net\minecraft\block\Block.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\sdk\net\minecraft\block\state\IBlockState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\sdk\net\minecraft\util\BlockPos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\moduleManager\modules\visual\blockEsp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -429,6 +441,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\moduleManager\modules\visual\radar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\sdk\net\minecraft\block\Block.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\sdk\net\minecraft\block\state\IBlockState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\sdk\net\minecraft\util\BlockPos.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\moduleManager\modules\visual\blockEsp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
