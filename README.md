@@ -85,4 +85,5 @@ Big thanks to the original developers of *Fusion* for creating the solid foundat
 
 ---
 
-Contact me on [Discord](https://www.discord.com/users/706262422251634809) (@himeji.) for any questions, suggestions or issues.
+Join the [Discord](https://discord.gg/EWkhAPRdwb) server for updates, announcements, and support.
+<!-- Contact me on [Discord](https://www.discord.com/users/706262422251634809) (@himeji.) for any questions, suggestions or issues. -->
