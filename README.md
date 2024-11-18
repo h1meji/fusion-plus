@@ -36,7 +36,7 @@ You can download the latest release of *Fusion+* [here](https://github.com/h1mej
 > Use at your own risk. I am not responsible for any bans or other consequences resulting from the use of this cheat.
 
 ## How to inject
-Use a trusted DLL injector like [Process Hacker](https://processhacker.sourceforge.io/) or [Xenos](https:://github.com/DarthTon/Xenos) to inject the cheat into Lunar Client. Press `Insert` to open the menu once it is injected.
+Use a trusted DLL injector like [Xenos](https://github.com/DarthTon/Xenos) or [Process Hacker](https://processhacker.sourceforge.io/) to inject the cheat into Lunar Client. Press `Insert` to open the menu once it is injected.
 > [!NOTE]
 > I am planning to build a dedicated injector specifically for *Fusion+*.
 
