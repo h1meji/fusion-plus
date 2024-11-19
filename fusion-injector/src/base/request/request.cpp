@@ -77,16 +77,14 @@ bool Request::DownloadToFile(const std::wstring& url, const std::wstring& filePa
 
     if (!WinHttpCrackUrl(url.c_str(), 0, 0, &urlComp)) {
         WinHttpCloseHandle(hSession);
-		std::wcout << L"Failed to crack URL.\n";
-        return false;
+		return false; // failed to crack URL
     }
 
     // Connect to the host
     HINTERNET hConnect = WinHttpConnect(hSession, host, urlComp.nPort, 0);
     if (!hConnect) {
         WinHttpCloseHandle(hSession);
-		std::wcout << L"Failed to connect to host.\n";
-        return false;
+		return false; // failed to connect to host
     }
 
     // Open a GET request
@@ -94,8 +92,7 @@ bool Request::DownloadToFile(const std::wstring& url, const std::wstring& filePa
     if (!hRequest) {
         WinHttpCloseHandle(hConnect);
         WinHttpCloseHandle(hSession);
-		std::wcout << L"Failed to open request.\n";
-        return false;
+		return false; // failed to open request
     }
 
     // Send the request
@@ -103,8 +100,7 @@ bool Request::DownloadToFile(const std::wstring& url, const std::wstring& filePa
         WinHttpCloseHandle(hRequest);
         WinHttpCloseHandle(hConnect);
         WinHttpCloseHandle(hSession);
-		std::wcout << L"Failed to send request.\n";
-        return false;
+		return false; // failed to send request
     }
 
     // Open the output file
@@ -113,8 +109,7 @@ bool Request::DownloadToFile(const std::wstring& url, const std::wstring& filePa
         WinHttpCloseHandle(hRequest);
         WinHttpCloseHandle(hConnect);
         WinHttpCloseHandle(hSession);
-		std::wcout << L"Failed to open output file.\n";
-        return false;
+		return false; // failed to open file
     }
 
     // Read the response and write it to the file
