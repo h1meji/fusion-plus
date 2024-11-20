@@ -11,11 +11,14 @@ public:
 	void Run();
 	void Cleanup();
 
+private:
+	Window window;
+};
+
+namespace BaseUtils
+{
 	bool IsDllUpdated();
 	bool IsInjectorUpdated();
 	bool UpdateDll();
 	bool UpdateInjector();
-
-private:
-	Window window;
-};
+}

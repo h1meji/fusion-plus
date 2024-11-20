@@ -103,6 +103,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d9.lib;user32.lib;gdi32.lib;Shell32.lib</AdditionalDependencies>
       <EntryPointSymbol>WinMainCRTStartup</EntryPointSymbol>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -122,6 +123,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d9.lib;user32.lib;gdi32.lib;Shell32.lib</AdditionalDependencies>
       <EntryPointSymbol>WinMainCRTStartup</EntryPointSymbol>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -137,6 +139,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d9.lib;user32.lib;gdi32.lib;Shell32.lib</AdditionalDependencies>
       <EntryPointSymbol>WinMainCRTStartup</EntryPointSymbol>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -156,6 +159,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d9.lib;user32.lib;gdi32.lib;Shell32.lib</AdditionalDependencies>
       <EntryPointSymbol>WinMainCRTStartup</EntryPointSymbol>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -168,6 +172,7 @@
     <ClCompile Include="ext\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="src\base\base.cpp" />
     <ClCompile Include="src\base\folder\folder.cpp" />
+    <ClCompile Include="src\base\process\process.cpp" />
     <ClCompile Include="src\base\request\request.cpp" />
     <ClCompile Include="src\base\update\update.cpp" />
     <ClCompile Include="src\base\screen\screen.cpp" />
@@ -187,6 +192,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\base\base.h" />
     <ClInclude Include="src\base\folder\folder.h" />
+    <ClInclude Include="src\base\process\process.h" />
     <ClInclude Include="src\base\request\request.h" />
     <ClInclude Include="src\base\update\update.h" />
     <ClInclude Include="src\base\screen\screen.h" />
@@ -194,7 +200,6 @@
     <ClInclude Include="src\main.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon1.ico" />
     <Image Include="rerources\icon.ico" />
   </ItemGroup>
   <ItemGroup>

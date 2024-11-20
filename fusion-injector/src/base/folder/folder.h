@@ -10,5 +10,7 @@ namespace FolderManager
 	bool EnsureDirectoryExists(const std::string& path);
 	std::string GetProgramFilesFolder(const std::string& subFolder);
 
+	std::string GetDllPath();
+
 	std::string GetVersionStringDll();
 }

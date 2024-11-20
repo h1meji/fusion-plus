@@ -27,13 +27,14 @@ bool Update::UpdateDll(const std::string& fileName, const std::string& downloadU
 	std::wstring convertedUrl = std::wstring(downloadUrl.begin(), downloadUrl.end());
 	std::wstring convertedPath = std::wstring(dllPath.begin(), dllPath.end());
 	std::wstring convertedFileName = std::wstring(fileName.begin(), fileName.end());
-	std::wstring fullPath = convertedPath + L"\\" + convertedFileName;
 
 	if (convertedPath.empty())
 	{
 		std::string path = FolderManager::GetFusionFolder();
 		convertedPath = std::wstring(path.begin(), path.end());
 	}
+
+	std::wstring fullPath = convertedPath + L"\\" + convertedFileName;
 
 	return Request::DownloadToFile(convertedUrl, fullPath);
 }

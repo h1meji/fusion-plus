@@ -45,6 +45,9 @@ void Window::Init() {
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
     io.IniFilename = nullptr;
+    
+    ImFont* font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\segoeui.ttf", 20);
+	io.FontDefault = font;
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();

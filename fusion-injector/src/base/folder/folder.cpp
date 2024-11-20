@@ -32,6 +32,11 @@ std::string FolderManager::GetProgramFilesFolder(const std::string& subFolder)
     }
 }
 
+std::string FolderManager::GetDllPath()
+{
+	return GetFusionFolder() + "\\fusion-plus_v" + GetVersionStringDll() + ".dll";
+}
+
 std::string FolderManager::GetVersionStringDll()
 {
     std::string currentDll;
