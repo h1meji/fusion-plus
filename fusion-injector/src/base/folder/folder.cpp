@@ -63,8 +63,3 @@ std::string FolderManager::GetFusionFolder()
 {
 	return FolderManager::GetProgramFilesFolder("Fusion+");
 }
-
-std::string FolderManager::GetConfigsFolder()
-{
-	return FolderManager::GetFusionFolder() + "\\configs";
-}

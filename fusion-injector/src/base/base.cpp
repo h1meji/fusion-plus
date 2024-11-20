@@ -7,6 +7,7 @@
 Base::Base()
 {
 	window.Init(); // initialize the window
+	FolderManager::GetFusionFolder(); // ensure the fusion folder exists
 }
 
 void Base::Run()
