@@ -25,6 +25,9 @@ This project is based on the original **Fusion** by [deity]() and [deadshell](ht
 
 ### Features
 - **Internal GUI**: Press `Insert` to open the internal GUI
+- **Customizable Colors**: Change the colors of different modules and the internal GUI
+- **Config Files**: Save and load cheat settings
+- **Dedicated Injector**: Inject the cheat into Lunar Client with the dedicated injector
 
 ### Screenshots
 <img src="https://github.com/deadshxll/fusion/assets/67878277/5a732ba9-3d81-44e4-b745-f34f39555716" alt="original gui - by deadshell"/>
@@ -36,9 +39,7 @@ You can download the latest release of *Fusion+* [here](https://github.com/h1mej
 > Use at your own risk. I am not responsible for any bans or other consequences resulting from the use of this cheat.
 
 ## How to inject
-Use a trusted DLL injector like [Xenos](https://github.com/DarthTon/Xenos) or [Process Hacker](https://processhacker.sourceforge.io/) to inject the cheat into Lunar Client. Press `Insert` to open the menu once it is injected.
-> [!NOTE]
-> I am planning to build a dedicated injector specifically for *Fusion+*.
+Open the injector in administrator mode and open Lunar Client. Once you are in the main menu, and the injector has detected Lunar Client, click on the `Inject` button. The cheat should now be injected into the game, and you can open the internal GUI by pressing `Insert`.
 
 ### Why is this project open-source?
 The goal of the original *Fusion* project was to provide a solid foundation for developers to build upon, and *Fusion+* continues this mission by offering an updated version with additional features and optimizations. By making this project open-source, I hope to provide a valuable resource for developers seeking to learn more about cheat development and improve their skills. I also welcome contributions from the community to help make *Fusion+* even better.
@@ -47,7 +48,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 *Fusion+* is currently in active development, with new features and optimizations being added regularly. I want to to provide a high-quality cheat that is both reliable and easy to use. If you encounter any issues or have suggestions for improvements, please let me know by opening an issue on the GitHub repository.
 
 ### Planned Features
-- [ ] Dedicated injector for *Fusion+*
+- [x] Dedicated injector for *Fusion+*
 - [x] Fix for ESP in third-person view
 - [x] Improved module list in the internal GUI
 - [x] Color customizations for different modules and internal GUI
