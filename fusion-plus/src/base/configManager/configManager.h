@@ -15,7 +15,7 @@ using json = nlohmann::json;
 
 namespace ConfigManager
 {
-	const std::string FILE_SUFFIX = ".fusion+";
+	const std::string FILE_SUFFIX = ".fusion";
 
 	bool LoadConfig(const char* name);
 	bool SaveConfig(const char* name);
