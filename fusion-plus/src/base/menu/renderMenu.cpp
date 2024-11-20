@@ -128,21 +128,23 @@ void Menu::RenderMenu()
 	Menu::GlitchText("FUSION+", ImVec2(posX, posY));
 	ImGui::SetCursorPosY(textSize.y + 30);
 
-	// make scrollbar background invis and bar transparent
-	ImGui::PushStyleColor(ImGuiCol_ScrollbarBg, ImVec4(0, 0, 0, 0));
-	ImGui::PushStyleColor(ImGuiCol_ScrollbarGrab, ImVec4(0, 0, 0, 0.2));
-
-	if (ImGui::BeginChild("child_1", { 0, 140 }, false)) {
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3, 0.3, 0.3, 1));
+	if (ImGui::BeginChild("child_1", { 0, 140 }, false, ImGuiWindowFlags_NoScrollbar)) {
 		std::vector<std::string> categories = g_ModuleManager->GetCategories();
 		for (int i = 0; i < categories.size(); i++)
 		{
-			if (Menu::TabButton((categories[i] + " ").c_str(), (currentTab == i ? ImVec4(0.3f, 0.3f, 0.3f, 0.2f) : ImVec4(0.1f, 0.1f, 0.1f, 0.f)))) currentTab = i;
+			ImGui::PushStyleColor(ImGuiCol_Button, currentTab == i ? ImVec4(0.4, 0.4, 0.4, 1) : ImVec4(0.2, 0.2, 0.2, 0.5));
+			if (ImGui::Button((categories[i]).c_str(), ImVec2(94, 35)))
+			{
+				currentTab = i;
+			}
+			ImGui::PopStyleColor();
 		}
 	}
 	ImGui::EndChild();
-
 	ImGui::PopStyleColor();
-	ImGui::PopStyleColor();
+	ImGui::PopStyleVar();
 
 	ImGui::Spacing();
 
