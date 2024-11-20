@@ -154,15 +154,19 @@ void Menu::RenderMenu()
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3, 0.3, 0.3, 1));
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4, 0.4, 0.4, 1));
 
+	ImGui::PushStyleColor(ImGuiCol_Button, currentTab == -3 ? ImVec4(0.4, 0.4, 0.4, 1) : ImVec4(0.2, 0.2, 0.2, 0.5));
 	if (ImGui::Button("Settings", ImVec2(94, 0)))
 	{
 		currentTab = -3;
 	}
+	ImGui::PopStyleColor();
 
+	ImGui::PushStyleColor(ImGuiCol_Button, currentTab == -2 ? ImVec4(0.4, 0.4, 0.4, 1) : ImVec4(0.2, 0.2, 0.2, 0.5));
 	if (ImGui::Button("Config", ImVec2(94, 0)))
 	{
 		currentTab = -2;
 	}
+	ImGui::PopStyleColor();
 
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
