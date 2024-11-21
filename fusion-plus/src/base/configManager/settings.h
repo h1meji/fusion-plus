@@ -32,6 +32,12 @@ struct settings {
 	inline static float ESP_SecondFilledBoxColor[4]{ 0, 0, 0, 0.15f };
 	inline static bool ESP_Outline = true;
 	inline static float ESP_OutlineColor[4]{ 0, 0, 0, 0.25 };
+	inline static bool ESP_HighlightFriends = true;
+	inline static float ESP_Friend3DBoxColor[4]{ 0, 1, 0, 1 };
+	inline static float ESP_FriendBoxColor[4]{ 0, 1, 0, 1 };
+	inline static float ESP_FriendFilledBoxColor[4]{ 0, 1, 0, 0.15f };
+	inline static float ESP_FriendSecondFilledBoxColor[4]{ 0, 1, 0, 0.15f };
+	inline static float ESP_FriendOutlineColor[4]{ 0, 1, 0, 0.25 };
 
 	// Array List
 	inline static bool AL_Enabled = false;

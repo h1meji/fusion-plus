@@ -8,6 +8,7 @@
 #include "util/render/renderqolf.h"
 #include "menu/menu.h"
 #include <gl/GL.h>
+#include <configManager/configManager.h>
 
 void Esp::Update()
 {
@@ -219,7 +220,9 @@ void Esp::RenderUpdate()
 			if (settings::ESP_FilledBox)
 			{
 				ImColor bottomColor = ImColor(settings::ESP_SecondFilledBoxColor[0], settings::ESP_SecondFilledBoxColor[1], settings::ESP_SecondFilledBoxColor[2], settings::ESP_SecondFilledBoxColor[3] * data.opacityFadeFactor);
+				ImColor bottomColorFriend = ImColor(settings::ESP_FriendSecondFilledBoxColor[0], settings::ESP_FriendSecondFilledBoxColor[1], settings::ESP_FriendSecondFilledBoxColor[2], settings::ESP_FriendSecondFilledBoxColor[3] * data.opacityFadeFactor);
 				ImColor topColor = ImColor(settings::ESP_FilledBoxColor[0], settings::ESP_FilledBoxColor[1], settings::ESP_FilledBoxColor[2], settings::ESP_FilledBoxColor[3] * data.opacityFadeFactor);
+				ImColor topColorFriend = ImColor(settings::ESP_FriendFilledBoxColor[0], settings::ESP_FriendFilledBoxColor[1], settings::ESP_FriendFilledBoxColor[2], settings::ESP_FriendFilledBoxColor[3] * data.opacityFadeFactor);
 
 				ImGui::GetWindowDrawList()->AddRectFilledMultiColor(ImVec2(left, top), ImVec2(right, bottom), topColor, topColor, bottomColor, bottomColor);
 			}
