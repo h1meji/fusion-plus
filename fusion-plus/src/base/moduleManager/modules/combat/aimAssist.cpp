@@ -10,6 +10,7 @@
 
 #include <chrono>
 #include <random>
+#include <configManager/configManager.h>
 
 /* 
 How this Aim Assist works :
@@ -70,7 +71,7 @@ void AimAssist::Update()
 
 	for (CommonData::PlayerData player : playerList)
 	{
-		if (!Java::Env->IsSameObject(thePlayer->GetInstance(), player.obj.GetInstance())) {
+		if (!Java::Env->IsSameObject(thePlayer->GetInstance(), player.obj.GetInstance()) && !(settings::AA_ignoreFriends && ConfigManager::IsFriend(player.name))) {
 			if (!thePlayer->CanEntityBeSeen(player.obj.GetInstance())) continue;
 			Vector3 playerPos = player.pos;
 			float playerHeight = target.height - 0.1;
@@ -279,6 +280,9 @@ void AimAssist::RenderMenu()
 				Menu::DoColorPickerStuff(2745325, "Feedback Line Color", settings::AA_aimAssistFeedbackColor);
 			}
 
+			Menu::DoToggleButtonStuff(3989843578, "Ignore Friends", &settings::AA_ignoreFriends);
+
+			ImGui::Spacing();
 			ImGui::Spacing();
 		}
 

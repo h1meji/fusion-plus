@@ -75,6 +75,7 @@ struct settings {
 	inline static float AA_randomPitch = .075f;
 	inline static int AA_targetPriority = 2;
 	inline static const char* AA_targetPriorityList[3]{ "Distance", "Health", "Closest to Crosshair" };
+	inline static bool AA_ignoreFriends = true;
 
 	// Reach
 	inline static bool Reach_Enabled = false;

@@ -116,6 +116,7 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["AA_randomYaw"] = settings::AA_randomYaw;
 	j["AA_randomPitch"] = settings::AA_randomPitch;
 	j["AA_targetPriority"] = settings::AA_targetPriority;
+	j["AA_ignoreFriends"] = settings::AA_ignoreFriends;
 
 	// Reach
 	j["Reach_Enabled"] = settings::Reach_Enabled;
@@ -211,6 +212,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::AA_randomYaw, "AA_randomYaw");
 	ConfigManager::GetJsonValue(j, settings::AA_randomPitch, "AA_randomPitch");
 	ConfigManager::GetJsonValue(j, settings::AA_targetPriority, "AA_targetPriority");
+	ConfigManager::GetJsonValue(j, settings::AA_ignoreFriends, "AA_ignoreFriends");
 
 	// Reach
 	ConfigManager::GetJsonValue(j, settings::Reach_Enabled, "Reach_Enabled");
