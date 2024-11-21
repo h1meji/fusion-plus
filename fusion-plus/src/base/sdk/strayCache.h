@@ -58,6 +58,8 @@ struct StrayCache {
 
 	inline static jclass inventoryPlayer_class;
 	inline static jmethodID inventoryPlayer_getCurrentItem;
+	inline static jfieldID inventoryPlayer_mainInventory;
+	inline static jfieldID inventoryPlayer_armorInventory;
 
 	inline static jclass itemStack_class;
 	inline static jmethodID itemStack_getItem;
@@ -127,6 +129,8 @@ struct StrayCache {
 
 		Java::AssignClass("net.minecraft.entity.player.InventoryPlayer", inventoryPlayer_class);
 		inventoryPlayer_getCurrentItem = Java::Env->GetMethodID(inventoryPlayer_class, "getCurrentItem", "()Lnet/minecraft/item/ItemStack;");
+		inventoryPlayer_mainInventory = Java::Env->GetFieldID(inventoryPlayer_class, "mainInventory", "[Lnet/minecraft/item/ItemStack;");
+		inventoryPlayer_armorInventory = Java::Env->GetFieldID(inventoryPlayer_class, "armorInventory", "[Lnet/minecraft/item/ItemStack;");
 
 		Java::AssignClass("net.minecraft.item.ItemStack", itemStack_class);
 		itemStack_getItem = Java::Env->GetMethodID(itemStack_class, "getItem", "()Lnet/minecraft/item/Item;");
