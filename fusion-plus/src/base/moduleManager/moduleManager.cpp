@@ -12,6 +12,8 @@
 #include "modules/movement/bridgeAssist.h"
 #include "commonData.h"
 
+#include <configManager/configManager.h>
+
 void ModuleManager::Init()
 {
 	modules.push_back(std::make_unique<Esp>());
@@ -24,6 +26,9 @@ void ModuleManager::Init()
 	modules.push_back(std::make_unique<LeftAutoClicker>());
 	modules.push_back(std::make_unique<RightAutoClicker>());
 	modules.push_back(std::make_unique<BridgeAssist>());
+
+	// load friends
+	ConfigManager::LoadFriends();
 }
 
 void ModuleManager::UpdateModules()

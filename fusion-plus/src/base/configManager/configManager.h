@@ -80,4 +80,11 @@ namespace ConfigManager
 	bool JsonToSettings(const json& j);
 
     std::string GetDocumentsPath();
+
+	// Friends
+	bool LoadFriends();
+	bool SaveFriends();
+	bool AddFriend(const std::string& name);
+	bool RemoveFriend(const std::string& name);
+	bool IsFriend(const std::string& name);
 };

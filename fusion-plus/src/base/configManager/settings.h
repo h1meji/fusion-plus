@@ -1,8 +1,11 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 struct settings {
+	inline static std::vector<std::string> friends;
+
 	// Menu
 	inline static float Menu_AccentColor[4]{ 0, 0.4, 0.4, 1.0f };
 	inline static bool Menu_Watermark = true;

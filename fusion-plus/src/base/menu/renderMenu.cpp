@@ -99,11 +99,69 @@ void RenderSettingsMenu()
 {
 	ImGui::Spacing();
 
+	ImGui::SeparatorText("Friends List");
+
+	int height = min(3 , settings::friends.size());
+	static int friendIndex = -1;
+	if (ImGui::BeginChild("##friendslist", ImVec2(450, ImGui::GetTextLineHeightWithSpacing() * height), false))
+	{
+		for (size_t i = 0; i < settings::friends.size(); ++i)
+		{
+			ImGui::Selectable(settings::friends[i].c_str());
+			// if right clicked on a friend, show popup to remove friend
+			if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+			{
+				friendIndex = i;
+				ImGui::OpenPopup("##removeFriend");
+			}
+		}
+	}
+	if (ImGui::BeginPopup("##removeFriend"))
+	{
+		if (ImGui::Button(("Remove \"" + settings::friends[friendIndex] + "\"").c_str()))
+		{
+			if (ConfigManager::RemoveFriend(settings::friends[friendIndex]))
+			{
+				friendIndex = -1;
+				ImGui::CloseCurrentPopup();
+			}
+		}
+		ImGui::EndPopup();
+	}
+	ImGui::EndChild();
+
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
+
+	// input box to save config
+	static char saveConfigName[128] = "";
+	// set width of input box
+	ImGui::SetNextItemWidth(614);
+	// set input box height
+	ImGui::InputText("##addFriend", saveConfigName, IM_ARRAYSIZE(saveConfigName));
+
+	ImGui::SameLine();
+
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20, 4));
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2, 0.2, 0.2, 0.5));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3, 0.3, 0.3, 1));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4, 0.4, 0.4, 1));
+	if (ImGui::Button("Add", ImVec2(65, 22)) && saveConfigName != "")
+	{
+		ConfigManager::AddFriend(saveConfigName);
+	}
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleVar();
+	ImGui::PopStyleVar();
+
+	ImGui::SeparatorText("Menu Settings");
+
 	Menu::DoColorPickerStuff(3457284, "Menu Accent Color", settings::Menu_AccentColor);
 	
 	Menu::DoToggleButtonStuff(9837592, "Show Watermark", &settings::Menu_Watermark);
 
-	ImGui::Separator();
+	ImGui::SeparatorText("Rendering Settings");
 
 	Menu::DoToggleButtonStuff(83475893, "Disable All Rendering", &settings::Menu_DisableAllRendering);
 }

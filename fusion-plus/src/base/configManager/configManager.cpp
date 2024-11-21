@@ -255,3 +255,73 @@ std::string ConfigManager::GetDocumentsPath()
 		return "";
 	}
 }
+
+bool ConfigManager::LoadFriends()
+{
+	std::ifstream file(ConfigManager::GetDocumentsPath() + "friends.json");
+
+	if (!file.is_open())
+		return false;
+
+	json j;
+	file >> j;
+
+	if (!j.is_array())
+		return false;
+
+	settings::friends.clear();
+
+	for (const auto& friendName : j)
+	{
+		settings::friends.push_back(friendName.get<std::string>());
+	}
+
+	return true;
+}
+
+bool ConfigManager::SaveFriends()
+{
+	json j;
+
+	for (const auto& friendName : settings::friends)
+	{
+		j.push_back(friendName);
+	}
+
+	std::ofstream file(ConfigManager::GetDocumentsPath() + "friends.json");
+
+	if (!file.is_open())
+		return false;
+
+	file << j.dump();
+	file.close();
+
+	return true;
+}
+
+bool ConfigManager::AddFriend(const std::string& name)
+{
+	if (IsFriend(name))
+		return false;
+
+	settings::friends.push_back(name);
+
+	return SaveFriends();
+}
+
+bool ConfigManager::RemoveFriend(const std::string& name)
+{
+	auto it = std::find(settings::friends.begin(), settings::friends.end(), name);
+
+	if (it == settings::friends.end())
+		return false;
+
+	settings::friends.erase(it);
+
+	return SaveFriends();
+}
+
+bool ConfigManager::IsFriend(const std::string& name)
+{
+	return std::find(settings::friends.begin(), settings::friends.end(), name) != settings::friends.end();
+}
