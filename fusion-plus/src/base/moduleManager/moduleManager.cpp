@@ -29,6 +29,11 @@ void ModuleManager::Init()
 
 	// load friends
 	ConfigManager::LoadFriends();
+
+	// load the first config
+	std::vector<std::string> configList = ConfigManager::GetConfigList();
+	if (!configList.empty())
+		ConfigManager::LoadConfig(configList[0].c_str());
 }
 
 void ModuleManager::UpdateModules()
