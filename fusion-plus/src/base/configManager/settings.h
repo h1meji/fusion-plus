@@ -52,6 +52,7 @@ struct settings {
 	inline static float Radar_Position[2]{ 10, 10 };
 	inline static float Radar_LocalPlayerColor[4]{ 1, 0.5, 0, 1 };
 	inline static float Radar_PlayerColor[4]{ 1, 1, 1, 1 };
+	inline static float Radar_FriendColor[4]{ 0, 1, 0, 1 };
 	inline static float Radar_BackgroundColor[4]{ 0, 0, 0, 0.5 };
 
 	// Block ESP

@@ -98,6 +98,7 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["Radar_Position"] = settings::Radar_Position;
 	j["Radar_LocalPlayerColor"] = settings::Radar_LocalPlayerColor;
 	j["Radar_PlayerColor"] = settings::Radar_PlayerColor;
+	j["Radar_FriendColor"] = settings::Radar_FriendColor;
 	j["Radar_BackgroundColor"] = settings::Radar_BackgroundColor;
 
 	// Aim Assist
@@ -194,6 +195,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::Radar_Position, "Radar_Position");
 	ConfigManager::GetJsonValue(j, settings::Radar_LocalPlayerColor, "Radar_LocalPlayerColor");
 	ConfigManager::GetJsonValue(j, settings::Radar_PlayerColor, "Radar_PlayerColor");
+	ConfigManager::GetJsonValue(j, settings::Radar_FriendColor, "Radar_FriendColor");
 	ConfigManager::GetJsonValue(j, settings::Radar_BackgroundColor, "Radar_BackgroundColor");
 
 	// Aim Assist

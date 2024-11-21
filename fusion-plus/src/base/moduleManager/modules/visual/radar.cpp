@@ -3,6 +3,7 @@
 #include <imgui/imgui.h>
 #include "menu/menu.h"
 #include <util/math/math.h>
+#include <configManager/configManager.h>
 
 void Radar::Update()
 {
@@ -150,11 +151,15 @@ void Radar::RenderUpdate()
 			//		data.name.c_str()
 			//	);
 			//}
+			
+			ImColor playerColor = ImColor(settings::Radar_PlayerColor[0], settings::Radar_PlayerColor[1], settings::Radar_PlayerColor[2], settings::Radar_PlayerColor[3]);
+			ImColor friendColor = ImColor(settings::Radar_FriendColor[0], settings::Radar_FriendColor[1], settings::Radar_FriendColor[2], settings::Radar_FriendColor[3]);
+
 			// Draw other players as squares
 			ImGui::GetWindowDrawList()->AddRectFilled(
 				ImVec2(radarPos.x - 2.5, radarPos.y - 2.5),
 				ImVec2(radarPos.x + 2.5, radarPos.y + 2.5),
-				ImColor(settings::Radar_PlayerColor[0], settings::Radar_PlayerColor[1], settings::Radar_PlayerColor[2], settings::Radar_PlayerColor[3])
+				ConfigManager::IsFriend(data.name) ? friendColor : playerColor
 			);
 
 			// Show names if enabled
@@ -215,6 +220,8 @@ void Radar::RenderMenu()
 			Menu::DoColorPickerStuff(3434685, "Local Player Color", settings::Radar_LocalPlayerColor);
 
 			Menu::DoColorPickerStuff(37685, "Player Color", settings::Radar_PlayerColor);
+
+			Menu::DoColorPickerStuff(3454745, "Friend Color", settings::Radar_FriendColor);
 
 			Menu::DoColorPickerStuff(3454745, "Background Color", settings::Radar_BackgroundColor);
 
