@@ -181,7 +181,7 @@ void Menu::RenderMenu()
 	ImVec2 windowPos = ImGui::GetWindowPos();
 	ImVec2 textSize = Menu::FontBold->CalcTextSizeA(28, FLT_MAX, 0.0f, "FUSION+");
 	float posX = windowPos.x + (columnWidth / 2) - (textSize.x / 2);
-	float posY = windowPos.y + 20;
+	float posY = windowPos.y + 15;
 
 	Menu::GlitchText("FUSION+", ImVec2(posX, posY));
 	ImGui::SetCursorPosY(textSize.y + 30);
