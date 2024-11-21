@@ -204,7 +204,11 @@ void Menu::RenderMenu()
 	ImGui::PopStyleColor();
 	ImGui::PopStyleVar();
 
-	ImGui::Spacing();
+	ImGui::BeginChild("seperatorchild", { 0, 1 }, false);
+	ImGui::Separator();
+	ImGui::EndChild();
+
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 1);
 
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20, 5));
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
