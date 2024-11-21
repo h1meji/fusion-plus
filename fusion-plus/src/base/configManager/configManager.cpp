@@ -146,6 +146,25 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["BA_PitchCheck"] = settings::BA_PitchCheck;
 	j["BA_BlockCheck"] = settings::BA_BlockCheck;
 
+	// Tag Back
+	j["TB_Enabled"] = settings::TB_Enabled;
+	j["TB_visibilityCheck"] = settings::TB_visibilityCheck;
+	j["TB_aimAssistFeedback"] = settings::TB_aimAssistFeedback;
+	j["TB_aimAssistFeedbackColor"] = settings::TB_aimAssistFeedbackColor;
+	j["TB_fovCircle"] = settings::TB_fovCircle;
+	j["TB_fovCircleColor"] = settings::TB_fovCircleColor;
+	j["TB_adaptive"] = settings::TB_adaptive;
+	j["TB_adaptiveOffset"] = settings::TB_adaptiveOffset;
+	j["TB_fov"] = settings::TB_fov;
+	j["TB_smooth"] = settings::TB_smooth;
+	j["TB_randomYaw"] = settings::TB_randomYaw;
+	j["TB_randomPitch"] = settings::TB_randomPitch;
+	j["TB_targetPriority"] = settings::TB_targetPriority;
+	j["TB_ignoreFriends"] = settings::TB_ignoreFriends;
+	j["TB_autoClick"] = settings::TB_autoClick;
+	j["TB_maxCps"] = settings::TB_maxCps;
+	j["TB_minCps"] = settings::TB_minCps;
+
 	return true;
 }
 
@@ -242,6 +261,25 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::BA_OnlyOnShift, "BA_OnlyOnShift");
 	ConfigManager::GetJsonValue(j, settings::BA_PitchCheck, "BA_PitchCheck");
 	ConfigManager::GetJsonValue(j, settings::BA_BlockCheck, "BA_BlockCheck");
+
+	// Tag Back
+	ConfigManager::GetJsonValue(j, settings::TB_Enabled, "TB_Enabled");
+	ConfigManager::GetJsonValue(j, settings::TB_visibilityCheck, "TB_visibilityCheck");
+	ConfigManager::GetJsonValue(j, settings::TB_aimAssistFeedback, "TB_aimAssistFeedback");
+	ConfigManager::GetJsonValue(j, settings::TB_aimAssistFeedbackColor, "TB_aimAssistFeedbackColor");
+	ConfigManager::GetJsonValue(j, settings::TB_fovCircle, "TB_fovCircle");
+	ConfigManager::GetJsonValue(j, settings::TB_fovCircleColor, "TB_fovCircleColor");
+	ConfigManager::GetJsonValue(j, settings::TB_adaptive, "TB_adaptive");
+	ConfigManager::GetJsonValue(j, settings::TB_adaptiveOffset, "TB_adaptiveOffset");
+	ConfigManager::GetJsonValue(j, settings::TB_fov, "TB_fov");
+	ConfigManager::GetJsonValue(j, settings::TB_smooth, "TB_smooth");
+	ConfigManager::GetJsonValue(j, settings::TB_randomYaw, "TB_randomYaw");
+	ConfigManager::GetJsonValue(j, settings::TB_randomPitch, "TB_randomPitch");
+	ConfigManager::GetJsonValue(j, settings::TB_targetPriority, "TB_targetPriority");
+	ConfigManager::GetJsonValue(j, settings::TB_ignoreFriends, "TB_ignoreFriends");
+	ConfigManager::GetJsonValue(j, settings::TB_autoClick, "TB_autoClick");
+	ConfigManager::GetJsonValue(j, settings::TB_maxCps, "TB_maxCps");
+	ConfigManager::GetJsonValue(j, settings::TB_minCps, "TB_minCps");
 
 	return true;
 }

@@ -239,6 +239,7 @@
     <ClInclude Include="src\base\sdk\net\minecraft\util\Timer.h" />
     <ClInclude Include="src\base\util\trimmer.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\util\Vec3.h" />
+    <ClInclude Include="src\base\moduleManager\modules\tnt-tag\tagBack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\base\configManager\configManager.cpp" />
@@ -304,6 +305,7 @@
     <ClCompile Include="src\base\sdk\net\minecraft\client\multiplayer\WorldClient.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\util\Timer.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\util\Vec3.cpp" />
+    <ClCompile Include="src\base\moduleManager\modules\tnt-tag\tagBack.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

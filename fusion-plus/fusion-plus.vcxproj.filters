@@ -264,6 +264,9 @@
     <ClInclude Include="src\base\moduleManager\modules\visual\blockEsp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\base\moduleManager\modules\tnt-tag\tagBack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -453,6 +456,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\moduleManager\modules\visual\blockEsp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\moduleManager\modules\tnt-tag\tagBack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

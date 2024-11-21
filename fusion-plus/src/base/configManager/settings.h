@@ -110,4 +110,24 @@ struct settings {
 	inline static bool BA_OnlyOnShift = true;
 	inline static float BA_PitchCheck = 61.0f;
 	inline static int BA_BlockCheck = 1;
+
+	// Tag Back
+	inline static bool TB_Enabled = false;
+	inline static bool TB_visibilityCheck = true;
+	inline static bool TB_aimAssistFeedback = true;
+	inline static float TB_aimAssistFeedbackColor[4]{ 1, 1, 1, 1 };
+	inline static bool TB_fovCircle = true;
+	inline static float TB_fovCircleColor[4]{ 1, 1, 1, 1 };
+	inline static bool TB_adaptive = true;
+	inline static float TB_adaptiveOffset = 3;
+	inline static float TB_fov = 35.0f;
+	inline static float TB_smooth = 15.f;
+	inline static float TB_randomYaw = 2;
+	inline static float TB_randomPitch = .075f;
+	inline static int TB_targetPriority = 2;
+	inline static const char* TB_targetPriorityList[3]{ "Distance", "Health", "Closest to Crosshair" };
+	inline static bool TB_ignoreFriends = true;
+	inline static bool TB_autoClick = true;
+	inline static int TB_maxCps = 15;
+	inline static int TB_minCps = 10;
 };
