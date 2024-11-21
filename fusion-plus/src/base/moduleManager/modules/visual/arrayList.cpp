@@ -14,6 +14,7 @@
 #include "moduleManager/modules/clicker/leftAutoClicker.h"
 #include "moduleManager/modules/clicker/rightAutoClicker.h"
 #include "moduleManager/modules/movement/bridgeAssist.h"
+#include "moduleManager/modules/tnt-tag/tagBack.h"
 
 void ArrayList::RenderUpdate()
 {
@@ -30,6 +31,7 @@ void ArrayList::RenderUpdate()
 	if (LeftAutoClicker().IsEnabled()) enabledModules.push_back(LeftAutoClicker().GetName());
 	if (RightAutoClicker().IsEnabled()) enabledModules.push_back(RightAutoClicker().GetName());
 	if (BridgeAssist().IsEnabled()) enabledModules.push_back(BridgeAssist().GetName());
+	if (TagBack().IsEnabled()) enabledModules.push_back(TagBack().GetName());
 
 	// sort string length
 	std::sort(enabledModules.begin(), enabledModules.end(), [](const std::string& a, const std::string& b) { return Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, a.c_str()).x > Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, b.c_str()).x; });
