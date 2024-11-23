@@ -161,6 +161,8 @@ void RenderSettingsMenu()
 	
 	Menu::DoToggleButtonStuff(9837592, "Show Watermark", &settings::Menu_Watermark);
 
+	Menu::DoToggleButtonStuff(9837593, "Show Hidden Categories", &settings::Menu_ShowHiddenCategories);
+
 	ImGui::SeparatorText("Rendering Settings");
 
 	Menu::DoToggleButtonStuff(83475893, "Disable All Rendering", &settings::Menu_DisableAllRendering);
@@ -192,6 +194,9 @@ void Menu::RenderMenu()
 		std::vector<std::string> categories = g_ModuleManager->GetCategories();
 		for (int i = 0; i < categories.size(); i++)
 		{
+			if (std::find(settings::Menu_HiddenCategoriesList.begin(), settings::Menu_HiddenCategoriesList.end(), categories[i]) != settings::Menu_HiddenCategoriesList.end() && !settings::Menu_ShowHiddenCategories)
+					continue;
+
 			ImGui::PushStyleColor(ImGuiCol_Button, currentTab == i ? ImVec4(0.4, 0.4, 0.4, 1) : ImVec4(0.2, 0.2, 0.2, 0.5));
 			if (ImGui::Button((categories[i]).c_str(), ImVec2(94, 35)))
 			{

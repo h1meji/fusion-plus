@@ -58,6 +58,7 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["Menu_AccentColor"] = settings::Menu_AccentColor;
 	j["Menu_Watermark"] = settings::Menu_Watermark;
 	j["Menu_DisableAllRendering"] = settings::Menu_DisableAllRendering;
+	j["Menu_ShowHiddenCategories"] = settings::Menu_ShowHiddenCategories;
 
 	// ESP
 	j["ESP_Enabled"] = settings::ESP_Enabled;
@@ -195,7 +196,7 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["ITESP_Friend3DBoxColor"] = settings::ITESP_Friend3DBoxColor;
 	j["ITESP_FriendBoxColor"] = settings::ITESP_FriendBoxColor;
 	j["ITESP_FriendFilledBoxColor"] = settings::ITESP_FriendFilledBoxColor;
-	j["ITESP_FriendSecondFilledBoxColor"] = settings::ITESP_FriendSecondFilledBoxColor
+	j["ITESP_FriendSecondFilledBoxColor"] = settings::ITESP_FriendSecondFilledBoxColor;
 	j["ITESP_FriendOutlineColor"] = settings::ITESP_FriendOutlineColor;
 
 	return true;
@@ -207,6 +208,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::Menu_AccentColor, "Menu_AccentColor");
 	ConfigManager::GetJsonValue(j, settings::Menu_Watermark, "Menu_Watermark");
 	ConfigManager::GetJsonValue(j, settings::Menu_DisableAllRendering, "Menu_DisableAllRendering");
+	ConfigManager::GetJsonValue(j, settings::Menu_ShowHiddenCategories, "Menu_ShowHiddenCategories");
 
 	// ESP
 	ConfigManager::GetJsonValue(j, settings::ESP_Enabled, "ESP_Enabled");

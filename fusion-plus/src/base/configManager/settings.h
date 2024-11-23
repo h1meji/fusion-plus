@@ -10,6 +10,8 @@ struct settings {
 	inline static float Menu_AccentColor[4]{ 0, 0.4, 0.4, 1.0f };
 	inline static bool Menu_Watermark = true;
 	inline static bool Menu_DisableAllRendering = false;
+	inline static bool Menu_ShowHiddenCategories = false;
+	inline static std::vector<std::string> Menu_HiddenCategoriesList{ "TnT Tag" };
 
 	// ESP
 	inline static bool ESP_Enabled = false;
