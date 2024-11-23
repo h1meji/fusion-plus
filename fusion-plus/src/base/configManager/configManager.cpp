@@ -79,6 +79,12 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["ESP_SecondFilledBoxColor"] = settings::ESP_SecondFilledBoxColor;
 	j["ESP_Outline"] = settings::ESP_Outline;
 	j["ESP_OutlineColor"] = settings::ESP_OutlineColor;
+	j["ESP_HighlightFriends"] = settings::ESP_HighlightFriends;
+	j["ESP_Friend3DBoxColor"] = settings::ESP_Friend3DBoxColor;
+	j["ESP_FriendBoxColor"] = settings::ESP_FriendBoxColor;
+	j["ESP_FriendFilledBoxColor"] = settings::ESP_FriendFilledBoxColor;
+	j["ESP_FriendSecondFilledBoxColor"] = settings::ESP_FriendSecondFilledBoxColor;
+	j["ESP_FriendOutlineColor"] = settings::ESP_FriendOutlineColor;
 
 	// Array List
 	j["AL_Enabled"] = settings::AL_Enabled;
@@ -222,6 +228,12 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::ESP_SecondFilledBoxColor, "ESP_SecondFilledBoxColor");
 	ConfigManager::GetJsonValue(j, settings::ESP_Outline, "ESP_Outline");
 	ConfigManager::GetJsonValue(j, settings::ESP_OutlineColor, "ESP_OutlineColor");
+	ConfigManager::GetJsonValue(j, settings::ESP_HighlightFriends, "ESP_HighlightFriends");
+	ConfigManager::GetJsonValue(j, settings::ESP_Friend3DBoxColor, "ESP_Friend3DBoxColor");
+	ConfigManager::GetJsonValue(j, settings::ESP_FriendBoxColor, "ESP_FriendBoxColor");
+	ConfigManager::GetJsonValue(j, settings::ESP_FriendFilledBoxColor, "ESP_FriendFilledBoxColor");
+	ConfigManager::GetJsonValue(j, settings::ESP_FriendSecondFilledBoxColor, "ESP_FriendSecondFilledBoxColor");
+	ConfigManager::GetJsonValue(j, settings::ESP_FriendOutlineColor, "ESP_FriendOutlineColor");
 
 	// Array List
 	ConfigManager::GetJsonValue(j, settings::AL_Enabled, "AL_Enabled");
