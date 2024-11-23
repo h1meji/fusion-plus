@@ -165,6 +165,33 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["TB_maxCps"] = settings::TB_maxCps;
 	j["TB_minCps"] = settings::TB_minCps;
 
+	// IT ESP
+	j["ITESP_Enabled"] = settings::ITESP_Enabled;
+	j["ITESP_Text"] = settings::ITESP_Text;
+	j["ITESP_TextSize"] = settings::ITESP_TextSize;
+	j["ITESP_TextColor"] = settings::ITESP_TextColor;
+	j["ITESP_TextOutline"] = settings::ITESP_TextOutline;
+	j["ITESP_TextOutlineColor"] = settings::ITESP_TextOutlineColor;
+	j["ITESP_TextUnrenderDistance"] = settings::ITESP_TextUnrenderDistance;
+	j["ITESP_FadeDistance"] = settings::ITESP_FadeDistance;
+	j["ITESP_HealthBar"] = settings::ITESP_HealthBar;
+	j["ITESP_BoxType"] = settings::ITESP_BoxType;
+	j["ITESP_3DBoxColor"] = settings::ITESP_3DBoxColor;
+	j["ITESP_3DBoxThickness"] = settings::ITESP_3DBoxThickness;
+	j["ITESP_Box"] = settings::ITESP_Box;
+	j["ITESP_BoxColor"] = settings::ITESP_BoxColor;
+	j["ITESP_FilledBox"] = settings::ITESP_FilledBox;
+	j["ITESP_FilledBoxColor"] = settings::ITESP_FilledBoxColor;
+	j["ITESP_SecondFilledBoxColor"] = settings::ITESP_SecondFilledBoxColor;
+	j["ITESP_Outline"] = settings::ITESP_Outline;
+	j["ITESP_OutlineColor"] = settings::ITESP_OutlineColor;
+	j["ITESP_HighlightFriends"] = settings::ITESP_HighlightFriends;
+	j["ITESP_Friend3DBoxColor"] = settings::ITESP_Friend3DBoxColor;
+	j["ITESP_FriendBoxColor"] = settings::ITESP_FriendBoxColor;
+	j["ITESP_FriendFilledBoxColor"] = settings::ITESP_FriendFilledBoxColor;
+	j["ITESP_FriendSecondFilledBoxColor"] = settings::ITESP_FriendSecondFilledBoxColor
+	j["ITESP_FriendOutlineColor"] = settings::ITESP_FriendOutlineColor;
+
 	return true;
 }
 
@@ -280,6 +307,33 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::TB_autoClick, "TB_autoClick");
 	ConfigManager::GetJsonValue(j, settings::TB_maxCps, "TB_maxCps");
 	ConfigManager::GetJsonValue(j, settings::TB_minCps, "TB_minCps");
+
+	// IT ESP
+	ConfigManager::GetJsonValue(j, settings::ITESP_Enabled, "ITESP_Enabled");
+	ConfigManager::GetJsonValue(j, settings::ITESP_Text, "ITESP_Text");
+	ConfigManager::GetJsonValue(j, settings::ITESP_TextSize, "ITESP_TextSize");
+	ConfigManager::GetJsonValue(j, settings::ITESP_TextColor, "ITESP_TextColor");
+	ConfigManager::GetJsonValue(j, settings::ITESP_TextOutline, "ITESP_TextOutline");
+	ConfigManager::GetJsonValue(j, settings::ITESP_TextOutlineColor, "ITESP_TextOutlineColor");
+	ConfigManager::GetJsonValue(j, settings::ITESP_TextUnrenderDistance, "ITESP_TextUnrenderDistance");
+	ConfigManager::GetJsonValue(j, settings::ITESP_FadeDistance, "ITESP_FadeDistance");
+	ConfigManager::GetJsonValue(j, settings::ITESP_HealthBar, "ITESP_HealthBar");
+	ConfigManager::GetJsonValue(j, settings::ITESP_BoxType, "ITESP_BoxType");
+	ConfigManager::GetJsonValue(j, settings::ITESP_3DBoxColor, "ITESP_3DBoxColor");
+	ConfigManager::GetJsonValue(j, settings::ITESP_3DBoxThickness, "ITESP_3DBoxThickness");
+	ConfigManager::GetJsonValue(j, settings::ITESP_Box, "ITESP_Box");
+	ConfigManager::GetJsonValue(j, settings::ITESP_BoxColor, "ITESP_BoxColor");
+	ConfigManager::GetJsonValue(j, settings::ITESP_FilledBox, "ITESP_FilledBox");
+	ConfigManager::GetJsonValue(j, settings::ITESP_FilledBoxColor, "ITESP_FilledBoxColor");
+	ConfigManager::GetJsonValue(j, settings::ITESP_SecondFilledBoxColor, "ITESP_SecondFilledBoxColor");
+	ConfigManager::GetJsonValue(j, settings::ITESP_Outline, "ITESP_Outline");
+	ConfigManager::GetJsonValue(j, settings::ITESP_OutlineColor, "ITESP_OutlineColor");
+	ConfigManager::GetJsonValue(j, settings::ITESP_HighlightFriends, "ITESP_HighlightFriends");
+	ConfigManager::GetJsonValue(j, settings::ITESP_Friend3DBoxColor, "ITESP_Friend3DBoxColor");
+	ConfigManager::GetJsonValue(j, settings::ITESP_FriendBoxColor, "ITESP_FriendBoxColor");
+	ConfigManager::GetJsonValue(j, settings::ITESP_FriendFilledBoxColor, "ITESP_FriendFilledBoxColor");
+	ConfigManager::GetJsonValue(j, settings::ITESP_FriendSecondFilledBoxColor, "ITESP_FriendSecondFilledBoxColor");
+	ConfigManager::GetJsonValue(j, settings::ITESP_FriendOutlineColor, "ITESP_FriendOutlineColor");
 
 	return true;
 }

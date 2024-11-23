@@ -28,6 +28,7 @@ This project is based on the original **Fusion** by [deity]() and [deadshell](ht
 - **Customizable Colors**: Change the colors of different modules and the internal GUI
 - **Config Files**: Save and load cheat settings
 - **Dedicated Injector**: Inject the cheat into Lunar Client with the dedicated injector
+- **Friends List**: Add and remove friends to prevent Aim Assist from targeting them, or to highlight them in ESP
 
 ### Screenshots
 <img src="https://github.com/deadshxll/fusion/assets/67878277/5a732ba9-3d81-44e4-b745-f34f39555716" alt="original gui - by deadshell"/>

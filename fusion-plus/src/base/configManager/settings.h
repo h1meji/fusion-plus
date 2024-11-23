@@ -130,4 +130,32 @@ struct settings {
 	inline static bool TB_autoClick = true;
 	inline static int TB_maxCps = 15;
 	inline static int TB_minCps = 10;
+
+	// IT Esp
+	inline static bool ITESP_Enabled = false;
+	inline static bool ITESP_Text = true;
+	inline static float ITESP_TextSize = 18;
+	inline static float ITESP_TextColor[4]{ 1.0f, 1.0f, 1.0f, 1.0f };
+	inline static bool ITESP_TextOutline = true;
+	inline static float ITESP_TextOutlineColor[4]{ 0, 0, 0, 1.0f };
+	inline static float ITESP_TextUnrenderDistance = 14.0f;
+	inline static float ITESP_FadeDistance = 3.0f;
+	inline static bool ITESP_HealthBar = true;
+	inline static int ITESP_BoxType = 0;
+	inline static const char* ITESP_BoxTypeList[4]{ "Dynamic 2D Box", "3D Box" };
+	inline static float ITESP_3DBoxColor[4]{ 1, 0, 0, 1 };
+	inline static float ITESP_3DBoxThickness = 1.0f;
+	inline static bool ITESP_Box = true;
+	inline static float ITESP_BoxColor[4]{ 1, 0, 0, 1 };
+	inline static bool ITESP_FilledBox = true;
+	inline static float ITESP_FilledBoxColor[4]{ 1, 0, 0, 0.15f };
+	inline static float ITESP_SecondFilledBoxColor[4]{ 1, 0, 0, 0.15f };
+	inline static bool ITESP_Outline = true;
+	inline static float ITESP_OutlineColor[4]{ 1, 0, 0, 0.25 };
+	inline static bool ITESP_HighlightFriends = true;
+	inline static float ITESP_Friend3DBoxColor[4]{ 0, 1, 0, 1 };
+	inline static float ITESP_FriendBoxColor[4]{ 0, 1, 0, 1 };
+	inline static float ITESP_FriendFilledBoxColor[4]{ 0, 1, 0, 0.15f };
+	inline static float ITESP_FriendSecondFilledBoxColor[4]{ 0, 1, 0, 0.15f };
+	inline static float ITESP_FriendOutlineColor[4]{ 0, 1, 0, 0.25 };
 };
