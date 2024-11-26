@@ -23,6 +23,11 @@ This project is based on the original **Fusion** by [deity]() and [deadshell](ht
 - **Movement**
   - **Bridge Assist**: Automatically shifts the player at the edge of blocks while bridging.
 
+### Hidden Modules
+- **TnT Tag** (Hypixel)
+  - **Tag Back**: Automatically tags another player after being tagged.
+  - **IT ESP**: Highlights the player who is "IT" in TnT Tag, and displays their name and distance.
+
 ### Features
 - **Internal GUI**: Press `Insert` to open the internal GUI
 - **Customizable Colors**: Change the colors of different modules and the internal GUI
