@@ -5,6 +5,7 @@
 #include "menu/menu.h"
 
 #include "moduleManager/moduleManager.h"
+#include "notificationManager/notificationManager.h"
 
 void Base::RenderLoop() // Runs every frame
 {
@@ -40,4 +41,6 @@ void Base::RenderLoop() // Runs every frame
 	}
 
 	g_ModuleManager->RenderUpdate();
+
+	NotificationManager::Render();
 }
