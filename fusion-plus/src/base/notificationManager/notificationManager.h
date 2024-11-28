@@ -25,6 +25,10 @@ namespace NotificationManager
 
 	static const int max_notifications = 3;
 	static const float font_size = 28;
+
+	static const double ALIVE_TIME_S = 5;
+	static const double SLIDE_OUT_TIME_S = 0.5;
+	static const double SLIDE_IN_TIME_S = 0.5;
 };
 
 #define NotificationInfo(message, ...) NotificationManager::Send("Fusion+ :: Info", message, ##__VA_ARGS__)

@@ -20,7 +20,10 @@ bool NotificationManager::Render()
         Notification notification = notifications[i];
 
         std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
-        if (std::chrono::duration_cast<std::chrono::milliseconds>(now - notification.startTime).count() > 5000)
+        
+        std::chrono::duration<double> diff = now - notification.startTime;
+
+        if (diff.count() > ALIVE_TIME_S)
         {
             notifications.erase(notifications.begin() + i);
         }
@@ -33,6 +36,16 @@ bool NotificationManager::Render()
 
         x = windowSize.x - padding - width;
         y = y - height - padding;
+
+        if (diff.count() < SLIDE_IN_TIME_S)
+        {
+            x = windowSize.x + ((x - windowSize.x) / SLIDE_IN_TIME_S) * diff.count();
+        }
+        else if (diff.count() >= (ALIVE_TIME_S - SLIDE_OUT_TIME_S))
+        {
+            x = x - ((x - windowSize.x) / SLIDE_OUT_TIME_S) * (diff.count() - (ALIVE_TIME_S - SLIDE_OUT_TIME_S));
+        }
+
 
         RenderNotification(notification, x, y, width, height);
     }
