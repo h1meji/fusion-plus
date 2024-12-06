@@ -1,6 +1,6 @@
 # FUSION+
 
-This project is based on the original **Fusion** by [deity]() and [deadshell](https://github.com/deadshxll), which is no longer maintained. *Fusion+* aims to carry the project forward with additional features, optimizations, and enhancements for personal use as well as for developers seeking a solid foundation for further customization.
+This project is based on the original **Fusion** by [deity](https://www.youtube.com/@x64x70) and [deadshell](https://github.com/deadshxll), which is no longer maintained. *Fusion+* aims to carry the project forward with additional features, optimizations, and enhancements for personal use as well as for developers seeking a solid foundation for further customization.
 
 ---
 
