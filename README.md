@@ -22,6 +22,7 @@ This project is based on the original **Fusion** by [deity]() and [deadshell](ht
   - **Right Auto Clicker**: Automatically clicks the right mouse button
 - **Movement**
   - **Bridge Assist**: Automatically shifts the player at the edge of blocks while bridging.
+  - **Velocity**: Reduces knockback taken by the player
 
 ### Hidden Modules
 - **TnT Tag** (Hypixel)
@@ -68,7 +69,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - [x] **W-Tap**: Automatically W-taps for the user.
 - [x] **Bridge Assist**: Automatically shifts the player at the edge of blocks while bridging.
 - [x] **Radar**: Displays a radar of nearby players
-- [ ] **Velocity**: Reduces knockback taken by the player
+- [x] **Velocity**: Reduces knockback taken by the player
 - [ ] **Restock**: Automatically restocks the player's hotbar
 - [ ] **Inventory Manager**: Automatically sorts the player's inventory
 
@@ -88,7 +89,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - **Lefrauder**: Remade the reach module
 - **noahswtf**: Fixed critical fullscreen issues
 
-Big thanks to the original developers of *Fusion* for creating the solid foundation upon which *Fusion+* is built. You can find the original repository [here](https://github.com/deadshxll/fusion).
+Big thanks to the original developers of *Fusion* for creating the solid foundation upon which *Fusion+* is built. You can find the original repository [here](https://github.com/6470bru/fusion).
 
 ---
 
