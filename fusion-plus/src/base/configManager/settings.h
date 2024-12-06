@@ -113,6 +113,13 @@ struct settings {
 	inline static float BA_PitchCheck = 61.0f;
 	inline static int BA_BlockCheck = 1;
 
+	// Velocity
+	inline static bool Velocity_Enabled = false;
+	inline static int Velocity_Mode = 0;
+	inline static const char* Velocity_ModeList[0]{ "Jump Reset" };
+	inline static float Velocity_JRReactionTime = 0.1f;
+	inline static int Velocity_JRChange = 80;
+
 	// Tag Back
 	inline static bool TB_Enabled = false;
 	inline static bool TB_visibilityCheck = true;

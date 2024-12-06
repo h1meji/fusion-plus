@@ -153,6 +153,12 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["BA_PitchCheck"] = settings::BA_PitchCheck;
 	j["BA_BlockCheck"] = settings::BA_BlockCheck;
 
+	// Velocity
+	j["Velocity_Enabled"] = settings::Velocity_Enabled;
+	j["Velocity_Mode"] = settings::Velocity_Mode;
+	j["Velocity_JRReactionTime"] = settings::Velocity_JRReactionTime;
+	j["Velocity_JRChange"] = settings::Velocity_JRChange;
+
 	// Tag Back
 	j["TB_Enabled"] = settings::TB_Enabled;
 	j["TB_visibilityCheck"] = settings::TB_visibilityCheck;
@@ -302,6 +308,12 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::BA_OnlyOnShift, "BA_OnlyOnShift");
 	ConfigManager::GetJsonValue(j, settings::BA_PitchCheck, "BA_PitchCheck");
 	ConfigManager::GetJsonValue(j, settings::BA_BlockCheck, "BA_BlockCheck");
+
+	// Velocity
+	ConfigManager::GetJsonValue(j, settings::Velocity_Enabled, "Velocity_Enabled");
+	ConfigManager::GetJsonValue(j, settings::Velocity_Mode, "Velocity_Mode");
+	ConfigManager::GetJsonValue(j, settings::Velocity_JRReactionTime, "Velocity_JRReactionTime");
+	ConfigManager::GetJsonValue(j, settings::Velocity_JRChange, "Velocity_JRChange");
 
 	// Tag Back
 	ConfigManager::GetJsonValue(j, settings::TB_Enabled, "TB_Enabled");

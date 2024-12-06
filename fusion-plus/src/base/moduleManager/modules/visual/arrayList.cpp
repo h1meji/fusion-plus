@@ -14,6 +14,7 @@
 #include "moduleManager/modules/clicker/leftAutoClicker.h"
 #include "moduleManager/modules/clicker/rightAutoClicker.h"
 #include "moduleManager/modules/movement/bridgeAssist.h"
+#include "moduleManager/modules/movement/velocity.h"
 #include "moduleManager/modules/tnt-tag/tagBack.h"
 #include "moduleManager/modules/tnt-tag/ITEsp.h"
 
@@ -32,6 +33,7 @@ void ArrayList::RenderUpdate()
 	if (LeftAutoClicker().IsEnabled()) enabledModules.push_back(LeftAutoClicker().GetName());
 	if (RightAutoClicker().IsEnabled()) enabledModules.push_back(RightAutoClicker().GetName());
 	if (BridgeAssist().IsEnabled()) enabledModules.push_back(BridgeAssist().GetName());
+	if (Velocity().IsEnabled()) enabledModules.push_back(Velocity().GetName());
 	if (TagBack().IsEnabled()) enabledModules.push_back(TagBack().GetName());
 	if (ITEsp().IsEnabled()) enabledModules.push_back(ITEsp().GetName());
 

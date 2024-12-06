@@ -10,6 +10,7 @@
 #include "modules/clicker/leftAutoClicker.h"
 #include "modules/clicker/rightAutoClicker.h"
 #include "modules/movement/bridgeAssist.h"
+#include "modules/movement/velocity.h"
 #include "modules/tnt-tag/tagBack.h"
 #include "modules/tnt-tag/ITEsp.h"
 #include "commonData.h"
@@ -28,6 +29,8 @@ void ModuleManager::Init()
 	modules.push_back(std::make_unique<LeftAutoClicker>());
 	modules.push_back(std::make_unique<RightAutoClicker>());
 	modules.push_back(std::make_unique<BridgeAssist>());
+	modules.push_back(std::make_unique<Velocity>());
+
 	modules.push_back(std::make_unique<TagBack>());
 	modules.push_back(std::make_unique<ITEsp>());
 
