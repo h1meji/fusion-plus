@@ -14,7 +14,7 @@ void Base::RenderLoop() // Runs every frame
 	if (settings::Menu_Watermark)
 	{
 		const char* watermarkfusionplus = "fusion+ by himeji";
-		const char* watermarkfusion = "fusion by deity & deadshxll";
+		const char* watermarkfusion = "fusion by deity & [redacted]";
 		// goofy ahh css
 		float margin = 3;
 		float font_size = 24;
