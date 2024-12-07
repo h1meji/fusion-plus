@@ -1,6 +1,6 @@
 # FUSION+
 
-This project is based on the original **Fusion** by [deity](https://www.youtube.com/@x64x70) and [deadshell](https://github.com/deadshxll), which is no longer maintained. *Fusion+* aims to carry the project forward with additional features, optimizations, and enhancements for personal use as well as for developers seeking a solid foundation for further customization.
+This project is based on the original **Fusion** by [deity](https://www.youtube.com/@x64x70) and [redacted](), which is no longer maintained. *Fusion+* aims to carry the project forward with additional features, optimizations, and enhancements for personal use as well as for developers seeking a solid foundation for further customization.
 
 ---
 
@@ -37,8 +37,8 @@ This project is based on the original **Fusion** by [deity](https://www.youtube.
 - **Friends List**: Add and remove friends to prevent Aim Assist from targeting them, or to highlight them in ESP
 
 ### Screenshots
-<img src="https://github.com/deadshxll/fusion/assets/67878277/5a732ba9-3d81-44e4-b745-f34f39555716" alt="original gui - by deadshell"/>
-<img src="https://github.com/deadshxll/fusion/assets/67878277/fac3f084-0255-4999-b03f-3e2e0a15bde8" alt="animated - by deadshell (rip _Sponky__)" width=586>
+<img src="https://github.com/6470bru/fusion/assets/67878277/5a732ba9-3d81-44e4-b745-f34f39555716" alt="original gui - by deadshell"/>
+<img src="https://github.com/6470bru/fusion/assets/67878277/fac3f084-0255-4999-b03f-3e2e0a15bde8" alt="animated - by deadshell (rip _Sponky__)" width=586>
 
 ## Download
 You can download the latest release of *Fusion+* [here](https://github.com/h1meji/fusion-plus/releases) or you can build the `.dll` file yourself by cloning the repository and building the project in Visual Studio.
@@ -85,7 +85,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 ## Credits
 **Original Fusion Development Team**:
 - **deity**: Developed the base of the cheat
-- **deadshell**: Developed modules and the GUI
+- **[redacted]**: Developed modules and the GUI
 - **Lefrauder**: Remade the reach module
 - **noahswtf**: Fixed critical fullscreen issues
 
