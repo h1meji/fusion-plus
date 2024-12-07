@@ -10,7 +10,7 @@
 void Base::RenderLoop() // Runs every frame
 {
 	if (!Base::Running) return;
-	const char* watermark = "fusion by deity & deadshxll";
+	const char* watermark = "fusion by deity & [REDACTED]";
 	// goofy ahh css
 	float margin = 3;
 	float font_size = 24;
