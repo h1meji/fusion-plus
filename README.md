@@ -34,8 +34,8 @@ I'd recommend using a trust worthy dll injector such as [Process Hacker](https:/
 
 ### Content
 
-<img src="https://github.com/deadshxll/fusion/assets/67878277/5a732ba9-3d81-44e4-b745-f34f39555716" />
-<img src="https://github.com/deadshxll/fusion/assets/67878277/fac3f084-0255-4999-b03f-3e2e0a15bde8" alt="animated" / width=853>
+<img src="https://github.com/6470bru/fusion/assets/67878277/5a732ba9-3d81-44e4-b745-f34f39555716" />
+<img src="https://github.com/6470bru/fusion/assets/67878277/fac3f084-0255-4999-b03f-3e2e0a15bde8" alt="animated" / width=853>
 
 ## Credits
 me&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Developed the base of the cheat
