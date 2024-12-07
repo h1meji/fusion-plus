@@ -38,9 +38,9 @@ I'd recommend using a trust worthy dll injector such as [Process Hacker](https:/
 <img src="https://github.com/deadshxll/fusion/assets/67878277/fac3f084-0255-4999-b03f-3e2e0a15bde8" alt="animated" / width=853>
 
 ## Credits
-deity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Developed the base of the cheat
+me&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Developed the base of the cheat
 
-deadshell&nbsp;&nbsp;&nbsp;: Developed the modules and the gui
+[REDACTED]&nbsp;&nbsp;&nbsp;: Developed the modules and the gui
 
 Lefrauder&nbsp;&nbsp;&nbsp;: Remade reach module
 
