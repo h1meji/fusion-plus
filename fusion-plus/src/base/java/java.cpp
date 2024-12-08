@@ -68,11 +68,12 @@ void Java::Init()
     if (JNI_GetCreatedJavaVMs(&vm, 1, &count) != JNI_OK || count == 0)
         return;
 
-
     jint res = vm->GetEnv((void**)&Java::Env, JNI_VERSION_1_6);
+    Logger::Log("Got Java ENV");
 
     if (res == JNI_EDETACHED)
         res = vm->AttachCurrentThread((void**)&Java::Env, nullptr);
+	Logger::Log("Attached to Java VM");
 
     if (res != JNI_OK)
         return;
@@ -82,8 +83,10 @@ void Java::Init()
 
     vm->GetEnv((void**)&Java::tiEnv, JVMTI_VERSION);
     setupClassLoader();
+	Logger::Log("Java initialized");
 
     GetMinecraftVersion();
+	Logger::Log("Got Minecraft version");
 }
 
 void Java::Kill()
@@ -202,27 +205,18 @@ vanilla 1.7.10: "Z", "Ljava/lang/String;"
 
     if (Java::AssignClass("net.minecraft.client.Minecraft", minecraftClassLunar)) // Lunar Client
     {
-		Logger::Log("net.minecraft.client.Minecraft class found");
 
         jfieldID theMinecraftField = Java::Env->GetStaticFieldID(minecraftClassLunar, "theMinecraft", "Lnet/minecraft/client/Minecraft;");
         if (!theMinecraftField) { Java::Version = MinecraftVersion::UNKNOWN; return; }
 
-		Logger::Log("theMinecraft field found");
-
         jobject theMinecraft = Java::Env->GetStaticObjectField(minecraftClassLunar, theMinecraftField);
         if (!theMinecraft) { Java::Version = MinecraftVersion::UNKNOWN; return; }
-
-		Logger::Log("theMinecraft object found");
 
         jfieldID launchedVersionField = Java::Env->GetFieldID(minecraftClassLunar, "launchedVersion", "Ljava/lang/String;");
         if (!launchedVersionField) { Java::Version = MinecraftVersion::UNKNOWN; return; }
 
-		Logger::Log("launchedVersion field found");
-
         jstring launchedVersion = (jstring)Java::Env->GetObjectField(theMinecraft, launchedVersionField);
         if (!launchedVersion) { Java::Version = MinecraftVersion::UNKNOWN; return; }
-
-		Logger::Log("launchedVersion object found");
 
         const char* versionCStr = Java::Env->GetStringUTFChars(launchedVersion, nullptr);
         std::string version = versionCStr;

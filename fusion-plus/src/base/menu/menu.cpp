@@ -15,6 +15,7 @@ void Menu::Init()
 	Menu::Keybind = VK_INSERT;
 
 	Menu::PlaceHooks();
+	Logger::Log("Menu initialized");
 }
 
 void Menu::ToggleButton(const char* format, bool* value)

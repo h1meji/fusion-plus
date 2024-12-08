@@ -33,14 +33,19 @@ void ModuleManager::Init()
 
 	modules.push_back(std::make_unique<TagBack>());
 	modules.push_back(std::make_unique<ITEsp>());
+	Logger::Log("Modules initialized");
 
 	// load friends
 	ConfigManager::LoadFriends();
+	Logger::Log("Friends loaded");
 
 	// load the first config
 	std::vector<std::string> configList = ConfigManager::GetConfigList();
 	if (!configList.empty())
+	{
 		ConfigManager::LoadConfig(configList[0].c_str());
+		Logger::Log("Config loaded: %s", configList[0].c_str());
+	}
 }
 
 void ModuleManager::UpdateModules()

@@ -6,5 +6,7 @@
 void SDK::Init()
 {
 	StrayCache::Initialize();
+	Logger::Log("Stray cache initialized");
 	SDK::Minecraft = new CMinecraft();
+	Logger::Log("Initialized Minecraft");
 }

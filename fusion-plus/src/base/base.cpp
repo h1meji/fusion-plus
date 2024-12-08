@@ -27,6 +27,10 @@ bool IsKeyReleased(int key)
 
 void Base::Init()
 {
+#ifdef _DEBUG
+	Logger::Init();
+#endif
+
 	MH_Initialize();
 
 	Java::Init();
@@ -40,6 +44,24 @@ void Base::Init()
 
 		FreeLibraryAndExitThread(Main::HModule, 0);
 		return;
+	}
+	switch (Java::Version)
+	{
+	case MinecraftVersion::LUNAR_1_8_9:
+		Logger::Log("Lunar Client 1.8.9 detected");
+		break;
+	case MinecraftVersion::LUNAR_1_7_10:
+		Logger::Log("Lunar Client 1.7.10 detected");
+		break;
+	case MinecraftVersion::VANILLA_1_8_9:
+		Logger::Log("Vanilla 1.8.9 detected");
+		break;
+	case MinecraftVersion::VANILLA_1_7_10:
+		Logger::Log("Vanilla 1.7.10 detected");
+		break;
+	case MinecraftVersion::UNKNOWN:
+		Logger::Log("Unknown Minecraft version detected");
+		break;
 	}
 
 	SDK::Init();
