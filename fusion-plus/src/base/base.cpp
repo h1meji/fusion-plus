@@ -30,8 +30,22 @@ void Base::Init()
 	MH_Initialize();
 
 	Java::Init();
+	if (Java::Version == MinecraftVersion::UNKNOWN)
+	{
+		MessageBoxA(NULL, "Unknown Minecraft version detected", "fusion+", MB_OK | MB_ICONERROR);
+		
+		Logger::Kill();
+		MH_Uninitialize();
+		Java::Kill();
+
+		FreeLibraryAndExitThread(Main::HModule, 0);
+		return;
+	}
+
 	SDK::Init();
-	Patcher::Init();
+
+	if (Java::Version == MinecraftVersion::LUNAR_1_8_9) Patcher::Init();
+
 	Menu::Init();
 
 	g_ModuleManager = std::make_unique<ModuleManager>();

@@ -6,35 +6,35 @@
 
 CMinecraft::CMinecraft()
 {
-	Java::AssignClass("net.minecraft.client.Minecraft", this->Class);
+	this->Class = StrayCache::minecraft_class;
 
-	this->MethodIDs["getMinecraft"] = Java::Env->GetStaticMethodID(this->GetClass(), "getMinecraft", "()Lnet/minecraft/client/Minecraft;");
+	this->MethodIDs["getMinecraft"] = StrayCache::minecraft_getMinecraft;
 	this->Instance = Java::Env->CallStaticObjectMethod(this->GetClass(), this->MethodIDs["getMinecraft"]);
 
-	this->FieldIDs["thePlayer"] = Java::Env->GetFieldID(this->GetClass(), "thePlayer", "Lnet/minecraft/client/entity/EntityPlayerSP;");
+	this->FieldIDs["thePlayer"] = StrayCache::minecraft_thePlayer;
 	this->thePlayer = new CEntityPlayerSP();
 
-	this->FieldIDs["theWorld"] = Java::Env->GetFieldID(this->GetClass(), "theWorld", "Lnet/minecraft/client/multiplayer/WorldClient;");
+	this->FieldIDs["theWorld"] = StrayCache::minecraft_theWorld;
 	this->theWorld = new CWorldClient();
 
 	this->activeRenderInfo = new CActiveRenderInfo();
 
-	this->FieldIDs["renderManager"] = Java::Env->GetFieldID(this->GetClass(), "renderManager", "Lnet/minecraft/client/renderer/entity/RenderManager;");
+	this->FieldIDs["renderManager"] = StrayCache::minecraft_renderManager;
 	this->renderManager = new CRenderManager();
 
-	this->FieldIDs["timer"] = Java::Env->GetFieldID(this->GetClass(), "timer", "Lnet/minecraft/util/Timer;");
+	this->FieldIDs["timer"] = StrayCache::minecraft_timer;
 	this->timer = new CTimer();
 
-	this->FieldIDs["gameSettings"] = Java::Env->GetFieldID(this->GetClass(), "gameSettings", "Lnet/minecraft/client/settings/GameSettings;");
+	this->FieldIDs["gameSettings"] = StrayCache::minecraft_gameSettings;
 	this->gameSettings = new CGameSettings();
 
-	this->MethodIDs["getRenderViewEntity"] = Java::Env->GetMethodID(this->GetClass(), "getRenderViewEntity", "()Lnet/minecraft/entity/Entity;");
-	this->FieldIDs["currentScreen"] = Java::Env->GetFieldID(this->GetClass(), "currentScreen", "Lnet/minecraft/client/gui/GuiScreen;");
+	this->MethodIDs["getRenderViewEntity"] = StrayCache::minecraft_getRenderViewEntity;
+	this->FieldIDs["currentScreen"] = StrayCache::minecraft_currentScreen;
 
-	this->FieldIDs["objectMouseOver"] = Java::Env->GetFieldID(this->GetClass(), "objectMouseOver", "Lnet/minecraft/util/MovingObjectPosition;");
+	this->FieldIDs["objectMouseOver"] = StrayCache::minecraft_objectMouseOver;
 
 	// not used lol
-	this->MethodIDs["clickMouse"] = Java::Env->GetMethodID(this->GetClass(), "clickMouse", "()V");
+	this->MethodIDs["clickMouse"] = StrayCache::minecraft_clickMouse;
 }
 
 jclass CMinecraft::GetClass()

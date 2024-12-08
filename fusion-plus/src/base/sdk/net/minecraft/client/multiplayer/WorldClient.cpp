@@ -7,9 +7,9 @@
 
 CWorldClient::CWorldClient()
 {
-	Java::AssignClass("net.minecraft.client.multiplayer.WorldClient", this->Class);
-	Java::AssignClass("net.minecraft.entity.player.EntityPlayer", this->EntityPlayer); // doing this because am lazy
-	this->FieldIDs["entityList"] = Java::Env->GetFieldID(this->Class, "entityList", "Ljava/util/Set;");
+	this->Class = StrayCache::worldClient_class;
+	this->EntityPlayer = StrayCache::entityPlayer_class;
+	this->FieldIDs["entityList"] = StrayCache::worldClient_entityList;
 }
 
 jclass CWorldClient::GetClass()

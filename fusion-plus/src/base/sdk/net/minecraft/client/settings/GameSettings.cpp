@@ -4,12 +4,12 @@
 
 CGameSettings::CGameSettings()
 {
-	Java::AssignClass("net.minecraft.client.settings.GameSettings", this->Class);
-	this->FieldIDs["thirdPersonView"] = Java::Env->GetFieldID(this->Class, "thirdPersonView", "I");
-	this->FieldIDs["fovSetting"] = Java::Env->GetFieldID(this->Class, "fovSetting", "F");
+	this->Class = StrayCache::gameSettings_class;
+	this->FieldIDs["thirdPersonView"] = StrayCache::gameSettings_thirdPersonView;
+	this->FieldIDs["fovSetting"] = StrayCache::gameSettings_fovSetting;
 
-	this->FieldIDs["keyBindFullscreen"] = Java::Env->GetFieldID(this->Class, "keyBindFullscreen", "Lnet/minecraft/client/settings/KeyBinding;");
-	this->MethodIDs["setOptionKeyBinding"] = Java::Env->GetMethodID(this->Class, "setOptionKeyBinding", "(Lnet/minecraft/client/settings/KeyBinding;I)V");
+	this->FieldIDs["keyBindFullscreen"] = StrayCache::gameSettings_keyBindFullscreen;
+	this->MethodIDs["setOptionKeyBinding"] = StrayCache::gameSettings_setOptionKeyBinding;
 }
 
 jclass CGameSettings::GetClass()

@@ -4,8 +4,8 @@
 
 CEntityPlayer::CEntityPlayer()
 {
-	Java::AssignClass("net.minecraft.entity.player.EntityPlayer", this->Class);
-	this->FieldIDs["inventory"] = Java::Env->GetFieldID(this->Class, "inventory", "Lnet/minecraft/entity/player/InventoryPlayer;");
+	this->Class = StrayCache::entityPlayer_class;
+	this->FieldIDs["inventory"] = StrayCache::entityPlayer_inventory;
 }
 
 CEntityPlayer::CEntityPlayer(jobject instance) : CEntityPlayer()

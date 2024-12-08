@@ -1,4 +1,5 @@
 #include "java.h"
+#include <util/logger.h>
 
 JavaVM* vm;
 jobject classLoader;
@@ -81,6 +82,8 @@ void Java::Init()
 
     vm->GetEnv((void**)&Java::tiEnv, JVMTI_VERSION);
     setupClassLoader();
+
+    GetMinecraftVersion();
 }
 
 void Java::Kill()
@@ -98,6 +101,9 @@ bool Java::AssignClass(std::string name, jclass &out)
         out = (jclass)findClass;
         return true;
     }
+
+	out = Java::Env->FindClass(name.c_str());
+	if (out) return true;
         
     return false;
 }
@@ -124,4 +130,112 @@ jclass Java::findClass(JNIEnv* p_env, jvmtiEnv* p_tienv, const std::string& path
     }
     p_tienv->Deallocate((unsigned char*)classes);
     return foundclass;
+}
+
+static bool Is1710()
+{
+    jclass minecraftClassVanilla1710 = Java::Env->FindClass("bao");
+	if (!minecraftClassVanilla1710) return false;
+
+	jfieldID theMinecraftField1710 = Java::Env->GetStaticFieldID(minecraftClassVanilla1710, "M", "Lbao;");
+	if (!theMinecraftField1710) return false;
+
+	jobject theMinecraft1710 = Java::Env->GetStaticObjectField(minecraftClassVanilla1710, theMinecraftField1710);
+	if (!theMinecraft1710) return false;
+
+	jfieldID launchedVersionField1710 = Java::Env->GetFieldID(minecraftClassVanilla1710, "Z", "Ljava/lang/String;");
+	if (!launchedVersionField1710) return false;
+
+	jstring launchedVersion1710 = (jstring)Java::Env->GetObjectField(theMinecraft1710, launchedVersionField1710);
+	if (!launchedVersion1710) return false;
+
+	const char* versionCStr1710 = Java::Env->GetStringUTFChars(launchedVersion1710, nullptr);
+	std::string version1710 = versionCStr1710;
+	Java::Env->ReleaseStringUTFChars(launchedVersion1710, versionCStr1710);
+
+	return version1710 == "1.7.10";
+}
+
+static bool Is189()
+{
+	jclass minecraftClassVanilla189 = Java::Env->FindClass("ave");
+	if (!minecraftClassVanilla189) return false;
+
+	jfieldID theMinecraftField189 = Java::Env->GetStaticFieldID(minecraftClassVanilla189, "S", "Lave;");
+	if (!theMinecraftField189) return false;
+
+	jobject theMinecraft189 = Java::Env->GetStaticObjectField(minecraftClassVanilla189, theMinecraftField189);
+	if (!theMinecraft189) return false;
+
+	jfieldID launchedVersionField189 = Java::Env->GetFieldID(minecraftClassVanilla189, "al", "Ljava/lang/String;");
+	if (!launchedVersionField189) return false;
+
+	jstring launchedVersion189 = (jstring)Java::Env->GetObjectField(theMinecraft189, launchedVersionField189);
+	if (!launchedVersion189) return false;
+
+	const char* versionCStr189 = Java::Env->GetStringUTFChars(launchedVersion189, nullptr);
+	std::string version189 = versionCStr189;
+	Java::Env->ReleaseStringUTFChars(launchedVersion189, versionCStr189);
+
+	return version189 == "1.8.9";
+}
+
+void Java::GetMinecraftVersion()
+{
+    /*
+=== "Minecraft" class ===
+lunar: "net/minecraft/client/Minecraft"
+vanilla 1.8.9: "ave"
+vanilla 1.7.10: "bao"
+
+=== "theMinecraft" ===
+lunar: "theMinecraft", "Lnet/minecraft/client/Minecraft;"
+vanilla 1.8.9: "S", "Lave;"
+vanilla 1.7.10: "M", "Lbao;"
+
+=== "launchedVersion" ===
+lunar: "launchedVersion", "Ljava/lang/String;"
+vanilla 1.8.9: "al", "Ljava/lang/String;"
+vanilla 1.7.10: "Z", "Ljava/lang/String;"
+    */
+	jclass minecraftClassLunar;
+
+    if (Java::AssignClass("net.minecraft.client.Minecraft", minecraftClassLunar)) // Lunar Client
+    {
+		Logger::Log("net.minecraft.client.Minecraft class found");
+
+        jfieldID theMinecraftField = Java::Env->GetStaticFieldID(minecraftClassLunar, "theMinecraft", "Lnet/minecraft/client/Minecraft;");
+        if (!theMinecraftField) { Java::Version = MinecraftVersion::UNKNOWN; return; }
+
+		Logger::Log("theMinecraft field found");
+
+        jobject theMinecraft = Java::Env->GetStaticObjectField(minecraftClassLunar, theMinecraftField);
+        if (!theMinecraft) { Java::Version = MinecraftVersion::UNKNOWN; return; }
+
+		Logger::Log("theMinecraft object found");
+
+        jfieldID launchedVersionField = Java::Env->GetFieldID(minecraftClassLunar, "launchedVersion", "Ljava/lang/String;");
+        if (!launchedVersionField) { Java::Version = MinecraftVersion::UNKNOWN; return; }
+
+		Logger::Log("launchedVersion field found");
+
+        jstring launchedVersion = (jstring)Java::Env->GetObjectField(theMinecraft, launchedVersionField);
+        if (!launchedVersion) { Java::Version = MinecraftVersion::UNKNOWN; return; }
+
+		Logger::Log("launchedVersion object found");
+
+        const char* versionCStr = Java::Env->GetStringUTFChars(launchedVersion, nullptr);
+        std::string version = versionCStr;
+        Java::Env->ReleaseStringUTFChars(launchedVersion, versionCStr);
+
+        if (version == "1.8.9") { Java::Version = MinecraftVersion::LUNAR_1_8_9; return; }
+        else if (version == "1.7.10") { Java::Version = MinecraftVersion::LUNAR_1_7_10; return; }
+        else { Java::Version = MinecraftVersion::UNKNOWN; return; }
+    }
+    else
+    {
+		if (Is1710()) { Java::Version = MinecraftVersion::VANILLA_1_7_10; return; }
+		else if (Is189()) { Java::Version = MinecraftVersion::VANILLA_1_8_9; return; }
+		else { Java::Version = MinecraftVersion::UNKNOWN; return; }
+    }
 }

@@ -37,7 +37,7 @@ bool CMovingObjectPosition::IsTypeOfBlock()
 
 	jclass movingObjectType = Java::Env->GetObjectClass(typeOfHit);
 	if (!movingObjectType) return false;
-	jfieldID block = Java::Env->GetStaticFieldID(movingObjectType, "BLOCK", "Lnet/minecraft/util/MovingObjectPosition$MovingObjectType;");
+	jfieldID block = StrayCache::GetMovingBlockPositionBLOCK(movingObjectType);
 	if (!block) return false;
 	jobject object = Java::Env->GetStaticObjectField(movingObjectType, block);
 	if (!object) return false;

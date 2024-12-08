@@ -7,9 +7,9 @@
 
 CActiveRenderInfo::CActiveRenderInfo()
 {
-	Java::AssignClass("net.minecraft.client.renderer.ActiveRenderInfo", this->Class);
-	this->FieldIDs["PROJECTION"] = Java::Env->GetStaticFieldID(this->Class, "PROJECTION", "Ljava/nio/FloatBuffer;");
-	this->FieldIDs["MODELVIEW"] = Java::Env->GetStaticFieldID(this->Class, "MODELVIEW", "Ljava/nio/FloatBuffer;");
+	this->Class = StrayCache::activeRenderInfo_class;
+	this->FieldIDs["PROJECTION"] = StrayCache::activeRenderInfo_projection;
+	this->FieldIDs["MODELVIEW"] = StrayCache::activeRenderInfo_modelView;
 }
 
 jclass CActiveRenderInfo::GetClass()

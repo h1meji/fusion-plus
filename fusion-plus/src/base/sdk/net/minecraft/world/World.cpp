@@ -10,11 +10,10 @@
 
 CWorld::CWorld() 
 {
-	Java::AssignClass("net.minecraft.world.World", this->Class);
-	this->FieldIDs["playerEntities"] = Java::Env->GetFieldID(this->Class, "playerEntities", "Ljava/util/List;");
-
-	this->MethodIDs["rayTraceBlocks"] = Java::Env->GetMethodID(this->Class, "rayTraceBlocks", "(Lnet/minecraft/util/Vec3;Lnet/minecraft/util/Vec3;ZZZ)Lnet/minecraft/util/MovingObjectPosition;");
-	this->MethodIDs["getBlockState"] = Java::Env->GetMethodID(this->Class, "getBlockState", "(Lnet/minecraft/util/BlockPos;)Lnet/minecraft/block/state/IBlockState;");
+	this->Class = StrayCache::world_class;
+	this->FieldIDs["playerEntities"] = StrayCache::world_playerEntities;
+	this->MethodIDs["rayTraceBlocks"] = StrayCache::world_rayTraceBlocks;
+	this->MethodIDs["getBlockState"] = StrayCache::world_getBlockState;
 }
 
 jclass CWorld::GetClass()
@@ -52,8 +51,8 @@ std::vector<CEntityPlayer> CWorld::GetPlayerList()
 bool CWorld::rayTraceBlocks(Vector3 from, Vector3 to, Vector3& result, bool stopOnLiquid, bool ignoreBlockWithoutBoundingBox, bool returnLastUncollidableBlock)
 {
 	// SPECIAL CASE
-	jclass cls;
-	Java::AssignClass("net.minecraft.util.Vec3", cls);
+	jclass cls = StrayCache::vec3_class;
+
 	jmethodID init = Java::Env->GetMethodID(cls, "<init>", "(DDD)V");
 	jobject j_to = Java::Env->NewObject(cls, init, (jdouble)(double)to.x, (jdouble)(double)to.y, (jdouble)(double)to.z);
 	jobject j_from = Java::Env->NewObject(cls, init, (jdouble)(double)from.x, (jdouble)(double)from.y, (jdouble)(double)from.z);

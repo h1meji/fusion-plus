@@ -16,6 +16,16 @@
 std::chrono::steady_clock::time_point lastUpdate;
 void Reach::Update()
 {
+	if (Java::Version != MinecraftVersion::LUNAR_1_8_9)
+	{
+		if (settings::Reach_Enabled)
+		{
+			settings::Reach_Enabled = false;
+			Logger::Log("Reach is only supported on Lunar CLient 1.8.9");
+		}
+		return;
+	}
+
 	static float prev_reach = -1.0f;
 	if (!settings::Reach_Enabled)
 	{

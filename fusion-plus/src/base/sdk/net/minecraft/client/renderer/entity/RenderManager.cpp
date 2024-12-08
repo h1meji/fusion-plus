@@ -5,14 +5,14 @@
 
 CRenderManager::CRenderManager()
 {
-	Java::AssignClass("net.minecraft.client.renderer.entity.RenderManager", this->Class);
-	this->FieldIDs["renderPosX"] = Java::Env->GetFieldID(this->Class, "renderPosX", "D");
-	this->FieldIDs["renderPosY"] = Java::Env->GetFieldID(this->Class, "renderPosY", "D");
-	this->FieldIDs["renderPosZ"] = Java::Env->GetFieldID(this->Class, "renderPosZ", "D");
+	this->Class = StrayCache::renderManager_class;
+	this->FieldIDs["renderPosX"] = StrayCache::renderManager_renderPosX;
+	this->FieldIDs["renderPosY"] = StrayCache::renderManager_renderPosY;
+	this->FieldIDs["renderPosZ"] = StrayCache::renderManager_renderPosZ;
 
-	this->FieldIDs["viewerPosX"] = Java::Env->GetFieldID(this->Class, "viewerPosX", "D");
-	this->FieldIDs["viewerPosY"] = Java::Env->GetFieldID(this->Class, "viewerPosY", "D");
-	this->FieldIDs["viewerPosZ"] = Java::Env->GetFieldID(this->Class, "viewerPosZ", "D");
+	this->FieldIDs["viewerPosX"] = StrayCache::renderManager_viewerPosX;
+	this->FieldIDs["viewerPosY"] = StrayCache::renderManager_viewerPosY;
+	this->FieldIDs["viewerPosZ"] = StrayCache::renderManager_viewerPosZ;
 }
 
 Vector3 CRenderManager::RenderPos()

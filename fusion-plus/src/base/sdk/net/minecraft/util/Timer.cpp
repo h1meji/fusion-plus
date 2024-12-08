@@ -5,8 +5,8 @@
 
 CTimer::CTimer()
 {
-	Java::AssignClass("net.minecraft.util.Timer", this->Class);
-	this->FieldIDs["renderPartialTicks"] = Java::Env->GetFieldID(this->Class, "renderPartialTicks", "F");
+	this->Class = StrayCache::timer_class;
+	this->FieldIDs["renderPartialTicks"] = StrayCache::timer_renderPartialTicks;
 }
 
 float CTimer::GetRenderPartialTicks()

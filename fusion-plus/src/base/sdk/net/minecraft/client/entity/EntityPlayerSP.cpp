@@ -6,7 +6,7 @@
 
 CEntityPlayerSP::CEntityPlayerSP() : CEntityPlayer()
 {
-	Java::AssignClass("net.minecraft.client.entity.EntityPlayerSP", this->Class);
+	this->Class = StrayCache::entityPlayerSP_class;
 }
 
 jclass CEntityPlayerSP::GetClass()
