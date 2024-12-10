@@ -34,17 +34,6 @@ void Base::Init()
 	MH_Initialize();
 
 	Java::Init();
-	if (Java::Version == MinecraftVersion::UNKNOWN)
-	{
-		MessageBoxA(NULL, "Unknown Minecraft version detected", "fusion+", MB_OK | MB_ICONERROR);
-		
-		Logger::Kill();
-		MH_Uninitialize();
-		Java::Kill();
-
-		FreeLibraryAndExitThread(Main::HModule, 0);
-		return;
-	}
 	switch (Java::Version)
 	{
 	case MinecraftVersion::LUNAR_1_8_9:
@@ -61,6 +50,19 @@ void Base::Init()
 		break;
 	case MinecraftVersion::UNKNOWN:
 		Logger::Log("Unknown Minecraft version detected");
+		MessageBoxA(NULL, "Unknown Minecraft version detected", "fusion+", MB_OK | MB_ICONERROR);
+		Logger::Kill();
+		MH_Uninitialize();
+		Java::Kill();
+		FreeLibraryAndExitThread(Main::HModule, 0);
+		break;
+	default:
+		Logger::Log("Unknown Minecraft version detected");
+		MessageBoxA(NULL, "Unknown Minecraft version detected", "fusion+", MB_OK | MB_ICONERROR);
+		Logger::Kill();
+		MH_Uninitialize();
+		Java::Kill();
+		FreeLibraryAndExitThread(Main::HModule, 0);
 		break;
 	}
 
