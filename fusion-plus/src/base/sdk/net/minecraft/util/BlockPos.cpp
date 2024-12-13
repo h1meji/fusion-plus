@@ -10,11 +10,11 @@ CBlockPos::CBlockPos(int x, int y, int z)
 	this->Instance = Java::Env->NewObject(this->Class, StrayCache::blockPos_constructorInt, x, y, z);
 }
 
-CBlockPos::CBlockPos(float x, float y, float z)
+CBlockPos::CBlockPos(double x, double y, double z)
 {
 	if (!StrayCache::initialized) StrayCache::Initialize();
 	this->Class = StrayCache::blockPos_class;
-	this->Instance = Java::Env->NewObject(this->Class, StrayCache::blockPos_constructorFloat, x, y, z);
+	this->Instance = Java::Env->NewObject(this->Class, StrayCache::blockPos_constructorDouble, x, y, z);
 }
 
 jclass CBlockPos::GetClass()

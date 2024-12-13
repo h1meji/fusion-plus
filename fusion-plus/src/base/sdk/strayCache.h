@@ -138,7 +138,7 @@ struct StrayCache {
 	// BLOCK POS CLASS
 	inline static jclass blockPos_class;
 	inline static jmethodID blockPos_constructorInt;
-	inline static jmethodID blockPos_constructorFloat;
+	inline static jmethodID blockPos_constructorDouble;
 
 	static void Initialize() {
 		if (Java::Version == MinecraftVersion::UNKNOWN) { return; }
@@ -216,9 +216,9 @@ struct StrayCache {
 			entityLivingBase_canEntityBeSeen = Java::Env->GetMethodID(entityLivingBase_class, "canEntityBeSeen", "(Lnet/minecraft/entity/Entity;)Z");
 
 			Java::AssignClass("net.minecraft.entity.player.EntityPlayer", entityPlayer_class);
-			entityPlayer_inventory = Java::Env->GetFieldID(entityPlayer_class, "inventory", "Lnet/minecraft.entity.player.InventoryPlayer;");
+			entityPlayer_inventory = Java::Env->GetFieldID(entityPlayer_class, "inventory", "Lnet/minecraft/entity/player/InventoryPlayer;");
 
-			Java::AssignClass("net.minecraft.entity.player.EntityPlayerSP", entityPlayerSP_class);
+			Java::AssignClass("net.minecraft.client.entity.EntityPlayerSP", entityPlayerSP_class);
 
 			Java::AssignClass("net.minecraft.util.AxisAlignedBB", axisAlignedBB_class);
 			axisAlignedBB_minX = Java::Env->GetFieldID(axisAlignedBB_class, "minX", "D");
@@ -257,7 +257,7 @@ struct StrayCache {
 
 			Java::AssignClass("net.minecraft.util.BlockPos", blockPos_class);
 			blockPos_constructorInt = Java::Env->GetMethodID(blockPos_class, "<init>", "(III)V");
-			blockPos_constructorFloat = Java::Env->GetMethodID(blockPos_class, "<init>", "(FFF)V");
+			blockPos_constructorDouble = Java::Env->GetMethodID(blockPos_class, "<init>", "(DDD)V");
 		}
 		else if (Java::Version == MinecraftVersion::LUNAR_1_7_10)
 		{
@@ -376,7 +376,7 @@ struct StrayCache {
 
 			Java::AssignClass("cj", blockPos_class);
 			blockPos_constructorInt = Java::Env->GetMethodID(blockPos_class, "<init>", "(III)V");
-			blockPos_constructorFloat = Java::Env->GetMethodID(blockPos_class, "<init>", "(FFF)V");
+			blockPos_constructorDouble = Java::Env->GetMethodID(blockPos_class, "<init>", "(FFF)V");
 		}
 		else if (Java::Version == MinecraftVersion::VANILLA_1_7_10)
 		{

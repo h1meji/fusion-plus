@@ -5,7 +5,7 @@
 struct CBlockPos : IClass
 {
 	CBlockPos(int x, int y, int z);
-	CBlockPos(float x, float y, float z);
+	CBlockPos(double x, double y, double z);
 
 	jclass GetClass();
 	jobject GetInstance();
