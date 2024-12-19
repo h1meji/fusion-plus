@@ -158,6 +158,8 @@ void RenderSettingsMenu()
 	ImGui::SeparatorText("Menu Settings");
 
 	Menu::DoColorPickerStuff(3457284, "Menu Accent Color", settings::Menu_AccentColor);
+
+	Menu::DoToggleButtonStuff(948753, "GUI Movement", &settings::Menu_GUIMovement);
 	
 	Menu::DoToggleButtonStuff(9837592, "Show Watermark", &settings::Menu_Watermark);
 

@@ -8,6 +8,7 @@ struct settings {
 
 	// Menu
 	inline static float Menu_AccentColor[4]{ 0, 0.4, 0.4, 1.0f };
+	inline static bool Menu_GUIMovement = false;
 	inline static bool Menu_Watermark = true;
 	inline static bool Menu_DisableAllRendering = false;
 	inline static bool Menu_ShowHiddenCategories = false;

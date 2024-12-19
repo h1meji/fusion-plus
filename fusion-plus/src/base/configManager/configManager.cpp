@@ -56,6 +56,7 @@ bool ConfigManager::SettingsToJson(json& j)
 {
 	// Menu
 	j["Menu_AccentColor"] = settings::Menu_AccentColor;
+	j["Menu_GUIMovement"] = settings::Menu_GUIMovement;
 	j["Menu_Watermark"] = settings::Menu_Watermark;
 	j["Menu_DisableAllRendering"] = settings::Menu_DisableAllRendering;
 	j["Menu_ShowHiddenCategories"] = settings::Menu_ShowHiddenCategories;
@@ -212,6 +213,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 {
 	// Menu
 	ConfigManager::GetJsonValue(j, settings::Menu_AccentColor, "Menu_AccentColor");
+	ConfigManager::GetJsonValue(j, settings::Menu_GUIMovement, "Menu_GUIMovement");
 	ConfigManager::GetJsonValue(j, settings::Menu_Watermark, "Menu_Watermark");
 	ConfigManager::GetJsonValue(j, settings::Menu_DisableAllRendering, "Menu_DisableAllRendering");
 	ConfigManager::GetJsonValue(j, settings::Menu_ShowHiddenCategories, "Menu_ShowHiddenCategories");

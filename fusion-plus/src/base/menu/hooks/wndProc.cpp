@@ -2,6 +2,8 @@
 
 #include "imgui/imgui_impl_win32.h"
 
+#include "configManager/settings.h"
+
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 typedef LRESULT(CALLBACK* template_WndProc) (HWND, UINT, WPARAM, LPARAM);
@@ -24,12 +26,31 @@ LRESULT CALLBACK hook_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	if (Menu::Open && Menu::Initialized)
 	{
-		ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam);
-		return true;
+		if (settings::Menu_GUIMovement)
+		{
+			// block imgui input from reaching minecraft
+			if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam))
+				return true;
+
+			// block mouse move events from reaching minecraft
+			if (msg == WM_MOUSEMOVE)
+				return true;
+
+			// block mouse click events from reaching minecraft
+			if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN)
+				return true;
+		}
+		else
+		{
+			ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam);
+			return true;
+		}
 	}
 
 	return CallWindowProc(original_wndProc, hwnd, msg, wParam, lParam);
 }
+
+
 
 void Menu::Hook_wndProc()
 {
