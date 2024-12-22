@@ -39,6 +39,10 @@ LRESULT CALLBACK hook_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			// block mouse click events from reaching minecraft
 			if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN)
 				return true;
+
+			// block mouse scroll events from reaching minecraft
+			if (msg == WM_MOUSEWHEEL)
+				return true;
 		}
 		else
 		{
