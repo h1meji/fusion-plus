@@ -2,7 +2,7 @@
 
 bool ConfigManager::LoadConfig(const char* name)
 {
-	std::ifstream file(ConfigManager::GetDocumentsPath() + name + FILE_SUFFIX);
+	std::ifstream file(ConfigManager::GetConfigPath() + name + FILE_SUFFIX);
 
 	if (!file.is_open())
 		return false;
@@ -24,7 +24,7 @@ bool ConfigManager::SaveConfig(const char* name)
 	if (!SettingsToJson(j))
 		return false;
 
-	std::ofstream file(ConfigManager::GetDocumentsPath() + name + FILE_SUFFIX);
+	std::ofstream file(ConfigManager::GetConfigPath() + name + FILE_SUFFIX);
 
 	if (!file.is_open())
 		return false;
@@ -40,10 +40,10 @@ std::vector<std::string> ConfigManager::GetConfigList()
 	std::vector<std::string> configs;
 
 	// check if the directory exists, if not create it
-	if (!std::filesystem::exists(ConfigManager::GetDocumentsPath()))
-		std::filesystem::create_directory(ConfigManager::GetDocumentsPath());
+	if (!std::filesystem::exists(ConfigManager::GetConfigPath()))
+		std::filesystem::create_directory(ConfigManager::GetConfigPath());
 
-	for (const auto& entry : std::filesystem::directory_iterator(ConfigManager::GetDocumentsPath()))
+	for (const auto& entry : std::filesystem::directory_iterator(ConfigManager::GetConfigPath()))
 	{
 		if (entry.path().extension() == FILE_SUFFIX/* || entry.path().extension() == ".json"*/)
 			configs.push_back(entry.path().filename().replace_extension("").string());
@@ -372,7 +372,7 @@ std::string ConfigManager::GetDocumentsPath()
 
 	// Get the path to the Documents folder (CSIDL_PERSONAL refers to "My Documents")
 	if (SHGetFolderPathA(NULL, CSIDL_PERSONAL, NULL, 0, path) == S_OK) {
-		return std::string(path) + "/Fusion+/";  // Add your specific subfolder
+		return std::string(path);
 	}
 	else {
 		std::cerr << "Failed to get Documents folder." << std::endl;
@@ -380,9 +380,19 @@ std::string ConfigManager::GetDocumentsPath()
 	}
 }
 
+std::string ConfigManager::GetConfigPath()
+{
+	return ConfigManager::GetFusionPath() + "/configs/";
+}
+
+std::string ConfigManager::GetFusionPath()
+{
+	return ConfigManager::GetDocumentsPath() + "/Fusion+/";
+}
+
 bool ConfigManager::LoadFriends()
 {
-	std::ifstream file(ConfigManager::GetDocumentsPath() + "friends.json");
+	std::ifstream file(ConfigManager::GetFusionPath() + "friends.json");
 
 	if (!file.is_open())
 		return false;
@@ -412,7 +422,7 @@ bool ConfigManager::SaveFriends()
 		j.push_back(friendName);
 	}
 
-	std::ofstream file(ConfigManager::GetDocumentsPath() + "friends.json");
+	std::ofstream file(ConfigManager::GetFusionPath() + "friends.json");
 
 	if (!file.is_open())
 		return false;

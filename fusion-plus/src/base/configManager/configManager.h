@@ -81,6 +81,9 @@ namespace ConfigManager
 
     std::string GetDocumentsPath();
 
+	std::string GetConfigPath();
+	std::string GetFusionPath();
+
 	// Friends
 	bool LoadFriends();
 	bool SaveFriends();
