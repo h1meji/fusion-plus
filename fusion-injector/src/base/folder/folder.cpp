@@ -14,21 +14,22 @@ bool FolderManager::EnsureDirectoryExists(const std::string& path)
     return true;
 }
 
-std::string FolderManager::GetProgramFilesFolder(const std::string& subFolder)
+std::string FolderManager::GetDocumentsPath(const std::string& subFolder)
 {
     char path[MAX_PATH];
 
-    if (SHGetFolderPathA(NULL, CSIDL_PROGRAM_FILES, NULL, 0, path) == S_OK) {
+    // Get the path to the Documents folder (CSIDL_PERSONAL refers to "My Documents")
+    if (SHGetFolderPathA(NULL, CSIDL_PERSONAL, NULL, 0, path) == S_OK) {
         std::string fullPath = std::string(path) + "\\" + subFolder;
 
         if (!subFolder.empty() && !FolderManager::EnsureDirectoryExists(fullPath)) {
-			return ""; // ! directory creation failed
+            return ""; // ! directory creation failed
         }
 
         return fullPath;
     }
     else {
-		return ""; // ! failed to get "Program Files" folder
+        return "";
     }
 }
 
@@ -61,5 +62,5 @@ std::string FolderManager::GetVersionStringDll()
 
 std::string FolderManager::GetFusionFolder()
 {
-	return FolderManager::GetProgramFilesFolder("Fusion+");
+	return FolderManager::GetDocumentsPath("Fusion+");
 }
