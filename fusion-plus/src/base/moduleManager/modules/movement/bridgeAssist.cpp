@@ -124,7 +124,7 @@ void BridgeAssist::RenderMenu()
 {
 	static bool renderSettings = false;
 
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 20);
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 

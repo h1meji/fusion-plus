@@ -16,6 +16,7 @@
 #include "commonData.h"
 
 #include <configManager/configManager.h>
+#include <imgui/imgui.h>
 
 void ModuleManager::Init()
 {
@@ -72,6 +73,8 @@ void ModuleManager::RenderMenu(int index)
 {
 	if (index < 0)
 		return;
+
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 15);
 
 	std::vector<std::string> categories = GetCategories();
 	for (auto& module : modules)
