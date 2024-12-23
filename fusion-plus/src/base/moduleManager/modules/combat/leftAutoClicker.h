@@ -16,6 +16,6 @@ public:
 
 private:
 	std::string Name = "Left Auto Clicker";
-	std::string Category = "Clicker";
+	std::string Category = "Combat";
 };
 

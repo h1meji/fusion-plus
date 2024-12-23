@@ -18,5 +18,5 @@ public:
 
 private:
 	std::string Name = "Array List";
-	std::string Category = "Visual";
+	std::string Category = "Utility";
 };

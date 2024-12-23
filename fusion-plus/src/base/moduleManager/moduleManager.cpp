@@ -1,16 +1,16 @@
 #include "moduleManager.h"
 
-#include "modules/visual/esp.h"
-#include "modules/visual/arrayList.h"
-#include "modules/visual/radar.h"
-#include "modules/visual/blockEsp.h"
 #include "modules/combat/aimAssist.h"
 #include "modules/combat/reach.h"
 #include "modules/combat/wTap.h"
-#include "modules/clicker/leftAutoClicker.h"
-#include "modules/clicker/rightAutoClicker.h"
+#include "modules/combat/leftAutoClicker.h"
+#include "modules/combat/rightAutoClicker.h"
+#include "modules/visual/esp.h"
+#include "modules/visual/radar.h"
+#include "modules/visual/blockEsp.h"
 #include "modules/movement/bridgeAssist.h"
 #include "modules/movement/velocity.h"
+#include "modules/utility/arrayList.h"
 #include "modules/tnt-tag/tagBack.h"
 #include "modules/tnt-tag/ITEsp.h"
 #include "commonData.h"
@@ -20,15 +20,15 @@
 
 void ModuleManager::Init()
 {
-	modules.push_back(std::make_unique<Esp>());
-	modules.push_back(std::make_unique<ArrayList>());
-	modules.push_back(std::make_unique<Radar>());
-	modules.push_back(std::make_unique<BlockEsp>());
 	modules.push_back(std::make_unique<AimAssist>());
 	modules.push_back(std::make_unique<Reach>());
 	modules.push_back(std::make_unique<WTap>());
 	modules.push_back(std::make_unique<LeftAutoClicker>());
 	modules.push_back(std::make_unique<RightAutoClicker>());
+	modules.push_back(std::make_unique<Esp>());
+	modules.push_back(std::make_unique<Radar>());
+	modules.push_back(std::make_unique<BlockEsp>());
+	modules.push_back(std::make_unique<ArrayList>());
 	modules.push_back(std::make_unique<BridgeAssist>());
 	modules.push_back(std::make_unique<Velocity>());
 

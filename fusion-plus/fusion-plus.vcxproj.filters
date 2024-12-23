@@ -201,10 +201,10 @@
     <ClInclude Include="ext\fonts\jetbrainsmono.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\moduleManager\modules\clicker\leftAutoClicker.h">
+    <ClInclude Include="src\base\moduleManager\modules\combat\leftAutoClicker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\moduleManager\modules\clicker\rightAutoClicker.h">
+    <ClInclude Include="src\base\moduleManager\modules\combat\rightAutoClicker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\base\sdk\net\minecraft\entity\player\InventoryPlayer.h">
@@ -237,7 +237,7 @@
     <ClInclude Include="ext\nlohmann\json_fwd.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\moduleManager\modules\visual\arrayList.h">
+    <ClInclude Include="src\base\moduleManager\modules\utility\arrayList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\base\moduleManager\modules\movement\bridgeAssist.h">
@@ -419,10 +419,10 @@
     <ClCompile Include="src\base\sdk\net\minecraft\util\Vec3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\moduleManager\modules\clicker\leftAutoClicker.cpp">
+    <ClCompile Include="src\base\moduleManager\modules\combat\leftAutoClicker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\moduleManager\modules\clicker\rightAutoClicker.cpp">
+    <ClCompile Include="src\base\moduleManager\modules\combat\rightAutoClicker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\sdk\net\minecraft\entity\player\InventoryPlayer.cpp">
@@ -440,7 +440,7 @@
     <ClCompile Include="src\base\configManager\configManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\moduleManager\modules\visual\arrayList.cpp">
+    <ClCompile Include="src\base\moduleManager\modules\utility\arrayList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\moduleManager\modules\movement\bridgeAssist.cpp">
