@@ -13,4 +13,6 @@ struct CItemStack : IClass
 	jobject GetInstance();
 
 	CItem GetItem();
+
+	int GetMetadata();
 };

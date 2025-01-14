@@ -11,6 +11,7 @@ struct StrayCache {
 	inline static jclass minecraft_class;
 	inline static jmethodID minecraft_getMinecraft;
 	inline static jfieldID minecraft_thePlayer;
+	inline static jfieldID minecraft_playerController;
 	inline static jfieldID minecraft_theWorld;
 	inline static jfieldID minecraft_renderManager;
 	inline static jfieldID minecraft_timer;
@@ -92,6 +93,10 @@ struct StrayCache {
 	// ENTITY PLAYER SP CLASS
 	inline static jclass entityPlayerSP_class;
 
+	// ENTITY PLAYER MP CLASS
+	inline static jclass playerControllerMP_class;
+	inline static jmethodID playerControllerMP_windowClick;
+
 	// AXIS ALIGNED BB CLASS
 	inline static jclass axisAlignedBB_class;
 	inline static jfieldID axisAlignedBB_minX;
@@ -122,10 +127,13 @@ struct StrayCache {
 	// ITEM STACK CLASS
 	inline static jclass itemStack_class;
 	inline static jmethodID itemStack_getItem;
+	inline static jmethodID itemStack_getMetadata;
+	inline static jmethodID itemStack_getMaxDamage;
 
 	// ITEM CLASS
 	inline static jclass item_class;
 	inline static jmethodID item_getUnlocalizedName;
+	inline static jmethodID item_getIdFromItem;
 
 	// BLOCK CLASS
 	inline static jclass block_class;
@@ -140,6 +148,29 @@ struct StrayCache {
 	inline static jmethodID blockPos_constructorInt;
 	inline static jmethodID blockPos_constructorDouble;
 
+	// GUI CHEST CLASS
+	inline static jclass guiChest_class;
+	inline static jfieldID guiChest_upperChestInventory;
+	inline static jfieldID guiChest_lowerChestInventory;
+	inline static jfieldID guiChest_inventoryRows;
+
+	// GUI CONTAINER CLASS
+	inline static jclass guiContainer_class;
+	inline static jfieldID guiContainer_inventorySlots;
+
+	// IINVENTORY CLASS
+	inline static jclass iInventory_class;
+	inline static jmethodID iInventory_getSizeInventory;
+	inline static jmethodID iInventory_getStackInSlot;
+
+	// CONTAINER CLASS
+	inline static jclass container_class;
+	inline static jfieldID container_windowId;
+
+	// STRINGS
+	inline static const char* inventory_class_name;
+	inline static const char* chest_gui_class_name;
+
 	static void Initialize() {
 		if (Java::Version == MinecraftVersion::UNKNOWN) { return; }
 		if (initialized) { return; }
@@ -149,6 +180,7 @@ struct StrayCache {
 			Java::AssignClass("net.minecraft.client.Minecraft", minecraft_class);
 			minecraft_getMinecraft = Java::Env->GetStaticMethodID(minecraft_class, "getMinecraft", "()Lnet/minecraft/client/Minecraft;");
 			minecraft_thePlayer = Java::Env->GetFieldID(minecraft_class, "thePlayer", "Lnet/minecraft/client/entity/EntityPlayerSP;");
+			minecraft_playerController = Java::Env->GetFieldID(minecraft_class, "playerController", "Lnet/minecraft/client/multiplayer/PlayerControllerMP;");
 			minecraft_theWorld = Java::Env->GetFieldID(minecraft_class, "theWorld", "Lnet/minecraft/client/multiplayer/WorldClient;");
 			minecraft_renderManager = Java::Env->GetFieldID(minecraft_class, "renderManager", "Lnet/minecraft/client/renderer/entity/RenderManager;");
 			minecraft_timer = Java::Env->GetFieldID(minecraft_class, "timer", "Lnet/minecraft/util/Timer;");
@@ -220,6 +252,9 @@ struct StrayCache {
 
 			Java::AssignClass("net.minecraft.client.entity.EntityPlayerSP", entityPlayerSP_class);
 
+			Java::AssignClass("net.minecraft.client.multiplayer.PlayerControllerMP", playerControllerMP_class);
+			playerControllerMP_windowClick = Java::Env->GetMethodID(playerControllerMP_class, "windowClick", "(IIIILnet/minecraft/entity/player/EntityPlayer;)Lnet/minecraft/item/ItemStack;");
+
 			Java::AssignClass("net.minecraft.util.AxisAlignedBB", axisAlignedBB_class);
 			axisAlignedBB_minX = Java::Env->GetFieldID(axisAlignedBB_class, "minX", "D");
 			axisAlignedBB_minY = Java::Env->GetFieldID(axisAlignedBB_class, "minY", "D");
@@ -245,9 +280,12 @@ struct StrayCache {
 
 			Java::AssignClass("net.minecraft.item.ItemStack", itemStack_class);
 			itemStack_getItem = Java::Env->GetMethodID(itemStack_class, "getItem", "()Lnet/minecraft/item/Item;");
+			itemStack_getMetadata = Java::Env->GetMethodID(itemStack_class, "getMetadata", "()I");
+			itemStack_getMaxDamage = Java::Env->GetMethodID(itemStack_class, "getMaxDamage", "()I");
 
 			Java::AssignClass("net.minecraft.item.Item", item_class);
 			item_getUnlocalizedName = Java::Env->GetMethodID(item_class, "getUnlocalizedName", "()Ljava/lang/String;");
+			item_getIdFromItem = Java::Env->GetStaticMethodID(item_class, "getIdFromItem", "(Lnet/minecraft/item/Item;)I");
 
 			Java::AssignClass("net.minecraft.block.Block", block_class);
 			block_getIdFromBlock = Java::Env->GetStaticMethodID(block_class, "getIdFromBlock", "(Lnet/minecraft/block/Block;)I");
@@ -258,6 +296,24 @@ struct StrayCache {
 			Java::AssignClass("net.minecraft.util.BlockPos", blockPos_class);
 			blockPos_constructorInt = Java::Env->GetMethodID(blockPos_class, "<init>", "(III)V");
 			blockPos_constructorDouble = Java::Env->GetMethodID(blockPos_class, "<init>", "(DDD)V");
+
+			Java::AssignClass("net.minecraft.client.gui.inventory.GuiChest", guiChest_class);
+			guiChest_upperChestInventory = Java::Env->GetFieldID(guiChest_class, "upperChestInventory", "Lnet/minecraft/inventory/IInventory;");
+			guiChest_lowerChestInventory = Java::Env->GetFieldID(guiChest_class, "lowerChestInventory", "Lnet/minecraft/inventory/IInventory;");
+			guiChest_inventoryRows = Java::Env->GetFieldID(guiChest_class, "inventoryRows", "I");
+
+			Java::AssignClass("net.minecraft.inventory.IInventory", iInventory_class);
+			iInventory_getSizeInventory = Java::Env->GetMethodID(iInventory_class, "getSizeInventory", "()I");
+			iInventory_getStackInSlot = Java::Env->GetMethodID(iInventory_class, "getStackInSlot", "(I)Lnet/minecraft/item/ItemStack;");
+
+			Java::AssignClass("net.minecraft.client.gui.inventory.GuiContainer", guiContainer_class);
+			guiContainer_inventorySlots = Java::Env->GetFieldID(guiContainer_class, "inventorySlots", "Lnet/minecraft/inventory/Container;");
+
+			Java::AssignClass("net.minecraft.inventory.Container", container_class);
+			container_windowId = Java::Env->GetFieldID(container_class, "windowId", "I");
+
+			inventory_class_name = "net.minecraft.client.gui.inventory.GuiInventory";
+			chest_gui_class_name = "net.minecraft.client.gui.inventory.GuiChest";
 		}
 		else if (Java::Version == MinecraftVersion::LUNAR_1_7_10)
 		{
@@ -339,6 +395,9 @@ struct StrayCache {
 
 			Java::AssignClass("bew", entityPlayerSP_class);
 
+			Java::AssignClass("bda", playerControllerMP_class);
+			playerControllerMP_windowClick = Java::Env->GetMethodID(playerControllerMP_class, "a", "(IIIILwn;)Lzx;");
+
 			Java::AssignClass("aug", axisAlignedBB_class);
 			axisAlignedBB_minX = Java::Env->GetFieldID(axisAlignedBB_class, "a", "D");
 			axisAlignedBB_minY = Java::Env->GetFieldID(axisAlignedBB_class, "b", "D");
@@ -364,9 +423,12 @@ struct StrayCache {
 
 			Java::AssignClass("zx", itemStack_class);
 			itemStack_getItem = Java::Env->GetMethodID(itemStack_class, "b", "()Lzw;");
+			itemStack_getMetadata = Java::Env->GetMethodID(itemStack_class, "i", "()I");
+			itemStack_getMaxDamage = Java::Env->GetMethodID(itemStack_class, "j", "()I");
 
 			Java::AssignClass("zw", item_class);
 			item_getUnlocalizedName = Java::Env->GetMethodID(item_class, "a", "()Ljava/lang/String;");
+			item_getIdFromItem = Java::Env->GetStaticMethodID(item_class, "b", "(Lzw;)I");
 
 			Java::AssignClass("afh", block_class);
 			block_getIdFromBlock = Java::Env->GetStaticMethodID(block_class, "a", "(Lafh;)I");
@@ -377,6 +439,24 @@ struct StrayCache {
 			Java::AssignClass("cj", blockPos_class);
 			blockPos_constructorInt = Java::Env->GetMethodID(blockPos_class, "<init>", "(III)V");
 			blockPos_constructorDouble = Java::Env->GetMethodID(blockPos_class, "<init>", "(FFF)V");
+
+			Java::AssignClass("ayr", guiChest_class);
+			guiChest_upperChestInventory = Java::Env->GetFieldID(guiChest_class, "v", "Log;");
+			guiChest_lowerChestInventory = Java::Env->GetFieldID(guiChest_class, "w", "Log;");
+			guiChest_inventoryRows = Java::Env->GetFieldID(guiChest_class, "x", "I");
+
+			Java::AssignClass("og", iInventory_class);
+			iInventory_getSizeInventory = Java::Env->GetMethodID(iInventory_class, "o_", "()I");
+			iInventory_getStackInSlot = Java::Env->GetMethodID(iInventory_class, "a", "(I)Lzx;");
+
+			Java::AssignClass("ayl", guiContainer_class);
+			guiContainer_inventorySlots = Java::Env->GetFieldID(guiContainer_class, "h", "Lxi;");
+
+			Java::AssignClass("xi", container_class);
+			container_windowId = Java::Env->GetFieldID(container_class, "d", "I");
+
+			inventory_class_name = "azc";
+			chest_gui_class_name = "ayr";
 		}
 		else if (Java::Version == MinecraftVersion::VANILLA_1_7_10)
 		{

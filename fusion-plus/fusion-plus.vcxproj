@@ -158,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="ext\nlohmann\json.hpp" />
     <ClInclude Include="ext\nlohmann\json_fwd.hpp" />
+    <ClInclude Include="src\base\moduleManager\modules\inventory\chestStealer.h" />
     <ClInclude Include="src\base\moduleManager\modules\movement\velocity.h" />
     <ClInclude Include="src\base\notificationManager\notificationManager.h" />
     <ClInclude Include="src\base\moduleManager\modules\tnt-tag\ITEsp.h" />
@@ -174,6 +175,11 @@
     <ClInclude Include="src\base\patcher\patcher.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\block\Block.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\block\state\IBlockState.h" />
+    <ClInclude Include="src\base\sdk\net\minecraft\client\gui\inventory\GuiChest.h" />
+    <ClInclude Include="src\base\sdk\net\minecraft\client\gui\inventory\GuiContainer.h" />
+    <ClInclude Include="src\base\sdk\net\minecraft\client\multiplayer\PlayerControllerMP.h" />
+    <ClInclude Include="src\base\sdk\net\minecraft\inventory\Container.h" />
+    <ClInclude Include="src\base\sdk\net\minecraft\inventory\IInventory.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\item\Item.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\item\ItemStack.h" />
     <ClInclude Include="src\base\moduleManager\modules\combat\rightAutoClicker.h" />
@@ -186,6 +192,8 @@
     <ClInclude Include="src\base\moduleManager\modules\combat\reach.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\client\settings\GameSettings.h" />
     <ClInclude Include="src\base\sdk\strayCache.h" />
+    <ClInclude Include="src\base\util\keys.h" />
+    <ClInclude Include="src\base\util\minecraft.h" />
     <ClInclude Include="src\base\util\render\renderqolf.h" />
     <ClInclude Include="src\base\util\window\borderless.h" />
     <ClInclude Include="src\base\moduleManager\modules\combat\aimAssist.h" />
@@ -245,6 +253,7 @@
     <ClInclude Include="src\base\moduleManager\modules\tnt-tag\tagBack.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\base\moduleManager\modules\inventory\chestStealer.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\movement\velocity.cpp" />
     <ClCompile Include="src\base\notificationManager\notificationManager.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\tnt-tag\ITEsp.cpp" />
@@ -258,6 +267,11 @@
     <ClCompile Include="src\base\patcher\patcher.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\block\Block.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\block\state\IBlockState.cpp" />
+    <ClCompile Include="src\base\sdk\net\minecraft\client\gui\inventory\GuiChest.cpp" />
+    <ClCompile Include="src\base\sdk\net\minecraft\client\gui\inventory\GuiContainer.cpp" />
+    <ClCompile Include="src\base\sdk\net\minecraft\client\multiplayer\PlayerControllerMP.cpp" />
+    <ClCompile Include="src\base\sdk\net\minecraft\inventory\Container.cpp" />
+    <ClCompile Include="src\base\sdk\net\minecraft\inventory\IInventory.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\item\Item.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\item\ItemStack.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\combat\rightAutoClicker.cpp" />
