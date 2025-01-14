@@ -121,6 +121,12 @@ struct settings {
 	inline static float Velocity_JRReactionTime = 0.1f;
 	inline static int Velocity_JRChange = 80;
 
+	// Chest Stealer
+	inline static bool CS_Enabled = true;
+	inline static int CS_Key = 0x58; // X
+	inline static int CS_Delay = 50;
+	inline static std::vector<std::pair<int, int>> CS_Items{ {4, 0}, {1, 0} };
+
 	// Tag Back
 	inline static bool TB_Enabled = false;
 	inline static bool TB_visibilityCheck = true;

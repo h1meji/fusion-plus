@@ -15,6 +15,7 @@
 #include "moduleManager/modules/combat/rightAutoClicker.h"
 #include "moduleManager/modules/movement/bridgeAssist.h"
 #include "moduleManager/modules/movement/velocity.h"
+#include "moduleManager/modules/inventory/chestStealer.h"
 #include "moduleManager/modules/tnt-tag/tagBack.h"
 #include "moduleManager/modules/tnt-tag/ITEsp.h"
 
@@ -34,6 +35,7 @@ void ArrayList::RenderUpdate()
 	if (RightAutoClicker().IsEnabled()) enabledModules.push_back(RightAutoClicker().GetName());
 	if (BridgeAssist().IsEnabled()) enabledModules.push_back(BridgeAssist().GetName());
 	if (Velocity().IsEnabled()) enabledModules.push_back(Velocity().GetName());
+	if (ChestStealer().IsEnabled()) enabledModules.push_back(ChestStealer().GetName());
 	if (TagBack().IsEnabled()) enabledModules.push_back(TagBack().GetName());
 	if (ITEsp().IsEnabled()) enabledModules.push_back(ITEsp().GetName());
 

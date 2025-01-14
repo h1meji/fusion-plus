@@ -1,4 +1,5 @@
 #include "configManager.h"
+#include <util/logger.h>
 
 bool ConfigManager::LoadConfig(const char* name)
 {
@@ -160,6 +161,12 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["Velocity_JRReactionTime"] = settings::Velocity_JRReactionTime;
 	j["Velocity_JRChange"] = settings::Velocity_JRChange;
 
+	// Chest Stealer
+	j["CS_Enabled"] = settings::CS_Enabled;
+	j["CS_Delay"] = settings::CS_Delay;
+	j["CS_Key"] = settings::CS_Key;
+	j["CS_Items"] = settings::CS_Items;
+
 	// Tag Back
 	j["TB_Enabled"] = settings::TB_Enabled;
 	j["TB_visibilityCheck"] = settings::TB_visibilityCheck;
@@ -316,6 +323,12 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::Velocity_Mode, "Velocity_Mode");
 	ConfigManager::GetJsonValue(j, settings::Velocity_JRReactionTime, "Velocity_JRReactionTime");
 	ConfigManager::GetJsonValue(j, settings::Velocity_JRChange, "Velocity_JRChange");
+	
+	// Chest Stealer
+	ConfigManager::GetJsonValue(j, settings::CS_Enabled, "CS_Enabled");
+	ConfigManager::GetJsonValue(j, settings::CS_Delay, "CS_Delay");
+	ConfigManager::GetJsonValue(j, settings::CS_Key, "CS_Key");
+	ConfigManager::GetJsonValue(j, settings::CS_Items, "CS_Items");
 
 	// Tag Back
 	ConfigManager::GetJsonValue(j, settings::TB_Enabled, "TB_Enabled");

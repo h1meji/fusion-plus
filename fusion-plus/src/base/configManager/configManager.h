@@ -73,7 +73,7 @@ namespace ConfigManager
 				return true;
 			}
 		}
-        return false;
+		return false;
     }
 
 	bool SettingsToJson(json& j);
