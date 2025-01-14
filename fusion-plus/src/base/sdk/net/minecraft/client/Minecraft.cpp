@@ -16,6 +16,10 @@ CMinecraft::CMinecraft()
 	this->thePlayer = new CEntityPlayerSP();
 	Logger::Log("Got Player instance");
 
+	this->FieldIDs["playerController"] = StrayCache::minecraft_playerController;
+	this->playerController = new CPlayerControllerMP();
+	Logger::Log("Got PlayerController instance");
+
 	this->FieldIDs["theWorld"] = StrayCache::minecraft_theWorld;
 	this->theWorld = new CWorldClient();
 	Logger::Log("Got World instance");
@@ -59,9 +63,45 @@ CEntity CMinecraft::GetRenderViewEntity()
 	return CEntity(Java::Env->CallObjectMethod(this->GetInstance(), this->MethodIDs["getRenderViewEntity"]));
 }
 
+std::string GetClassName(jobject obj)
+{
+	jclass objClass = Java::Env->GetObjectClass(obj);
+	jmethodID objMethod = Java::Env->GetMethodID(objClass, "getClass", "()Ljava/lang/Class;");
+	jobject objClassObj = Java::Env->CallObjectMethod(obj, objMethod);
+	jmethodID objClassNameMethod = Java::Env->GetMethodID(Java::Env->GetObjectClass(objClassObj), "getName", "()Ljava/lang/String;");
+	jstring objClassName = (jstring)Java::Env->CallObjectMethod(objClassObj, objClassNameMethod);
+	const char* objClassNameChars = Java::Env->GetStringUTFChars(objClassName, NULL);
+	std::string objClassNameStr = objClassNameChars;
+	Java::Env->ReleaseStringUTFChars(objClassName, objClassNameChars);
+	return objClassNameStr;
+}
+
 bool CMinecraft::IsInGuiState()
 {
-	if (Java::Env->GetObjectField(this->GetInstance(), this->FieldIDs["currentScreen"]) != NULL) return true;
+	if (Java::Env->GetObjectField(this->GetInstance(), this->FieldIDs["currentScreen"]) != NULL)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool CMinecraft::IsInInventory()
+{
+	if (Java::Env->GetObjectField(this->GetInstance(), this->FieldIDs["currentScreen"]) != NULL)
+	{
+		if (GetClassName(Java::Env->GetObjectField(this->GetInstance(), this->FieldIDs["currentScreen"])) == StrayCache::inventory_class_name)
+			return true;
+	}
+	return false;
+}
+
+bool CMinecraft::IsInChest()
+{
+	if (Java::Env->GetObjectField(this->GetInstance(), this->FieldIDs["currentScreen"]) != NULL)
+	{
+		if (GetClassName(Java::Env->GetObjectField(this->GetInstance(), this->FieldIDs["currentScreen"])) == StrayCache::chest_gui_class_name)
+			return true;
+	}
 	return false;
 }
 
@@ -73,4 +113,9 @@ void CMinecraft::ClickMouse()
 CMovingObjectPosition CMinecraft::GetMouseOver()
 {
 	return CMovingObjectPosition(Java::Env->GetObjectField(this->Instance, this->FieldIDs["objectMouseOver"]));
+}
+
+CGuiChest* CMinecraft::GetGuiChest()
+{
+	return new CGuiChest(Java::Env->GetObjectField(this->GetInstance(), this->FieldIDs["currentScreen"]));
 }
