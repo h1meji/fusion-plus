@@ -7,6 +7,8 @@
 
 #include "configManager/settings.h"
 
+#include "util/keys.h"
+
 void Menu::Init()
 {
 	Menu::Title = "fusion+";
@@ -155,6 +157,59 @@ void Menu::DoComboBoxStuff(int id, const char* text, int* bruh, const char* item
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
 
 	ImGui::Combo((std::to_string(id) + text).c_str(), bruh, items, listSize);
+
+	ImGui::PopStyleColor(3);
+	ImGui::PopStyleVar();
+	ImGui::PopID();
+}
+
+void Menu::DoKeybindStuff(int id, const char* text, int& keybind)
+{
+	ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
+
+	ImGui::PushID(id);
+	ImGui::Text(text);
+	ImGui::SameLine();
+	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 208);
+
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82, settings::Menu_AccentColor[1] * 0.82, settings::Menu_AccentColor[2] * 0.82, settings::Menu_AccentColor[3] * 0.82));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
+
+	/*ImGui::Button((std::to_string(*keybind) + "##" + std::to_string(id)).c_str(), ImVec2(100, 0));*/
+
+	int keys_size = IM_ARRAYSIZE(keys);
+	char name[18];
+	strncpy_s(name, keys[std::clamp(keybind, 0, keys_size)], 18);
+	static bool binding = false;
+
+	if (binding)
+	{
+		ImGui::Button("[...]", ImVec2(100, 0));
+
+		for (int i = 0; i < keys_size; i++)
+		{
+			if (GetAsyncKeyState(i) & 0x8000)
+			{
+				if (i == VK_ESCAPE)
+					keybind = 0;
+				else
+					keybind = i;
+
+				strncpy_s(name, keys[std::clamp(keybind, 0, keys_size)], 18);
+
+				binding = false;
+
+				break;
+			}
+		}
+	}
+	else
+	{
+		if (ImGui::Button(name, ImVec2(100, 0)))
+			binding = true;
+	}
 
 	ImGui::PopStyleColor(3);
 	ImGui::PopStyleVar();
