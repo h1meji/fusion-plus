@@ -11,6 +11,8 @@
 
 #include "minhook/minhook.h"
 
+#include "util/minecraft.h"
+
 #include <thread>
 #include <unordered_map>
 
@@ -74,6 +76,8 @@ void Base::Init()
 
 	g_ModuleManager = std::make_unique<ModuleManager>();
 	g_ModuleManager->Init();
+
+	MinecraftItems::Init();
 
 	Base::Running = true;
 
