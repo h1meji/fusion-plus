@@ -27,3 +27,8 @@ std::string CItem::GetUnlocalizedName()
 	jstring jstr = (jstring)Java::Env->CallObjectMethod(this->GetInstance(), StrayCache::item_getUnlocalizedName);
 	return Java::Env->GetStringUTFChars(jstr, 0);
 }
+
+int CItem::GetID()
+{
+	return Java::Env->CallStaticIntMethod(StrayCache::item_class, StrayCache::item_getIdFromItem, this->GetInstance());
+}

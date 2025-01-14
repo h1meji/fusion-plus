@@ -11,4 +11,6 @@ struct CItem : IClass
 	jobject GetInstance();
 
 	std::string GetUnlocalizedName();
+
+	int GetID();
 };
