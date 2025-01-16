@@ -34,7 +34,6 @@ void ChestStealer::Update()
 				for (std::pair<int, int> id : settings::CS_Items)
 				{
 					if (item->GetItem().GetID() != id.first || (item->GetMetadata() != id.second && id.second != -1)) continue;
-					//Logger::Log("Item Matches Id: %d", id);
 					chestSlots.push_back(i);
 					break;
 				}
@@ -59,6 +58,9 @@ void ChestStealer::Update()
 		if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - lastStealTime).count() < settings::CS_Delay) return;
 
 		int windowId = SDK::Minecraft->GetGuiChest()->GetContainer()->GetWindowId();
+
+		if (windowId == -1) return;
+
 		SDK::Minecraft->playerController->WindowClick(windowId, chestSlots[chestSlotIndex], 0, 1, SDK::Minecraft->thePlayer);
 
 		lastStealTime = std::chrono::steady_clock::now();
@@ -88,6 +90,28 @@ void ChestStealer::RenderMenu()
 		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
 		{
 			renderSettings = !renderSettings;
+		}
+		if (ImGui::IsItemHovered() && Java::Version == MinecraftVersion::VANILLA_1_8_9)
+		{
+			ImVec4 warningColor = ImVec4(1.0f, 0.4f, 0.4f, 1.0f); // Red
+			ImVec4 bgColor = ImVec4(1.0f, 1.0f, 0.4f, 1.0f);       // Yellow
+			ImVec2 padding = ImVec2(10, 10);                       // Padding for readability
+
+			ImGui::BeginTooltip();
+
+			// Set a custom background color and padding for visibility.
+			ImGui::PushStyleColor(ImGuiCol_PopupBg, ImGui::ColorConvertFloat4ToU32(bgColor));
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, padding);
+
+			// Set custom text color and render the warning message.
+			ImGui::PushStyleColor(ImGuiCol_Text, ImGui::ColorConvertFloat4ToU32(warningColor));
+			ImGui::Text("%s", "Vanilla 1.8.9 will crash when using Chest Stealer, please use Lunar Client!");
+			ImGui::PopStyleColor(); // Pop text color
+
+			ImGui::PopStyleVar();   // Pop window padding
+			ImGui::PopStyleColor(); // Pop background color
+
+			ImGui::EndTooltip();
 		}
 
 		if (renderSettings)

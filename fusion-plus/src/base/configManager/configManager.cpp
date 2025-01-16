@@ -1,5 +1,6 @@
 #include "configManager.h"
 #include <util/logger.h>
+#include <java/java.h>
 
 bool ConfigManager::LoadConfig(const char* name)
 {
@@ -375,6 +376,10 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::ITESP_FriendFilledBoxColor, "ITESP_FriendFilledBoxColor");
 	ConfigManager::GetJsonValue(j, settings::ITESP_FriendSecondFilledBoxColor, "ITESP_FriendSecondFilledBoxColor");
 	ConfigManager::GetJsonValue(j, settings::ITESP_FriendOutlineColor, "ITESP_FriendOutlineColor");
+
+	// Disable Chest Saler if the version is 1.8.9
+	if (Java::Version == MinecraftVersion::VANILLA_1_8_9)
+		settings::CS_Enabled = false;
 
 	return true;
 }

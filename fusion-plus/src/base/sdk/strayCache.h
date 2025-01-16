@@ -170,6 +170,7 @@ struct StrayCache {
 	// STRINGS
 	inline static const char* inventory_class_name;
 	inline static const char* chest_gui_class_name;
+	inline static const char* container_windowId_name;
 
 	static void Initialize() {
 		if (Java::Version == MinecraftVersion::UNKNOWN) { return; }
@@ -310,7 +311,7 @@ struct StrayCache {
 			guiContainer_inventorySlots = Java::Env->GetFieldID(guiContainer_class, "inventorySlots", "Lnet/minecraft/inventory/Container;");
 
 			Java::AssignClass("net.minecraft.inventory.Container", container_class);
-			container_windowId = Java::Env->GetFieldID(container_class, "windowId", "I");
+			container_windowId_name = "windowId";
 
 			inventory_class_name = "net.minecraft.client.gui.inventory.GuiInventory";
 			chest_gui_class_name = "net.minecraft.client.gui.inventory.GuiChest";
@@ -453,7 +454,7 @@ struct StrayCache {
 			guiContainer_inventorySlots = Java::Env->GetFieldID(guiContainer_class, "h", "Lxi;");
 
 			Java::AssignClass("xi", container_class);
-			container_windowId = Java::Env->GetFieldID(container_class, "d", "I");
+			container_windowId_name = "d";
 
 			inventory_class_name = "azc";
 			chest_gui_class_name = "ayr";

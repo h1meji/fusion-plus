@@ -18,10 +18,9 @@ jobject CContainer::GetInstance()
 
 int CContainer::GetWindowId()
 {
-	jfieldID windowIdFieldID = Java::Env->GetFieldID(this->GetClass(), "windowId", "I");
+	jfieldID windowIdFieldID = Java::Env->GetFieldID(this->GetClass(), StrayCache::container_windowId_name, "I");
 	if (!windowIdFieldID) {
-		Logger::Log("windowIdFieldID is null");
-		return 0;
+		return -1;
 	}
 
 	return Java::Env->GetIntField(this->GetInstance(), windowIdFieldID);

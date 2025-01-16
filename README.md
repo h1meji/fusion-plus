@@ -11,18 +11,20 @@ This project is based on the original **Fusion** by [deity](https://www.youtube.
 ### Modules
 - **Visual**
   - **ESP**: Displays player names, health, and distance
-  - **Arraylist**: Displays a list of the user's active modules
   - **Radar**: Displays a radar of nearby players
 - **Combat**
   - **Aim Assist**: Automatically aims at the nearest player
   - **Reach**: Increases the player's reach distance
   - **W-Tap**: Automatically W-taps for the user after hitting an entity
-- **Clicker**
   - **Left Auto Clicker**: Automatically clicks the left mouse button
   - **Right Auto Clicker**: Automatically clicks the right mouse button
 - **Movement**
   - **Bridge Assist**: Automatically shifts the player at the edge of blocks while bridging.
   - **Velocity**: Reduces knockback taken by the player
+- **Inventory**
+  - **Chest Stealer**: Automatically steals items from chests
+- **Utility**
+  - **Arraylist**: Displays a list of the user's active modules
 
 ### Hidden Modules
 - **TnT Tag** (Hypixel)
@@ -65,7 +67,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 ### Planned Modules
 - [x] **Arraylist**: Displays a list of the user's active modules
 - [ ] **BlockESP**: Displays blocks selected in the world
-- [ ] **Chest Stealer**: Automatically steals items from chests
+- [x] **Chest Stealer**: Automatically steals items from chests
 - [x] **W-Tap**: Automatically W-taps for the user.
 - [x] **Bridge Assist**: Automatically shifts the player at the edge of blocks while bridging.
 - [x] **Radar**: Displays a radar of nearby players
