@@ -39,8 +39,8 @@ This project is based on the original **Fusion** by [deity](https://www.youtube.
 - **Friends List**: Add and remove friends to prevent Aim Assist from targeting them, or to highlight them in ESP
 
 ### Screenshots
-<img src="https://github.com/6470bru/fusion/assets/67878277/5a732ba9-3d81-44e4-b745-f34f39555716" alt="original gui - by deadshell"/>
-<img src="https://github.com/6470bru/fusion/assets/67878277/fac3f084-0255-4999-b03f-3e2e0a15bde8" alt="animated - by deadshell (rip _Sponky__)" width=586>
+<img src="https://github.com/6470bru/fusion/assets/67878277/5a732ba9-3d81-44e4-b745-f34f39555716" alt="original gui - by [redacted]"/>
+<img src="https://github.com/6470bru/fusion/assets/67878277/fac3f084-0255-4999-b03f-3e2e0a15bde8" alt="animated - by [redacted] (rip _Sponky__)" width=586>
 
 ## Download
 You can download the latest release of *Fusion+* [here](https://github.com/h1meji/fusion-plus/releases) or you can build the `.dll` file yourself by cloning the repository and building the project in Visual Studio.
@@ -63,6 +63,9 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - [x] Color customizations for different modules and internal GUI
 - [x] Config files for saving and loading cheat settings
 - [x] Improved module system for developers
+- [ ] More HUD elements (better watermark, better arraylist, keybinds, etc.)
+- [ ] Better HUD customization (colors, positions, etc.)
+- [ ] More keybind options for modules
 
 ### Planned Modules
 - [x] **Arraylist**: Displays a list of the user's active modules
@@ -74,9 +77,13 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - [x] **Velocity**: Reduces knockback taken by the player
 - [ ] **Restock**: Automatically restocks the player's hotbar
 - [ ] **Inventory Manager**: Automatically sorts the player's inventory
+- [ ] **Tracers**: Draws lines from the player to other entities
 
-### Planned Module Changes
+### Planned Changes
 - [x] Diffrent styles for the ESP module (3D Box, 2D Box, etc.)
+- [ ] Improve the Bridge Assist module to work more smoothly
+- [ ] Better looking internal GUI menu
+- [ ] Add more customization options for the internal GUI menu
 
 ### Notices
 - This cheat currently works on Lunar Client 1.8.9 only, but may be updated to support other versions in the future.
