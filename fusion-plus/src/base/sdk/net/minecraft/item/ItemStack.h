@@ -15,4 +15,6 @@ struct CItemStack : IClass
 	CItem GetItem();
 
 	int GetMetadata();
+
+	int GetStackSize();
 };

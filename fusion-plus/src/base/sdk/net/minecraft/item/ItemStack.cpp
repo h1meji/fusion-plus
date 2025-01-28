@@ -35,3 +35,8 @@ int CItemStack::GetMetadata()
 	if (max_damage > 0 && meta > 0) return 0; // fix for items with durability (e.g. tools)
 	return meta;
 }
+
+int CItemStack::GetStackSize()
+{
+	return Java::Env->GetIntField(this->GetInstance(), StrayCache::itemStack_stackSize);
+}
