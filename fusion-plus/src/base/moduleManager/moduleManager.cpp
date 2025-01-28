@@ -10,14 +10,17 @@
 #include "modules/visual/blockEsp.h"
 #include "modules/movement/bridgeAssist.h"
 #include "modules/movement/velocity.h"
-#include "modules/utility/arrayList.h"
 #include "modules/inventory/chestStealer.h"
+#include "modules/inventory/inventorySorter.h"
+#include "modules/utility/arrayList.h"
 #include "modules/tnt-tag/tagBack.h"
 #include "modules/tnt-tag/ITEsp.h"
 #include "commonData.h"
 
 #include <configManager/configManager.h>
 #include <imgui/imgui.h>
+
+#include "util/inventory.h"
 
 void ModuleManager::Init()
 {
@@ -29,10 +32,11 @@ void ModuleManager::Init()
 	modules.push_back(std::make_unique<Esp>());
 	modules.push_back(std::make_unique<Radar>());
 	modules.push_back(std::make_unique<BlockEsp>());
-	modules.push_back(std::make_unique<ArrayList>());
 	modules.push_back(std::make_unique<BridgeAssist>());
 	modules.push_back(std::make_unique<Velocity>());
 	modules.push_back(std::make_unique<ChestStealer>());
+	modules.push_back(std::make_unique<InventorySorter>());
+	modules.push_back(std::make_unique<ArrayList>());
 
 	modules.push_back(std::make_unique<TagBack>());
 	modules.push_back(std::make_unique<ITEsp>());
@@ -49,6 +53,9 @@ void ModuleManager::Init()
 		ConfigManager::LoadConfig(configList[0].c_str());
 		Logger::Log("Config loaded: %s", configList[0].c_str());
 	}
+
+	// init inventory system
+	InventorySystem::Init();
 }
 
 void ModuleManager::UpdateModules()

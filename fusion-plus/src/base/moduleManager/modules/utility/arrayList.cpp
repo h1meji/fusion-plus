@@ -16,6 +16,7 @@
 #include "moduleManager/modules/movement/bridgeAssist.h"
 #include "moduleManager/modules/movement/velocity.h"
 #include "moduleManager/modules/inventory/chestStealer.h"
+#include "moduleManager/modules/inventory/inventorySorter.h"
 #include "moduleManager/modules/tnt-tag/tagBack.h"
 #include "moduleManager/modules/tnt-tag/ITEsp.h"
 
@@ -36,6 +37,7 @@ void ArrayList::RenderUpdate()
 	if (BridgeAssist().IsEnabled()) enabledModules.push_back(BridgeAssist().GetName());
 	if (Velocity().IsEnabled()) enabledModules.push_back(Velocity().GetName());
 	if (ChestStealer().IsEnabled()) enabledModules.push_back(ChestStealer().GetName());
+	if (InventorySorter().IsEnabled()) enabledModules.push_back(InventorySorter().GetName());
 	if (TagBack().IsEnabled()) enabledModules.push_back(TagBack().GetName());
 	if (ITEsp().IsEnabled()) enabledModules.push_back(ITEsp().GetName());
 

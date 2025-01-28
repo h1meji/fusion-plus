@@ -122,10 +122,15 @@ struct settings {
 	inline static int Velocity_JRChange = 80;
 
 	// Chest Stealer
-	inline static bool CS_Enabled = true;
+	inline static bool CS_Enabled = false;
 	inline static int CS_Key = 0x58; // X
 	inline static int CS_Delay = 50;
-	inline static std::vector<std::pair<int, int>> CS_Items{ {4, 0}, {1, 0} };
+	inline static std::vector<std::pair<int, int>> CS_Items{ };
+
+	// Inventory Sorter
+	inline static bool IS_Enabled = false;
+	inline static int IS_Key = 0x5A; // Z
+	inline static int IS_Delay = 50;
 
 	// Tag Back
 	inline static bool TB_Enabled = false;
