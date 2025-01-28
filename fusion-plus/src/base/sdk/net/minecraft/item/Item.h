@@ -13,4 +13,6 @@ struct CItem : IClass
 	std::string GetUnlocalizedName();
 
 	int GetID();
+
+	int GetStackLimit();
 };

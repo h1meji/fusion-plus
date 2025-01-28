@@ -129,11 +129,13 @@ struct StrayCache {
 	inline static jmethodID itemStack_getItem;
 	inline static jmethodID itemStack_getMetadata;
 	inline static jmethodID itemStack_getMaxDamage;
+	inline static jfieldID itemStack_stackSize;
 
 	// ITEM CLASS
 	inline static jclass item_class;
 	inline static jmethodID item_getUnlocalizedName;
 	inline static jmethodID item_getIdFromItem;
+	inline static jmethodID item_getItemStackLimit;
 
 	// BLOCK CLASS
 	inline static jclass block_class;
@@ -165,12 +167,15 @@ struct StrayCache {
 
 	// CONTAINER CLASS
 	inline static jclass container_class;
-	inline static jfieldID container_windowId;
+	inline static const char* container_windowId_name;
+
+	// ENCHANTMENT HELPER CLASS
+	inline static jclass enchantmentHelper_class;
+	inline static jmethodID enchantmentHelper_getEnchantments;
 
 	// STRINGS
 	inline static const char* inventory_class_name;
 	inline static const char* chest_gui_class_name;
-	inline static const char* container_windowId_name;
 
 	static void Initialize() {
 		if (Java::Version == MinecraftVersion::UNKNOWN) { return; }
@@ -283,10 +288,12 @@ struct StrayCache {
 			itemStack_getItem = Java::Env->GetMethodID(itemStack_class, "getItem", "()Lnet/minecraft/item/Item;");
 			itemStack_getMetadata = Java::Env->GetMethodID(itemStack_class, "getMetadata", "()I");
 			itemStack_getMaxDamage = Java::Env->GetMethodID(itemStack_class, "getMaxDamage", "()I");
+			itemStack_stackSize = Java::Env->GetFieldID(itemStack_class, "stackSize", "I");
 
 			Java::AssignClass("net.minecraft.item.Item", item_class);
 			item_getUnlocalizedName = Java::Env->GetMethodID(item_class, "getUnlocalizedName", "()Ljava/lang/String;");
 			item_getIdFromItem = Java::Env->GetStaticMethodID(item_class, "getIdFromItem", "(Lnet/minecraft/item/Item;)I");
+			item_getItemStackLimit = Java::Env->GetMethodID(item_class, "getItemStackLimit", "()I");
 
 			Java::AssignClass("net.minecraft.block.Block", block_class);
 			block_getIdFromBlock = Java::Env->GetStaticMethodID(block_class, "getIdFromBlock", "(Lnet/minecraft/block/Block;)I");
@@ -312,6 +319,9 @@ struct StrayCache {
 
 			Java::AssignClass("net.minecraft.inventory.Container", container_class);
 			container_windowId_name = "windowId";
+
+			Java::AssignClass("net.minecraft.enchantment.EnchantmentHelper", enchantmentHelper_class);
+			enchantmentHelper_getEnchantments = Java::Env->GetStaticMethodID(enchantmentHelper_class, "getEnchantments", "(Lnet/minecraft/item/ItemStack;)Ljava/util/Map;");
 
 			inventory_class_name = "net.minecraft.client.gui.inventory.GuiInventory";
 			chest_gui_class_name = "net.minecraft.client.gui.inventory.GuiChest";

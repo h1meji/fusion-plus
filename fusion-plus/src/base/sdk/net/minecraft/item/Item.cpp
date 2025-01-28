@@ -32,3 +32,8 @@ int CItem::GetID()
 {
 	return Java::Env->CallStaticIntMethod(StrayCache::item_class, StrayCache::item_getIdFromItem, this->GetInstance());
 }
+
+int CItem::GetStackLimit()
+{
+	return Java::Env->CallIntMethod(this->GetInstance(), StrayCache::item_getItemStackLimit);
+}

@@ -300,6 +300,15 @@
     <ClInclude Include="src\base\util\keys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\base\moduleManager\modules\inventory\inventorySorter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\util\inventory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\sdk\net\minecraft\enchantment\EnchantmentHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -519,6 +528,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\moduleManager\modules\inventory\chestStealer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\moduleManager\modules\inventory\inventorySorter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\sdk\net\minecraft\enchantment\EnchantmentHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
