@@ -42,6 +42,8 @@ CMinecraft::CMinecraft()
 	this->MethodIDs["getRenderViewEntity"] = StrayCache::minecraft_getRenderViewEntity;
 	this->FieldIDs["currentScreen"] = StrayCache::minecraft_currentScreen;
 
+	this->enchantmentHelper = new CEnchantMentHelper();
+
 	this->FieldIDs["objectMouseOver"] = StrayCache::minecraft_objectMouseOver;
 
 	// not used lol

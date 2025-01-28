@@ -10,6 +10,7 @@
 #include "settings/GameSettings.h"
 #include "sdk/net/minecraft/util/MovingObjectPosition.h"
 #include "sdk/net/minecraft/client/gui/inventory/GuiChest.h"
+#include "sdk/net/minecraft/enchantment/EnchantmentHelper.h"
 
 struct CMinecraft : IClass
 {
@@ -32,6 +33,7 @@ struct CMinecraft : IClass
 	CRenderManager* renderManager;
 	CTimer* timer;
 	CGameSettings* gameSettings;
+	CEnchantMentHelper* enchantmentHelper;
 
 	CGuiChest* GetGuiChest();
 };
