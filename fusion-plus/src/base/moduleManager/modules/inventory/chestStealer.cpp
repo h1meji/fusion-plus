@@ -76,61 +76,49 @@ void ChestStealer::RenderMenu()
 {
 	static bool renderSettings = false;
 
+	ImGui::BeginGroup();
+
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("cheststealer", ImVec2(425, renderSettings ? 190 : 35)))
+	if (ImGui::BeginChild("cs_header", ImVec2(425, renderSettings ? 130 : 35), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-
 		ImGui::BeginGroup();
-		Menu::DoToggleButtonStuff(230044, "Toggle Chest Stealer", &settings::CS_Enabled);
+		Menu::ToggleButton(72, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::CS_Enabled);
 		ImGui::EndGroup();
 		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
 		{
 			renderSettings = !renderSettings;
 		}
-		if (ImGui::IsItemHovered() && Java::Version == MinecraftVersion::VANILLA_1_8_9)
-		{
-			ImVec4 warningColor = ImVec4(1.0f, 0.4f, 0.4f, 1.0f); // Red
-			ImVec4 bgColor = ImVec4(1.0f, 1.0f, 0.4f, 1.0f);       // Yellow
-			ImVec2 padding = ImVec2(10, 10);                       // Padding for readability
 
-			ImGui::BeginTooltip();
-
-			// Set a custom background color and padding for visibility.
-			ImGui::PushStyleColor(ImGuiCol_PopupBg, ImGui::ColorConvertFloat4ToU32(bgColor));
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, padding);
-
-			// Set custom text color and render the warning message.
-			ImGui::PushStyleColor(ImGuiCol_Text, ImGui::ColorConvertFloat4ToU32(warningColor));
-			ImGui::Text("%s", "Vanilla 1.8.9 will crash when using Chest Stealer, please use Lunar Client!");
-			ImGui::PopStyleColor(); // Pop text color
-
-			ImGui::PopStyleVar();   // Pop window padding
-			ImGui::PopStyleColor(); // Pop background color
-
-			ImGui::EndTooltip();
-		}
+		ImGui::PopStyleColor();
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
 
 		if (renderSettings)
 		{
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 			ImGui::Separator();
-
-			Menu::DoSliderStuff(36456, "Delay (ms)", &settings::CS_Delay, 0, 1000);
-
-			Menu::DoKeybindStuff(456745, "Keybind", settings::CS_Key);
-
-			RenderItems();
-
+			if (ImGui::BeginChild("cs_settings", ImVec2(425, 85), false))
+			{
+				Menu::Slider(73, "Delay (ms)", ImVec2(225, 0), &settings::CS_Delay, 0, 1000);
+				Menu::KeybindButton(74, "Keybind", ImVec2(297, 0), settings::CS_Key);
+				if (Menu::Button(75, "Edit Items", ImVec2(384, 0)))
+				{
+					// Edit Items Popup
+				}
+			}
+			ImGui::EndChild();
 			ImGui::Spacing();
 		}
 	}
 	ImGui::EndChild();
+
 	ImGui::PopStyleVar();
 	ImGui::PopStyleColor();
+
+	ImGui::EndGroup();
 }
 
 void ChestStealer::ResetSteal()

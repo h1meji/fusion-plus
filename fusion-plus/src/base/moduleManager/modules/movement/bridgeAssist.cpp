@@ -124,39 +124,46 @@ void BridgeAssist::RenderMenu()
 {
 	static bool renderSettings = false;
 
+	ImGui::BeginGroup();
+
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("bridgeassist", ImVec2(425, renderSettings ? 130 : 35)))
+	if (ImGui::BeginChild("ba_header", ImVec2(425, renderSettings ? 120 : 35), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-
 		ImGui::BeginGroup();
-		Menu::DoToggleButtonStuff(230044, "Toggle Bridge Assist", &settings::BA_Enabled);
+		Menu::ToggleButton(64, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::BA_Enabled);
 		ImGui::EndGroup();
 		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
 		{
 			renderSettings = !renderSettings;
 		}
 
+		ImGui::PopStyleColor();
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
+
 		if (renderSettings)
 		{
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 			ImGui::Separator();
-
-			Menu::DoSliderStuff(34634645, "Block Check", &settings::BA_BlockCheck, 1, 10);
-
-			Menu::DoSliderStuff(34634646, "Pitch Check", &settings::BA_PitchCheck, 0.0f, 90.0f);
-
-			Menu::DoToggleButtonStuff(34634647, "Only on Shift", &settings::BA_OnlyOnShift);
-
+			if (ImGui::BeginChild("ba_settings", ImVec2(425, 75), false))
+			{
+				Menu::Slider(65, "Block Check", ImVec2(225, 0), &settings::BA_BlockCheck, 1, 10);
+				Menu::Slider(66, "Pitch Check", ImVec2(225, 0), &settings::BA_PitchCheck, 0.0f, 90.0f);
+				Menu::ToggleButton(67, "Only on Shift", ImVec2(368, 0), &settings::BA_OnlyOnShift);
+			}
+			ImGui::EndChild();
 			ImGui::Spacing();
 		}
 	}
 	ImGui::EndChild();
+
 	ImGui::PopStyleVar();
 	ImGui::PopStyleColor();
+
+	ImGui::EndGroup();
 }
 
 void BridgeAssist::Sneak()

@@ -73,37 +73,45 @@ void WTap::Update()
 
 void WTap::RenderMenu()
 {
-	static bool renderSettings = false;
+    static bool renderSettings = false;
 
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+    ImGui::BeginGroup();
 
-	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
+    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+    ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
+    ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("wtap", ImVec2(425, renderSettings ? 95 : 35)))
-	{
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
+    if (ImGui::BeginChild("wtap_header", ImVec2(425, renderSettings ? 99 : 35), false))
+    {
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
+        ImGui::BeginGroup();
+        Menu::ToggleButton(18, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::WTap_Enabled);
+        ImGui::EndGroup();
+        if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+        {
+            renderSettings = !renderSettings;
+        }
 
-		ImGui::BeginGroup();
-		Menu::DoToggleButtonStuff(230044, "Toggle W-Tap", &settings::WTap_Enabled);
-		ImGui::EndGroup();
-		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-		{
-			renderSettings = !renderSettings;
-		}
+        ImGui::PopStyleColor();
+        ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
 
-		if (renderSettings)
-		{
-			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-			ImGui::Separator();
+        if (renderSettings)
+        {
+            ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+            ImGui::Separator();
+            if (ImGui::BeginChild("wtap_settings", ImVec2(425, 54), false))
+            {
+                Menu::Slider(19, "Delay Between W-Taps", ImVec2(225, 0), &settings::WTap_DelayBetween, 0, 100);
+                Menu::Slider(20, "Let Go Delay", ImVec2(225, 0), &settings::WTap_LetGoDelay, 0, 100);
+            }
+            ImGui::EndChild();
+            ImGui::Spacing();
+        }
+    }
+    ImGui::EndChild();
 
-			Menu::DoSliderStuff(230045, "Delay Between W-Taps", &settings::WTap_DelayBetween, 0, 100);
-			Menu::DoSliderStuff(230046, "Let Go Delay", &settings::WTap_LetGoDelay, 0, 100);
+    ImGui::PopStyleVar();
+    ImGui::PopStyleColor();
 
-			ImGui::Spacing();
-		}
-	}
-	ImGui::EndChild();
-	ImGui::PopStyleVar();
-	ImGui::PopStyleColor();
+    ImGui::EndGroup();
 }

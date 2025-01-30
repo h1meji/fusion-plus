@@ -46,32 +46,43 @@ void RightAutoClicker::RenderMenu()
 	static bool renderSettings = false;
 
 	ImGui::BeginGroup();
+
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
-	if (ImGui::BeginChild("rightautoclicker", ImVec2(425, renderSettings ? 130 : 35))) {
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 
+	if (ImGui::BeginChild("rac_header", ImVec2(425, renderSettings ? 120 : 35), false))
+	{
+		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();
-		Menu::DoToggleButtonStuff(2344, "Toggle Right Auto Clicker", &settings::RAC_Enabled);
+		Menu::ToggleButton(25, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::RAC_Enabled);
 		ImGui::EndGroup();
-		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
+		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+		{
 			renderSettings = !renderSettings;
 		}
+
+		ImGui::PopStyleColor();
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
 
 		if (renderSettings)
 		{
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 			ImGui::Separator();
-			Menu::DoSliderStuff(3280, "Min CPS", &settings::RAC_rightMinCps, 1, settings::RAC_rightMaxCps);
-			Menu::DoSliderStuff(675, "Max CPS", &settings::RAC_rightMaxCps, settings::RAC_rightMinCps, 20);
-			Menu::DoToggleButtonStuff(73451, "Blocks Only", &settings::RAC_blocksOnly);
+			if (ImGui::BeginChild("rac_settings", ImVec2(425, 75), false))
+			{
+				Menu::Slider(26, "Min CPS", ImVec2(225, 0), &settings::RAC_rightMinCps, 1, settings::RAC_rightMaxCps);
+				Menu::Slider(27, "Max CPS", ImVec2(225, 0), &settings::RAC_rightMaxCps, settings::RAC_rightMinCps, 20);
+				Menu::ToggleButton(28, "Blocks Only", ImVec2(368, 0), &settings::RAC_blocksOnly);
+			}
+			ImGui::EndChild();
 			ImGui::Spacing();
 		}
-
 	}
 	ImGui::EndChild();
+
 	ImGui::PopStyleVar();
 	ImGui::PopStyleColor();
+
 	ImGui::EndGroup();
 }

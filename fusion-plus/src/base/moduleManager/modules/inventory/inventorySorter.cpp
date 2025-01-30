@@ -492,87 +492,6 @@ struct ItemStackInfo
 	int metadata;
 };
 
-//void InventorySorter::GeneratePath()
-//{
-//	CInventoryPlayer inventory = SDK::Minecraft->thePlayer->GetInventory();
-//	std::vector<CItemStack> mainInventory = inventory.GetMainInventory();
-//	std::vector<InventorySystem::Slot> slotInfo = InventorySystem::GetInventorySlots();
-//
-//	const int slotOrder[36] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 27, 28, 29, 30, 31, 32, 33, 34, 35, 18, 19, 20, 21, 22, 23, 24, 25, 26, 9, 10, 11, 12, 13, 14, 15, 16, 17 };
-//
-//	std::vector<ItemStackInfo> itemStacks;
-//	for (int i = 0; i < slotInfo.size(); i++)
-//	{
-//		itemStacks.push_back({ -1, -1, -1, 999, -1, -1 });
-//	}
-//
-//	for (int i = 0; i < mainInventory.size(); i++)
-//	{
-//		CItemStack itemStack = mainInventory[slotOrder[i]];
-//		if (itemStack.GetInstance() == nullptr || itemStack.GetItem().GetInstance() == nullptr)
-//			continue;
-//
-//		bool found = false;
-//		for (int j = 0; j < itemStacks.size(); j++)
-//		{
-//			if (slotInfo[j].category.category == InventorySystem::ItemCategory::Armor || slotInfo[j].category.category == InventorySystem::ItemCategory::Sword)
-//				continue;
-//
-//			if (slotInfo[j].item.id == itemStack.GetItem().GetID() && slotInfo[j].item.metadata == itemStack.GetMetadata())
-//			{
-//				if (itemStacks[j].stackSize < itemStack.GetStackSize())
-//				{
-//					itemStacks[j].stackSize = itemStack.GetStackSize();
-//					itemStacks[j].sourceSlot = slotOrder[i];
-//					itemStacks[j].targetSlot = slotOrder[j];
-//					found = true;
-//					break;
-//				}
-//			}
-//
-//			for (int k = 0; k < slotInfo[j].category.items.size(); k++)
-//			{
-//				// check if the item is in the category
-//				if (slotInfo[j].category.items[k].id == itemStack.GetItem().GetID() && slotInfo[j].category.items[k].metadata == itemStack.GetMetadata())
-//				{
-//					// check if the priority is lower
-//					if (slotInfo[j].category.items[k].priority < itemStacks[j].priority)
-//					{
-//						// put the item in that "itemStacks" slot
-//						itemStacks[j].targetSlot = slotOrder[j];
-//						itemStacks[j].sourceSlot = slotOrder[i];
-//						itemStacks[j].stackSize = itemStack.GetStackSize();
-//						itemStacks[j].priority = slotInfo[j].category.items[k].priority;
-//						found = true;
-//						break;
-//					}
-//					// else check if the priority is the same, but stackSize is higher
-//					else if (slotInfo[j].category.items[k].priority == itemStacks[j].priority && itemStack.GetStackSize() > itemStacks[j].stackSize)
-//					{
-//						// put the item in that "itemStacks" slot
-//						itemStacks[j].targetSlot = slotOrder[j];
-//						itemStacks[j].sourceSlot = slotOrder[i];
-//						itemStacks[j].stackSize = itemStack.GetStackSize();
-//						found = true;
-//						break;
-//					}
-//				}
-//			}
-//
-//			if (found)
-//			{
-//				break;
-//			}
-//		}
-//	}
-//
-//	// DEBUG : log itemStacks
-//	for (int i = 0; i < itemStacks.size(); i++)
-//	{
-//		Logger::Log("Slot: %d, Source: %d, Target: %d, StackSize: %d, Priority: %d", i, itemStacks[i].sourceSlot, itemStacks[i].targetSlot, itemStacks[i].stackSize, itemStacks[i].priority);
-//	}
-//}
-
 void InventorySorter::GeneratePath()
 {
 	CInventoryPlayer inventory = SDK::Minecraft->thePlayer->GetInventory();
@@ -741,46 +660,53 @@ void InventorySorter::RenderMenu()
 {
 	static bool renderSettings = false;
 
+	ImGui::BeginGroup();
+
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("inventorysorter", ImVec2(425, renderSettings ? 190 : 35)))
+	if (ImGui::BeginChild("is_header", ImVec2(425, renderSettings ? 130 : 35), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-
 		ImGui::BeginGroup();
-		Menu::DoToggleButtonStuff(230044, "Toggle Inventory Sorter", &settings::IS_Enabled);
+		Menu::ToggleButton(76, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::IS_Enabled);
 		ImGui::EndGroup();
 		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
 		{
 			renderSettings = !renderSettings;
 		}
 
+		ImGui::PopStyleColor();
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
+
 		if (renderSettings)
 		{
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 			ImGui::Separator();
+			if (ImGui::BeginChild("is_settings", ImVec2(425, 85), false))
+			{
+				Menu::Slider(77, "Delay (ms)", ImVec2(225, 0), &settings::IS_Delay, 0, 1000);
+				Menu::KeybindButton(78, "Keybind", ImVec2(297, 0), settings::IS_Key);
 
-			Menu::DoSliderStuff(36456, "Delay (ms)", &settings::IS_Delay, 0, 1000);
+				static bool renderInventoryEditor = false;
+				if (Menu::Button(79, "Open Inventory Editor", ImVec2(384, 0)))
+				{
+					renderInventoryEditor = !renderInventoryEditor;
+				}
 
-			Menu::DoKeybindStuff(456745, "Keybind", settings::IS_Key);
-
-
-			static bool renderInventoryEditor = false;
-            if (Menu::DoButtonStuff(789723, "Open Inventory Editor"))
-            {
-				renderInventoryEditor = !renderInventoryEditor;
-            }
-
-            RenderInventoryEditor(renderInventoryEditor);
-
+				RenderInventoryEditor(renderInventoryEditor);
+			}
+			ImGui::EndChild();
 			ImGui::Spacing();
 		}
 	}
 	ImGui::EndChild();
+
 	ImGui::PopStyleVar();
 	ImGui::PopStyleColor();
+
+	ImGui::EndGroup();
 }
 
 static std::string toLower(const std::string& str) {

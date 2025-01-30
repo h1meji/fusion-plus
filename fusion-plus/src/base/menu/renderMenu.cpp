@@ -133,11 +133,11 @@ void RenderSettingsMenu()
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
 
 	// input box to save config
-	static char saveConfigName[128] = "";
+	static char friendName[128] = "";
 	// set width of input box
 	ImGui::SetNextItemWidth(614);
 	// set input box height
-	ImGui::InputText("##addFriend", saveConfigName, IM_ARRAYSIZE(saveConfigName));
+	ImGui::InputText("##addFriend", friendName, IM_ARRAYSIZE(friendName));
 
 	ImGui::SameLine();
 
@@ -145,9 +145,9 @@ void RenderSettingsMenu()
 	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2, 0.2, 0.2, 0.5));
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3, 0.3, 0.3, 1));
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4, 0.4, 0.4, 1));
-	if (ImGui::Button("Add", ImVec2(65, 22)) && saveConfigName != "")
+	if (ImGui::Button("Add", ImVec2(65, 22)) && friendName != "")
 	{
-		ConfigManager::AddFriend(saveConfigName);
+		ConfigManager::AddFriend(friendName);
 	}
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
@@ -157,17 +157,14 @@ void RenderSettingsMenu()
 
 	ImGui::SeparatorText("Menu Settings");
 
-	Menu::DoColorPickerStuff(3457284, "Menu Accent Color", settings::Menu_AccentColor);
-
-	Menu::DoToggleButtonStuff(948753, "GUI Movement", &settings::Menu_GUIMovement);
-	
-	Menu::DoToggleButtonStuff(9837592, "Show Watermark", &settings::Menu_Watermark);
-
-	Menu::DoToggleButtonStuff(9837593, "Show Hidden Categories", &settings::Menu_ShowHiddenCategories);
+	Menu::ColorPicker(1001, "Menu Accent Color", ImVec2(374, 0), settings::Menu_AccentColor);
+	Menu::ToggleButton(1002, "GUI Movement", ImVec2(368, 0), &settings::Menu_GUIMovement);
+	Menu::ToggleButton(1003, "Show Hidden Categories", ImVec2(368, 0), &settings::Menu_ShowHiddenCategories);
 
 	ImGui::SeparatorText("Rendering Settings");
 
-	Menu::DoToggleButtonStuff(83475893, "Disable All Rendering", &settings::Menu_DisableAllRendering);
+	Menu::ToggleButton(1004, "Show Watermark", ImVec2(368, 0), &settings::Menu_Watermark);
+	Menu::ToggleButton(1005, "Disable All Rendering", ImVec2(368, 0), &settings::Menu_DisableAllRendering);
 }
 
 void Menu::RenderMenu()

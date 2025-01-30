@@ -225,73 +225,84 @@ void TagBack::RenderMenu()
 {
 	static bool renderSettings = false;
 
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+	ImGui::BeginGroup();
 
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("tagback", ImVec2(425, renderSettings ? 260 : 35))) {
+	if (ImGui::BeginChild("tb_header", ImVec2(425, renderSettings ? 260 : 35), false))
+	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-
 		ImGui::BeginGroup();
-		Menu::DoToggleButtonStuff(234402345634000, "Toggle Tag Back", &settings::TB_Enabled);
+		Menu::ToggleButton(86, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::TB_Enabled);
 		ImGui::EndGroup();
 		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
 		{
 			renderSettings = !renderSettings;
 		}
 
+		ImGui::PopStyleColor();
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
+
 		if (renderSettings)
 		{
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 			ImGui::Separator();
-			Menu::DoSliderStuff(23084562545, "FOV", &settings::TB_fov, 5.0f, 180.0f);
-			Menu::DoSliderStuff(2314057445345, "Smoothness", &settings::TB_smooth, 1.0f, 90.0f);
-			Menu::DoToggleButtonStuff(22645342, "Visbility Check", &settings::TB_visibilityCheck);
-
-			Menu::DoComboBoxStuff(987983, "Target Priority", &settings::TB_targetPriority, settings::TB_targetPriorityList, 3);
-
-			ImGui::Separator();
-
-			Menu::DoToggleButtonStuff(5635678756247, "Adapt to strafing", &settings::TB_adaptive);
-			Menu::DoSliderStuff(457323434, "Adaptive strafing offset", &settings::TB_adaptiveOffset, 0.1f, 15.f);
-			ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
-
-			ImGui::Separator();
-			Menu::DoSliderStuff(3464340056, "Yaw Randomness", &settings::TB_randomYaw, 0.0f, 10.0f);
-			Menu::DoSliderStuff(54034352347, "Pitch Randomness", &settings::TB_randomPitch, 0.0f, 1);
-			ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
-
-			Menu::DoToggleButtonStuff(3989843578, "Ignore Friends", &settings::TB_ignoreFriends);
-
-			ImGui::Separator();
-			Menu::DoToggleButtonStuff(76523436400, "FOV Circle", &settings::TB_fovCircle);
-			if (settings::TB_fovCircle)
+			if (ImGui::BeginChild("tb_settings", ImVec2(425, 215), false))
 			{
-				Menu::DoColorPickerStuff(4356354, "FOV Circle Color", settings::TB_fovCircleColor);
+				Menu::Slider(87, "FOV", ImVec2(225, 0), &settings::TB_fov, 5.0f, 180.0f);
+				Menu::Slider(89, "Smoothness", ImVec2(225, 0), &settings::TB_smooth, 1.0f, 90.0f);
+
+				Menu::ToggleButton(90, "Visbility Check", ImVec2(368, 0), &settings::TB_visibilityCheck);
+
+				Menu::ComboBox(91, "Target Priority", ImVec2(270, 0), &settings::TB_targetPriority, settings::TB_targetPriorityList, 3);
+
+				ImGui::Separator();
+
+				Menu::ToggleButton(92, "Adapt to strafing", ImVec2(368, 0), &settings::TB_adaptive);
+				Menu::Slider(93, "Adaptive strafing offset", ImVec2(225, 0), &settings::TB_adaptiveOffset, 0.1f, 15.f);
+				ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
+
+				ImGui::Separator();
+
+				Menu::Slider(94, "Yaw Randomness", ImVec2(225, 0), &settings::TB_randomYaw, 0.0f, 10.0f);
+				Menu::Slider(95, "Pitch Randomness", ImVec2(225, 0), &settings::TB_randomPitch, 0.0f, 1);
+				ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
+
+				ImGui::Separator();
+
+				Menu::ToggleButton(96, "FOV Circle", ImVec2(368, 0), &settings::TB_fovCircle);
+				if (settings::TB_fovCircle)
+				{
+					Menu::ColorPicker(97, "FOV Circle Color", ImVec2(374, 0), settings::TB_fovCircleColor);
+				}
+
+				Menu::ToggleButton(98, "Feedback Line", ImVec2(368, 0), &settings::TB_aimAssistFeedback);
+				if (settings::TB_aimAssistFeedback)
+				{
+					Menu::ColorPicker(99, "Feedback Line Color", ImVec2(374, 0), settings::TB_aimAssistFeedbackColor);
+				}
+
+				Menu::ToggleButton(100, "Ignore Friends", ImVec2(368, 0), &settings::TB_ignoreFriends);
+
+				ImGui::Separator();
+
+				Menu::ToggleButton(101, "Auto Click", ImVec2(368, 0), &settings::TB_autoClick);
+				if (settings::TB_autoClick)
+				{
+					Menu::Slider(102, "Min CPS", ImVec2(225, 0), &settings::TB_minCps, 1, settings::TB_maxCps);
+					Menu::Slider(103, "Max CPS", ImVec2(225, 0), &settings::TB_maxCps, settings::TB_minCps, 25);
+				}
 			}
-
-			Menu::DoToggleButtonStuff(230476545677654654, "Feedback Line", &settings::TB_aimAssistFeedback);
-			if (settings::TB_aimAssistFeedback)
-			{
-				Menu::DoColorPickerStuff(2745325, "Feedback Line Color", settings::TB_aimAssistFeedbackColor);
-			}
-
-			ImGui::Separator();
-
-			Menu::DoToggleButtonStuff(934287539, "Auto Click", &settings::TB_autoClick);
-			if (settings::TB_autoClick)
-			{
-				Menu::DoSliderStuff(98473, "Min CPS", &settings::TB_minCps, 1, settings::TB_maxCps);
-				Menu::DoSliderStuff(984734, "Max CPS", &settings::TB_maxCps, settings::TB_minCps, 20);
-			}
-
-			ImGui::Spacing();
+			ImGui::EndChild();
 			ImGui::Spacing();
 		}
-
 	}
 	ImGui::EndChild();
+
 	ImGui::PopStyleVar();
 	ImGui::PopStyleColor();
+
+	ImGui::EndGroup();
 }

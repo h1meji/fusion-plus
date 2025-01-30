@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <chrono>
+#include <unordered_map>
 
 #include "moduleManager/moduleBase.h"
 
@@ -41,6 +42,8 @@ private:
 	void DoArmor();
 	void CombineStacks();
 	void DoSwords();
+
+	bool HasCycle(int slot, std::unordered_map<int, int>& visited);
 
 	void GeneratePath();
 	void ResetSort();

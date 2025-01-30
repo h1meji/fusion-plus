@@ -347,88 +347,94 @@ void Esp::RenderMenu()
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
-	if (ImGui::BeginChild("esp", ImVec2(425, renderSettings ? 260 : 35))) {
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 
+	if (ImGui::BeginChild("esp_header", ImVec2(425, renderSettings ? 260 : 35), false))
+	{
+		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();
-		Menu::DoToggleButtonStuff(28374, "Toggle ESP", &settings::ESP_Enabled);
+		Menu::ToggleButton(29, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::ESP_Enabled);
 		ImGui::EndGroup();
 		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
 		{
 			renderSettings = !renderSettings;
 		}
 
+		ImGui::PopStyleColor();
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
+
 		if (renderSettings)
 		{
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 			ImGui::Separator();
-
-			Menu::DoToggleButtonStuff(23445, "Show Healthbar", &settings::ESP_HealthBar);
-			Menu::DoToggleButtonStuff(34576, "Show Text", &settings::ESP_Text);
-			if (settings::ESP_Text)
+			if (ImGui::BeginChild("esp_settings", ImVec2(425, 215), false))
 			{
-				Menu::DoColorPickerStuff(45687, "Text Color", settings::ESP_TextColor);
-				Menu::DoSliderStuff(128763, "Text Size", &settings::ESP_TextSize, 12, 24);
-				Menu::DoSliderStuff(98745056, "Text Unrender Distance", &settings::ESP_TextUnrenderDistance, 0, 20);
-
-				Menu::DoToggleButtonStuff(23456, "Show Text Outline", &settings::ESP_TextOutline);
-				if (settings::ESP_TextOutline)
+				Menu::ToggleButton(30, "Show Healthbar", ImVec2(368, 0), &settings::ESP_HealthBar);
+				Menu::ToggleButton(31, "Show Text", ImVec2(368, 0), &settings::ESP_Text);
+				if (settings::ESP_Text)
 				{
-					Menu::DoColorPickerStuff(34567, "Text Outline Color", settings::ESP_TextOutlineColor);
+					Menu::ColorPicker(32, "Text Color", ImVec2(374, 0), settings::ESP_TextColor);
+					Menu::Slider(33, "Text Size", ImVec2(225, 0), &settings::ESP_TextSize, 1.0f, 50.0f);
+					Menu::Slider(34, "Text Unrender Distance", ImVec2(225, 0), &settings::ESP_TextUnrenderDistance, 0.0f, 20.0f);
+
+					Menu::ToggleButton(35, "Show Text Outline", ImVec2(368, 0), &settings::ESP_TextOutline);
+					if (settings::ESP_TextOutline)
+					{
+						Menu::ColorPicker(36, "Text Outline Color", ImVec2(374, 0), settings::ESP_TextOutlineColor);
+					}
 				}
-			}
-			Menu::DoSliderStuff(34875, "Fade Distance", &settings::ESP_FadeDistance, 0, 10);
+				Menu::Slider(37, "Fade Distance", ImVec2(225, 0), &settings::ESP_FadeDistance, 0.0f, 10.0f);
 
-			Menu::DoComboBoxStuff(309485, "Box Type", &settings::ESP_BoxType, settings::ESP_BoxTypeList, 2);
+				Menu::ComboBox(38, "Box Type", ImVec2(270, 0), &settings::ESP_BoxType, settings::ESP_BoxTypeList, 2);
 
-			Menu::DoToggleButtonStuff(73897435, "Highlight Friends", &settings::ESP_HighlightFriends);
+				Menu::ToggleButton(39, "Highlight Friends", ImVec2(368, 0), &settings::ESP_HighlightFriends);
 
-			if (settings::ESP_BoxType == 0)
-			{
-				Menu::DoToggleButtonStuff(23453, "Show Box", &settings::ESP_Box);
-				if (settings::ESP_Box)
+				if (settings::ESP_BoxType == 0)
 				{
-					Menu::DoColorPickerStuff(45678, "Box Color", settings::ESP_BoxColor);
+					Menu::ToggleButton(40, "Show Box", ImVec2(368, 0), &settings::ESP_Box);
+					if (settings::ESP_Box)
+					{
+						Menu::ColorPicker(41, "Box Color", ImVec2(374, 0), settings::ESP_BoxColor);
+						if (settings::ESP_HighlightFriends)
+						{
+							Menu::ColorPicker(42, "Friend Box Color", ImVec2(374, 0), settings::ESP_FriendBoxColor);
+						}
+					}
+				}
+				else if (settings::ESP_BoxType == 1)
+				{
+					Menu::Slider(43, "Box Thickness", ImVec2(225, 0), &settings::ESP_3DBoxThickness, 0.5f, 5.0f);
+				}
+
+				Menu::ToggleButton(44, "Show Filled Box", ImVec2(368, 0), &settings::ESP_FilledBox);
+				if (settings::ESP_FilledBox)
+				{
+					Menu::ColorPicker(45, "Filled Box Color", ImVec2(374, 0), settings::ESP_FilledBoxColor);
+					if (settings::ESP_BoxType == 0)
+						Menu::ColorPicker(46, "Second Filled Box Color", ImVec2(374, 0), settings::ESP_SecondFilledBoxColor);
 					if (settings::ESP_HighlightFriends)
 					{
-						Menu::DoColorPickerStuff(24734, "Friend Box Color", settings::ESP_FriendBoxColor);
+						Menu::ColorPicker(47, "Friend Filled Box Color", ImVec2(374, 0), settings::ESP_FriendFilledBoxColor);
+						if (settings::ESP_BoxType == 0)
+							Menu::ColorPicker(48, "Friend Second Filled Box Color", ImVec2(374, 0), settings::ESP_FriendSecondFilledBoxColor);
+					}
+				}
+
+				Menu::ToggleButton(49, "Show Outline", ImVec2(368, 0), &settings::ESP_Outline);
+				if (settings::ESP_Outline)
+				{
+					Menu::ColorPicker(50, "Outline Color", ImVec2(374, 0), settings::ESP_OutlineColor);
+					if (settings::ESP_HighlightFriends)
+					{
+						Menu::ColorPicker(51, "Friend Outline Color", ImVec2(374, 0), settings::ESP_FriendOutlineColor);
 					}
 				}
 			}
-			else if (settings::ESP_BoxType == 1)
-			{
-				Menu::DoSliderStuff(73453, "Box Thickness", &settings::ESP_3DBoxThickness, 0.5, 5);
-			}
-
-			Menu::DoToggleButtonStuff(34566, "Show Filled Box", &settings::ESP_FilledBox);
-			if (settings::ESP_FilledBox)
-			{
-				Menu::DoColorPickerStuff(56789, "Filled Box Color", settings::ESP_FilledBoxColor);
-				if (settings::ESP_BoxType == 0)
-					Menu::DoColorPickerStuff(67890, "Second Filled Box Color", settings::ESP_SecondFilledBoxColor);
-				if (settings::ESP_HighlightFriends)
-				{
-					Menu::DoColorPickerStuff(7654456, "Friend Filled Box Color", settings::ESP_FriendFilledBoxColor);
-					if (settings::ESP_BoxType == 0)
-						Menu::DoColorPickerStuff(97654634, "Friend Second Filled Box Color", settings::ESP_FriendSecondFilledBoxColor);
-				}
-			}
-
-			Menu::DoToggleButtonStuff(45677, "Show Outline", &settings::ESP_Outline);
-			if (settings::ESP_Outline)
-			{
-				Menu::DoColorPickerStuff(56788, "Outline Color", settings::ESP_OutlineColor);
-				if (settings::ESP_HighlightFriends)
-				{
-					Menu::DoColorPickerStuff(858728965, "Friend Outline Color", settings::ESP_FriendOutlineColor);
-				}
-			}
-
+			ImGui::EndChild();
 			ImGui::Spacing();
 		}
-
 	}
 	ImGui::EndChild();
+
 	ImGui::PopStyleVar();
 	ImGui::PopStyleColor();
 	ImGui::EndGroup();

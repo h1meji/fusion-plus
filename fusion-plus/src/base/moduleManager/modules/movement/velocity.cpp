@@ -70,39 +70,48 @@ void Velocity::RenderMenu()
 {
 	static bool renderSettings = false;
 
+	ImGui::BeginGroup();
+
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("velocity", ImVec2(425, renderSettings ? 130 : 35)))
+	if (ImGui::BeginChild("velocity_header", ImVec2(425, renderSettings ? 128 : 35), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-
 		ImGui::BeginGroup();
-		Menu::DoToggleButtonStuff(230044, "Toggle Velocity", &settings::Velocity_Enabled);
+		Menu::ToggleButton(68, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::Velocity_Enabled);
 		ImGui::EndGroup();
 		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
 		{
 			renderSettings = !renderSettings;
 		}
 
+		ImGui::PopStyleColor();
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
+
 		if (renderSettings)
 		{
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 			ImGui::Separator();
-
-			Menu::DoComboBoxStuff(9845739, "Mode", &settings::Velocity_Mode, settings::Velocity_ModeList, 1);
-
-			if (settings::Velocity_Mode == 0)
+			if (ImGui::BeginChild("velocity_settings", ImVec2(425, 83), false))
 			{
-				Menu::DoSliderStuff(84528, "Reaction Time (ms)", &settings::Velocity_JRReactionTime, 0, 1000);
-				Menu::DoSliderStuff(93845, "Chance %", &settings::Velocity_JRChange, 0, 100);
-			}
+				Menu::ComboBox(69, "Mode", ImVec2(270, 0), &settings::Velocity_Mode, settings::Velocity_ModeList, 1);
 
+				if (settings::Velocity_Mode == 0)
+				{
+					Menu::Slider(70, "Reaction Time (ms)", ImVec2(225, 0), &settings::Velocity_JRReactionTime, 0, 1000);
+					Menu::Slider(71, "Chance %", ImVec2(235, 0), &settings::Velocity_JRChange, 0, 100);
+				}
+			}
+			ImGui::EndChild();
 			ImGui::Spacing();
 		}
 	}
 	ImGui::EndChild();
+
 	ImGui::PopStyleVar();
 	ImGui::PopStyleColor();
+
+	ImGui::EndGroup();
 }

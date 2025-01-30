@@ -103,40 +103,46 @@ void ArrayList::RenderMenu()
 {
 	static bool renderSettings = false;
 
+	ImGui::BeginGroup();
+
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("arraylist", ImVec2(425, renderSettings ? 181 : 35))) {
+	if (ImGui::BeginChild("al_header", ImVec2(425, renderSettings ? 185 : 35), false))
+	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-
 		ImGui::BeginGroup();
-		Menu::DoToggleButtonStuff(28374, "Toggle Array List", &settings::AL_Enabled);
+		Menu::ToggleButton(80, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::AL_Enabled);
 		ImGui::EndGroup();
 		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
 		{
 			renderSettings = !renderSettings;
 		}
 
+		ImGui::PopStyleColor();
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
+
 		if (renderSettings)
 		{
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 			ImGui::Separator();
-
-			Menu::DoComboBoxStuff(8237409, "Position", &settings::AL_renderPosition, settings::AL_renderPositionList, 4);
-
-			Menu::DoSliderStuff(5436523, "Text Size", &settings::AL_textSize, 10, 40);
-
-			Menu::DoColorPickerStuff(2376423, "Text Color", settings::AL_textColor);
-
-			Menu::DoSliderStuff(786465, "Background Padding", &settings::AL_backgroundPadding, 0, 20);
-
-			Menu::DoColorPickerStuff(4673445, "Background Color", settings::AL_backgroundColor);
-
+			if (ImGui::BeginChild("al_settings", ImVec2(425, 140), false))
+			{
+				Menu::ComboBox(81, "Position", ImVec2(270, 0), &settings::AL_renderPosition, settings::AL_renderPositionList, 4);
+				Menu::Slider(82, "Text Size", ImVec2(225, 0), &settings::AL_textSize, 1, 50);
+				Menu::ColorPicker(83, "Text Color", ImVec2(374, 0), settings::AL_textColor);
+				Menu::Slider(84, "Background Padding", ImVec2(225, 0), &settings::AL_backgroundPadding, 0, 20);
+				Menu::ColorPicker(85, "Background Color", ImVec2(374, 0), settings::AL_backgroundColor);
+			}
+			ImGui::EndChild();
 			ImGui::Spacing();
 		}
 	}
 	ImGui::EndChild();
+
 	ImGui::PopStyleVar();
 	ImGui::PopStyleColor();
+
+	ImGui::EndGroup();
 }

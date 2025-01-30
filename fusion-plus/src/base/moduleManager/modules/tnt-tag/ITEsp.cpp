@@ -331,91 +331,99 @@ void ITEsp::RenderMenu()
 	static bool renderSettings = false;
 
 	ImGui::BeginGroup();
+
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
-	if (ImGui::BeginChild("itesp", ImVec2(425, renderSettings ? 260 : 35))) {
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 
+	if (ImGui::BeginChild("itesp_header", ImVec2(425, renderSettings ? 260 : 35), false))
+	{
+		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();
-		Menu::DoToggleButtonStuff(28374, "Toggle IT ESP", &settings::ITESP_Enabled);
+		Menu::ToggleButton(104, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::ITESP_Enabled);
 		ImGui::EndGroup();
 		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
 		{
 			renderSettings = !renderSettings;
 		}
 
+		ImGui::PopStyleColor();
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
+
 		if (renderSettings)
 		{
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 			ImGui::Separator();
-
-			Menu::DoToggleButtonStuff(34576, "Show Text", &settings::ITESP_Text);
-			if (settings::ITESP_Text)
+			if (ImGui::BeginChild("itesp_settings", ImVec2(425, 215), false))
 			{
-				Menu::DoColorPickerStuff(45687, "Text Color", settings::ITESP_TextColor);
-				Menu::DoSliderStuff(128763, "Text Size", &settings::ITESP_TextSize, 12, 24);
-				Menu::DoSliderStuff(98745056, "Text Unrender Distance", &settings::ITESP_TextUnrenderDistance, 0, 20);
-
-				Menu::DoToggleButtonStuff(23456, "Show Text Outline", &settings::ITESP_TextOutline);
-				if (settings::ITESP_TextOutline)
+				Menu::ToggleButton(105, "Show Text", ImVec2(368, 0), &settings::ITESP_Text);
+				if (settings::ITESP_Text)
 				{
-					Menu::DoColorPickerStuff(34567, "Text Outline Color", settings::ITESP_TextOutlineColor);
+					Menu::ColorPicker(106, "Text Color", ImVec2(374, 0), settings::ITESP_TextColor);
+					Menu::Slider(107, "Text Size", ImVec2(225, 0), &settings::ITESP_TextSize, 1.0f, 50.0f);
+					Menu::Slider(108, "Text Unrender Distance", ImVec2(225, 0), &settings::ITESP_TextUnrenderDistance, 0.0f, 20.0f);
+
+					Menu::ToggleButton(109, "Show Text Outline", ImVec2(368, 0), &settings::ITESP_TextOutline);
+					if (settings::ITESP_TextOutline)
+					{
+						Menu::ColorPicker(110, "Text Outline Color", ImVec2(374, 0), settings::ITESP_TextOutlineColor);
+					}
 				}
-			}
-			Menu::DoSliderStuff(34875, "Fade Distance", &settings::ITESP_FadeDistance, 0, 10);
+				Menu::Slider(111, "Fade Distance", ImVec2(225, 0), &settings::ITESP_FadeDistance, 0.0f, 10.0f);
 
-			Menu::DoComboBoxStuff(309485, "Box Type", &settings::ITESP_BoxType, settings::ITESP_BoxTypeList, 2);
+				Menu::ComboBox(112, "Box Type", ImVec2(270, 0), &settings::ITESP_BoxType, settings::ITESP_BoxTypeList, 2);
 
-			Menu::DoToggleButtonStuff(73897435, "Highlight Friends", &settings::ITESP_HighlightFriends);
+				Menu::ToggleButton(113, "Highlight Friends", ImVec2(368, 0), &settings::ITESP_HighlightFriends);
 
-			if (settings::ITESP_BoxType == 0)
-			{
-				Menu::DoToggleButtonStuff(23453, "Show Box", &settings::ITESP_Box);
-				if (settings::ITESP_Box)
+				if (settings::ITESP_BoxType == 0)
 				{
-					Menu::DoColorPickerStuff(45678, "Box Color", settings::ITESP_BoxColor);
+					Menu::ToggleButton(114, "Show Box", ImVec2(368, 0), &settings::ITESP_Box);
+					if (settings::ITESP_Box)
+					{
+						Menu::ColorPicker(115, "Box Color", ImVec2(374, 0), settings::ITESP_BoxColor);
+						if (settings::ITESP_HighlightFriends)
+						{
+							Menu::ColorPicker(116, "Friend Box Color", ImVec2(374, 0), settings::ITESP_FriendBoxColor);
+						}
+					}
+				}
+				else if (settings::ITESP_BoxType == 1)
+				{
+					Menu::Slider(117, "Box Thickness", ImVec2(225, 0), &settings::ITESP_3DBoxThickness, 0.5f, 5.0f);
+				}
+
+				Menu::ToggleButton(118, "Show Filled Box", ImVec2(368, 0), &settings::ITESP_FilledBox);
+				if (settings::ITESP_FilledBox)
+				{
+					Menu::ColorPicker(119, "Filled Box Color", ImVec2(374, 0), settings::ITESP_FilledBoxColor);
+					if (settings::ITESP_BoxType == 0)
+						Menu::ColorPicker(120, "Second Filled Box Color", ImVec2(374, 0), settings::ITESP_SecondFilledBoxColor);
 					if (settings::ITESP_HighlightFriends)
 					{
-						Menu::DoColorPickerStuff(24734, "Friend Box Color", settings::ITESP_FriendBoxColor);
+						Menu::ColorPicker(121, "Friend Filled Box Color", ImVec2(374, 0), settings::ITESP_FriendFilledBoxColor);
+						if (settings::ITESP_BoxType == 0)
+							Menu::ColorPicker(122, "Friend Second Filled Box Color", ImVec2(374, 0), settings::ITESP_FriendSecondFilledBoxColor);
+					}
+				}
+
+				Menu::ToggleButton(123, "Show Outline", ImVec2(368, 0), &settings::ITESP_Outline);
+				if (settings::ITESP_Outline)
+				{
+					Menu::ColorPicker(124, "Outline Color", ImVec2(374, 0), settings::ITESP_OutlineColor);
+					if (settings::ITESP_HighlightFriends)
+					{
+						Menu::ColorPicker(125, "Friend Outline Color", ImVec2(374, 0), settings::ITESP_FriendOutlineColor);
 					}
 				}
 			}
-			else if (settings::ITESP_BoxType == 1)
-			{
-				Menu::DoSliderStuff(73453, "Box Thickness", &settings::ITESP_3DBoxThickness, 0.5, 5);
-			}
-
-			Menu::DoToggleButtonStuff(34566, "Show Filled Box", &settings::ITESP_FilledBox);
-			if (settings::ITESP_FilledBox)
-			{
-				Menu::DoColorPickerStuff(56789, "Filled Box Color", settings::ITESP_FilledBoxColor);
-				if (settings::ITESP_BoxType == 0)
-					Menu::DoColorPickerStuff(67890, "Second Filled Box Color", settings::ITESP_SecondFilledBoxColor);
-				if (settings::ITESP_HighlightFriends)
-				{
-					Menu::DoColorPickerStuff(7654456, "Friend Filled Box Color", settings::ITESP_FriendFilledBoxColor);
-					if (settings::ITESP_BoxType == 0)
-						Menu::DoColorPickerStuff(97654634, "Friend Second Filled Box Color", settings::ITESP_FriendSecondFilledBoxColor);
-				}
-			}
-
-			Menu::DoToggleButtonStuff(45677, "Show Outline", &settings::ITESP_Outline);
-			if (settings::ITESP_Outline)
-			{
-				Menu::DoColorPickerStuff(56788, "Outline Color", settings::ITESP_OutlineColor);
-				if (settings::ITESP_HighlightFriends)
-				{
-					Menu::DoColorPickerStuff(858728965, "Friend Outline Color", settings::ITESP_FriendOutlineColor);
-				}
-			}
-
+			ImGui::EndChild();
 			ImGui::Spacing();
 		}
-
 	}
 	ImGui::EndChild();
+
 	ImGui::PopStyleVar();
 	ImGui::PopStyleColor();
+
 	ImGui::EndGroup();
 }
