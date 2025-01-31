@@ -27,7 +27,7 @@ private:
 
 	void ResetSteal();
 
-	void RenderItems();
+	void RenderItems(bool& isOpen);
 
 private:
 	std::string Name = "Chest Stealer";

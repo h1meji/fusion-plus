@@ -75,6 +75,7 @@ void ChestStealer::RenderUpdate()
 void ChestStealer::RenderMenu()
 {
 	static bool renderSettings = false;
+	static bool renderChestStealerItems = false;
 
 	ImGui::BeginGroup();
 
@@ -106,8 +107,10 @@ void ChestStealer::RenderMenu()
 				Menu::KeybindButton(74, "Keybind", ImVec2(297, 0), settings::CS_Key);
 				if (Menu::Button(75, "Edit Items", ImVec2(384, 0)))
 				{
-					// Edit Items Popup
+					renderChestStealerItems = !renderChestStealerItems;
 				}
+
+				RenderItems(renderChestStealerItems);
 			}
 			ImGui::EndChild();
 			ImGui::Spacing();
@@ -133,19 +136,23 @@ std::string toLower(const std::string& str) {
 	return lowerStr;
 }
 
-void ChestStealer::RenderItems()
+void ChestStealer::RenderItems(bool& isOpen)
 {
+	if (!isOpen) return;
+
 	static char filterBuffer[128] = "";
 	static bool showAddPopup = false;
 
 
-	if (showAddPopup) {
+	if (showAddPopup)
+	{
 		ImGui::OpenPopup("Add Item Popup");
 		showAddPopup = false;
 	}
 
 	// Popup for adding a block
-	if (ImGui::BeginPopup("Add Item Popup")) {
+	if (ImGui::BeginPopup("Add Item Popup"))
+	{
 		ImGui::Text("Select a Item to Add");
 		ImGui::Separator();
 
@@ -158,11 +165,14 @@ void ChestStealer::RenderItems()
 		// Filtered block list
 		if (ImGui::BeginListBox("##blockList", ImVec2(300, 200)))
 		{
-			for (const auto& [blockName, blockData] : MinecraftItems::nameToBlock) {
+			for (const auto& [blockName, blockData] : MinecraftItems::nameToBlock)
+			{
 				// Convert block name to lowercase for comparison
 				std::string blockNameLower = toLower(blockName);
-				if (blockNameLower.find(filterLower) != std::string::npos) {
-					if (ImGui::Selectable(blockName.c_str())) {
+				if (blockNameLower.find(filterLower) != std::string::npos)
+				{
+					if (ImGui::Selectable(blockName.c_str()))
+					{
 						// Add the selected block to userBlocks (ID, metadata pair)
 						settings::CS_Items.push_back({ blockData.id, blockData.metadata });
 						ImGui::CloseCurrentPopup();
@@ -172,43 +182,67 @@ void ChestStealer::RenderItems()
 			ImGui::EndListBox();
 		}
 
-
 		// Close the popup
-		if (ImGui::Button("Close")) {
+		if (ImGui::Button("Close"))
+		{
 			ImGui::CloseCurrentPopup();
 		}
 
 		ImGui::EndPopup();
 	}
 
-	// Tree node to display all blocks
-	if (ImGui::TreeNode("Items")) {
-		// Button to add a block
-		if (ImGui::Button("Add Item")) {
-			ImGui::OpenPopup("Add Item Popup");
+	ImGui::SetNextWindowSize(ImVec2(534, 255));
+	if (ImGui::Begin("  Chest Stealer", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize))
+	{
+		ImGui::SeparatorText("Items");
+
+		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
+		if (ImGui::BeginListBox("##items", ImVec2(514, 145)))
+		{
+			for (int i = 0; i < settings::CS_Items.size(); i++)
+			{
+				const auto& item = settings::CS_Items[i];
+
+				ImGui::Text("%s", MinecraftItems::GetNameByData(item.first, item.second).c_str());
+
+				if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Right))
+				{
+					ImGui::OpenPopup(("Delete Item " + std::to_string(item.first)).c_str());
+				}
+
+				if (ImGui::BeginPopup(("Delete Item " + std::to_string(item.first)).c_str()))
+				{
+					if (ImGui::Button("Delete"))
+					{
+						settings::CS_Items.erase(settings::CS_Items.begin() + i);
+						i--;
+						ImGui::CloseCurrentPopup();
+					}
+					ImGui::EndPopup();
+				}
+			}
+			ImGui::EndListBox();
+		}
+
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82, settings::Menu_AccentColor[1] * 0.82, settings::Menu_AccentColor[2] * 0.82, settings::Menu_AccentColor[3] * 0.82));
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
+
+		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
+		if (ImGui::Button("Add Item", ImVec2(514, 22)))
+		{
 			showAddPopup = true;
 		}
 
-		for (int i = 0; i < settings::CS_Items.size(); i++)
+		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
+		if (ImGui::Button("Save & Close", ImVec2(514, 22)))
 		{
-			const auto& block = settings::CS_Items[i];
-
-			ImGui::Text("%s", MinecraftItems::GetNameByData(block.first, block.second).c_str());
-
-			// Right-click to show delete tooltip
-			if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Right)) {
-				ImGui::OpenPopup(("Delete Item " + std::to_string(block.first)).c_str());
-			}
-
-			if (ImGui::BeginPopup(("Delete Item " + std::to_string(block.first)).c_str())) {
-				if (ImGui::Button("Delete")) {
-					settings::CS_Items.erase(settings::CS_Items.begin() + i);
-					i--;
-					ImGui::CloseCurrentPopup();
-				}
-				ImGui::EndPopup();
-			}
+			isOpen = false;
 		}
-		ImGui::TreePop();
+
+		ImGui::PopStyleColor(3);
+		ImGui::PopStyleVar();
 	}
+	ImGui::End();
 }
