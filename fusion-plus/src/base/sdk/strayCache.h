@@ -438,10 +438,12 @@ struct StrayCache {
 			itemStack_getItem = Java::Env->GetMethodID(itemStack_class, "b", "()Lzw;");
 			itemStack_getMetadata = Java::Env->GetMethodID(itemStack_class, "i", "()I");
 			itemStack_getMaxDamage = Java::Env->GetMethodID(itemStack_class, "j", "()I");
+			itemStack_stackSize = Java::Env->GetFieldID(itemStack_class, "b", "I");
 
 			Java::AssignClass("zw", item_class);
 			item_getUnlocalizedName = Java::Env->GetMethodID(item_class, "a", "()Ljava/lang/String;");
 			item_getIdFromItem = Java::Env->GetStaticMethodID(item_class, "b", "(Lzw;)I");
+			item_getItemStackLimit = Java::Env->GetMethodID(item_class, "j", "()I");
 
 			Java::AssignClass("afh", block_class);
 			block_getIdFromBlock = Java::Env->GetStaticMethodID(block_class, "a", "(Lafh;)I");
@@ -467,6 +469,9 @@ struct StrayCache {
 
 			Java::AssignClass("xi", container_class);
 			container_windowId_name = "d";
+
+			Java::AssignClass("ack", enchantmentHelper_class);
+			enchantmentHelper_getEnchantments = Java::Env->GetStaticMethodID(enchantmentHelper_class, "a", "(Lzx;)Ljava/util/Map;");
 
 			inventory_class_name = "azc";
 			chest_gui_class_name = "ayr";
