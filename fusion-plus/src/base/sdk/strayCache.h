@@ -176,6 +176,7 @@ struct StrayCache {
 	// STRINGS
 	inline static const char* inventory_class_name;
 	inline static const char* chest_gui_class_name;
+	inline static const char* vec3_class_name;
 
 	static void Initialize() {
 		if (Java::Version == MinecraftVersion::UNKNOWN) { return; }
@@ -325,6 +326,7 @@ struct StrayCache {
 
 			inventory_class_name = "net.minecraft.client.gui.inventory.GuiInventory";
 			chest_gui_class_name = "net.minecraft.client.gui.inventory.GuiChest";
+			vec3_class_name = "net.minecraft.util.Vec3";
 		}
 		else if (Java::Version == MinecraftVersion::LUNAR_1_7_10)
 		{
@@ -468,6 +470,7 @@ struct StrayCache {
 
 			inventory_class_name = "azc";
 			chest_gui_class_name = "ayr";
+			vec3_class_name = "aui";
 		}
 		else if (Java::Version == MinecraftVersion::VANILLA_1_7_10)
 		{

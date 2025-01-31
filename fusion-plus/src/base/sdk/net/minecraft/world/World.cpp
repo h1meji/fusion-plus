@@ -51,7 +51,8 @@ std::vector<CEntityPlayer> CWorld::GetPlayerList()
 bool CWorld::rayTraceBlocks(Vector3 from, Vector3 to, Vector3& result, bool stopOnLiquid, bool ignoreBlockWithoutBoundingBox, bool returnLastUncollidableBlock)
 {
 	// SPECIAL CASE
-	jclass cls = StrayCache::vec3_class;
+	jclass cls;
+	Java::AssignClass(StrayCache::vec3_class_name, cls);
 
 	jmethodID init = Java::Env->GetMethodID(cls, "<init>", "(DDD)V");
 	jobject j_to = Java::Env->NewObject(cls, init, (jdouble)(double)to.x, (jdouble)(double)to.y, (jdouble)(double)to.z);
