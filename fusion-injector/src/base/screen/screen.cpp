@@ -9,6 +9,8 @@
 #include "base.h"
 #include <iostream>
 
+#include <thread>
+
 #define WINDOW_WIDTH 700
 #define WINDOW_HEIGHT 400
 
@@ -103,6 +105,77 @@ void Screen::SetupStyle()
 	style.Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(1.0f, 0.0f, 0.0f, 0.3499999940395355f);
 }
 
+std::atomic<bool> dllUpdating(false);
+std::atomic<bool> injectorUpdating(false);
+std::atomic<bool> updateFinished(false);
+
+std::string updateStatus = "";
+
+static void UpdateDllThread()
+{
+	dllUpdating = true;
+	updateStatus = "Updating DLL...";
+	if (BaseUtils::UpdateDll()) {
+		updateStatus = "DLL Updated!";
+	}
+	else {
+		updateStatus = "DLL Update Failed!";
+	}
+	dllUpdating = false;
+}
+
+static void UpdateInjectorThread()
+{
+	injectorUpdating = true;
+	updateStatus = "Updating Injector...";
+	if (BaseUtils::UpdateInjector()) {
+		updateStatus = "Injector Updated! Launching...";
+		std::this_thread::sleep_for(std::chrono::seconds(2)); 
+		std::string path = FolderManager::GetCurrentDir() + "fusion-plus_v" + BaseUtils::new_injetor_version + ".exe";
+		std::wstring wpath = std::wstring(path.begin(), path.end());
+		ShellExecute(NULL, L"open", wpath.c_str(), NULL, NULL, SW_SHOWNORMAL);
+		PostMessage(HWND_BROADCAST, WM_CLOSE, 0, 0);
+	}
+	else {
+		updateStatus = "Injector Update Failed!";
+	}
+	injectorUpdating = false;
+}
+
+static void AnimateUpdateStatus()
+{
+	static int dotCount = 3;
+	static int lastUpdateTime = 0;
+	int currentTime = static_cast<int>(std::chrono::system_clock::now().time_since_epoch().count() / 1000000000);
+
+	// Update every 500 milliseconds (for example)
+	if (currentTime - lastUpdateTime >= 1)
+	{
+		dotCount = (dotCount + 1) % 4;  // 0, 1, 2, 3 dots
+		lastUpdateTime = currentTime;
+	}
+
+	// Generate the status message based on the update state
+	std::string dotStr(dotCount, '.');
+
+	if (dllUpdating && injectorUpdating)
+	{
+		updateStatus = "Updating DLL and Injector" + dotStr;
+	}
+	else if (dllUpdating)
+	{
+		updateStatus = "Updating DLL" + dotStr;
+	}
+	else if (injectorUpdating)
+	{
+		updateStatus = "Updating Injector" + dotStr;
+	}
+	else
+	{
+		updateStatus = "Update Finished!";
+	}
+}
+
 bool Screen::Render()
 {
 	static bool update = BaseUtils::IsInjectorUpdated();
@@ -137,10 +210,12 @@ bool Screen::Render()
 
 	if (!update)
 	{
-		if (ImGui::Button("Update Availble"))
+		if (ImGui::Button("Update Available"))
 		{
-			if (BaseUtils::UpdateInjector())
-				MessageBoxA(NULL, "Injector updated successfully!\nPlease run the new Injector.", "Fusion Injector", MB_OK | MB_ICONINFORMATION);
+			// Start Injector update thread
+			std::thread injectorUpdateThread(UpdateInjectorThread);
+			injectorUpdateThread.detach();
+			update = false;
 		}
 	}
 
@@ -157,7 +232,7 @@ bool Screen::Render()
 		{
 			if (ProcessManager::InjectDLL(processes[selectedProcess].processId, FolderManager::GetDllPath().c_str()))
 			{
-				//MessageBoxA(NULL, "Injected successfully!", "Fusion Injector", MB_OK | MB_ICONINFORMATION);
+				// MessageBoxA(NULL, "Injected successfully!", "Fusion Injector", MB_OK | MB_ICONINFORMATION);
 			}
 			else
 			{
@@ -184,6 +259,16 @@ bool Screen::Render()
 		}
 	}
 
+	AnimateUpdateStatus();
+	if (dllUpdating || injectorUpdating)
+	{
+		int textWidth = ImGui::CalcTextSize(updateStatus.c_str()).x;
+		ImGui::SetCursorPosX(ImGui::GetWindowWidth() / 2 - textWidth / 2.0f);
+		ImGui::SetCursorPosY(10);
+		ImGui::Text("%s", updateStatus.c_str());
+	}
+
+	// Final Buttons
 	ImGui::SetCursorPosY(ImGui::GetWindowHeight() - 36);
 	if (ImGui::Button("Discord"))
 	{
@@ -204,7 +289,9 @@ bool Screen::Render()
 
 	if (!BaseUtils::IsDllUpdated() && !dllUpdated)
 	{
-		BaseUtils::UpdateDll();
+		// Start DLL update thread
+		std::thread dllUpdateThread(UpdateDllThread);
+		dllUpdateThread.detach();
 		dllUpdated = true;
 	}
 	else

@@ -13,4 +13,6 @@ namespace FolderManager
 	std::string GetDllPath();
 
 	std::string GetVersionStringDll();
+
+	std::string GetCurrentDir();
 }

@@ -64,3 +64,12 @@ std::string FolderManager::GetFusionFolder()
 {
 	return FolderManager::GetDocumentsPath("Fusion+");
 }
+
+std::string FolderManager::GetCurrentDir()
+{
+    wchar_t buffer[MAX_PATH];
+    GetCurrentDirectory(MAX_PATH, buffer);
+    std::wstring ws(buffer);
+	std::string currentDirectory(ws.begin(), ws.end());
+	return currentDirectory;
+}

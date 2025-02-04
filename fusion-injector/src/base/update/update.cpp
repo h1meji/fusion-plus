@@ -2,6 +2,7 @@
 
 #include "request/request.h"
 #include "folder/folder.h"
+#include <base.h>
 
 Update::UpdateInfo Update::GetUpdateInfo(const std::string& url)
 {
@@ -56,7 +57,9 @@ bool Update::UpdateInjector(const std::string& fileName, const std::string& down
 		convertedPath = std::wstring(injectorPath.begin(), injectorPath.end());
 	}
 
-	return Request::DownloadToFile(convertedUrl, convertedPath);
+	bool done = Request::DownloadToFile(convertedUrl, convertedPath);
+	if (done) BaseUtils::new_injetor_version = fileName;
+	return done;
 }
 
 bool Update::CompareVersions(const int currentVersion[3], const int jsonVersion[3])

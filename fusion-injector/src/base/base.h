@@ -1,6 +1,7 @@
 #pragma once
 
 #include "window/window.h"
+#include <string>
 
 #define INJECTOR_VERSION "0.0.2"
 
@@ -17,6 +18,7 @@ private:
 
 namespace BaseUtils
 {
+	static inline std::string new_injetor_version;
 	bool IsDllUpdated();
 	bool IsInjectorUpdated();
 	bool UpdateDll();
