@@ -17,14 +17,27 @@ inline void send_key(WORD vk_key, bool send_down = true)
 	SendInput(1, &ip, sizeof(INPUT));
 }
 
+void SendShiftKey(HWND hWnd, bool send_down) {
+	if (send_down)
+	{
+		PostMessage(hWnd, WM_KEYDOWN, VK_SHIFT, (MapVirtualKey(VK_SHIFT, 0) << 16));
+	}
+	else
+	{
+		PostMessage(hWnd, WM_KEYUP, VK_SHIFT, (MapVirtualKey(VK_SHIFT, 0) << 16) | (1 << 30) | (1 << 31));
+	}
+}
+
 void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve987321/toadclient for the idea / implementation.
 {
 	bool isSneaking = (bool)GetAsyncKeyState(VK_SHIFT);
 
 	if (!settings::BA_Enabled || !CommonData::SanityCheck() || SDK::Minecraft->IsInGuiState())
 	{
-		if (!m_has_pressed_shift && isSneaking)
+		if (!m_has_pressed_shift && isSneaking && !settings::BA_OnlyOnShift)
+		{
 			UnSneak();
+		}
 
 		m_has_pressed_shift = false;
 		return;
@@ -36,8 +49,10 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 	CItemStack item = player->GetInventory().GetCurrentItem();
 	if (item.GetInstance() == nullptr || item.GetItem().GetUnlocalizedName().find("tile") == std::string::npos)
 	{
-		if (!m_has_pressed_shift && isSneaking)
+		if (!m_has_pressed_shift && isSneaking && !settings::BA_OnlyOnShift)
+		{
 			UnSneak();
+		}
 
 		m_has_pressed_shift = false;
 		return;
@@ -53,8 +68,10 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 
 	if (player->GetRotationPitch() < settings::BA_PitchCheck)
 	{
-		if (!m_has_pressed_shift && isSneaking)
+		if (!m_has_pressed_shift && isSneaking && !settings::BA_OnlyOnShift)
+		{
 			UnSneak();
+		}
 
 		m_has_pressed_shift = false;
 		return;
@@ -171,7 +188,8 @@ void BridgeAssist::Sneak()
 	m_is_edge = true;
 	if (!m_prev)
 	{
-		send_key(VK_SHIFT, true);
+		if (!settings::BA_OnlyOnShift) send_key(VK_SHIFT, true);
+		if (settings::BA_OnlyOnShift) SendShiftKey(Menu::HandleWindow, true);
 		m_prev = true;
 	}
 }
@@ -181,7 +199,8 @@ void BridgeAssist::UnSneak()
 	m_is_edge = false;
 	if (m_prev)
 	{
-		send_key(VK_SHIFT, false);
+		if (!settings::BA_OnlyOnShift) send_key(VK_SHIFT, false);
+		if (settings::BA_OnlyOnShift) SendShiftKey(Menu::HandleWindow, false);
 		m_prev = false;
 	}
 }
