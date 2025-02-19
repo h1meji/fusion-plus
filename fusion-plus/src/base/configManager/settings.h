@@ -49,7 +49,8 @@ struct settings {
 	inline static float AL_textSize = 18;
 	inline static float AL_textColor[4]{ 1, 1, 1, 1 };
 	inline static float AL_backgroundPadding = 5;
-	inline static float AL_backgroundColor[4]{ 0, 0, 0, 0.5 };
+	inline static float AL_backgroundColor[4]{ 0, 0, 0, 0.8 };
+	inline static float AL_backgroundRoundness = 5.f;
 
 	// Radar
 	inline static bool Radar_Enabled = false;

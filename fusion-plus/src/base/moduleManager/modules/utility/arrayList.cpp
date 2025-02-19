@@ -54,9 +54,20 @@ void ArrayList::RenderUpdate()
 			const char* name = enabledModules[i].c_str();
 			ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, name);
 
+			int roundness = settings::AL_backgroundRoundness;
+			if (i != enabledModules.size() - 1)
+			{
+				const char* n_name = enabledModules[i + 1].c_str();
+				ImVec2 n_textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, n_name);
+				if (textSize.x - n_textSize.x < settings::AL_backgroundRoundness)
+				{
+					roundness = textSize.x - n_textSize.x;
+				}
+			}
+
 			ImVec2 pos_min = ImVec2(0, (textHeight * i));
 			ImVec2 pos_max = ImVec2(textSize.x + (2 * settings::AL_backgroundPadding), textSize.y + (2 * settings::AL_backgroundPadding) + pos_min.y);
-			ImGui::GetWindowDrawList()->AddRectFilled(pos_min, pos_max, ImColor(settings::AL_backgroundColor[0], settings::AL_backgroundColor[1], settings::AL_backgroundColor[2], settings::AL_backgroundColor[3]));
+			ImGui::GetWindowDrawList()->AddRectFilled(pos_min, pos_max, ImColor(settings::AL_backgroundColor[0], settings::AL_backgroundColor[1], settings::AL_backgroundColor[2], settings::AL_backgroundColor[3]), roundness, ImDrawFlags_RoundCornersBottomRight);
 			ImGui::GetWindowDrawList()->AddText(Menu::Font, settings::AL_textSize, ImVec2(settings::AL_backgroundPadding, settings::AL_backgroundPadding + (textHeight * i)), ImColor(settings::AL_textColor[0], settings::AL_textColor[1], settings::AL_textColor[2], settings::AL_textColor[3]), name);
 		}
 		break;
@@ -66,9 +77,20 @@ void ArrayList::RenderUpdate()
 			const char* name = enabledModules[i].c_str();
 			ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, name);
 
+			int roundness = settings::AL_backgroundRoundness;
+			if (i != enabledModules.size() - 1)
+			{
+				const char* n_name = enabledModules[i + 1].c_str();
+				ImVec2 n_textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, n_name);
+				if (textSize.x - n_textSize.x < settings::AL_backgroundRoundness)
+				{
+					roundness = textSize.x - n_textSize.x;
+				}
+			}
+
 			ImVec2 pos_min = ImVec2(ImGui::GetWindowSize().x - textSize.x - (2 * settings::AL_backgroundPadding), (textHeight * i));
 			ImVec2 pos_max = ImVec2(ImGui::GetWindowSize().x, textSize.y + (2 * settings::AL_backgroundPadding) + pos_min.y);
-			ImGui::GetWindowDrawList()->AddRectFilled(pos_min, pos_max, ImColor(settings::AL_backgroundColor[0], settings::AL_backgroundColor[1], settings::AL_backgroundColor[2], settings::AL_backgroundColor[3]));
+			ImGui::GetWindowDrawList()->AddRectFilled(pos_min, pos_max, ImColor(settings::AL_backgroundColor[0], settings::AL_backgroundColor[1], settings::AL_backgroundColor[2], settings::AL_backgroundColor[3]), roundness, ImDrawFlags_RoundCornersBottomLeft);
 			ImGui::GetWindowDrawList()->AddText(Menu::Font, settings::AL_textSize, ImVec2(ImGui::GetWindowSize().x - textSize.x - settings::AL_backgroundPadding, settings::AL_backgroundPadding + (textHeight * i)), ImColor(settings::AL_textColor[0], settings::AL_textColor[1], settings::AL_textColor[2], settings::AL_textColor[3]), name);
 		}
 		break;
@@ -78,9 +100,20 @@ void ArrayList::RenderUpdate()
 			const char* name = enabledModules[i].c_str();
 			ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, name);
 
+			int roundness = settings::AL_backgroundRoundness;
+			if (i != enabledModules.size() - 1)
+			{
+				const char* n_name = enabledModules[i + 1].c_str();
+				ImVec2 n_textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, n_name);
+				if (textSize.x - n_textSize.x < settings::AL_backgroundRoundness)
+				{
+					roundness = textSize.x - n_textSize.x;
+				}
+			}
+
 			ImVec2 pos_min = ImVec2(0, ImGui::GetWindowSize().y - textSize.y - (2 * settings::AL_backgroundPadding) - (textHeight * i));
 			ImVec2 pos_max = ImVec2(textSize.x + (2 * settings::AL_backgroundPadding), textSize.y + (2 * settings::AL_backgroundPadding) + pos_min.y);
-			ImGui::GetWindowDrawList()->AddRectFilled(pos_min, pos_max, ImColor(settings::AL_backgroundColor[0], settings::AL_backgroundColor[1], settings::AL_backgroundColor[2], settings::AL_backgroundColor[3]));
+			ImGui::GetWindowDrawList()->AddRectFilled(pos_min, pos_max, ImColor(settings::AL_backgroundColor[0], settings::AL_backgroundColor[1], settings::AL_backgroundColor[2], settings::AL_backgroundColor[3]), roundness, ImDrawFlags_RoundCornersTopRight);
 			ImGui::GetWindowDrawList()->AddText(Menu::Font, settings::AL_textSize, ImVec2(settings::AL_backgroundPadding, ImGui::GetWindowSize().y - textSize.y - settings::AL_backgroundPadding - (textHeight * i)), ImColor(settings::AL_textColor[0], settings::AL_textColor[1], settings::AL_textColor[2], settings::AL_textColor[3]), name);
 		}
 		break;
@@ -90,9 +123,20 @@ void ArrayList::RenderUpdate()
 			const char* name = enabledModules[i].c_str();
 			ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, name);
 
+			int roundness = settings::AL_backgroundRoundness;
+			if (i != enabledModules.size() - 1)
+			{
+				const char* n_name = enabledModules[i + 1].c_str();
+				ImVec2 n_textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, n_name);
+				if (textSize.x - n_textSize.x < settings::AL_backgroundRoundness)
+				{
+					roundness = textSize.x - n_textSize.x;
+				}
+			}
+
 			ImVec2 pos_min = ImVec2(ImGui::GetWindowSize().x - textSize.x - (2 * settings::AL_backgroundPadding), ImGui::GetWindowSize().y - textSize.y - (2 * settings::AL_backgroundPadding) - (textHeight * i));
 			ImVec2 pos_max = ImVec2(ImGui::GetWindowSize().x, textSize.y + (2 * settings::AL_backgroundPadding) + pos_min.y);
-			ImGui::GetWindowDrawList()->AddRectFilled(pos_min, pos_max, ImColor(settings::AL_backgroundColor[0], settings::AL_backgroundColor[1], settings::AL_backgroundColor[2], settings::AL_backgroundColor[3]));
+			ImGui::GetWindowDrawList()->AddRectFilled(pos_min, pos_max, ImColor(settings::AL_backgroundColor[0], settings::AL_backgroundColor[1], settings::AL_backgroundColor[2], settings::AL_backgroundColor[3]), roundness, ImDrawFlags_RoundCornersTopLeft);
 			ImGui::GetWindowDrawList()->AddText(Menu::Font, settings::AL_textSize, ImVec2(ImGui::GetWindowSize().x - textSize.x - settings::AL_backgroundPadding, ImGui::GetWindowSize().y - textSize.y - settings::AL_backgroundPadding - (textHeight * i)), ImColor(settings::AL_textColor[0], settings::AL_textColor[1], settings::AL_textColor[2], settings::AL_textColor[3]), name);
 		}
 		break;
@@ -134,6 +178,7 @@ void ArrayList::RenderMenu()
 				Menu::ColorPicker(83, "Text Color", ImVec2(374, 0), settings::AL_textColor);
 				Menu::Slider(84, "Background Padding", ImVec2(225, 0), &settings::AL_backgroundPadding, 0, 20);
 				Menu::ColorPicker(85, "Background Color", ImVec2(374, 0), settings::AL_backgroundColor);
+				Menu::Slider(86, "Background Roundness", ImVec2(225, 0), &settings::AL_backgroundRoundness, 0, 10);
 			}
 			ImGui::EndChild();
 			ImGui::Spacing();
