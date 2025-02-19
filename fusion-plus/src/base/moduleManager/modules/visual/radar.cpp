@@ -61,24 +61,14 @@ void Radar::RenderUpdate()
 	float widthRatio = screenSize.x / 1920;
 	float heightRatio = screenSize.y / 1080;
 	ImVec2 zerozero = ImVec2(settings::Radar_Position[0] * widthRatio + settings::Radar_Size / 2, settings::Radar_Position[1] * heightRatio + settings::Radar_Size / 2);
-	if (settings::Radar_Square)
-	{
-		// Draw square
-		ImGui::GetWindowDrawList()->AddRectFilled(
-			ImVec2(settings::Radar_Position[0], settings::Radar_Position[1]),
-			ImVec2(settings::Radar_Position[0] + settings::Radar_Size, settings::Radar_Position[1] + settings::Radar_Size),
-			ImColor(settings::Radar_BackgroundColor[0], settings::Radar_BackgroundColor[1], settings::Radar_BackgroundColor[2], settings::Radar_BackgroundColor[3])
-		);
-	}
-	else
-	{
-		// Draw circle
-		ImGui::GetWindowDrawList()->AddCircleFilled(
-			ImVec2(settings::Radar_Position[0] + (settings::Radar_Size / 2), settings::Radar_Position[1] + (settings::Radar_Size / 2)),
-			settings::Radar_Size / 2,
-			ImColor(settings::Radar_BackgroundColor[0], settings::Radar_BackgroundColor[1], settings::Radar_BackgroundColor[2], settings::Radar_BackgroundColor[3])
-		);
-	}
+
+	// Draw square
+	ImGui::GetWindowDrawList()->AddRectFilled(
+		ImVec2(settings::Radar_Position[0], settings::Radar_Position[1]),
+		ImVec2(settings::Radar_Position[0] + settings::Radar_Size, settings::Radar_Position[1] + settings::Radar_Size),
+		ImColor(settings::Radar_BackgroundColor[0], settings::Radar_BackgroundColor[1], settings::Radar_BackgroundColor[2], settings::Radar_BackgroundColor[3]),
+		settings::Radar_SquareRoundness
+	);
 
 	auto rotatePoint = [](float x, float y, float angle) -> ImVec2 {
 		float rad = angle * (PI / 180);
@@ -214,7 +204,7 @@ void Radar::RenderMenu()
 				ImGui::SeparatorText("UI Settings");
 
 				Menu::Slider(56, "Size", ImVec2(225, 0), &settings::Radar_Size, 100.0f, 1000.0f);
-				Menu::ToggleButton(57, "Square", ImVec2(368, 0), &settings::Radar_Square);
+				Menu::Slider(57, "Square Roundness", ImVec2(225, 0), &settings::Radar_SquareRoundness, 0.0f, 100.0f);
 				Menu::Slider(58, "Position X", ImVec2(225, 0), &settings::Radar_Position[0], 0.0f, 1920.0f);
 				Menu::Slider(59, "Position Y", ImVec2(225, 0), &settings::Radar_Position[1], 0.0f, 1080.0f);
 				Menu::ColorPicker(60, "Local Player Color", ImVec2(374, 0), settings::Radar_LocalPlayerColor);

@@ -104,7 +104,7 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["Radar_RotateWithPlayer"] = settings::Radar_RotateWithPlayer;
 	j["Radar_ShowNames"] = settings::Radar_ShowNames;
 	j["Radar_Size"] = settings::Radar_Size;
-	j["Radar_Square"] = settings::Radar_Square;
+	j["Radar_SquareRoundness"] = settings::Radar_SquareRoundness;
 	j["Radar_Position"] = settings::Radar_Position;
 	j["Radar_LocalPlayerColor"] = settings::Radar_LocalPlayerColor;
 	j["Radar_PlayerColor"] = settings::Radar_PlayerColor;
@@ -267,7 +267,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::Radar_RotateWithPlayer, "Radar_RotateWithPlayer");
 	ConfigManager::GetJsonValue(j, settings::Radar_ShowNames, "Radar_ShowNames");
 	ConfigManager::GetJsonValue(j, settings::Radar_Size, "Radar_Size");
-	ConfigManager::GetJsonValue(j, settings::Radar_Square, "Radar_Square");
+	ConfigManager::GetJsonValue(j, settings::Radar_SquareRoundness, "Radar_SquareRoundness");
 	ConfigManager::GetJsonValue(j, settings::Radar_Position, "Radar_Position");
 	ConfigManager::GetJsonValue(j, settings::Radar_LocalPlayerColor, "Radar_LocalPlayerColor");
 	ConfigManager::GetJsonValue(j, settings::Radar_PlayerColor, "Radar_PlayerColor");
