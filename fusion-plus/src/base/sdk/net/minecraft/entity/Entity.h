@@ -22,6 +22,9 @@ struct CEntity : IClass
 	Vector3 GetMotion();
 
 	bool IsSneaking();
+	bool IsSprinting();
+
+	void SetSprinting(bool sprinting);
 
 	float GetHeight();
 	float GetWidth();

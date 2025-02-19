@@ -74,6 +74,16 @@ bool CEntity::IsSneaking()
 	return Java::Env->CallBooleanMethod(this->GetInstance(), StrayCache::entity_isSneaking);
 }
 
+bool CEntity::IsSprinting()
+{
+	return Java::Env->CallBooleanMethod(this->GetInstance(), StrayCache::entity_isSprinting);
+}
+
+void CEntity::SetSprinting(bool sprinting)
+{
+	Java::Env->CallVoidMethod(this->GetInstance(), StrayCache::entity_setSprinting, sprinting);
+}
+
 float CEntity::GetHeight()
 {
 	return Java::Env->GetFloatField(this->GetInstance(), StrayCache::entity_height);
