@@ -55,7 +55,7 @@ bool NotificationManager::Render()
 
 bool NotificationManager::RenderNotification(Notification notification, int x, int y, int width, int height)
 {
-    ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x, y), ImVec2(x + width, y + height), ImColor(0.0f, 0.0f, 0.0f, 0.75f), 5.0f);
+    ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x, y), ImVec2(x + width, y + height), ImColor(0.0f, 0.0f, 0.0f, 0.8f), 5.0f);
 
     ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size, ImVec2(x + 10, y + 10), ImColor(1.0f, 1.0f, 1.0f), notification.title.c_str());
 

@@ -15,6 +15,8 @@
 #include "menu/menu.h"
 #include "configManager/configManager.h"
 
+#include "notificationManager/notificationManager.h"
+
 int currentTab = -1;
 
 void RenderConfigMenu()
@@ -48,7 +50,16 @@ void RenderConfigMenu()
 	if (ImGui::Button(("Load \"" + selectedConfigName + "\"").c_str(), ImVec2(247, 26)))
 	{
 		if (configFiles.size() > 0)
-			ConfigManager::LoadConfig(selectedConfigName.c_str());
+		{
+			if (ConfigManager::LoadConfig(selectedConfigName.c_str()))
+			{
+				NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been loaded.", selectedConfigName.c_str());
+			}
+			else
+			{
+				NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" could not be loaded.", selectedConfigName.c_str());
+			}
+		}
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Open Folder"))
@@ -59,6 +70,7 @@ void RenderConfigMenu()
 	if (ImGui::Button("Refresh"))
 	{
 		configFiles = ConfigManager::GetConfigList();
+		NotificationManager::Send("Fusion+ :: Config", "Config list has been refreshed.");
 	}
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
@@ -86,7 +98,14 @@ void RenderConfigMenu()
 	if (ImGui::Button("Save", ImVec2(65, 22)) && saveConfigName != "")
 	{
 		if (ConfigManager::SaveConfig(saveConfigName))
+		{
 			configFiles = ConfigManager::GetConfigList();
+			NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been saved.", saveConfigName);
+		}
+		else
+		{
+			NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" could not be saved.", saveConfigName);
+		}
 	}
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
@@ -120,10 +139,12 @@ void RenderSettingsMenu()
 	{
 		if (ImGui::Button(("Remove \"" + settings::friends[friendIndex] + "\"").c_str()))
 		{
+			const char* friendName = settings::friends[friendIndex].c_str();
 			if (ConfigManager::RemoveFriend(settings::friends[friendIndex]))
 			{
 				friendIndex = -1;
 				ImGui::CloseCurrentPopup();
+				NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" has been removed from your friends list.", friendName);
 			}
 		}
 		ImGui::EndPopup();
@@ -148,6 +169,7 @@ void RenderSettingsMenu()
 	if (ImGui::Button("Add", ImVec2(65, 22)) && friendName != "")
 	{
 		ConfigManager::AddFriend(friendName);
+		NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" has been added to your friends list.", std::string(friendName).c_str());
 	}
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
