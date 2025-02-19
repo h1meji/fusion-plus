@@ -13,31 +13,21 @@ void Base::RenderLoop() // Runs every frame
 
 	if (settings::Menu_Watermark)
 	{
-		const char* watermarkfusionplus = "fusion+ by himeji";
-		const char* watermarkfusion = "fusion by deity & [redacted]";
-		// goofy ahh css
-		float margin = 3;
-		float font_size = 24;
+		const char* watermark = "Fusion+";
 
-		ImVec2 screenSize = ImGui::GetWindowSize();
-		ImVec2 textSizefusionplus = Menu::Font->CalcTextSizeA(font_size, FLT_MAX, 0.0f, watermarkfusionplus);
-		ImVec2 textSizefusion = Menu::Font->CalcTextSizeA(font_size, FLT_MAX, 0.0f, watermarkfusion);
+		int margin = 10;
+		int padding = 10;
 
-		ImVec2 textPosfusionplus = ImVec2(screenSize.x - textSizefusionplus.x - margin, screenSize.y - textSizefusionplus.y - margin - textSizefusion.y);
-		ImVec2 textPosfusion = ImVec2(screenSize.x - textSizefusion.x - margin, screenSize.y - textSizefusion.y - margin);
+		ImVec2 textSize = Menu::FontBold->CalcTextSizeA(28, FLT_MAX, 0, watermark);
+		ImVec2 rectSize = ImVec2(textSize.x + padding * 2, textSize.y + padding * 2);
+		ImVec2 screenSize = ImGui::GetIO().DisplaySize;
 
-		// add text border
-		ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size, ImVec2(textPosfusionplus.x + 1, textPosfusionplus.y), ImColor(0, 0, 0), watermarkfusionplus);
-		ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size, ImVec2(textPosfusion.x + 1, textPosfusion.y), ImColor(0, 0, 0), watermarkfusion);
-		ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size, ImVec2(textPosfusionplus.x - 1, textPosfusionplus.y), ImColor(0, 0, 0), watermarkfusionplus);
-		ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size, ImVec2(textPosfusion.x - 1, textPosfusion.y), ImColor(0, 0, 0), watermarkfusion);
-		ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size, ImVec2(textPosfusionplus.x, textPosfusionplus.y + 1), ImColor(0, 0, 0), watermarkfusionplus);
-		ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size, ImVec2(textPosfusion.x, textPosfusion.y + 1), ImColor(0, 0, 0), watermarkfusion);
-		ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size, ImVec2(textPosfusionplus.x, textPosfusionplus.y - 1), ImColor(0, 0, 0), watermarkfusionplus);
-		ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size, ImVec2(textPosfusion.x, textPosfusion.y - 1), ImColor(0, 0, 0), watermarkfusion);
+		ImVec2 rectPos = ImVec2(screenSize.x - margin - padding * 2 - textSize.x, screenSize.y - margin - padding * 2 - textSize.y);
+		ImVec2 textPos = ImVec2(rectPos.x + padding, rectPos.y + padding);
 
-		ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size, textPosfusionplus, ImColor(255, 255, 255), watermarkfusionplus);
-		ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size, textPosfusion, ImColor(255, 255, 255), watermarkfusion);
+		ImGui::GetWindowDrawList()->AddRectFilled(rectPos, ImVec2(rectPos.x + rectSize.x, rectPos.y + rectSize.y), IM_COL32(0, 0, 0, 200), 5.0f);
+
+		Menu::GlitchText(watermark, textPos);
 	}
 
 	g_ModuleManager->RenderUpdate();
