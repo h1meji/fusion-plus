@@ -160,13 +160,13 @@
     <ClInclude Include="ext\nlohmann\json_fwd.hpp" />
     <ClInclude Include="src\base\moduleManager\modules\inventory\chestStealer.h" />
     <ClInclude Include="src\base\moduleManager\modules\inventory\inventorySorter.h" />
+    <ClInclude Include="src\base\moduleManager\modules\movement\sprintReset.h" />
     <ClInclude Include="src\base\moduleManager\modules\movement\velocity.h" />
     <ClInclude Include="src\base\notificationManager\notificationManager.h" />
     <ClInclude Include="src\base\moduleManager\modules\tnt-tag\ITEsp.h" />
     <ClInclude Include="src\base\configManager\configManager.h" />
     <ClInclude Include="src\base\moduleManager\moduleBase.h" />
     <ClInclude Include="src\base\configManager\settings.h" />
-    <ClInclude Include="src\base\moduleManager\modules\combat\wTap.h" />
     <ClInclude Include="src\base\moduleManager\modules\movement\bridgeAssist.h" />
     <ClInclude Include="src\base\moduleManager\modules\utility\arrayList.h" />
     <ClInclude Include="src\base\moduleManager\modules\visual\blockEsp.h" />
@@ -258,11 +258,11 @@
   <ItemGroup>
     <ClCompile Include="src\base\moduleManager\modules\inventory\chestStealer.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\inventory\inventorySorter.cpp" />
+    <ClCompile Include="src\base\moduleManager\modules\movement\sprintReset.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\movement\velocity.cpp" />
     <ClCompile Include="src\base\notificationManager\notificationManager.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\tnt-tag\ITEsp.cpp" />
     <ClCompile Include="src\base\configManager\configManager.cpp" />
-    <ClCompile Include="src\base\moduleManager\modules\combat\wTap.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\movement\bridgeAssist.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\utility\arrayList.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\visual\blockEsp.cpp" />

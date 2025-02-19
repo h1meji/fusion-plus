@@ -2,7 +2,6 @@
 
 #include "modules/combat/aimAssist.h"
 #include "modules/combat/reach.h"
-#include "modules/combat/wTap.h"
 #include "modules/combat/leftAutoClicker.h"
 #include "modules/combat/rightAutoClicker.h"
 #include "modules/visual/esp.h"
@@ -10,6 +9,7 @@
 #include "modules/visual/blockEsp.h"
 #include "modules/movement/bridgeAssist.h"
 #include "modules/movement/velocity.h"
+#include "modules/movement/sprintReset.h"
 #include "modules/inventory/chestStealer.h"
 #include "modules/inventory/inventorySorter.h"
 #include "modules/utility/arrayList.h"
@@ -26,7 +26,6 @@ void ModuleManager::Init()
 {
 	modules.push_back(std::make_unique<AimAssist>());
 	modules.push_back(std::make_unique<Reach>());
-	modules.push_back(std::make_unique<WTap>());
 	modules.push_back(std::make_unique<LeftAutoClicker>());
 	modules.push_back(std::make_unique<RightAutoClicker>());
 	modules.push_back(std::make_unique<Esp>());
@@ -34,6 +33,7 @@ void ModuleManager::Init()
 	modules.push_back(std::make_unique<BlockEsp>());
 	modules.push_back(std::make_unique<BridgeAssist>());
 	modules.push_back(std::make_unique<Velocity>());
+	modules.push_back(std::make_unique<SprintReset>());
 	modules.push_back(std::make_unique<ChestStealer>());
 	modules.push_back(std::make_unique<InventorySorter>());
 	modules.push_back(std::make_unique<ArrayList>());

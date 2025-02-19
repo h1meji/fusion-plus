@@ -10,11 +10,11 @@
 #include "moduleManager/modules/visual/blockEsp.h"
 #include "moduleManager/modules/combat/aimAssist.h"
 #include "moduleManager/modules/combat/reach.h"
-#include "moduleManager/modules/combat/wTap.h"
 #include "moduleManager/modules/combat/leftAutoClicker.h"
 #include "moduleManager/modules/combat/rightAutoClicker.h"
 #include "moduleManager/modules/movement/bridgeAssist.h"
 #include "moduleManager/modules/movement/velocity.h"
+#include "moduleManager/modules/movement/sprintReset.h"
 #include "moduleManager/modules/inventory/chestStealer.h"
 #include "moduleManager/modules/inventory/inventorySorter.h"
 #include "moduleManager/modules/tnt-tag/tagBack.h"
@@ -31,11 +31,11 @@ void ArrayList::RenderUpdate()
 	if (BlockEsp().IsEnabled()) enabledModules.push_back(BlockEsp().GetName());
 	if (AimAssist().IsEnabled()) enabledModules.push_back(AimAssist().GetName());
 	if (Reach().IsEnabled()) enabledModules.push_back(Reach().GetName());
-	if (WTap().IsEnabled()) enabledModules.push_back(WTap().GetName());
 	if (LeftAutoClicker().IsEnabled()) enabledModules.push_back(LeftAutoClicker().GetName());
 	if (RightAutoClicker().IsEnabled()) enabledModules.push_back(RightAutoClicker().GetName());
 	if (BridgeAssist().IsEnabled()) enabledModules.push_back(BridgeAssist().GetName());
 	if (Velocity().IsEnabled()) enabledModules.push_back(Velocity().GetName());
+	if (SprintReset().IsEnabled()) enabledModules.push_back(SprintReset().GetName());
 	if (ChestStealer().IsEnabled()) enabledModules.push_back(ChestStealer().GetName());
 	if (InventorySorter().IsEnabled()) enabledModules.push_back(InventorySorter().GetName());
 	if (TagBack().IsEnabled()) enabledModules.push_back(TagBack().GetName());

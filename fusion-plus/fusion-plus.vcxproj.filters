@@ -246,9 +246,6 @@
     <ClInclude Include="src\base\sdk\net\minecraft\item\Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\moduleManager\modules\combat\wTap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\base\moduleManager\modules\visual\radar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -307,6 +304,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\base\sdk\net\minecraft\enchantment\EnchantmentHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\moduleManager\modules\movement\sprintReset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -482,9 +482,6 @@
     <ClCompile Include="src\base\sdk\net\minecraft\item\Item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\moduleManager\modules\combat\wTap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\base\moduleManager\modules\visual\radar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -534,6 +531,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\sdk\net\minecraft\enchantment\EnchantmentHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\moduleManager\modules\movement\sprintReset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
