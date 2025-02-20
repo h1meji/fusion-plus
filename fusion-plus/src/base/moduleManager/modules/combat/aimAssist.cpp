@@ -55,9 +55,18 @@ void AimAssist::Update()
 	if (SDK::Minecraft->IsInGuiState()) return;
 
 	// Checks
-	if (settings::AA_sprintCheck && !SDK::Minecraft->thePlayer->IsSprinting()) return;
-	if (settings::AA_blockBreakCheck && SDK::Minecraft->GetMouseOver().IsTypeOfBlock()) return;
-	if (settings::AA_weaponOnly && !MinecraftUtils::IsWeapon(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem())) return;
+	if (settings::AA_sprintCheck && !SDK::Minecraft->thePlayer->IsSprinting()) {
+		AimAssist::data = Vector3();
+		return;
+	}
+	if (settings::AA_blockBreakCheck && SDK::Minecraft->GetMouseOver().IsTypeOfBlock()) {
+		AimAssist::data = Vector3();
+		return;
+	}
+	if (settings::AA_weaponOnly && !MinecraftUtils::IsWeapon(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem())) {
+		AimAssist::data = Vector3();
+		return;
+	}
 
 	if ((settings::AA_mousePressCheck && (!GetAsyncKeyState(VK_LBUTTON) && 1))) {
 		AimAssist::data = Vector3();
