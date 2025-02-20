@@ -84,6 +84,11 @@ void CEntity::SetSprinting(bool sprinting)
 	Java::Env->CallVoidMethod(this->GetInstance(), StrayCache::entity_setSprinting, sprinting);
 }
 
+bool CEntity::IsInvisibleToPlayer(jobject player)
+{
+	return Java::Env->CallBooleanMethod(this->GetInstance(), StrayCache::entity_isInvisibleToPlayer, player);
+}
+
 float CEntity::GetHeight()
 {
 	return Java::Env->GetFloatField(this->GetInstance(), StrayCache::entity_height);

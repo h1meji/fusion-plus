@@ -114,11 +114,16 @@ bool ConfigManager::SettingsToJson(json& j)
 	// Aim Assist
 	j["AA_Enabled"] = settings::AA_Enabled;
 	j["AA_visibilityCheck"] = settings::AA_visibilityCheck;
+	j["AA_sprintCheck"] = settings::AA_sprintCheck;
+	j["AA_blockBreakCheck"] = settings::AA_blockBreakCheck;
+	j["AA_weaponOnly"] = settings::AA_weaponOnly;
+	j["AA_invisibleCheck"] = settings::AA_invisibleCheck;
+	j["AA_mousePressCheck"] = settings::AA_mousePressCheck;
+	j["AA_mouseMoveCheck"] = settings::AA_mouseMoveCheck;
 	j["AA_aimAssistFeedback"] = settings::AA_aimAssistFeedback;
 	j["AA_aimAssistFeedbackColor"] = settings::AA_aimAssistFeedbackColor;
 	j["AA_fovCircle"] = settings::AA_fovCircle;
 	j["AA_fovCircleColor"] = settings::AA_fovCircleColor;
-	j["AA_aimKey"] = settings::AA_aimKey;
 	j["AA_adaptive"] = settings::AA_adaptive;
 	j["AA_adaptiveOffset"] = settings::AA_adaptiveOffset;
 	j["AA_fov"] = settings::AA_fov;
@@ -277,11 +282,16 @@ bool ConfigManager::JsonToSettings(const json& j)
 	// Aim Assist
 	ConfigManager::GetJsonValue(j, settings::AA_Enabled, "AA_Enabled");
 	ConfigManager::GetJsonValue(j, settings::AA_visibilityCheck, "AA_visibilityCheck");
+	ConfigManager::GetJsonValue(j, settings::AA_sprintCheck, "AA_sprintCheck");
+	ConfigManager::GetJsonValue(j, settings::AA_blockBreakCheck, "AA_blockBreakCheck");
+	ConfigManager::GetJsonValue(j, settings::AA_weaponOnly, "AA_weaponOnly");
+	ConfigManager::GetJsonValue(j, settings::AA_invisibleCheck, "AA_invisibleCheck");
+	ConfigManager::GetJsonValue(j, settings::AA_mousePressCheck, "AA_mousePressCheck");
+	ConfigManager::GetJsonValue(j, settings::AA_mouseMoveCheck, "AA_mouseMoveCheck");
 	ConfigManager::GetJsonValue(j, settings::AA_aimAssistFeedback, "AA_aimAssistFeedback");
 	ConfigManager::GetJsonValue(j, settings::AA_aimAssistFeedbackColor, "AA_aimAssistFeedbackColor");
 	ConfigManager::GetJsonValue(j, settings::AA_fovCircle, "AA_fovCircle");
 	ConfigManager::GetJsonValue(j, settings::AA_fovCircleColor, "AA_fovCircleColor");
-	ConfigManager::GetJsonValue(j, settings::AA_aimKey, "AA_aimKey");
 	ConfigManager::GetJsonValue(j, settings::AA_adaptive, "AA_adaptive");
 	ConfigManager::GetJsonValue(j, settings::AA_adaptiveOffset, "AA_adaptiveOffset");
 	ConfigManager::GetJsonValue(j, settings::AA_fov, "AA_fov");

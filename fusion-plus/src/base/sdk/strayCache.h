@@ -62,6 +62,7 @@ struct StrayCache {
 	inline static jmethodID entity_isSneaking;
 	inline static jmethodID entity_isSprinting;
 	inline static jmethodID entity_setSprinting;
+	inline static jmethodID entity_isInvisibleToPlayer;
 	inline static jfieldID entity_posX;
 	inline static jfieldID entity_posY;
 	inline static jfieldID entity_posZ;
@@ -233,6 +234,7 @@ struct StrayCache {
 			entity_isSneaking = Java::Env->GetMethodID(entity_class, "isSneaking", "()Z");
 			entity_isSprinting = Java::Env->GetMethodID(entity_class, "isSprinting", "()Z");
 			entity_setSprinting = Java::Env->GetMethodID(entity_class, "setSprinting", "(Z)V");
+			entity_isInvisibleToPlayer = Java::Env->GetMethodID(entity_class, "isInvisibleToPlayer", "(Lnet/minecraft/entity/player/EntityPlayer;)Z");
 			entity_posX = Java::Env->GetFieldID(entity_class, "posX", "D");
 			entity_posY = Java::Env->GetFieldID(entity_class, "posY", "D");
 			entity_posZ = Java::Env->GetFieldID(entity_class, "posZ", "D");

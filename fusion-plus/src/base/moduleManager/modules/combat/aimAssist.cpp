@@ -11,6 +11,22 @@
 #include <chrono>
 #include <random>
 #include <configManager/configManager.h>
+#include <util/minecraft.h>
+
+static bool IsMouseMoving()
+{
+	static POINT lastMousePos;
+	POINT currentMousePos;
+	GetCursorPos(&currentMousePos);
+
+	if (lastMousePos.x == currentMousePos.x && lastMousePos.y == currentMousePos.y)
+	{
+		return false;
+	}
+
+	lastMousePos = currentMousePos;
+	return true;
+}
 
 /* 
 How this Aim Assist works :
@@ -34,14 +50,25 @@ Suggested settings:
 void AimAssist::Update()
 {
 	if (!settings::AA_Enabled) return;
+	if (Menu::Open) return;
 	if (!CommonData::SanityCheck()) return;
 	if (SDK::Minecraft->IsInGuiState()) return;
-	if (Menu::Open) return;
 
-	if ((settings::AA_aimKey && (!GetAsyncKeyState(VK_LBUTTON) && 1))) {
+	// Checks
+	if (settings::AA_sprintCheck && !SDK::Minecraft->thePlayer->IsSprinting()) return;
+	if (settings::AA_blockBreakCheck && SDK::Minecraft->GetMouseOver().IsTypeOfBlock()) return;
+	if (settings::AA_weaponOnly && MinecraftUtils::IsWeapon(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem())) return;
+
+	if ((settings::AA_mousePressCheck && (!GetAsyncKeyState(VK_LBUTTON) && 1))) {
 		AimAssist::data = Vector3();
 		return;
 	}
+
+	if (!IsMouseMoving() && settings::AA_mouseMoveCheck) {
+		AimAssist::data = Vector3();
+		return;
+	}
+
 
 	CEntityPlayerSP* thePlayer = SDK::Minecraft->thePlayer;
 
@@ -72,7 +99,9 @@ void AimAssist::Update()
 	for (CommonData::PlayerData player : playerList)
 	{
 		if (!Java::Env->IsSameObject(thePlayer->GetInstance(), player.obj.GetInstance()) && !(settings::AA_ignoreFriends && ConfigManager::IsFriend(player.name))) {
-			if (!thePlayer->CanEntityBeSeen(player.obj.GetInstance())) continue;
+			if (!thePlayer->CanEntityBeSeen(player.obj.GetInstance()) && settings::AA_visibilityCheck) continue;
+			if (player.obj.IsInvisibleToPlayer(thePlayer->GetInstance()) && settings::AA_invisibleCheck) continue;
+
 			Vector3 playerPos = player.pos;
 			float playerHeight = target.height - 0.1;
 			Vector3 playerHeadPos = playerPos + Vector3(0, playerHeight, 0);
@@ -258,10 +287,18 @@ void AimAssist::RenderMenu()
 				Menu::Slider(2, "Lock Distance", ImVec2(225, 0), &settings::AA_aimDistance, 1.0f, 8.0f);
 				Menu::Slider(3, "Smoothness", ImVec2(225, 0), &settings::AA_smooth, 1.0f, 90.0f);
 
-				Menu::ToggleButton(4, "Visbility Check", ImVec2(368, 0), &settings::AA_visibilityCheck);
-				Menu::ToggleButton(5, "Left Button To Aim", ImVec2(368, 0), &settings::AA_aimKey);
-
 				Menu::ComboBox(6, "Target Priority", ImVec2(270, 0), &settings::AA_targetPriority, settings::AA_targetPriorityList, 3);
+
+				ImGui::Separator();
+
+				Menu::ToggleButton(4, "Visbility Check", ImVec2(368, 0), &settings::AA_visibilityCheck);
+				Menu::ToggleButton(5, "Sprint Check", ImVec2(368, 0), &settings::AA_sprintCheck);
+				Menu::ToggleButton(501, "Invisible Check", ImVec2(368, 0), &settings::AA_invisibleCheck);
+				Menu::ToggleButton(502, "Block Break Check", ImVec2(368, 0), &settings::AA_blockBreakCheck);
+				Menu::ToggleButton(503, "Weapon Only", ImVec2(368, 0), &settings::AA_weaponOnly);
+				Menu::ToggleButton(504, "Mouse Move Check", ImVec2(368, 0), &settings::AA_mouseMoveCheck);
+				Menu::ToggleButton(505, "Mouse Press Check", ImVec2(368, 0), &settings::AA_mousePressCheck);
+
 
 				ImGui::Separator();
 

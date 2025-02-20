@@ -26,6 +26,8 @@ struct CEntity : IClass
 
 	void SetSprinting(bool sprinting);
 
+	bool IsInvisibleToPlayer(jobject player);
+
 	float GetHeight();
 	float GetWidth();
 

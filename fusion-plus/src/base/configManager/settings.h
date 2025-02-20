@@ -72,11 +72,16 @@ struct settings {
 	// Aim Assist
 	inline static bool AA_Enabled = false;
 	inline static bool AA_visibilityCheck = true;
+	inline static bool AA_sprintCheck = false;
+	inline static bool AA_blockBreakCheck = true;
+	inline static bool AA_weaponOnly = true;
+	inline static bool AA_invisibleCheck = true;
+	inline static bool AA_mousePressCheck = true;
+	inline static bool AA_mouseMoveCheck = false;
 	inline static bool AA_aimAssistFeedback = true;
 	inline static float AA_aimAssistFeedbackColor[4]{ 1, 1, 1, 1 };
 	inline static bool AA_fovCircle = true;
 	inline static float AA_fovCircleColor[4]{ 1, 1, 1, 1 };
-	inline static bool AA_aimKey = true;
 	inline static bool AA_adaptive = true;
 	inline static float AA_adaptiveOffset = 3;
 	inline static float AA_fov = 35.0f;
