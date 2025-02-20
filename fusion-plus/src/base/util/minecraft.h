@@ -670,5 +670,6 @@ struct MinecraftUtils
         if (item.GetInstance() != nullptr) {
             return IsWeapon(item.GetItem().GetID());
         }
+		return false;
     }
 };
