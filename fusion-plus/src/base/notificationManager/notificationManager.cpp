@@ -13,6 +13,7 @@ bool NotificationManager::Render()
 {
     ImVec2 windowSize = ImGui::GetWindowSize();
     const int padding = 5;
+    const int margin = 10;
     int x = windowSize.x, y = windowSize.y;
 
     for (int i = 0; i < notifications.size(); i++)
@@ -32,7 +33,7 @@ bool NotificationManager::Render()
         ImVec2 titleSize = Menu::Font->CalcTextSizeA(font_size, FLT_MAX, 0.0f, notification.message.c_str());
 
         int width = max(max(300, msgSize.x), titleSize.x);
-        int height = 55 + msgSize.y;
+        int height = margin * 2 + msgSize.y;
 
         x = windowSize.x - padding - width;
         y = y - height - padding;
@@ -46,7 +47,6 @@ bool NotificationManager::Render()
             x = x - ((x - windowSize.x) / SLIDE_OUT_TIME_S) * (diff.count() - (ALIVE_TIME_S - SLIDE_OUT_TIME_S));
         }
 
-
         RenderNotification(notification, x, y, width, height);
     }
 
@@ -57,11 +57,7 @@ bool NotificationManager::RenderNotification(Notification notification, int x, i
 {
     ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x, y), ImVec2(x + width, y + height), ImColor(0.0f, 0.0f, 0.0f, 0.8f), 5.0f);
 
-    ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size, ImVec2(x + 10, y + 10), ImColor(1.0f, 1.0f, 1.0f), notification.title.c_str());
-
-    ImGui::GetWindowDrawList()->AddLine(ImVec2(x + 10, y + 40), ImVec2(x + width - 10, y + 40), ImColor(1.0f, 1.0f, 1.0f));
-
-    ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size - 8, ImVec2(x + 10, y + 45), ImColor(1.0f, 1.0f, 1.0f), notification.message.c_str());
+    ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size - 8, ImVec2(x + 10, y + 10), ImColor(1.0f, 1.0f, 1.0f), notification.message.c_str());
 
     return true;
 }
