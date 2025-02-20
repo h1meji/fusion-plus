@@ -6,6 +6,7 @@
 
 #include <chrono>
 #include <random>
+#include <util/minecraft.h>
 
 long lastClickTime = 0;
 int nextCps = 10;
@@ -45,6 +46,25 @@ void LeftAutoClicker::Update()
 		std::mt19937 gen(rd());
 		std::uniform_int_distribution<> distrib(settings::LAC_leftMinCps , settings::LAC_leftMaxCps);
 		nextCps = distrib(gen);
+
+		if (settings::LAC_swordBlock && MinecraftUtils::IsWeapon(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem()))
+		{
+			static bool blocked = false;
+			CEntity entity = SDK::Minecraft->GetMouseOver().GetEntityHit();
+			if (entity.GetInstance() != nullptr)
+			{
+				if (entity.GetHurtResistantTime() > 11 && !blocked)
+				{
+					SendMessage(Menu::HandleWindow, WM_RBUTTONDOWN, MK_LBUTTON, MAKELPARAM(pos_cursor.x, pos_cursor.y));
+					SendMessage(Menu::HandleWindow, WM_RBUTTONUP, 0, MAKELPARAM(pos_cursor.x, pos_cursor.y));
+					blocked = true;
+				}
+				else if (entity.GetHurtResistantTime() <= 11)
+				{
+					blocked = false;
+				}
+			}
+		}
 	}
 }
 
@@ -81,6 +101,7 @@ void LeftAutoClicker::RenderMenu()
 				Menu::Slider(22, "Min CPS", ImVec2(225, 0), &settings::LAC_leftMinCps, 1, settings::LAC_leftMaxCps);
 				Menu::Slider(23, "Max CPS", ImVec2(225, 0), &settings::LAC_leftMaxCps, settings::LAC_leftMinCps, 25);
 				Menu::ToggleButton(24, "Ignore Blocks", ImVec2(368, 0), &settings::LAC_ignoreBlocks);
+				Menu::ToggleButton(2501, "Sword Block", ImVec2(368, 0), &settings::LAC_swordBlock);
 			}
 			ImGui::EndChild();
 			ImGui::Spacing();
