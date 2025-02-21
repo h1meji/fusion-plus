@@ -99,8 +99,8 @@ struct settings {
 
 	// Sprint Reset
 	inline static bool SR_Enabled = false;
-	inline static int SR_DelayBetween = .5f;
-	inline static int SR_LetGoDelay = .05f;
+	inline static float SR_DelayBetween = .5f;
+	inline static float SR_LetGoDelay = .05f;
 
 	// Left Auto Clicker
 	inline static bool LAC_Enabled = false;

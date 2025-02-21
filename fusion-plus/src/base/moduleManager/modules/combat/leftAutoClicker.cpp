@@ -80,7 +80,7 @@ void LeftAutoClicker::RenderMenu()
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("lac_header", ImVec2(425, renderSettings ? 120 : 35), false))
+	if (ImGui::BeginChild("lac_header", ImVec2(425, renderSettings ? 198 : 35), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();
@@ -98,7 +98,7 @@ void LeftAutoClicker::RenderMenu()
 		{
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 			ImGui::Separator();
-			if (ImGui::BeginChild("lac_settings", ImVec2(425, 75), false))
+			if (ImGui::BeginChild("lac_settings", ImVec2(425, 153), false))
 			{
 				Menu::Slider(22, "Min CPS", ImVec2(225, 0), &settings::LAC_leftMinCps, 1, settings::LAC_leftMaxCps);
 				Menu::Slider(23, "Max CPS", ImVec2(225, 0), &settings::LAC_leftMaxCps, settings::LAC_leftMinCps, 25);
