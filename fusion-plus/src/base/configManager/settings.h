@@ -120,6 +120,7 @@ struct settings {
 	// Bridge Assist
 	inline static bool BA_Enabled = false;
 	inline static bool BA_OnlyOnShift = true;
+	inline static bool BA_IgnoreForwardsMovement = true;
 	inline static float BA_PitchCheck = 61.0f;
 	inline static int BA_BlockCheck = 1;
 

@@ -43,6 +43,17 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 		return;
 	}
 
+	if (settings::BA_IgnoreForwardsMovement && (GetAsyncKeyState(0x57) & 0x8000))
+	{
+		if (!m_has_pressed_shift && isSneaking && !settings::BA_OnlyOnShift)
+		{
+			UnSneak();
+		}
+
+		m_has_pressed_shift = false;
+		return;
+	}
+
 	CEntityPlayerSP* player = SDK::Minecraft->thePlayer;
 	CWorld* world = SDK::Minecraft->theWorld;
 
@@ -147,7 +158,7 @@ void BridgeAssist::RenderMenu()
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("ba_header", ImVec2(425, renderSettings ? 120 : 35), false))
+	if (ImGui::BeginChild("ba_header", ImVec2(425, renderSettings ? 146 : 35), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();
@@ -165,11 +176,12 @@ void BridgeAssist::RenderMenu()
 		{
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 			ImGui::Separator();
-			if (ImGui::BeginChild("ba_settings", ImVec2(425, 75), false))
+			if (ImGui::BeginChild("ba_settings", ImVec2(425, 101), false))
 			{
 				Menu::Slider(65, "Block Check", ImVec2(225, 0), &settings::BA_BlockCheck, 1, 10);
 				Menu::Slider(66, "Pitch Check", ImVec2(225, 0), &settings::BA_PitchCheck, 0.0f, 90.0f);
 				Menu::ToggleButton(67, "Only on Shift", ImVec2(368, 0), &settings::BA_OnlyOnShift);
+				Menu::ToggleButton(6801, "Ignore Forwards Movement", ImVec2(368, 0), &settings::BA_IgnoreForwardsMovement);
 			}
 			ImGui::EndChild();
 			ImGui::Spacing();

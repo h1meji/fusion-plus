@@ -161,6 +161,7 @@ bool ConfigManager::SettingsToJson(json& j)
 	// Bridge Assist
 	j["BA_Enabled"] = settings::BA_Enabled;
 	j["BA_OnlyOnShift"] = settings::BA_OnlyOnShift;
+	j["BA_IgnoreForwardsMovement"] = settings::BA_IgnoreForwardsMovement;
 	j["BA_PitchCheck"] = settings::BA_PitchCheck;
 	j["BA_BlockCheck"] = settings::BA_BlockCheck;
 
@@ -332,6 +333,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 	// Bridge Assist
 	ConfigManager::GetJsonValue(j, settings::BA_Enabled, "BA_Enabled");
 	ConfigManager::GetJsonValue(j, settings::BA_OnlyOnShift, "BA_OnlyOnShift");
+	ConfigManager::GetJsonValue(j, settings::BA_IgnoreForwardsMovement, "BA_IgnoreForwardsMovement");
 	ConfigManager::GetJsonValue(j, settings::BA_PitchCheck, "BA_PitchCheck");
 	ConfigManager::GetJsonValue(j, settings::BA_BlockCheck, "BA_BlockCheck");
 
