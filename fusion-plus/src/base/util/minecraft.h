@@ -672,4 +672,9 @@ struct MinecraftUtils
         }
 		return false;
     }
+
+    static inline bool IsEmpty(CItemStack item)
+    {
+        return item.GetInstance() == nullptr;
+    }
 };

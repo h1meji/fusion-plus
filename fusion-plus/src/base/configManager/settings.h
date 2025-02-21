@@ -108,6 +108,8 @@ struct settings {
 	inline static float LAC_leftMinCps = 13;
 	inline static bool LAC_ignoreBlocks = true;
 	inline static bool LAC_swordBlock = true;
+	inline static bool LAC_swordOnly = false;
+	inline static bool LAC_emptyHandOnly = false;
 
 	// Right Auto Clicker
 	inline static bool RAC_Enabled = false;

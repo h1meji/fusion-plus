@@ -148,6 +148,9 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["LAC_leftMaxCps"] = settings::LAC_leftMaxCps;
 	j["LAC_leftMinCps"] = settings::LAC_leftMinCps;
 	j["LAC_ignoreBlocks"] = settings::LAC_ignoreBlocks;
+	j["LAC_swordBlock"] = settings::LAC_swordBlock;
+	j["LAC_swordOnly"] = settings::LAC_swordOnly;
+	j["LAC_emptyHandOnly"] = settings::LAC_emptyHandOnly;
 
 	// Right Auto Clicker
 	j["RAC_Enabled"] = settings::RAC_Enabled;
@@ -316,6 +319,9 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::LAC_leftMaxCps, "LAC_leftMaxCps");
 	ConfigManager::GetJsonValue(j, settings::LAC_leftMinCps, "LAC_leftMinCps");
 	ConfigManager::GetJsonValue(j, settings::LAC_ignoreBlocks, "LAC_ignoreBlocks");
+	ConfigManager::GetJsonValue(j, settings::LAC_swordBlock, "LAC_swordBlock");
+	ConfigManager::GetJsonValue(j, settings::LAC_swordOnly, "LAC_swordOnly");
+	ConfigManager::GetJsonValue(j, settings::LAC_emptyHandOnly, "LAC_emptyHandOnly");
 
 	// Right Auto Clicker
 	ConfigManager::GetJsonValue(j, settings::RAC_Enabled, "RAC_Enabled");
