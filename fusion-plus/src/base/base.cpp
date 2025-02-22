@@ -9,7 +9,7 @@
 #include "util/window/borderless.h"
 #include "patcher/patcher.h"
 
-#include "java/hook.h"
+#include "java/javahook.h"
 #include "java/hotspot/hotspot.h"
 
 #include "minhook/minhook.h"
@@ -131,6 +131,7 @@ void Base::Kill()
 	if (Borderless::Enabled)
 		Borderless::Restore(Menu::HandleWindow);
 
+	JavaHook::clean();
 	StrayCache::DeleteRefs();
 	Java::Kill();
 	Menu::Kill();

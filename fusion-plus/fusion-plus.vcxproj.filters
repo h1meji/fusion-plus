@@ -309,6 +309,12 @@
     <ClInclude Include="src\base\moduleManager\modules\movement\sprintReset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\base\java\hotspot\hotspot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\java\javahook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -534,6 +540,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\moduleManager\modules\movement\sprintReset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\java\hotspot\hotspot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\java\javahook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

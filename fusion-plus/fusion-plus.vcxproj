@@ -158,6 +158,8 @@
   <ItemGroup>
     <ClInclude Include="ext\nlohmann\json.hpp" />
     <ClInclude Include="ext\nlohmann\json_fwd.hpp" />
+    <ClInclude Include="src\base\java\javahook.h" />
+    <ClInclude Include="src\base\java\hotspot\hotspot.h" />
     <ClInclude Include="src\base\moduleManager\modules\inventory\chestStealer.h" />
     <ClInclude Include="src\base\moduleManager\modules\inventory\inventorySorter.h" />
     <ClInclude Include="src\base\moduleManager\modules\movement\sprintReset.h" />
@@ -256,6 +258,8 @@
     <ClInclude Include="src\base\moduleManager\modules\tnt-tag\tagBack.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\base\java\javahook.cpp" />
+    <ClCompile Include="src\base\java\hotspot\hotspot.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\inventory\chestStealer.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\inventory\inventorySorter.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\movement\sprintReset.cpp" />
