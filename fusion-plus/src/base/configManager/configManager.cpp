@@ -177,6 +177,10 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["CS_Key"] = settings::CS_Key;
 	j["CS_Items"] = settings::CS_Items;
 
+	// Client Brand Changer
+	j["CBC_Enabled"] = settings::CBC_Enabled;
+	j["CBC_ClientBrand"] = settings::CBC_ClientBrand;
+
 	// Tag Back
 	j["TB_Enabled"] = settings::TB_Enabled;
 	j["TB_visibilityCheck"] = settings::TB_visibilityCheck;
@@ -348,6 +352,10 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::CS_Delay, "CS_Delay");
 	ConfigManager::GetJsonValue(j, settings::CS_Key, "CS_Key");
 	ConfigManager::GetJsonValue(j, settings::CS_Items, "CS_Items");
+
+	// Client Brand Changer
+	ConfigManager::GetJsonValue(j, settings::CBC_Enabled, "CBC_Enabled");
+	ConfigManager::GetJsonValue(j, settings::CBC_ClientBrand, "CBC_ClientBrand");
 
 	// Tag Back
 	ConfigManager::GetJsonValue(j, settings::TB_Enabled, "TB_Enabled");

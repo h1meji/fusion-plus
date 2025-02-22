@@ -17,6 +17,7 @@
 #include "moduleManager/modules/movement/sprintReset.h"
 #include "moduleManager/modules/inventory/chestStealer.h"
 #include "moduleManager/modules/inventory/inventorySorter.h"
+#include "moduleManager/modules/utility/clientBrandChanger.h"
 #include "moduleManager/modules/tnt-tag/tagBack.h"
 #include "moduleManager/modules/tnt-tag/ITEsp.h"
 
@@ -38,6 +39,7 @@ void ArrayList::RenderUpdate()
 	if (SprintReset().IsEnabled()) enabledModules.push_back(SprintReset().GetName());
 	if (ChestStealer().IsEnabled()) enabledModules.push_back(ChestStealer().GetName());
 	if (InventorySorter().IsEnabled()) enabledModules.push_back(InventorySorter().GetName());
+	if (ClientBrandChanger().IsEnabled()) enabledModules.push_back(ClientBrandChanger().GetName());
 	if (TagBack().IsEnabled()) enabledModules.push_back(TagBack().GetName());
 	if (ITEsp().IsEnabled()) enabledModules.push_back(ITEsp().GetName());
 
