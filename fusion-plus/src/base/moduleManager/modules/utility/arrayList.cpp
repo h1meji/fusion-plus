@@ -17,6 +17,7 @@
 #include "moduleManager/modules/movement/sprintReset.h"
 #include "moduleManager/modules/inventory/chestStealer.h"
 #include "moduleManager/modules/inventory/inventorySorter.h"
+#include "moduleManager/modules/utility/clientBrandChanger.h"
 #include "moduleManager/modules/tnt-tag/tagBack.h"
 #include "moduleManager/modules/tnt-tag/ITEsp.h"
 
@@ -38,6 +39,7 @@ void ArrayList::RenderUpdate()
 	if (SprintReset().IsEnabled()) enabledModules.push_back(SprintReset().GetName());
 	if (ChestStealer().IsEnabled()) enabledModules.push_back(ChestStealer().GetName());
 	if (InventorySorter().IsEnabled()) enabledModules.push_back(InventorySorter().GetName());
+	if (ClientBrandChanger().IsEnabled()) enabledModules.push_back(ClientBrandChanger().GetName());
 	if (TagBack().IsEnabled()) enabledModules.push_back(TagBack().GetName());
 	if (ITEsp().IsEnabled()) enabledModules.push_back(ITEsp().GetName());
 
@@ -178,7 +180,7 @@ void ArrayList::RenderMenu()
 				Menu::ColorPicker(83, "Text Color", ImVec2(374, 0), settings::AL_textColor);
 				Menu::Slider(84, "Background Padding", ImVec2(225, 0), &settings::AL_backgroundPadding, 0, 20);
 				Menu::ColorPicker(85, "Background Color", ImVec2(374, 0), settings::AL_backgroundColor);
-				Menu::Slider(86, "Background Roundness", ImVec2(225, 0), &settings::AL_backgroundRoundness, 0, 10);
+				Menu::Slider(126, "Background Roundness", ImVec2(225, 0), &settings::AL_backgroundRoundness, 0, 10);
 			}
 			ImGui::EndChild();
 			ImGui::Spacing();

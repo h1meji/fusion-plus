@@ -9,15 +9,15 @@
 #include "util/window/borderless.h"
 #include "patcher/patcher.h"
 
-#include "java/hook.h"
-#include "java/hotspot/hotspot.h"
-
 #include "minhook/minhook.h"
 
 #include "util/minecraft.h"
 
 #include <thread>
 #include <unordered_map>
+#include <sdk/net/minecraft/client/ClientBrandRetriever.h>
+#include <java/hotspot/hotspot.h>
+#include <java/javahook.h>
 
 static bool IsKeyReleased(int key)
 {
@@ -28,22 +28,6 @@ static bool IsKeyReleased(int key)
 	keyStates[key] = currentState;
 
 	return prevState && !currentState;
-}
-
-static void onGetClientModName(JNIEnv* env, bool* cancel)
-{
-	jobject new_name = env->NewStringUTF("fusion+");
-	JavaHook::set_return_value<void*>(cancel, *(void**)new_name);
-	*cancel = true;
-}
-
-static void getClientModName_callback(HotSpot::frame* frame, HotSpot::Thread* thread, bool* cancel)
-{
-	if (!Java::Env) return;
-	JNIEnv* env = thread->get_env();
-	JavaHook::JNIFrame jniFrame(env);
-	onGetClientModName(env, cancel);
-	return;
 }
 
 void Base::Init()
@@ -102,11 +86,6 @@ void Base::Init()
 		return;
 	}
 
-	jclass clientBrandRetriever;
-	Java::AssignClass("net.minecraft.client.ClientBrandRetriever", clientBrandRetriever);
-	jmethodID getClientModName = Java::Env->GetStaticMethodID(clientBrandRetriever, "getClientModName", "()Ljava/lang/String;");
-	JavaHook::hook(getClientModName, getClientModName_callback);
-
 	Menu::Init();
 
 	g_ModuleManager = std::make_unique<ModuleManager>();
@@ -131,6 +110,7 @@ void Base::Kill()
 	if (Borderless::Enabled)
 		Borderless::Restore(Menu::HandleWindow);
 
+	JavaHook::clean();
 	StrayCache::DeleteRefs();
 	Java::Kill();
 	Menu::Kill();

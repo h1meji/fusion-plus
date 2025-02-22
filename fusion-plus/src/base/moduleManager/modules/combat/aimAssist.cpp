@@ -301,12 +301,11 @@ void AimAssist::RenderMenu()
 
 				Menu::ToggleButton(4, "Visbility Check", ImVec2(368, 0), &settings::AA_visibilityCheck);
 				Menu::ToggleButton(5, "Sprint Check", ImVec2(368, 0), &settings::AA_sprintCheck);
-				Menu::ToggleButton(501, "Invisible Check", ImVec2(368, 0), &settings::AA_invisibleCheck);
-				Menu::ToggleButton(502, "Block Break Check", ImVec2(368, 0), &settings::AA_blockBreakCheck);
-				Menu::ToggleButton(503, "Weapon Only", ImVec2(368, 0), &settings::AA_weaponOnly);
-				Menu::ToggleButton(504, "Mouse Move Check", ImVec2(368, 0), &settings::AA_mouseMoveCheck);
-				Menu::ToggleButton(505, "Mouse Press Check", ImVec2(368, 0), &settings::AA_mousePressCheck);
-
+				Menu::ToggleButton(127, "Invisible Check", ImVec2(368, 0), &settings::AA_invisibleCheck);
+				Menu::ToggleButton(128, "Block Break Check", ImVec2(368, 0), &settings::AA_blockBreakCheck);
+				Menu::ToggleButton(129, "Weapon Only", ImVec2(368, 0), &settings::AA_weaponOnly);
+				Menu::ToggleButton(130, "Mouse Move Check", ImVec2(368, 0), &settings::AA_mouseMoveCheck);
+				Menu::ToggleButton(131, "Mouse Press Check", ImVec2(368, 0), &settings::AA_mousePressCheck);
 
 				ImGui::Separator();
 

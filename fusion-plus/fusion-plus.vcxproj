@@ -158,10 +158,13 @@
   <ItemGroup>
     <ClInclude Include="ext\nlohmann\json.hpp" />
     <ClInclude Include="ext\nlohmann\json_fwd.hpp" />
+    <ClInclude Include="src\base\java\javahook.h" />
+    <ClInclude Include="src\base\java\hotspot\hotspot.h" />
     <ClInclude Include="src\base\moduleManager\modules\inventory\chestStealer.h" />
     <ClInclude Include="src\base\moduleManager\modules\inventory\inventorySorter.h" />
     <ClInclude Include="src\base\moduleManager\modules\movement\sprintReset.h" />
     <ClInclude Include="src\base\moduleManager\modules\movement\velocity.h" />
+    <ClInclude Include="src\base\moduleManager\modules\utility\clientBrandChanger.h" />
     <ClInclude Include="src\base\notificationManager\notificationManager.h" />
     <ClInclude Include="src\base\moduleManager\modules\tnt-tag\ITEsp.h" />
     <ClInclude Include="src\base\configManager\configManager.h" />
@@ -176,6 +179,7 @@
     <ClInclude Include="src\base\patcher\patcher.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\block\Block.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\block\state\IBlockState.h" />
+    <ClInclude Include="src\base\sdk\net\minecraft\client\ClientBrandRetriever.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\client\gui\inventory\GuiChest.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\client\gui\inventory\GuiContainer.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\client\multiplayer\PlayerControllerMP.h" />
@@ -256,10 +260,13 @@
     <ClInclude Include="src\base\moduleManager\modules\tnt-tag\tagBack.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\base\java\javahook.cpp" />
+    <ClCompile Include="src\base\java\hotspot\hotspot.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\inventory\chestStealer.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\inventory\inventorySorter.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\movement\sprintReset.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\movement\velocity.cpp" />
+    <ClCompile Include="src\base\moduleManager\modules\utility\clientBrandChanger.cpp" />
     <ClCompile Include="src\base\notificationManager\notificationManager.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\tnt-tag\ITEsp.cpp" />
     <ClCompile Include="src\base\configManager\configManager.cpp" />
@@ -271,6 +278,7 @@
     <ClCompile Include="src\base\patcher\patcher.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\block\Block.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\block\state\IBlockState.cpp" />
+    <ClCompile Include="src\base\sdk\net\minecraft\client\ClientBrandRetriever.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\client\gui\inventory\GuiChest.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\client\gui\inventory\GuiContainer.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\client\multiplayer\PlayerControllerMP.cpp" />

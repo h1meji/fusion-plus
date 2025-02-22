@@ -142,6 +142,10 @@ struct settings {
 	inline static int IS_Key = 0x5A; // Z
 	inline static int IS_Delay = 50;
 
+	// Client Brand Changer
+	inline static bool CBC_Enabled = false;
+	inline static char CBC_ClientBrand[128];
+
 	// Tag Back
 	inline static bool TB_Enabled = false;
 	inline static bool TB_visibilityCheck = true;

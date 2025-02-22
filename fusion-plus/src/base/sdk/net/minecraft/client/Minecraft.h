@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include "sdk/java/IClass.h"
 #include "entity/EntityPlayerSP.h"
 #include "multiplayer/PlayerControllerMP.h"
@@ -36,5 +38,7 @@ struct CMinecraft : IClass
 	CEnchantMentHelper* enchantmentHelper;
 
 	CGuiChest* GetGuiChest();
+
+	std::string OriginalClientBrand;
 };
 

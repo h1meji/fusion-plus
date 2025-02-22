@@ -273,6 +273,65 @@ void Menu::TextColored(int id, const char* text, ImVec2 size, ImVec4 color, bool
 	ImGui::PopID();
 }
 
+bool Menu::TextInput(int id, const char* text, ImVec2 size, char* buf, size_t bufSize, ImGuiInputTextFlags flags)
+{
+	ImGui::PushID(id);
+	ImVec2 textSize = Menu::Font->CalcTextSizeA(Menu::Font->FontSize, FLT_MAX, 0.0f, text);
+
+	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() + 20, ImGui::GetCursorPosY() + 5));
+
+	ImGui::Text(text);
+	ImGui::SameLine();
+
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5);
+
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 1);
+	ImGui::SetNextItemWidth(max(0, size.x - textSize.x));
+	bool result = ImGui::InputText("", buf, bufSize, flags);
+
+	ImGui::PopStyleVar();
+
+	ImGui::PopID();
+
+	return result;
+}
+
+bool Menu::TextInputButton(int id, const char* text, ImVec2 size, char* buf, size_t bufSize, ImGuiInputTextFlags flags, const char* buttonText)
+{
+	ImGui::PushID(id);
+	ImVec2 textSize = Menu::Font->CalcTextSizeA(Menu::Font->FontSize, FLT_MAX, 0.0f, text);
+	ImVec2 buttonTextSize = Menu::Font->CalcTextSizeA(Menu::Font->FontSize, FLT_MAX, 0.0f, buttonText);
+
+	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() + 20, ImGui::GetCursorPosY() + 5));
+
+	ImGui::Text(text);
+	ImGui::SameLine();
+
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5);
+
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 1);
+	ImGui::SetNextItemWidth(max(0, size.x - textSize.x - buttonTextSize.x - 16));
+	ImGui::InputText("", buf, bufSize, flags);
+	ImGui::SameLine();
+
+	ImGui::PopStyleVar();
+
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5);
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82f, settings::Menu_AccentColor[1] * 0.82f, settings::Menu_AccentColor[2] * 0.82f, settings::Menu_AccentColor[3] * 0.82f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
+
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 1);
+	bool result = ImGui::Button(buttonText);
+
+	ImGui::PopStyleColor(3);
+	ImGui::PopStyleVar();
+
+	ImGui::PopID();
+
+	return result;
+}
+
 void Menu::GlitchText(const char* text, ImVec2 pos)
 {
 	// Red Text

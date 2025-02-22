@@ -13,6 +13,7 @@
 #include "modules/inventory/chestStealer.h"
 #include "modules/inventory/inventorySorter.h"
 #include "modules/utility/arrayList.h"
+#include "modules/utility/clientBrandChanger.h"
 #include "modules/tnt-tag/tagBack.h"
 #include "modules/tnt-tag/ITEsp.h"
 #include "commonData.h"
@@ -37,6 +38,7 @@ void ModuleManager::Init()
 	modules.push_back(std::make_unique<ChestStealer>());
 	modules.push_back(std::make_unique<InventorySorter>());
 	modules.push_back(std::make_unique<ArrayList>());
+	modules.push_back(std::make_unique<ClientBrandChanger>());
 
 	modules.push_back(std::make_unique<TagBack>());
 	modules.push_back(std::make_unique<ITEsp>());

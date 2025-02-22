@@ -3,6 +3,7 @@
 #include "util/logger.h"
 
 #include "sdk/net/minecraft/entity/EntityLivingBase.h"
+#include "ClientBrandRetriever.h"
 
 CMinecraft::CMinecraft()
 {
@@ -48,6 +49,8 @@ CMinecraft::CMinecraft()
 
 	// not used lol
 	this->MethodIDs["clickMouse"] = StrayCache::minecraft_clickMouse;
+
+	this->OriginalClientBrand = CClientBrandRetriever::GetClientModName();
 }
 
 jclass CMinecraft::GetClass()

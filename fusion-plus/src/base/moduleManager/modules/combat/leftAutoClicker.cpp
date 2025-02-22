@@ -103,9 +103,9 @@ void LeftAutoClicker::RenderMenu()
 				Menu::Slider(22, "Min CPS", ImVec2(225, 0), &settings::LAC_leftMinCps, 1, settings::LAC_leftMaxCps);
 				Menu::Slider(23, "Max CPS", ImVec2(225, 0), &settings::LAC_leftMaxCps, settings::LAC_leftMinCps, 25);
 				Menu::ToggleButton(24, "Ignore Blocks", ImVec2(368, 0), &settings::LAC_ignoreBlocks);
-				Menu::ToggleButton(2501, "Sword Block", ImVec2(368, 0), &settings::LAC_swordBlock);
-				Menu::ToggleButton(2502, "Sword Only", ImVec2(368, 0), &settings::LAC_swordOnly);
-				Menu::ToggleButton(2503, "Empty Hand Only", ImVec2(368, 0), &settings::LAC_emptyHandOnly);
+				Menu::ToggleButton(132, "Sword Block", ImVec2(368, 0), &settings::LAC_swordBlock);
+				Menu::ToggleButton(133, "Sword Only", ImVec2(368, 0), &settings::LAC_swordOnly);
+				Menu::ToggleButton(134, "Empty Hand Only", ImVec2(368, 0), &settings::LAC_emptyHandOnly);
 			}
 			ImGui::EndChild();
 			ImGui::Spacing();
