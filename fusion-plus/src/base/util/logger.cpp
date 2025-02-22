@@ -22,9 +22,11 @@ void Logger::Kill()
 {
 	if (Logger::Initialized)
 	{
-		fclose(out);
-		fclose(err);
+		if (out != nullptr) fclose(out);
+		if (err != nullptr) fclose(err);
 		FreeConsole();
+
+		Logger::Initialized = false;
 	}
 }
 
