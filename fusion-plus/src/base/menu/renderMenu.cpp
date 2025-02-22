@@ -19,7 +19,7 @@
 
 int currentTab = -1;
 
-void RenderConfigMenu()
+static void RenderConfigMenu()
 {
 	ImGui::Spacing();
 
@@ -29,7 +29,7 @@ void RenderConfigMenu()
 
 	if (ImGui::BeginChild("##configList", ImVec2(450, 232), false))
 	{
-		for (size_t i = 0; i < configFiles.size(); ++i)
+		for (int i = 0; i < configFiles.size(); ++i)
 		{
 			if (ImGui::Selectable(configFiles[i].c_str()))
 			{
@@ -41,11 +41,11 @@ void RenderConfigMenu()
 
 	std::string selectedConfigName = configFiles.size() > 0 ? configFiles[selectedConfig] : "null";
 
-	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20, 5));
-	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2, 0.2, 0.2, 0.5));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3, 0.3, 0.3, 1));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4, 0.4, 0.4, 1));
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20.f, 5.f));
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.f);
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 0.5f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3f, 0.3f, 0.3f, 1.f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4f, 0.4f, 0.4f, 1.f));
 	// buttons to load config
 	if (ImGui::Button(("Load \"" + selectedConfigName + "\"").c_str(), ImVec2(247, 26)))
 	{
@@ -91,11 +91,11 @@ void RenderConfigMenu()
 
 	ImGui::SameLine();
 
-	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20, 4));
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2, 0.2, 0.2, 0.5));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3, 0.3, 0.3, 1));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4, 0.4, 0.4, 1));
-	if (ImGui::Button("Save", ImVec2(65, 22)) && saveConfigName != "")
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20.f, 4.f));
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 0.5f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3f, 0.3f, 0.3f, 1.f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4f, 0.4f, 0.4f, 1.f));
+	if (ImGui::Button("Save", ImVec2(65.f, 22.f)) && saveConfigName != "")
 	{
 		if (ConfigManager::SaveConfig(saveConfigName))
 		{
@@ -114,7 +114,7 @@ void RenderConfigMenu()
 	ImGui::PopStyleVar();
 }
 
-void RenderSettingsMenu()
+static void RenderSettingsMenu()
 {
 	ImGui::Spacing();
 
@@ -122,9 +122,9 @@ void RenderSettingsMenu()
 
 	int height = min(3 , settings::friends.size());
 	static int friendIndex = -1;
-	if (ImGui::BeginChild("##friendslist", ImVec2(450, ImGui::GetTextLineHeightWithSpacing() * height), false))
+	if (ImGui::BeginChild("##friendslist", ImVec2(450.f, ImGui::GetTextLineHeightWithSpacing() * height), false))
 	{
-		for (size_t i = 0; i < settings::friends.size(); ++i)
+		for (int i = 0; i < settings::friends.size(); ++i)
 		{
 			ImGui::Selectable(settings::friends[i].c_str());
 			// if right clicked on a friend, show popup to remove friend
@@ -151,21 +151,21 @@ void RenderSettingsMenu()
 	}
 	ImGui::EndChild();
 
-	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.f);
 
 	// input box to save config
 	static char friendName[128] = "";
 	// set width of input box
-	ImGui::SetNextItemWidth(614);
+	ImGui::SetNextItemWidth(614.f);
 	// set input box height
 	ImGui::InputText("##addFriend", friendName, IM_ARRAYSIZE(friendName));
 
 	ImGui::SameLine();
 
-	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20, 4));
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2, 0.2, 0.2, 0.5));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3, 0.3, 0.3, 1));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4, 0.4, 0.4, 1));
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20.f, 4.f));
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 0.5f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3f, 0.3f, 0.3f, 1.f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4f, 0.4f, 0.4f, 1.f));
 	if (ImGui::Button("Add", ImVec2(65, 22)) && friendName != "")
 	{
 		ConfigManager::AddFriend(friendName);
@@ -179,19 +179,19 @@ void RenderSettingsMenu()
 
 	ImGui::SeparatorText("Menu Settings");
 
-	Menu::ColorPicker(1001, "Menu Accent Color", ImVec2(374, 0), settings::Menu_AccentColor);
-	Menu::ToggleButton(1002, "GUI Movement", ImVec2(368, 0), &settings::Menu_GUIMovement);
-	Menu::ToggleButton(1003, "Show Hidden Categories", ImVec2(368, 0), &settings::Menu_ShowHiddenCategories);
+	Menu::ColorPicker(1001, "Menu Accent Color", ImVec2(374.f, 0.f), settings::Menu_AccentColor);
+	Menu::ToggleButton(1002, "GUI Movement", ImVec2(368.f, 0.f), &settings::Menu_GUIMovement);
+	Menu::ToggleButton(1003, "Show Hidden Categories", ImVec2(368.f, 0.f), &settings::Menu_ShowHiddenCategories);
 
 	ImGui::SeparatorText("Rendering Settings");
 
-	Menu::ToggleButton(1004, "Show Watermark", ImVec2(368, 0), &settings::Menu_Watermark);
-	Menu::ToggleButton(1005, "Disable All Rendering", ImVec2(368, 0), &settings::Menu_DisableAllRendering);
+	Menu::ToggleButton(1004, "Show Watermark", ImVec2(368.f, 0.f), &settings::Menu_Watermark);
+	Menu::ToggleButton(1005, "Disable All Rendering", ImVec2(368.f, 0.f), &settings::Menu_DisableAllRendering);
 }
 
 void Menu::RenderMenu()
 {
-	ImGui::SetNextWindowSize(ImVec2(575, 300));
+	ImGui::SetNextWindowSize(ImVec2(575.f, 300.f));
 	ImGui::Begin(Menu::Title.c_str(), nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 	ImVec2 idk = ImGui::GetWindowSize();
 
@@ -207,19 +207,19 @@ void Menu::RenderMenu()
 	float posY = windowPos.y + 15;
 
 	Menu::GlitchText("FUSION+", ImVec2(posX, posY));
-	ImGui::SetCursorPosY(textSize.y + 30);
+	ImGui::SetCursorPosY(textSize.y + 30.f);
 
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3, 0.3, 0.3, 1));
-	if (ImGui::BeginChild("child_1", { 0, 140 }, false, ImGuiWindowFlags_NoScrollbar)) {
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3f, 0.3f, 0.3f, 1.f));
+	if (ImGui::BeginChild("child_1", { 0.f, 140.f }, false, ImGuiWindowFlags_NoScrollbar)) {
 		std::vector<std::string> categories = g_ModuleManager->GetCategories();
 		for (int i = 0; i < categories.size(); i++)
 		{
 			if (std::find(settings::Menu_HiddenCategoriesList.begin(), settings::Menu_HiddenCategoriesList.end(), categories[i]) != settings::Menu_HiddenCategoriesList.end() && !settings::Menu_ShowHiddenCategories)
 					continue;
 
-			ImGui::PushStyleColor(ImGuiCol_Button, currentTab == i ? ImVec4(0.4, 0.4, 0.4, 1) : ImVec4(0.2, 0.2, 0.2, 0.5));
-			if (ImGui::Button((categories[i]).c_str(), ImVec2(94, 35)))
+			ImGui::PushStyleColor(ImGuiCol_Button, currentTab == i ? ImVec4(0.4f, 0.4f, 0.4f, 1.f) : ImVec4(0.2f, 0.2f, 0.2f, 0.5f));
+			if (ImGui::Button((categories[i]).c_str(), ImVec2(94.f, 35.f)))
 			{
 				currentTab = i;
 			}
@@ -230,27 +230,27 @@ void Menu::RenderMenu()
 	ImGui::PopStyleColor();
 	ImGui::PopStyleVar();
 
-	ImGui::BeginChild("seperatorchild", { 0, 1 }, false);
+	ImGui::BeginChild("seperatorchild", { 0.f, 1.f }, false);
 	ImGui::Separator();
 	ImGui::EndChild();
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 1);
 
-	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20, 5));
-	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2, 0.2, 0.2, 0.5));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3, 0.3, 0.3, 1));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4, 0.4, 0.4, 1));
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20.f, 5.f));
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.f);
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 0.5f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3f, 0.3f, 0.3f, 1.f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4f, 0.4f, 0.4f, 1.f));
 
-	ImGui::PushStyleColor(ImGuiCol_Button, currentTab == -3 ? ImVec4(0.4, 0.4, 0.4, 1) : ImVec4(0.2, 0.2, 0.2, 0.5));
-	if (ImGui::Button("Settings", ImVec2(94, 0)))
+	ImGui::PushStyleColor(ImGuiCol_Button, currentTab == -3 ? ImVec4(0.4f, 0.4f, 0.4f, 1.f) : ImVec4(0.2f, 0.2f, 0.2f, 0.5f));
+	if (ImGui::Button("Settings", ImVec2(94.f, 0.f)))
 	{
 		currentTab = -3;
 	}
 	ImGui::PopStyleColor();
 
-	ImGui::PushStyleColor(ImGuiCol_Button, currentTab == -2 ? ImVec4(0.4, 0.4, 0.4, 1) : ImVec4(0.2, 0.2, 0.2, 0.5));
-	if (ImGui::Button("Config", ImVec2(94, 0)))
+	ImGui::PushStyleColor(ImGuiCol_Button, currentTab == -2 ? ImVec4(0.4f, 0.4f, 0.4f, 1.f) : ImVec4(0.2f, 0.2f, 0.2f, 0.5f));
+	if (ImGui::Button("Config", ImVec2(94.f, 0.f)))
 	{
 		currentTab = -2;
 	}
@@ -260,11 +260,11 @@ void Menu::RenderMenu()
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
 
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.64, 0.2, 0.2, 0.5));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.74, 0.4, 0.4, 1));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1, 0.4, 0.4, 1));
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.64f, 0.2f, 0.2f, 0.5f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.74, 0.4f, 0.4f, 1.f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.f, 0.4f, 0.4f, 1.f));
 
-	if (ImGui::Button("Detach", ImVec2(94, 0)))
+	if (ImGui::Button("Detach", ImVec2(94.f, 0.f)))
 	{
 		Menu::MoveCursorToCenter(true);
 		Base::Running = false;

@@ -45,7 +45,7 @@ void ArrayList::RenderUpdate()
 	std::sort(enabledModules.begin(), enabledModules.end(), [](const std::string& a, const std::string& b) { return Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, a.c_str()).x > Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, b.c_str()).x; });
 
 	// render
-	int textHeight = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, enabledModules[0].c_str()).y + (2 * settings::AL_backgroundPadding);
+	float textHeight = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, enabledModules[0].c_str()).y + (2 * settings::AL_backgroundPadding);
 	switch (settings::AL_renderPosition)
 	{
 	case 0: // Top Left
@@ -54,10 +54,10 @@ void ArrayList::RenderUpdate()
 			const char* name = enabledModules[i].c_str();
 			ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, name);
 
-			int roundness = settings::AL_backgroundRoundness;
+			float roundness = settings::AL_backgroundRoundness;
 			if (i != enabledModules.size() - 1)
 			{
-				const char* n_name = enabledModules[i + 1].c_str();
+				const char* n_name = enabledModules[static_cast<std::vector<std::string, std::allocator<std::string>>::size_type>(i) + 1].c_str();
 				ImVec2 n_textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, n_name);
 				if (textSize.x - n_textSize.x < settings::AL_backgroundRoundness)
 				{
@@ -77,10 +77,10 @@ void ArrayList::RenderUpdate()
 			const char* name = enabledModules[i].c_str();
 			ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, name);
 
-			int roundness = settings::AL_backgroundRoundness;
+			float roundness = settings::AL_backgroundRoundness;
 			if (i != enabledModules.size() - 1)
 			{
-				const char* n_name = enabledModules[i + 1].c_str();
+				const char* n_name = enabledModules[static_cast<std::vector<std::string, std::allocator<std::string>>::size_type>(i) + 1].c_str();
 				ImVec2 n_textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, n_name);
 				if (textSize.x - n_textSize.x < settings::AL_backgroundRoundness)
 				{
@@ -100,10 +100,10 @@ void ArrayList::RenderUpdate()
 			const char* name = enabledModules[i].c_str();
 			ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, name);
 
-			int roundness = settings::AL_backgroundRoundness;
+			float roundness = settings::AL_backgroundRoundness;
 			if (i != enabledModules.size() - 1)
 			{
-				const char* n_name = enabledModules[i + 1].c_str();
+				const char* n_name = enabledModules[static_cast<std::vector<std::string, std::allocator<std::string>>::size_type>(i) + 1].c_str();
 				ImVec2 n_textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, n_name);
 				if (textSize.x - n_textSize.x < settings::AL_backgroundRoundness)
 				{
@@ -123,10 +123,10 @@ void ArrayList::RenderUpdate()
 			const char* name = enabledModules[i].c_str();
 			ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, name);
 
-			int roundness = settings::AL_backgroundRoundness;
+			float roundness = settings::AL_backgroundRoundness;
 			if (i != enabledModules.size() - 1)
 			{
-				const char* n_name = enabledModules[i + 1].c_str();
+				const char* n_name = enabledModules[static_cast<std::vector<std::string, std::allocator<std::string>>::size_type>(i) + 1].c_str();
 				ImVec2 n_textSize = Menu::Font->CalcTextSizeA(settings::AL_textSize, FLT_MAX, 0.0f, n_name);
 				if (textSize.x - n_textSize.x < settings::AL_backgroundRoundness)
 				{
@@ -153,7 +153,7 @@ void ArrayList::RenderMenu()
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("al_header", ImVec2(425, renderSettings ? 185 : 35), false))
+	if (ImGui::BeginChild("al_header", ImVec2(425.f, renderSettings ? 185.f : 35.f), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();

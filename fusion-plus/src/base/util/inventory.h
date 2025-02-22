@@ -28,7 +28,7 @@ User can make custom categories and set the priority of each item in the categor
 */
 
 struct InventorySystem {
-    static inline enum Material
+    enum Material
     {
         MATERIAL_UNKNOWN,
         WOOD,
@@ -40,7 +40,7 @@ struct InventorySystem {
         STONE,
     };
 
-    static inline enum ArmorType
+    enum ArmorType
     {
         ARMOR_UNKNOWN,
         HELMET,
@@ -49,7 +49,7 @@ struct InventorySystem {
         BOOTS,
     };
 
-    static inline enum class ItemCategory
+    enum class ItemCategory
     {
         None,
         Armor,
@@ -63,7 +63,7 @@ struct InventorySystem {
         Custom
     };
 
-    static inline struct Item {
+    struct Item {
         int id;
         int metadata;
         int priority;
@@ -90,12 +90,12 @@ struct InventorySystem {
                 idString += std::to_string(item.metadata);
             }
 
-			id = std::hash<std::string>{}(idString);
+            id = static_cast<int>(std::hash<std::string>{}(idString));
         }
     };
 
 
-    static inline struct Slot
+    struct Slot
     {
         Category category;
 		Item item;
@@ -201,7 +201,7 @@ struct InventorySystem {
         
         float baseReduction = armorMaterialBaseReduction[material][armorType];
 		std::cout << "Base Reduction: " << baseReduction << std::endl;
-        float protectionReduction = protectionLevel * 0.04;
+        float protectionReduction = protectionLevel * 0.04f;
 		std::cout << "Protection Reduction: " << protectionReduction << std::endl;
         float totalReduction = baseReduction + protectionReduction;
 		std::cout << "Total Reduction: " << totalReduction << std::endl;
@@ -214,7 +214,7 @@ struct InventorySystem {
             return -1.0f;
 
 		float baseDamage = weaponMaterialBaseDamage[material];
-        baseDamage += shaprnessLevel * 1.25;
+        baseDamage += (float)shaprnessLevel * 1.25f;
 
         return baseDamage;
     }
@@ -291,26 +291,26 @@ struct InventorySystem {
 	}
 
 // === Private === //
-    static inline std::map<Material, std::map<ArmorType, double>> armorMaterialBaseReduction = {
+    static inline std::map<Material, std::map<ArmorType, float>> armorMaterialBaseReduction = {
         {},
         {},
-        {LEATHER, {{HELMET, 1}, {CHESTPLATE, 3}, {LEGGINGS, 2}, {BOOTS, 1}}},
-        {CHAINMAIL, {{HELMET, 2}, {CHESTPLATE, 5}, {LEGGINGS, 3}, {BOOTS, 1}}},
-        {IRON, {{HELMET, 2}, {CHESTPLATE, 6}, {LEGGINGS, 5}, {BOOTS, 2}}},
-        {DIAMOND, {{HELMET, 3}, {CHESTPLATE, 8}, {LEGGINGS, 6}, {BOOTS, 3}}},
-        {GOLD, {{HELMET, 2}, {CHESTPLATE, 5}, {LEGGINGS, 3}, {BOOTS, 2}}},
+        {LEATHER, {{HELMET, 1.f}, {CHESTPLATE, 3.f}, {LEGGINGS, 2.f}, {BOOTS, 1.f}}},
+        {CHAINMAIL, {{HELMET, 2.f}, {CHESTPLATE, 5.f}, {LEGGINGS, 3.f}, {BOOTS, 1.f}}},
+        {IRON, {{HELMET, 2.f}, {CHESTPLATE, 6.f}, {LEGGINGS, 5.f}, {BOOTS, 2.f}}},
+        {DIAMOND, {{HELMET, 3.f}, {CHESTPLATE, 8.f}, {LEGGINGS, 6.f}, {BOOTS, 3.f}}},
+        {GOLD, {{HELMET, 2.f}, {CHESTPLATE, 5.f}, {LEGGINGS, 3.f}, {BOOTS, 2.f}}},
         {},
     };
 
-	static inline std::map<Material, double> weaponMaterialBaseDamage = {
+	static inline std::map<Material, float> weaponMaterialBaseDamage = {
         {},
-		{WOOD, 4.0},
+		{WOOD, 4.0f},
         {},
         {},
-		{IRON, 6.0},
-		{DIAMOND, 7.0},
-		{GOLD, 4.0},
-		{STONE, 5.0},
+		{IRON, 6.0f},
+		{DIAMOND, 7.0f},
+		{GOLD, 4.0f},
+		{STONE, 5.0f},
 	};
 
 // === INIT === //

@@ -3,7 +3,7 @@
 
 #include "menu/menu.h"
 
-inline void send_key(WORD vk_key, bool send_down = true) {
+inline static void send_key(WORD vk_key, bool send_down = true) {
 	unsigned long dwFlags = send_down ? 0 : KEYEVENTF_KEYUP;
 	static INPUT ip{ INPUT_KEYBOARD };
 	ip.ki = {
@@ -77,7 +77,7 @@ void SprintReset::RenderMenu()
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("sr_header", ImVec2(425, renderSettings ? 99 : 35), false))
+	if (ImGui::BeginChild("sr_header", ImVec2(425.f, renderSettings ? 99.f : 35.f), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();

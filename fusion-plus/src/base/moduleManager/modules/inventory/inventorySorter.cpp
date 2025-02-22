@@ -281,7 +281,7 @@ void InventorySorter::DoArmor()
 		}
 	}
 
-	for (ArmorInfo armor : armorTypes)
+	for (const ArmorInfo& armor : armorTypes)
 	{
 		if (armor.bestSlot != -1)
 		{
@@ -666,7 +666,7 @@ void InventorySorter::RenderMenu()
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("is_header", ImVec2(425, renderSettings ? 130 : 35), false))
+	if (ImGui::BeginChild("is_header", ImVec2(425.f, renderSettings ? 130.f : 35.f), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();
@@ -946,7 +946,7 @@ void InventorySorter::RenderInventoryEditor(bool& isOpen)
 		}
 
 		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82, settings::Menu_AccentColor[1] * 0.82, settings::Menu_AccentColor[2] * 0.82, settings::Menu_AccentColor[3] * 0.82));
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82f, settings::Menu_AccentColor[1] * 0.82f, settings::Menu_AccentColor[2] * 0.82f, settings::Menu_AccentColor[3] * 0.82f));
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
 
@@ -1122,7 +1122,7 @@ void InventorySorter::RenderCreateCategory(bool& isOpen, int categoryIndex = -1)
 		}
 
 		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82, settings::Menu_AccentColor[1] * 0.82, settings::Menu_AccentColor[2] * 0.82, settings::Menu_AccentColor[3] * 0.82));
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82f, settings::Menu_AccentColor[1] * 0.82f, settings::Menu_AccentColor[2] * 0.82f, settings::Menu_AccentColor[3] * 0.82f));
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
 

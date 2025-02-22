@@ -19,37 +19,6 @@ void Menu::Init()
 	Menu::PlaceHooks();
 	Logger::Log("Menu initialized");
 }
-
-//void Menu::ToggleButton(const char* format, bool* value)
-//{
-//	ImVec2 p = ImGui::GetCursorScreenPos();
-//	ImDrawList* draw_list = ImGui::GetWindowDrawList();
-//	float height = ImGui::GetFrameHeight() - 5;
-//	float width = height * 1.65f;
-//	float radius = height * 0.50f;
-//
-//	if (ImGui::InvisibleButton(format, ImVec2(width, height)))
-//		*value = !*value;
-//	ImU32 col_circle;
-//	ImU32 col_bg;
-//	if (ImGui::IsItemHovered()) 
-//	{
-//		col_circle = *value ? IM_COL32(255, 255, 255, 255) : IM_COL32(230, 230, 230, 255);
-//		col_bg = *value ? IM_COL32(settings::Menu_AccentColor[0] * 255, settings::Menu_AccentColor[1] * 255, settings::Menu_AccentColor[2] * 255, settings::Menu_AccentColor[3] * 255) : IM_COL32(settings::Menu_AccentColor[0] * 125, settings::Menu_AccentColor[1] * 125, settings::Menu_AccentColor[2] * 125, settings::Menu_AccentColor[3] * 255);
-//	}
-//	else 
-//	{
-//		col_circle = *value ? IM_COL32(230, 230, 230, 255) : IM_COL32(175, 175, 175, 255);
-//		col_bg = *value ? IM_COL32(settings::Menu_AccentColor[0] * 210, settings::Menu_AccentColor[1] * 210, settings::Menu_AccentColor[2] * 210, settings::Menu_AccentColor[3] * 255) : IM_COL32(settings::Menu_AccentColor[0] * 80, settings::Menu_AccentColor[1] * 80, settings::Menu_AccentColor[2] * 80, settings::Menu_AccentColor[3] * 255);
-//	}
-//
-//	float offsetX = 8;
-//	float offsetY = 3;
-//
-//	draw_list->AddRectFilled(ImVec2(p.x + offsetX, p.y + offsetY), ImVec2(p.x + width + offsetX, p.y + height + offsetY), col_bg, height * 0.5f);
-//	draw_list->AddCircleFilled(ImVec2(*value ? (p.x + width - radius + offsetX) : (p.x + radius + offsetX), p.y + radius + offsetY), radius - 1.5f, col_circle);
-//}
-
 bool Menu::TabButton(const char* format, ImVec4 color)
 {
 	ImGui::PushStyleColor(ImGuiCol_Button, color);
@@ -58,190 +27,12 @@ bool Menu::TabButton(const char* format, ImVec4 color)
 	return result;
 }
 
-//void Menu::DoSliderStuff(int id, const char* text, float* bruh, float min, float max) {
-//	ImVec2 textSize = Menu::Font->CalcTextSizeA(Menu::Font->FontSize, FLT_MAX, 0.0f, text);
-//
-//	// change the line color
-//	ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(settings::Menu_AccentColor[0] * 0.85, settings::Menu_AccentColor[1] * 0.85, settings::Menu_AccentColor[2] * 0.85, settings::Menu_AccentColor[3]));
-//	ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
-//
-//	ImGui::PushID(id);
-//	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() + 20, ImGui::GetCursorPosY() + 5));
-//	ImGui::Text(text);
-//	ImGui::SameLine();
-//	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 230 - textSize.x - 20);
-//	ImGui::SliderFloat("", bruh, min, max);
-//	ImGui::SameLine();
-//	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
-//	ImGui::PopID();
-//
-//	ImGui::PushID(id - 9);
-//	ImGui::InputFloat("", bruh);
-//	ImGui::PopStyleVar();
-//	ImGui::PopID();
-//
-//	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5);
-//
-//	ImGui::PopStyleColor();
-//	ImGui::PopStyleColor();
-//}
-//
-//void Menu::DoSliderStuff(int id, const char* text, int* bruh, int min, int max)
-//{
-//	ImVec2 textSize = Menu::Font->CalcTextSizeA(Menu::Font->FontSize, FLT_MAX, 0.0f, text);
-//
-//	// change the line color
-//	ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(settings::Menu_AccentColor[0] * 0.85, settings::Menu_AccentColor[1] * 0.85, settings::Menu_AccentColor[2] * 0.85, settings::Menu_AccentColor[3]));
-//	ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
-//
-//	ImGui::PushID(id);
-//	ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
-//	ImGui::Text(text);
-//	ImGui::SameLine();
-//	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 230 - textSize.x - 20);
-//	ImGui::SliderInt("", bruh, min, max);
-//	ImGui::SameLine();
-//	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
-//	ImGui::PopID();
-//
-//	ImGui::PushID(id - 9);
-//	ImGui::InputInt("", bruh, 0);
-//	ImGui::PopStyleVar();
-//	ImGui::PopID();
-//
-//	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5);
-//
-//	ImGui::PopStyleColor();
-//	ImGui::PopStyleColor();
-//}
-//
-//void Menu::DoToggleButtonStuff(int id, const char* text, bool* bruh) {
-//	ImVec2 textSize = Menu::Font->CalcTextSizeA(Menu::Font->FontSize, FLT_MAX, 0.0f, text);
-//
-//	ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
-//
-//	ImGui::PushID(id);
-//	ImGui::Text(text);
-//	ImGui::SameLine();
-//	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 340 - textSize.x);
-//	Menu::ToggleButton(text, bruh);
-//	ImGui::PopID();
-//}
-//
-//void Menu::DoColorPickerStuff(int id, const char* text, float* color)
-//{
-//	ImVec2 textSize = Menu::Font->CalcTextSizeA(Menu::Font->FontSize, FLT_MAX, 0.0f, text);
-//
-//	ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
-//
-//	ImGui::PushID(id);
-//	ImGui::Text(text);
-//	ImGui::SameLine();
-//	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 340 - textSize.x);
-//	ImGui::ColorEdit4("", color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
-//	ImGui::PopID();
-//}
-//
-//void Menu::DoComboBoxStuff(int id, const char* text, int* bruh, const char* items[], int listSize)
-//{
-//	ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
-//
-//	ImGui::PushID(id);
-//	ImGui::Text(text);
-//	ImGui::SameLine();
-//	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 208);
-//
-//	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
-//	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82, settings::Menu_AccentColor[1] * 0.82, settings::Menu_AccentColor[2] * 0.82, settings::Menu_AccentColor[3] * 0.82));
-//	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
-//	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
-//
-//	ImGui::Combo((std::to_string(id) + text).c_str(), bruh, items, listSize);
-//
-//	ImGui::PopStyleColor(3);
-//	ImGui::PopStyleVar();
-//	ImGui::PopID();
-//}
-//
-//void Menu::DoKeybindStuff(int id, const char* text, int& keybind)
-//{
-//	ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
-//
-//	ImGui::PushID(id);
-//	ImGui::Text(text);
-//	ImGui::SameLine();
-//	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 208);
-//
-//	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
-//	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82, settings::Menu_AccentColor[1] * 0.82, settings::Menu_AccentColor[2] * 0.82, settings::Menu_AccentColor[3] * 0.82));
-//	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
-//	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
-//
-//	/*ImGui::Button((std::to_string(*keybind) + "##" + std::to_string(id)).c_str(), ImVec2(100, 0));*/
-//
-//	int keys_size = IM_ARRAYSIZE(keys);
-//	char name[18];
-//	strncpy_s(name, keys[std::clamp(keybind, 0, keys_size)], 18);
-//	static bool binding = false;
-//
-//	if (binding)
-//	{
-//		ImGui::Button("[...]", ImVec2(100, 0));
-//
-//		for (int i = 0; i < keys_size; i++)
-//		{
-//			if (GetAsyncKeyState(i) & 0x8000)
-//			{
-//				if (i == VK_ESCAPE)
-//					keybind = 0;
-//				else
-//					keybind = i;
-//
-//				strncpy_s(name, keys[std::clamp(keybind, 0, keys_size)], 18);
-//
-//				binding = false;
-//
-//				break;
-//			}
-//		}
-//	}
-//	else
-//	{
-//		if (ImGui::Button(name, ImVec2(100, 0)))
-//			binding = true;
-//	}
-//
-//	ImGui::PopStyleColor(3);
-//	ImGui::PopStyleVar();
-//	ImGui::PopID();
-//}
-//
-//bool Menu::DoButtonStuff(int id, const char* text)
-//{
-//	ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
-//
-//	ImGui::PushID(id);
-//
-//	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
-//	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82, settings::Menu_AccentColor[1] * 0.82, settings::Menu_AccentColor[2] * 0.82, settings::Menu_AccentColor[3] * 0.82));
-//	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
-//	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
-//
-//	bool result = ImGui::Button(text, ImVec2(384, 0));
-//
-//	ImGui::PopStyleColor(3);
-//	ImGui::PopStyleVar();
-//	ImGui::PopID();
-//
-//	return result;
-//}
-
 void Menu::Slider(int id, const char* text, ImVec2 size, float* value, float min, float max, const char* format)
 {
 	ImGui::PushID(id);
 	ImVec2 textSize = Menu::Font->CalcTextSizeA(Menu::Font->FontSize, FLT_MAX, 0.0f, text);
 
-	ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(settings::Menu_AccentColor[0] * 0.85, settings::Menu_AccentColor[1] * 0.85, settings::Menu_AccentColor[2] * 0.85, settings::Menu_AccentColor[3]));
+	ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(settings::Menu_AccentColor[0] * 0.85f, settings::Menu_AccentColor[1] * 0.85f, settings::Menu_AccentColor[2] * 0.85f, settings::Menu_AccentColor[3]));
 	ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
 
 	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() + 20, ImGui::GetCursorPosY() + 5));
@@ -270,7 +61,7 @@ void Menu::Slider(int id, const char* text, ImVec2 size, int* value, int min, in
 	ImGui::PushID(id);
 	ImVec2 textSize = Menu::Font->CalcTextSizeA(Menu::Font->FontSize, FLT_MAX, 0.0f, text);
 
-	ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(settings::Menu_AccentColor[0] * 0.85, settings::Menu_AccentColor[1] * 0.85, settings::Menu_AccentColor[2] * 0.85, settings::Menu_AccentColor[3]));
+	ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(settings::Menu_AccentColor[0] * 0.85f, settings::Menu_AccentColor[1] * 0.85f, settings::Menu_AccentColor[2] * 0.85f, settings::Menu_AccentColor[3]));
 	ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
 
 	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() + 20, ImGui::GetCursorPosY() + 5));
@@ -363,7 +154,7 @@ void Menu::ComboBox(int id, const char* text, ImVec2 size, int* value, const cha
 	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + size.x - textSize.x - 20);
 
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5);
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82, settings::Menu_AccentColor[1] * 0.82, settings::Menu_AccentColor[2] * 0.82, settings::Menu_AccentColor[3] * 0.82));
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82f, settings::Menu_AccentColor[1] * 0.82f, settings::Menu_AccentColor[2] * 0.82f, settings::Menu_AccentColor[3] * 0.82f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
 	ImGui::Combo("", value, items, listSize);
@@ -386,7 +177,7 @@ void Menu::KeybindButton(int id, const char* text, ImVec2 size, int& keybind)
 	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + size.x - textSize.x - 20);
 
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5);
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82, settings::Menu_AccentColor[1] * 0.82, settings::Menu_AccentColor[2] * 0.82, settings::Menu_AccentColor[3] * 0.82));
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82f, settings::Menu_AccentColor[1] * 0.82f, settings::Menu_AccentColor[2] * 0.82f, settings::Menu_AccentColor[3] * 0.82f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
 
@@ -436,7 +227,7 @@ bool Menu::Button(int id, const char* text, ImVec2 size)
 	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() + 20, ImGui::GetCursorPosY() + 5));
 
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5);
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82, settings::Menu_AccentColor[1] * 0.82, settings::Menu_AccentColor[2] * 0.82, settings::Menu_AccentColor[3] * 0.82));
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82f, settings::Menu_AccentColor[1] * 0.82f, settings::Menu_AccentColor[2] * 0.82f, settings::Menu_AccentColor[3] * 0.82f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
 

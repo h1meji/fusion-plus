@@ -9,6 +9,9 @@
 #include "util/window/borderless.h"
 #include "patcher/patcher.h"
 
+#include "java/hook.h"
+#include "java/hotspot/hotspot.h"
+
 #include "minhook/minhook.h"
 
 #include "util/minecraft.h"
@@ -16,7 +19,7 @@
 #include <thread>
 #include <unordered_map>
 
-bool IsKeyReleased(int key)
+static bool IsKeyReleased(int key)
 {
 	static std::unordered_map<int, bool> keyStates;
 
@@ -25,6 +28,22 @@ bool IsKeyReleased(int key)
 	keyStates[key] = currentState;
 
 	return prevState && !currentState;
+}
+
+static void onGetClientModName(JNIEnv* env, bool* cancel)
+{
+	jobject new_name = env->NewStringUTF("fusion+");
+	JavaHook::set_return_value<void*>(cancel, *(void**)new_name);
+	*cancel = true;
+}
+
+static void getClientModName_callback(HotSpot::frame* frame, HotSpot::Thread* thread, bool* cancel)
+{
+	if (!Java::Env) return;
+	JNIEnv* env = thread->get_env();
+	JavaHook::JNIFrame jniFrame(env);
+	onGetClientModName(env, cancel);
+	return;
 }
 
 void Base::Init()
@@ -71,6 +90,22 @@ void Base::Init()
 	SDK::Init();
 
 	if (Java::Version == MinecraftVersion::LUNAR_1_8_9) Patcher::Init();
+
+	if (!HotSpot::init())
+	{
+		Logger::Log("Failed to initialize HotSpot");
+		MessageBoxA(NULL, "Failed to initialize HotSpot", "fusion+", MB_OK | MB_ICONERROR);
+		Logger::Kill();
+		MH_Uninitialize();
+		Java::Kill();
+		FreeLibraryAndExitThread(Main::HModule, 0);
+		return;
+	}
+
+	jclass clientBrandRetriever;
+	Java::AssignClass("net.minecraft.client.ClientBrandRetriever", clientBrandRetriever);
+	jmethodID getClientModName = Java::Env->GetStaticMethodID(clientBrandRetriever, "getClientModName", "()Ljava/lang/String;");
+	JavaHook::hook(getClientModName, getClientModName_callback);
 
 	Menu::Init();
 

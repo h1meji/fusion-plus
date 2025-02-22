@@ -19,7 +19,7 @@ public:
 	std::string GetCategory() override { return Category; }
 
 private:
-	bool isStealing;
+	bool isStealing = false;
 	std::chrono::time_point<std::chrono::steady_clock> lastStealTime;
 	std::chrono::time_point<std::chrono::steady_clock> activated;
 	std::vector<int> chestSlots;

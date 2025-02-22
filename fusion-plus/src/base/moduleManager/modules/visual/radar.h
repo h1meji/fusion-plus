@@ -30,5 +30,5 @@ private:
 	std::string Category = "Visual";
 
 	std::vector<Data> renderData;
-	float playerYaw;
+	float playerYaw = -1.f;
 };

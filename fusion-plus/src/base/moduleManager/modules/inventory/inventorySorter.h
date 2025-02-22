@@ -43,8 +43,6 @@ private:
 	void CombineStacks();
 	void DoSwords();
 
-	bool HasCycle(int slot, std::unordered_map<int, int>& visited);
-
 	void GeneratePath();
 	void ResetSort();
 	void RenderInventoryEditor(bool& isOpen);

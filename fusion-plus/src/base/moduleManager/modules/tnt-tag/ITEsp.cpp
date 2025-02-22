@@ -70,7 +70,7 @@ void ITEsp::Update()
 		entityHeight += settings::ITESP_BoxType == 0 ? 0.2f : 0;
 
 		Vector3 diff = pos - entityPos;
-		float dist = sqrt(pow(diff.x, 2) + pow(diff.y, 2) + pow(diff.z, 2)); // Sqrt((x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2)
+		float dist = sqrt(pow(diff.x, 2.f) + pow(diff.y, 2.f) + pow(diff.z, 2.f)); // Sqrt((x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2)
 		// Regular distance check.
 		if (dist > 300) {
 			continue;
@@ -90,7 +90,7 @@ void ITEsp::Update()
 		Vector3 back{ (renderPos - Vector3{0, entityHeight, entityWidth}) - entityLastPos + (entityLastPos - entityPos) * renderPartialTicks }; // In the middle to the back
 		Vector3 front{ (renderPos - Vector3{0, entityHeight, -entityWidth}) - entityLastPos + (entityLastPos - entityPos) * renderPartialTicks }; // And in the middle to the front
 
-		entityWidth /= settings::ITESP_BoxType == 0 ? 1.388888 : 1;
+		entityWidth /= settings::ITESP_BoxType == 0 ? 1.388888f : 1.f;
 		Vector3 left2{ (renderPos - Vector3{entityWidth, entityHeight, entityWidth}) - entityLastPos + (entityLastPos - entityPos) * renderPartialTicks }; // In the middle to the left
 		Vector3 right2{ (renderPos - Vector3{-entityWidth, entityHeight, -entityWidth}) - entityLastPos + (entityLastPos - entityPos) * renderPartialTicks }; // In the middle to the right
 		Vector3 back2{ (renderPos - Vector3{-entityWidth, entityHeight, entityWidth}) - entityLastPos + (entityLastPos - entityPos) * renderPartialTicks }; // In the middle to the back
@@ -310,7 +310,7 @@ void ITEsp::RenderUpdate()
 			}
 
 			const char* dist = data.distText.c_str();
-			float distTextSize = settings::ITESP_TextSize / 1.5;
+			float distTextSize = settings::ITESP_TextSize / 1.5f;
 			textSize = Menu::Font->CalcTextSizeA(distTextSize, FLT_MAX, 0.0f, dist);
 			posX = left + ((right - left) / 2) - (textSize.x / 2);
 			posY = bottom;
@@ -336,7 +336,7 @@ void ITEsp::RenderMenu()
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("itesp_header", ImVec2(425, renderSettings ? 260 : 35), false))
+	if (ImGui::BeginChild("itesp_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();

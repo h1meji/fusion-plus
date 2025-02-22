@@ -56,7 +56,7 @@ void TagBack::Update()
 
 			if (!thePlayer->CanEntityBeSeen(player.obj.GetInstance()) && settings::TB_visibilityCheck) continue;
 			Vector3 playerPos = player.pos;
-			float playerHeight = target.height - 0.1;
+			float playerHeight = target.height - 0.1f;
 			Vector3 playerHeadPos = playerPos + Vector3(0, playerHeight, 0);
 
 			Vector2 anglesFoot = Math::getAngles(headPos, playerPos);
@@ -72,7 +72,7 @@ void TagBack::Update()
 			float angleYaw = currentLookAngles.x - difference.x;
 
 			Vector3 diff = pos - playerPos;
-			float dist = sqrt(pow(diff.x, 2) + pow(diff.y, 2) + pow(diff.z, 2));
+			float dist = sqrt(pow(diff.x, 2.f) + pow(diff.y, 2.f) + pow(diff.z, 2.f));
 
 			if ((abs(difference.x) <= settings::TB_fov) && dist <= realAimDistance)
 			{
@@ -114,7 +114,7 @@ void TagBack::Update()
 	Vector3 ePos = target.pos;
 	Vector3 eLastPos = target.lastPos;
 
-	float eHeight = target.height - 0.1;
+	float eHeight = target.height - 0.1f;
 	Vector3 eHeadPos = ePos + Vector3(0, eHeight, 0);
 	Vector3 eLastHeadPos = eLastPos + Vector3(0, eHeight, 0);
 
@@ -154,12 +154,12 @@ void TagBack::Update()
 		if (diffFoot > diffHead)
 		{
 			targetPitch = targetPitchHead;
-			data = renderPos - Vector3(0, 0.21, 0) - eLastHeadPos + (eLastHeadPos - eHeadPos) * renderPartialTicks;
+			data = renderPos - Vector3(0.f, 0.21f, 0.f) - eLastHeadPos + (eLastHeadPos - eHeadPos) * renderPartialTicks;
 		}
 		else
 		{
 			targetPitch = targetPitchFoot;
-			data = renderPos - Vector3(0, 0.23, 0) - eLastPos + (eLastPos - ePos) * renderPartialTicks;
+			data = renderPos - Vector3(0.f, 0.23f, 0.f) - eLastPos + (eLastPos - ePos) * renderPartialTicks;
 		}
 		pitchInfluenced = true;
 		targetPitch += randomFloat(-settings::TB_randomPitch, settings::TB_randomPitch);
@@ -183,7 +183,7 @@ void TagBack::Update()
 
 		std::random_device rd;
 		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> distrib(settings::LAC_leftMinCps, settings::LAC_leftMaxCps);
+		std::uniform_int_distribution<> distrib((int)settings::LAC_leftMinCps, (int)settings::LAC_leftMaxCps);
 		nextCps = distrib(gen);
 	}
 }
@@ -196,9 +196,9 @@ void TagBack::RenderUpdate()
 		ImVec2 screenSize = ImGui::GetWindowSize();
 		float radAimbotFov = (float)(settings::TB_fov * PI / 180);
 		float radViewFov = (float)(CommonData::fov * PI / 180);
-		float circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * screenSize.x / 1.7325;
+		float circleRadius = tanf(radAimbotFov / 2.f) / tanf(radViewFov / 2.f) * screenSize.x / 1.7325f;
 
-		ImGui::GetWindowDrawList()->AddCircle(ImVec2(screenSize.x / 2, screenSize.y / 2), circleRadius, ImColor(settings::TB_fovCircleColor[0], settings::TB_fovCircleColor[1], settings::TB_fovCircleColor[2], settings::TB_fovCircleColor[3]), circleRadius / 3, 1);
+		ImGui::GetWindowDrawList()->AddCircle(ImVec2(screenSize.x / 2, screenSize.y / 2), circleRadius, ImColor(settings::TB_fovCircleColor[0], settings::TB_fovCircleColor[1], settings::TB_fovCircleColor[2], settings::TB_fovCircleColor[3]), (int)(circleRadius / 3.f), 1.f);
 	}
 
 	if (settings::TB_aimAssistFeedback) {
@@ -206,7 +206,7 @@ void TagBack::RenderUpdate()
 		ImVec2 screenSize = ImGui::GetWindowSize();
 
 		Vector2 w2s;
-		if (CWorldToScreen::WorldToScreen(data, CommonData::modelView, CommonData::projection, screenSize.x, screenSize.y, w2s))
+		if (CWorldToScreen::WorldToScreen(data, CommonData::modelView, CommonData::projection, (int)screenSize.x, (int)screenSize.y, w2s))
 		{
 			if (w2s.x == NAN) return;
 
@@ -231,7 +231,7 @@ void TagBack::RenderMenu()
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("tb_header", ImVec2(425, renderSettings ? 260 : 35), false))
+	if (ImGui::BeginChild("tb_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();

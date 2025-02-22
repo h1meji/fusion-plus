@@ -37,7 +37,7 @@ void Radar::Update()
 		bool isLocalPlayer = entity.pos == pos;
 
 		Vector3 diff = pos - entity.pos;
-		float dist = sqrt(pow(diff.x, 2) + pow(diff.y, 2) + pow(diff.z, 2)); // Sqrt((x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2)
+		float dist = sqrt(pow(diff.x, 2.f) + pow(diff.y, 2.f) + pow(diff.z, 2.f)); // Sqrt((x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2)
 		// Regular distance check.
 		if (dist > settings::Radar_Radius) {
 			continue;
@@ -71,7 +71,7 @@ void Radar::RenderUpdate()
 	);
 
 	auto rotatePoint = [](float x, float y, float angle) -> ImVec2 {
-		float rad = angle * (PI / 180);
+		float rad = angle * (float)((float)PI / 180.f);
 		float cosA = cos(rad);
 		float sinA = sin(rad);
 		return ImVec2(
@@ -147,8 +147,8 @@ void Radar::RenderUpdate()
 
 			// Draw other players as squares
 			ImGui::GetWindowDrawList()->AddRectFilled(
-				ImVec2(radarPos.x - 2.5, radarPos.y - 2.5),
-				ImVec2(radarPos.x + 2.5, radarPos.y + 2.5),
+				ImVec2(radarPos.x - 2.5f, radarPos.y - 2.5f),
+				ImVec2(radarPos.x + 2.5f, radarPos.y + 2.5f),
 				ConfigManager::IsFriend(data.name) ? friendColor : playerColor
 			);
 
@@ -177,7 +177,7 @@ void Radar::RenderMenu()
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("radar_header", ImVec2(425, renderSettings ? 260 : 35), false))
+	if (ImGui::BeginChild("radar_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();

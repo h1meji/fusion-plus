@@ -21,15 +21,15 @@ struct CommonData
 	inline static int thirdPersonView;
 	
 	struct PlayerData{
-		CEntityPlayer obj;
-		Vector3 pos;
-		Vector3 lastPos;
-		BoundingBox boundingBox;
-		std::string name;
-		float height;
-		float width;
-		float health;
-		float maxHealth;
+		CEntityPlayer obj = nullptr;
+		Vector3 pos = Vector3();
+		Vector3 lastPos = Vector3();
+		BoundingBox boundingBox = BoundingBox();
+		std::string name = "";
+		float height = FLT_MAX;
+		float width = FLT_MAX;
+		float health = FLT_MAX;
+		float maxHealth = FLT_MAX;
 
 		// Tag-Back head item
 		CItem headItem;
@@ -45,7 +45,7 @@ struct CommonData
 		fov = SDK::Minecraft->gameSettings->GetFOV();
 		thirdPersonView = SDK::Minecraft->gameSettings->GetThirdPersonView();
 
-		float ySubtractValue = 3.4;
+		float ySubtractValue = 3.4f;
 		if (SDK::Minecraft->thePlayer->IsSneaking())
 			ySubtractValue -= .175f;
 

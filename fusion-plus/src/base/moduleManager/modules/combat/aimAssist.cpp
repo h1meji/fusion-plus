@@ -111,7 +111,7 @@ void AimAssist::Update()
 			if (player.obj.IsInvisibleToPlayer(thePlayer->GetInstance()) && settings::AA_invisibleCheck) continue;
 
 			Vector3 playerPos = player.pos;
-			float playerHeight = target.height - 0.1;
+			float playerHeight = target.height - 0.1f;
 			Vector3 playerHeadPos = playerPos + Vector3(0, playerHeight, 0);
 
 			Vector2 anglesFoot = Math::getAngles(headPos, playerPos);
@@ -127,7 +127,7 @@ void AimAssist::Update()
 			float angleYaw = currentLookAngles.x - difference.x;
 
 			Vector3 diff = pos - playerPos;
-			float dist = sqrt(pow(diff.x, 2) + pow(diff.y, 2) + pow(diff.z, 2));
+			float dist = sqrt(pow(diff.x, 2.f) + pow(diff.y, 2.f) + pow(diff.z, 2.f));
 
 			if ((abs(difference.x) <= settings::AA_fov) && dist <= realAimDistance)
 			{
@@ -170,7 +170,7 @@ void AimAssist::Update()
 	Vector3 ePos = target.pos;
 	Vector3 eLastPos = target.lastPos;
 
-	float eHeight = target.height - 0.1;
+	float eHeight = target.height - 0.1f;
 	Vector3 eHeadPos = ePos + Vector3(0, eHeight, 0);
 	Vector3 eLastHeadPos = eLastPos + Vector3(0, eHeight, 0);
 
@@ -210,12 +210,12 @@ void AimAssist::Update()
 		if (diffFoot > diffHead) 
 		{
 			targetPitch = targetPitchHead;
-			data = renderPos - Vector3(0, 0.21, 0) - eLastHeadPos + (eLastHeadPos - eHeadPos) * renderPartialTicks;
+			data = renderPos - Vector3(0.f, 0.21f, 0.f) - eLastHeadPos + (eLastHeadPos - eHeadPos) * renderPartialTicks;
 		}
 		else 
 		{
 			targetPitch = targetPitchFoot;
-			data = renderPos - Vector3(0, 0.23, 0) - eLastPos + (eLastPos - ePos) * renderPartialTicks;
+			data = renderPos - Vector3(0.f, 0.23f, 0.f) - eLastPos + (eLastPos - ePos) * renderPartialTicks;
 		}
 		pitchInfluenced = true;
 		targetPitch += randomFloat(-settings::AA_randomPitch, settings::AA_randomPitch);
@@ -236,9 +236,9 @@ void AimAssist::RenderUpdate()
 		ImVec2 screenSize = ImGui::GetWindowSize();
 		float radAimbotFov = (float)(settings::AA_fov * PI / 180);
 		float radViewFov = (float)(CommonData::fov * PI / 180);
-		float circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * screenSize.x / 1.7325;
+		float circleRadius = tanf(radAimbotFov / 2.f) / tanf(radViewFov / 2.f) * screenSize.x / 1.7325f;
 
-		ImGui::GetWindowDrawList()->AddCircle(ImVec2(screenSize.x / 2, screenSize.y / 2), circleRadius, ImColor(settings::AA_fovCircleColor[0], settings::AA_fovCircleColor[1], settings::AA_fovCircleColor[2], settings::AA_fovCircleColor[3]), circleRadius / 3, 1);
+		ImGui::GetWindowDrawList()->AddCircle(ImVec2(screenSize.x / 2.f, screenSize.y / 2.f), circleRadius, ImColor(settings::AA_fovCircleColor[0], settings::AA_fovCircleColor[1], settings::AA_fovCircleColor[2], settings::AA_fovCircleColor[3]), (int)(circleRadius / 3.f), 1.f);
 	}
 
 	if (settings::AA_aimAssistFeedback) {
@@ -271,7 +271,7 @@ void AimAssist::RenderMenu()
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("aa_header", ImVec2(425, renderSettings ? 260 : 35), false))
+	if (ImGui::BeginChild("aa_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();

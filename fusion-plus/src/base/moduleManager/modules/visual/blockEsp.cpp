@@ -20,23 +20,23 @@ void BlockEsp::Update()
 	Vector3 lastTickPos = player->GetLastTickPos();
 	Vector3 playerPosition = lastTickPos + (player->GetPos() - lastTickPos) * CommonData::renderPartialTicks;
 
-	int xLimit = playerPosition.x + range * 2;
-	int yLimit = playerPosition.y + range * 2;
-	int zLimit = playerPosition.z + range * 2;
+	int xLimit = (int)playerPosition.x + range * 2;
+	int yLimit = (int)playerPosition.y + range * 2;
+	int zLimit = (int)playerPosition.z + range * 2;
 
 	std::vector<Data> newRenderData;
-	for (int x = playerPosition.x - range; x < xLimit; x++)
+	for (int x = (int)playerPosition.x - range; x < xLimit; x++)
 	{
-		for (int y = playerPosition.y - range; y < yLimit; y++)
+		for (int y = (int)playerPosition.y - range; y < yLimit; y++)
 		{
-			for (int z = playerPosition.z - range; z < zLimit; z++)
+			for (int z = (int)playerPosition.z - range; z < zLimit; z++)
 			{
 				CBlockPos pos = CBlockPos(x, y, z);
 				CBlock block = world->GetBlockState(pos).GetBlock();
 
 				if (block.GetBlockId() == 0 || block.GetBlockId() != settings::BlockESP_TargetID) continue;
 
-				Vector3 blockPos = Vector3(x, y, z);
+				Vector3 blockPos = Vector3((float)x, (float)y, (float)z);
 
 				std::cout << block.GetBlockId() << " found at " << blockPos.x << " " << blockPos.y << " " << blockPos.z << std::endl;
 
@@ -86,7 +86,7 @@ void BlockEsp::RenderMenu()
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("besp_header", ImVec2(425, renderSettings ? 260 : 35), false))
+	if (ImGui::BeginChild("besp_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();

@@ -4,7 +4,7 @@
 #include "menu/menu.h"
 #include <moduleManager/commonData.h>
 
-inline void send_key(WORD vk_key, bool send_down = true)
+inline static void send_key(WORD vk_key, bool send_down = true)
 {
 	static INPUT ip{ INPUT_KEYBOARD };
 
@@ -76,7 +76,7 @@ void Velocity::RenderMenu()
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("velocity_header", ImVec2(425, renderSettings ? 128 : 35), false))
+	if (ImGui::BeginChild("velocity_header", ImVec2(425.f, renderSettings ? 128.f : 35.f), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();

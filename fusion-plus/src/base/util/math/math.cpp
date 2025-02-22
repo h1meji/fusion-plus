@@ -68,13 +68,13 @@ Vector2 Math::getAngles(Vector3 pos, Vector3 pos1)
 	return Vector2(yaw, pitch);
 }
 
-float Math::radiantsToDeg(float x)
+float Math::radiantsToDeg(double x)
 {
-	return x * 180.f / PI;
+	return (float)x * 180.f / (float)PI;
 }
 
 float Math::degToRadiants(float x)
 {
-	return x * PI / 180.f;
+	return x * (float)PI / 180.f;
 }
 

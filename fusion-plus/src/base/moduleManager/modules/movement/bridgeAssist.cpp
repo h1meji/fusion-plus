@@ -4,7 +4,7 @@
 #include <util/logger.h>
 #include <moduleManager/commonData.h>
 
-inline void send_key(WORD vk_key, bool send_down = true)
+inline static void send_key(WORD vk_key, bool send_down = true)
 {
 	static INPUT ip{ INPUT_KEYBOARD };
 
@@ -17,14 +17,14 @@ inline void send_key(WORD vk_key, bool send_down = true)
 	SendInput(1, &ip, sizeof(INPUT));
 }
 
-void SendShiftKey(HWND hWnd, bool send_down) {
+static void SendShiftKey(HWND hWnd, bool send_down) {
 	if (send_down)
 	{
-		PostMessage(hWnd, WM_KEYDOWN, VK_SHIFT, (MapVirtualKey(VK_SHIFT, 0) << 16));
+		PostMessage(hWnd, WM_KEYDOWN, VK_SHIFT, static_cast<LPARAM>(MapVirtualKey(VK_SHIFT, 0) << 16));
 	}
 	else
 	{
-		PostMessage(hWnd, WM_KEYUP, VK_SHIFT, (MapVirtualKey(VK_SHIFT, 0) << 16) | (1 << 30) | (1 << 31));
+		PostMessage(hWnd, WM_KEYUP, VK_SHIFT, (static_cast<LPARAM>(MapVirtualKey(VK_SHIFT, 0)) << 16) | (static_cast<long long>(1) << 30) | (static_cast<long long>(1) << 31));
 	}
 }
 
@@ -158,7 +158,7 @@ void BridgeAssist::RenderMenu()
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("ba_header", ImVec2(425, renderSettings ? 146 : 35), false))
+	if (ImGui::BeginChild("ba_header", ImVec2(425.f, renderSettings ? 146.f : 35.f), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();

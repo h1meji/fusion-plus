@@ -7,7 +7,7 @@ struct settings {
 	inline static std::vector<std::string> friends;
 
 	// Menu
-	inline static float Menu_AccentColor[4]{ 0, 0.4, 0.4, 1.0f };
+	inline static float Menu_AccentColor[4]{ 0, 0.4f, 0.4f, 1.0f };
 	inline static bool Menu_GUIMovement = false;
 	inline static bool Menu_Watermark = true;
 	inline static bool Menu_DisableAllRendering = false;
@@ -47,9 +47,9 @@ struct settings {
 	inline static int AL_renderPosition = 1;
 	inline static const char* AL_renderPositionList[4]{ "Top Left", "Top Right", "Bottom Left", "Bottom Right" };
 	inline static float AL_textSize = 18;
-	inline static float AL_textColor[4]{ 1, 1, 1, 1 };
+	inline static float AL_textColor[4]{ 1.f, 1.f, 1.f, 1.f };
 	inline static float AL_backgroundPadding = 5;
-	inline static float AL_backgroundColor[4]{ 0, 0, 0, 0.8 };
+	inline static float AL_backgroundColor[4]{ 0.f, 0.f, 0.f, 0.8f };
 	inline static float AL_backgroundRoundness = 5.f;
 
 	// Radar
@@ -63,7 +63,7 @@ struct settings {
 	inline static float Radar_LocalPlayerColor[4]{ 1, 0.5, 0, 1 };
 	inline static float Radar_PlayerColor[4]{ 1, 1, 1, 1 };
 	inline static float Radar_FriendColor[4]{ 0, 1, 0, 1 };
-	inline static float Radar_BackgroundColor[4]{ 0, 0, 0, 0.8 };
+	inline static float Radar_BackgroundColor[4]{ 0.f, 0.f, 0.f, 0.8f };
 
 	// Block ESP
 	inline static bool BlockESP_Enabled = false;
@@ -79,11 +79,11 @@ struct settings {
 	inline static bool AA_mousePressCheck = true;
 	inline static bool AA_mouseMoveCheck = false;
 	inline static bool AA_aimAssistFeedback = true;
-	inline static float AA_aimAssistFeedbackColor[4]{ 1, 1, 1, 1 };
+	inline static float AA_aimAssistFeedbackColor[4]{ 1.f, 1.f, 1.f, 1.f };
 	inline static bool AA_fovCircle = true;
-	inline static float AA_fovCircleColor[4]{ 1, 1, 1, 1 };
+	inline static float AA_fovCircleColor[4]{ 1.f, 1.f, 1.f, 1.f };
 	inline static bool AA_adaptive = true;
-	inline static float AA_adaptiveOffset = 3;
+	inline static float AA_adaptiveOffset = 3.f;
 	inline static float AA_fov = 35.0f;
 	inline static float AA_smooth = 15.f;
 	inline static float AA_aimDistance = 4.f;
