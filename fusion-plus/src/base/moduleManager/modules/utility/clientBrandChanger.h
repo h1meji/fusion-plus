@@ -10,14 +10,6 @@
 class ClientBrandChanger : public ModuleBase
 {
 public:
-	ClientBrandChanger()
-	{
-		if (JavaHook::hook(StrayCache::clientBrandRetriever_getClientModName, getClientModName_callback))
-		{
-			Logger::Log("Hooked ClientBrandRetriever.getClientModName");
-		}
-	}
-
 	void Update() override;
 	void RenderUpdate() override {}
 

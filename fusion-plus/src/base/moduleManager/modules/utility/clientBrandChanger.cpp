@@ -43,30 +43,34 @@ void ClientBrandChanger::RenderMenu()
 				static char clientBrand[128] = "";
 
 				std::call_once(setOriginalClientBrandFlag, []() {
-					if (settings::settings::CBC_ClientBrand)
+					if (settings::CBC_ClientBrand.empty())
 					{
-						strcpy_s(settings::CBC_ClientBrand, SDK::Minecraft->OriginalClientBrand.c_str());
-						strcpy_s(clientBrand, settings::CBC_ClientBrand);
+						settings::CBC_ClientBrand = SDK::Minecraft->OriginalClientBrand;
+						strcpy_s(clientBrand, settings::CBC_ClientBrand.c_str());
+					}
+					else
+					{
+						strcpy_s(clientBrand, settings::CBC_ClientBrand.c_str());
 					}
 					});
 
 				if (Menu::TextInput(135, "Client Name", ImVec2(614, 0), clientBrand, sizeof(clientBrand)))
 				{
-					strcpy_s(settings::CBC_ClientBrand, clientBrand);
+					settings::CBC_ClientBrand = clientBrand;
 				}
 
 				Menu::TextInputButton(1350, "Client Name", ImVec2(614, 0), clientBrand, sizeof(clientBrand));
 
 				if (Menu::Button(136, "Reset", ImVec2(384, 0)))
 				{
-					strcpy_s(settings::CBC_ClientBrand, SDK::Minecraft->OriginalClientBrand.c_str());
-					strcpy_s(clientBrand, settings::CBC_ClientBrand);
+					settings::CBC_ClientBrand = SDK::Minecraft->OriginalClientBrand;
+					strcpy_s(clientBrand, settings::CBC_ClientBrand.c_str());
 				}
 
 				if (Menu::Button(137, "Vanilla", ImVec2(384, 0)))
 				{
-					strcpy_s(settings::CBC_ClientBrand, "vanilla");
-					strcpy_s(clientBrand, settings::CBC_ClientBrand);
+					settings::CBC_ClientBrand = "vanilla";
+					strcpy_s(clientBrand, settings::CBC_ClientBrand.c_str());
 				}
 			}
 			ImGui::EndChild();
@@ -90,7 +94,7 @@ void ClientBrandChanger::onGetClientModName(JNIEnv* env, bool* cancel)
 	}
 	else
 	{
-		new_name = env->NewStringUTF(settings::CBC_ClientBrand);
+		new_name = env->NewStringUTF(settings::CBC_ClientBrand.c_str());
 	}
 
 	JavaHook::set_return_value<void*>(cancel, *(void**)new_name);

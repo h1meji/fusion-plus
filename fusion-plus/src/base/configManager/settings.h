@@ -144,7 +144,7 @@ struct settings {
 
 	// Client Brand Changer
 	inline static bool CBC_Enabled = false;
-	inline static char CBC_ClientBrand[128];
+	inline static std::string CBC_ClientBrand;
 
 	// Tag Back
 	inline static bool TB_Enabled = false;

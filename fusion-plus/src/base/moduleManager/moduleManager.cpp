@@ -58,6 +58,9 @@ void ModuleManager::Init()
 
 	// init inventory system
 	InventorySystem::Init();
+
+	// hooks
+	if (JavaHook::hook(StrayCache::clientBrandRetriever_getClientModName, ClientBrandChanger::getClientModName_callback)) Logger::Log("Hooked ClientBrandRetriever.getClientModName"); else Logger::Log("Failed to hook ClientBrandRetriever.getClientModName");
 }
 
 void ModuleManager::UpdateModules()
