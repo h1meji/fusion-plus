@@ -178,7 +178,7 @@ void ArrayList::RenderMenu()
 				Menu::ColorPicker(83, "Text Color", ImVec2(374, 0), settings::AL_textColor);
 				Menu::Slider(84, "Background Padding", ImVec2(225, 0), &settings::AL_backgroundPadding, 0, 20);
 				Menu::ColorPicker(85, "Background Color", ImVec2(374, 0), settings::AL_backgroundColor);
-				Menu::Slider(86, "Background Roundness", ImVec2(225, 0), &settings::AL_backgroundRoundness, 0, 10);
+				Menu::Slider(126, "Background Roundness", ImVec2(225, 0), &settings::AL_backgroundRoundness, 0, 10);
 			}
 			ImGui::EndChild();
 			ImGui::Spacing();
