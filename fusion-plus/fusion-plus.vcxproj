@@ -178,6 +178,7 @@
     <ClInclude Include="src\base\patcher\patcher.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\block\Block.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\block\state\IBlockState.h" />
+    <ClInclude Include="src\base\sdk\net\minecraft\client\ClientBrandRetriever.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\client\gui\inventory\GuiChest.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\client\gui\inventory\GuiContainer.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\client\multiplayer\PlayerControllerMP.h" />
@@ -275,6 +276,7 @@
     <ClCompile Include="src\base\patcher\patcher.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\block\Block.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\block\state\IBlockState.cpp" />
+    <ClCompile Include="src\base\sdk\net\minecraft\client\ClientBrandRetriever.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\client\gui\inventory\GuiChest.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\client\gui\inventory\GuiContainer.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\client\multiplayer\PlayerControllerMP.cpp" />

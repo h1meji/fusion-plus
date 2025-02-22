@@ -176,6 +176,10 @@ struct StrayCache {
 	inline static jclass enchantmentHelper_class;
 	inline static jmethodID enchantmentHelper_getEnchantments;
 
+	// CLIENT BRAND RETRIEVER CLASS
+	inline static jclass clientBrandRetriever_class;
+	inline static jmethodID clientBrandRetriever_getClientModName;
+
 	// STRINGS
 	inline static const char* inventory_class_name;
 	inline static const char* chest_gui_class_name;
@@ -329,6 +333,9 @@ struct StrayCache {
 
 			Java::AssignClass("net.minecraft.enchantment.EnchantmentHelper", enchantmentHelper_class);
 			enchantmentHelper_getEnchantments = Java::Env->GetStaticMethodID(enchantmentHelper_class, "getEnchantments", "(Lnet/minecraft/item/ItemStack;)Ljava/util/Map;");
+
+			Java::AssignClass("net.minecraft.client.ClientBrandRetriever", clientBrandRetriever_class);
+			clientBrandRetriever_getClientModName = Java::Env->GetStaticMethodID(clientBrandRetriever_class, "getClientModName", "()Ljava/lang/String;");
 
 			inventory_class_name = "net.minecraft.client.gui.inventory.GuiInventory";
 			chest_gui_class_name = "net.minecraft.client.gui.inventory.GuiChest";
