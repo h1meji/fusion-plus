@@ -10,7 +10,7 @@
 class ClientBrandChanger : public ModuleBase
 {
 public:
-	void Update() override;
+	void Update() override {};
 	void RenderUpdate() override {}
 
 	void RenderMenu() override;
