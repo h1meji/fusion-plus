@@ -164,6 +164,7 @@
     <ClInclude Include="src\base\moduleManager\modules\inventory\inventorySorter.h" />
     <ClInclude Include="src\base\moduleManager\modules\movement\sprintReset.h" />
     <ClInclude Include="src\base\moduleManager\modules\movement\velocity.h" />
+    <ClInclude Include="src\base\moduleManager\modules\utility\blockReach.h" />
     <ClInclude Include="src\base\moduleManager\modules\utility\clientBrandChanger.h" />
     <ClInclude Include="src\base\notificationManager\notificationManager.h" />
     <ClInclude Include="src\base\moduleManager\modules\tnt-tag\ITEsp.h" />
@@ -266,6 +267,7 @@
     <ClCompile Include="src\base\moduleManager\modules\inventory\inventorySorter.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\movement\sprintReset.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\movement\velocity.cpp" />
+    <ClCompile Include="src\base\moduleManager\modules\utility\blockReach.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\utility\clientBrandChanger.cpp" />
     <ClCompile Include="src\base\notificationManager\notificationManager.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\tnt-tag\ITEsp.cpp" />

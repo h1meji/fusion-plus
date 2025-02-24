@@ -146,6 +146,10 @@ struct settings {
 	inline static bool CBC_Enabled = false;
 	inline static std::string CBC_ClientBrand;
 
+	// Block Reach
+	inline static bool BR_Enabled = false;
+	inline static float BR_ReachDistance = 4.5f;
+
 	// Tag Back
 	inline static bool TB_Enabled = false;
 	inline static bool TB_visibilityCheck = true;

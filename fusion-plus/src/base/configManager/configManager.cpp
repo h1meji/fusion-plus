@@ -181,6 +181,10 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["CBC_Enabled"] = settings::CBC_Enabled;
 	j["CBC_ClientBrand"] = settings::CBC_ClientBrand;
 
+	// Block Reach
+	j["BR_Enabled"] = settings::BR_Enabled;
+	j["BR_ReachDistance"] = settings::BR_ReachDistance;
+
 	// Tag Back
 	j["TB_Enabled"] = settings::TB_Enabled;
 	j["TB_visibilityCheck"] = settings::TB_visibilityCheck;
@@ -356,6 +360,10 @@ bool ConfigManager::JsonToSettings(const json& j)
 	// Client Brand Changer
 	ConfigManager::GetJsonValue(j, settings::CBC_Enabled, "CBC_Enabled");
 	ConfigManager::GetJsonValue(j, settings::CBC_ClientBrand, "CBC_ClientBrand");
+
+	// Block Reach
+	ConfigManager::GetJsonValue(j, settings::BR_Enabled, "BR_Enabled");
+	ConfigManager::GetJsonValue(j, settings::BR_ReachDistance, "BR_ReachDistance");
 
 	// Tag Back
 	ConfigManager::GetJsonValue(j, settings::TB_Enabled, "TB_Enabled");

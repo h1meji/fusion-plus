@@ -99,6 +99,7 @@ struct StrayCache {
 	// ENTITY PLAYER MP CLASS
 	inline static jclass playerControllerMP_class;
 	inline static jmethodID playerControllerMP_windowClick;
+	inline static jmethodID playerControllerMP_getBlockReachDistance;
 
 	// AXIS ALIGNED BB CLASS
 	inline static jclass axisAlignedBB_class;
@@ -271,6 +272,7 @@ struct StrayCache {
 
 			Java::AssignClass("net.minecraft.client.multiplayer.PlayerControllerMP", playerControllerMP_class);
 			playerControllerMP_windowClick = Java::Env->GetMethodID(playerControllerMP_class, "windowClick", "(IIIILnet/minecraft/entity/player/EntityPlayer;)Lnet/minecraft/item/ItemStack;");
+			playerControllerMP_getBlockReachDistance = Java::Env->GetMethodID(playerControllerMP_class, "getBlockReachDistance", "()F");
 
 			Java::AssignClass("net.minecraft.util.AxisAlignedBB", axisAlignedBB_class);
 			axisAlignedBB_minX = Java::Env->GetFieldID(axisAlignedBB_class, "minX", "D");

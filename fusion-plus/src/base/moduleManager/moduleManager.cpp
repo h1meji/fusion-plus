@@ -14,6 +14,7 @@
 #include "modules/inventory/inventorySorter.h"
 #include "modules/utility/arrayList.h"
 #include "modules/utility/clientBrandChanger.h"
+#include "modules/utility/blockReach.h"
 #include "modules/tnt-tag/tagBack.h"
 #include "modules/tnt-tag/ITEsp.h"
 #include "commonData.h"
@@ -22,6 +23,7 @@
 #include <imgui/imgui.h>
 
 #include "util/inventory.h"
+
 
 void ModuleManager::Init()
 {
@@ -39,6 +41,7 @@ void ModuleManager::Init()
 	modules.push_back(std::make_unique<InventorySorter>());
 	modules.push_back(std::make_unique<ArrayList>());
 	modules.push_back(std::make_unique<ClientBrandChanger>());
+	modules.push_back(std::make_unique<BlockReach>());
 
 	modules.push_back(std::make_unique<TagBack>());
 	modules.push_back(std::make_unique<ITEsp>());
@@ -61,6 +64,7 @@ void ModuleManager::Init()
 
 	// hooks
 	if (JavaHook::hook(StrayCache::clientBrandRetriever_getClientModName, ClientBrandChanger::getClientModName_callback)) Logger::Log("Hooked ClientBrandRetriever.getClientModName"); else Logger::Log("Failed to hook ClientBrandRetriever.getClientModName");
+	if (JavaHook::hook(StrayCache::playerControllerMP_getBlockReachDistance, BlockReach::getBlockReachDistance_callback)) Logger::Log("Hooked PlayerControllerMP.getBlockReachDistance"); else Logger::Log("Failed to hook PlayerControllerMP.getBlockReachDistance");
 }
 
 void ModuleManager::UpdateModules()
