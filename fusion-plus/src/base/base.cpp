@@ -52,6 +52,11 @@ void Base::Init()
 		break;
 	case MinecraftVersion::VANILLA_1_7_10:
 		Logger::Log("Vanilla 1.7.10 detected");
+	case MinecraftVersion::FORGE_1_8_9:
+		Logger::Log("Forge 1.8.9 detected");
+		break;
+	case MinecraftVersion::FORGE_1_7_10:
+		Logger::Log("Forge 1.7.10 detected");
 		break;
 	case MinecraftVersion::UNKNOWN:
 		Logger::Log("Unknown Minecraft version detected");

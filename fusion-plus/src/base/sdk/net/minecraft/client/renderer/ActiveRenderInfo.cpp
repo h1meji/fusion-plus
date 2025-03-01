@@ -8,8 +8,8 @@
 CActiveRenderInfo::CActiveRenderInfo()
 {
 	this->Class = StrayCache::activeRenderInfo_class;
-	this->FieldIDs["PROJECTION"] = StrayCache::activeRenderInfo_projection;
-	this->FieldIDs["MODELVIEW"] = StrayCache::activeRenderInfo_modelView;
+	this->FieldIDs["PROJECTION"] = StrayCache::activeRenderInfo_PROJECTION;
+	this->FieldIDs["MODELVIEW"] = StrayCache::activeRenderInfo_MODELVIEW;
 }
 
 jclass CActiveRenderInfo::GetClass()
