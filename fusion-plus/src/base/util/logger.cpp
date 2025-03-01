@@ -32,7 +32,7 @@ void Logger::Kill()
 
 void Logger::Log(const char* format, ...)
 {
-	//if (!Logger::Initialized) Logger::Init();
+	if (!Logger::Initialized) return;
 
 	std::va_list args;
 	va_start(args, format);
@@ -45,14 +45,14 @@ void Logger::Log(const char* format, ...)
 
 void Logger::LogPosition(Vector3 position)
 {
-	if (!Logger::Initialized) Logger::Init();
+	if (!Logger::Initialized) return;
 
 	std::cout << "[ LOG POS ] :: X -> " << position.x << " Y -> " << position.y << " Z ->" << position.z << std::endl;
 }
 
 void Logger::Err(const char* format, ...)
 {
-	if (!Logger::Initialized) Logger::Init();
+	if (!Logger::Initialized) return;
 
 	std::va_list args;
 	va_start(args, format);
@@ -65,7 +65,7 @@ void Logger::Err(const char* format, ...)
 
 void Logger::LogWait(int seconds, const char* format, ...)
 {
-	if (!Logger::Initialized) Logger::Init();
+	if (!Logger::Initialized) return;
 
 	std::va_list args;
 	va_start(args, format);
@@ -79,7 +79,7 @@ void Logger::LogWait(int seconds, const char* format, ...)
 
 void Logger::ErrWait(int seconds, const char* format, ...)
 {
-	if (!Logger::Initialized) Logger::Init();
+	if (!Logger::Initialized) return;
 
 	std::va_list args;
 	va_start(args, format);
