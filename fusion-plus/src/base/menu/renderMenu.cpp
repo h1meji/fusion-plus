@@ -120,7 +120,7 @@ static void RenderSettingsMenu()
 
 	ImGui::SeparatorText("Friends List");
 
-	int height = min(3 , settings::friends.size());
+	int height = min(3 , settings::friends.size() > 0 ? settings::friends.size() : 1);
 	static int friendIndex = -1;
 	if (ImGui::BeginChild("##friendslist", ImVec2(450.f, ImGui::GetTextLineHeightWithSpacing() * height), false))
 	{
