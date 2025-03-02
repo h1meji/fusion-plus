@@ -115,7 +115,7 @@ static void UpdateDllThread()
 {
 	dllUpdating = true;
 	updateStatus = "Updating DLL...";
-	if (BaseUtils::UpdateDll()) {
+	if (BaseUtils::UpdateDll(Update::oldDllPath)) {
 		updateStatus = "DLL Updated!";
 	}
 	else {
@@ -176,6 +176,8 @@ static void AnimateUpdateStatus()
 	}
 }
 
+#include <iostream>
+
 bool Screen::Render()
 {
 	static bool update = BaseUtils::IsInjectorUpdated();
@@ -205,14 +207,13 @@ bool Screen::Render()
 	ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize, ImGuiCond_Always);
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0);
-	ImGui::Begin("Fusion Injector", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus | /*ImGuiWindowFlags_NoBackground |*/ ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav);
+	ImGui::Begin("Fusion Injector", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav);
 	ImGui::PopStyleVar();
 
 	if (!update)
 	{
 		if (ImGui::Button("Update Available"))
 		{
-			// Start Injector update thread
 			std::thread injectorUpdateThread(UpdateInjectorThread);
 			injectorUpdateThread.detach();
 			update = false;
@@ -232,7 +233,6 @@ bool Screen::Render()
 		{
 			if (ProcessManager::InjectDLL(processes[selectedProcess].processId, FolderManager::GetDllPath().c_str()))
 			{
-				// MessageBoxA(NULL, "Injected successfully!", "Fusion Injector", MB_OK | MB_ICONINFORMATION);
 			}
 			else
 			{
@@ -289,7 +289,7 @@ bool Screen::Render()
 
 	if (!BaseUtils::IsDllUpdated() && !dllUpdated)
 	{
-		// Start DLL update thread
+		Update::oldDllPath = FolderManager::GetDllPath();
 		std::thread dllUpdateThread(UpdateDllThread);
 		dllUpdateThread.detach();
 		dllUpdated = true;

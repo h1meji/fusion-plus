@@ -1,8 +1,11 @@
 #include "base.h"
 
+#include <thread>
+
 #include "request/request.h"
 #include "folder/folder.h"
 #include "update/update.h"
+#include <iostream>
 
 Base::Base()
 {
@@ -14,6 +17,8 @@ void Base::Run()
 {
 	while (window.Update()) // update the window
 	{
+		// sleep for 1ms to reduce CPU usage
+		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	}
 }
 
@@ -46,14 +51,14 @@ bool BaseUtils::IsInjectorUpdated()
 	return Update::CompareVersions(INJECTOR_VERSION, info.injectorVersion);
 }
 
-bool BaseUtils::UpdateDll()
+bool BaseUtils::UpdateDll(std::string oldPath)
 {
 	Update::UpdateInfo info = Update::GetUpdateInfo("https://pastebin.com/raw/ZvJ2wmif");
 
 	if (info.clientVersion.empty() || info.clientDownloadUrl.empty())
 		return false;
 
-	return Update::UpdateDll("fusion-plus_v" + info.clientVersion + ".dll", info.clientDownloadUrl);
+	return Update::UpdateDll("fusion-plus_v" + info.clientVersion + ".dll", info.clientDownloadUrl, oldPath);
 }
 
 bool BaseUtils::UpdateInjector()

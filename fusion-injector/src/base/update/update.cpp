@@ -1,4 +1,5 @@
 #include "update.h"
+#include <iostream>
 
 #include "request/request.h"
 #include "folder/folder.h"
@@ -23,7 +24,7 @@ Update::UpdateInfo Update::GetUpdateInfo(const std::string& url)
 	return info;
 }
 
-bool Update::UpdateDll(const std::string& fileName, const std::string& downloadUrl, const std::string& dllPath)
+bool Update::UpdateDll(const std::string& fileName, const std::string& downloadUrl, const std::string& oldPath, const std::string& dllPath)
 {
 	std::wstring convertedUrl = std::wstring(downloadUrl.begin(), downloadUrl.end());
 	std::wstring convertedPath = std::wstring(dllPath.begin(), dllPath.end());
@@ -37,7 +38,19 @@ bool Update::UpdateDll(const std::string& fileName, const std::string& downloadU
 
 	std::wstring fullPath = convertedPath + L"\\" + convertedFileName;
 
-	return Request::DownloadToFile(convertedUrl, fullPath);
+	if (Request::DownloadToFile(convertedUrl, fullPath))
+	{
+		// Delete the old DLL
+		if (oldPath != "")
+		{
+			std::wstring oldDll = std::wstring(oldPath.begin(), oldPath.end());
+			DeleteFile(oldDll.c_str());
+		}
+
+		return true;
+	}
+
+	return false;
 }
 
 bool Update::UpdateInjector(const std::string& fileName, const std::string& downloadUrl, const std::string& injectorPath)

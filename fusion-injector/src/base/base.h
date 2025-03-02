@@ -21,6 +21,6 @@ namespace BaseUtils
 	static inline std::string new_injetor_version;
 	bool IsDllUpdated();
 	bool IsInjectorUpdated();
-	bool UpdateDll();
+	bool UpdateDll(std::string oldPath);
 	bool UpdateInjector();
 }

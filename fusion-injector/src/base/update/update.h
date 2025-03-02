@@ -16,8 +16,10 @@ namespace Update
 		std::string injectorDownloadUrl;
 	};
 
+	static std::string oldDllPath = "";
+
 	UpdateInfo GetUpdateInfo(const std::string& url);
-	bool UpdateDll(const std::string& fileName, const std::string& downloadUrl, const std::string& dllPath = "");
+	bool UpdateDll(const std::string& fileName, const std::string& downloadUrl, const std::string& oldPath, const std::string& dllPath = "");
 	bool UpdateInjector(const std::string& fileName, const std::string& downloadUrl, const std::string& injectorPath = "");
 
 	bool CompareVersions(const int currentVersion[3], const int jsonVersion[3]);
