@@ -87,7 +87,7 @@ static void RenderConfigMenu()
 	// input box to save config
 	static char saveConfigName[128] = "";
 	std::call_once(*setConfigName, []() {
-		const char* selectedConfigNameC = configFiles[selectedConfig].c_str();
+		const char* selectedConfigNameC = configFiles.size() > 0 ? configFiles[selectedConfig].c_str() : "";
 		strcpy_s(saveConfigName, selectedConfigNameC);
 		});
 
