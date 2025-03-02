@@ -10,6 +10,7 @@
 #include "modules/movement/bridgeAssist.h"
 #include "modules/movement/velocity.h"
 #include "modules/movement/sprintReset.h"
+#include "modules/movement/sprint.h"
 #include "modules/inventory/chestStealer.h"
 #include "modules/inventory/inventorySorter.h"
 #include "modules/utility/arrayList.h"
@@ -37,6 +38,7 @@ void ModuleManager::Init()
 	modules.push_back(std::make_unique<BridgeAssist>());
 	modules.push_back(std::make_unique<Velocity>());
 	modules.push_back(std::make_unique<SprintReset>());
+	modules.push_back(std::make_unique<Sprint>());
 	modules.push_back(std::make_unique<ChestStealer>());
 	modules.push_back(std::make_unique<InventorySorter>());
 	modules.push_back(std::make_unique<ArrayList>());
