@@ -434,29 +434,43 @@ std::string ConfigManager::GetDocumentsPath()
 
 std::string ConfigManager::GetConfigPath()
 {
-	return ConfigManager::GetFusionPath() + "/configs/";
+	std::string path = ConfigManager::GetFusionPath() + "/configs/";
+
+	if (!std::filesystem::exists(path))
+		std::filesystem::create_directories(path);
+
+	return path;
 }
 
 std::string ConfigManager::GetFusionPath()
 {
-	return ConfigManager::GetDocumentsPath() + "/Fusion+/";
+	std::string path = ConfigManager::GetDocumentsPath() + "/Fusion+/";
+
+	if (!std::filesystem::exists(path))
+		std::filesystem::create_directories(path);
+
+	return path;
 }
 
 bool ConfigManager::LoadFriends()
 {
-	std::ifstream file(ConfigManager::GetFusionPath() + "friends.json");
+	std::string filePath = ConfigManager::GetFusionPath() + "friends.json";
 
+	if (!std::filesystem::exists(filePath))
+		return false;
+
+	std::ifstream file(filePath);
 	if (!file.is_open())
 		return false;
 
 	json j;
 	file >> j;
+	file.close();
 
 	if (!j.is_array())
 		return false;
 
 	settings::friends.clear();
-
 	for (const auto& friendName : j)
 	{
 		settings::friends.push_back(friendName.get<std::string>());
@@ -467,23 +481,29 @@ bool ConfigManager::LoadFriends()
 
 bool ConfigManager::SaveFriends()
 {
-	json j;
+	std::string filePath = ConfigManager::GetFusionPath() + "friends.json";
 
+	// Ensure the directory exists before writing
+	std::string dirPath = ConfigManager::GetFusionPath();
+	if (!std::filesystem::exists(dirPath))
+		std::filesystem::create_directories(dirPath);
+
+	json j;
 	for (const auto& friendName : settings::friends)
 	{
 		j.push_back(friendName);
 	}
 
-	std::ofstream file(ConfigManager::GetFusionPath() + "friends.json");
-
+	std::ofstream file(filePath);
 	if (!file.is_open())
 		return false;
 
-	file << j.dump();
+	file << j.dump(4);
 	file.close();
 
 	return true;
 }
+
 
 bool ConfigManager::AddFriend(const std::string& name)
 {
