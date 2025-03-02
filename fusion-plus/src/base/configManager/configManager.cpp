@@ -19,22 +19,30 @@ bool ConfigManager::LoadConfig(const char* name)
 	return true;
 }
 
-bool ConfigManager::SaveConfig(const char* name)
+int ConfigManager::SaveConfig(const char* name)
 {
 	json j;
 
 	if (!SettingsToJson(j))
-		return false;
+		return -1;
 
 	std::ofstream file(ConfigManager::GetConfigPath() + name + FILE_SUFFIX);
 
 	if (!file.is_open())
-		return false;
+		return -1;
 
 	file << j.dump();
 	file.close();
 
-	return true;
+	// Return the index of the saved config
+	std::vector<std::string> configs = ConfigManager::GetConfigList();
+	for (size_t i = 0; i < configs.size(); ++i)
+	{
+		if (configs[i] == name)
+			return i;
+	}
+
+	return -1;
 }
 
 std::vector<std::string> ConfigManager::GetConfigList()

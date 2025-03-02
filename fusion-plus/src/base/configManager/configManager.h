@@ -18,7 +18,7 @@ namespace ConfigManager
 	const std::string FILE_SUFFIX = ".fusion";
 
 	bool LoadConfig(const char* name);
-	bool SaveConfig(const char* name);
+	int SaveConfig(const char* name);
 
 	std::vector<std::string> GetConfigList();
 

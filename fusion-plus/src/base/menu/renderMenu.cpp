@@ -18,6 +18,7 @@
 #include "notificationManager/notificationManager.h"
 
 int currentTab = -1;
+std::unique_ptr<std::once_flag> setConfigName = std::make_unique<std::once_flag>();
 
 static void RenderConfigMenu()
 {
@@ -34,6 +35,7 @@ static void RenderConfigMenu()
 			if (ImGui::Selectable(configFiles[i].c_str()))
 			{
 				selectedConfig = i;
+				setConfigName = std::make_unique<std::once_flag>();
 			}
 		}
 	}
@@ -84,6 +86,11 @@ static void RenderConfigMenu()
 
 	// input box to save config
 	static char saveConfigName[128] = "";
+	std::call_once(*setConfigName, []() {
+		const char* selectedConfigNameC = configFiles[selectedConfig].c_str();
+		strcpy_s(saveConfigName, selectedConfigNameC);
+		});
+
 	// set width of input box
 	ImGui::SetNextItemWidth(614);
 	// set input box height
@@ -97,9 +104,11 @@ static void RenderConfigMenu()
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4f, 0.4f, 0.4f, 1.f));
 	if (ImGui::Button("Save", ImVec2(65.f, 22.f)) && saveConfigName != "")
 	{
-		if (ConfigManager::SaveConfig(saveConfigName))
+		int result = ConfigManager::SaveConfig(saveConfigName);
+		if (result != -1)
 		{
 			configFiles = ConfigManager::GetConfigList();
+			selectedConfig = result;
 			NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been saved.", saveConfigName);
 		}
 		else
