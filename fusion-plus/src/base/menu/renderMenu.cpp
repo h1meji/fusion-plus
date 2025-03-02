@@ -170,6 +170,8 @@ static void RenderSettingsMenu()
 	{
 		ConfigManager::AddFriend(friendName);
 		NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" has been added to your friends list.", std::string(friendName).c_str());
+
+		friendName[0] = '\0';
 	}
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
