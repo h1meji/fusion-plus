@@ -244,7 +244,7 @@ struct StrayCache {
 			if (!renderManager_renderPosX) Logger::Log("renderManager_renderPosX: %p", renderManager_renderPosX);
 			renderManager_renderPosY = Java::Env->GetFieldID(renderManager_class, "renderPosY", "D");
 			if (!renderManager_renderPosY) Logger::Log("renderManager_renderPosY: %p", renderManager_renderPosY);
-			renderManager_renderPosZ = Java::Env->GetFieldID(renderManager_class, "renderPosZ", "");
+			renderManager_renderPosZ = Java::Env->GetFieldID(renderManager_class, "renderPosZ", "D");
 			if (!renderManager_renderPosZ) Logger::Log("renderManager_renderPosZ: %p", renderManager_renderPosZ);
 			renderManager_viewerPosX = Java::Env->GetFieldID(renderManager_class, "viewerPosX", "D");
 			if (!renderManager_viewerPosX) Logger::Log("renderManager_viewerPosX: %p", renderManager_viewerPosX);
