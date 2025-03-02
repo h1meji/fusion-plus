@@ -66,7 +66,7 @@ static void RenderConfigMenu()
 	ImGui::SameLine();
 	if (ImGui::Button("Open Folder"))
 	{
-		ShellExecuteA(NULL, "open", ConfigManager::GetDocumentsPath().c_str(), NULL, NULL, SW_SHOWNORMAL);
+		ShellExecuteA(NULL, "open", ConfigManager::GetConfigPath().c_str(), NULL, NULL, SW_SHOWNORMAL);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Refresh"))
