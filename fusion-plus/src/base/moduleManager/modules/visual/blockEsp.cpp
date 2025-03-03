@@ -31,8 +31,7 @@ void BlockEsp::Update()
 		{
 			for (int z = (int)playerPosition.z - range; z < zLimit; z++)
 			{
-				CBlockPos pos = CBlockPos(x, y, z);
-				CBlock block = world->GetBlockState(pos).GetBlock();
+				CBlock block = world->GetBlock(x, y, z);
 
 				if (block.GetBlockId() == 0 || block.GetBlockId() != settings::BlockESP_TargetID) continue;
 

@@ -45,9 +45,17 @@ struct CommonData
 		fov = SDK::Minecraft->gameSettings->GetFOV();
 		thirdPersonView = SDK::Minecraft->gameSettings->GetThirdPersonView();
 
-		float ySubtractValue = 3.4f;
-		if (SDK::Minecraft->thePlayer->IsSneaking())
-			ySubtractValue -= .175f;
+		float ySubtractValue = 0.f;
+		if (Java::Version == MinecraftVersion::LUNAR_1_8_9 || Java::Version == MinecraftVersion::VANILLA_1_8_9 || Java::Version == MinecraftVersion::FORGE_1_8_9)
+		{
+			ySubtractValue = 3.4f;
+			if (SDK::Minecraft->thePlayer->IsSneaking())
+				ySubtractValue -= .175f;
+		}
+		else
+		{
+			ySubtractValue = .25f;
+		}
 
 		renderPos = SDK::Minecraft->renderManager->RenderPos() + Vector3{ 0, ySubtractValue, 0 };
 		renderPartialTicks = SDK::Minecraft->timer->GetRenderPartialTicks();

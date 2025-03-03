@@ -14,6 +14,7 @@ CWorld::CWorld()
 	this->FieldIDs["playerEntities"] = StrayCache::world_playerEntities;
 	this->MethodIDs["rayTraceBlocks"] = StrayCache::world_rayTraceBlocks;
 	this->MethodIDs["getBlockState"] = StrayCache::world_getBlockState;
+	this->MethodIDs["getBlock"] = StrayCache::world_getBlock;
 }
 
 jclass CWorld::GetClass()
@@ -84,7 +85,21 @@ bool CWorld::rayTraceBlocks(Vector3 from, Vector3 to, Vector3& result, bool stop
 	return true;
 }
 
-CIBlockState CWorld::GetBlockState(CBlockPos pos)
+//CIBlockState CWorld::GetBlockState(CBlockPos pos)
+//{
+//	return CIBlockState(Java::Env->CallObjectMethod(this->GetInstance(), this->MethodIDs["getBlockState"], pos.GetInstance()));
+//}
+
+CBlock CWorld::GetBlock(int x, int y, int z)
 {
-	return CIBlockState(Java::Env->CallObjectMethod(this->GetInstance(), this->MethodIDs["getBlockState"], pos.GetInstance()));
+	if (Java::Version == MinecraftVersion::LUNAR_1_8_9 || Java::Version == MinecraftVersion::VANILLA_1_8_9 || Java::Version == MinecraftVersion::FORGE_1_8_9)
+	{
+		CBlockPos pos = CBlockPos(x, y, z);
+		CIBlockState state = CIBlockState(Java::Env->CallObjectMethod(this->GetInstance(), this->MethodIDs["getBlockState"], pos.GetInstance()));
+		return state.GetBlock();
+	}
+	else
+	{
+		return CBlock(Java::Env->CallObjectMethod(this->GetInstance(), this->MethodIDs["getBlock"], x, y, z));
+	}
 }

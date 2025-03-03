@@ -17,12 +17,23 @@ CRenderManager::CRenderManager()
 
 Vector3 CRenderManager::RenderPos()
 {
-	jobject instance = this->GetInstance();
-	return Vector3{
-		(float)(double) Java::Env->GetDoubleField(instance, this->FieldIDs["renderPosX"]),
-		(float)(double) Java::Env->GetDoubleField(instance, this->FieldIDs["renderPosY"]),
-		(float)(double) Java::Env->GetDoubleField(instance, this->FieldIDs["renderPosZ"])
-	};
+	if (Java::Version == MinecraftVersion::LUNAR_1_8_9 || Java::Version == MinecraftVersion::VANILLA_1_8_9 || Java::Version == MinecraftVersion::FORGE_1_8_9)
+	{
+		jobject instance = this->GetInstance();
+		return Vector3{
+			(float)(double)Java::Env->GetDoubleField(instance, this->FieldIDs["renderPosX"]),
+			(float)(double)Java::Env->GetDoubleField(instance, this->FieldIDs["renderPosY"]),
+			(float)(double)Java::Env->GetDoubleField(instance, this->FieldIDs["renderPosZ"])
+		};
+	}
+	else
+	{
+		return Vector3{
+			(float)(double)Java::Env->GetStaticDoubleField(this->GetClass(), this->FieldIDs["renderPosX"]),
+			(float)(double)Java::Env->GetStaticDoubleField(this->GetClass(), this->FieldIDs["renderPosY"]),
+			(float)(double)Java::Env->GetStaticDoubleField(this->GetClass(), this->FieldIDs["renderPosZ"])
+		};
+	}
 }
 
 Vector3 CRenderManager::ViewerPos()
@@ -42,5 +53,8 @@ jclass CRenderManager::GetClass()
 
 jobject CRenderManager::GetInstance()
 {
-	return Java::Env->GetObjectField(SDK::Minecraft->GetInstance(), SDK::Minecraft->FieldIDs["renderManager"]);
+	if (Java::Version == MinecraftVersion::LUNAR_1_8_9 || Java::Version == MinecraftVersion::VANILLA_1_8_9 || Java::Version == MinecraftVersion::FORGE_1_8_9)
+		return Java::Env->GetObjectField(SDK::Minecraft->GetInstance(), SDK::Minecraft->FieldIDs["renderManager"]);
+	else
+		return Java::Env->GetStaticObjectField(this->GetClass(), StrayCache::renderManager_instance);
 }
