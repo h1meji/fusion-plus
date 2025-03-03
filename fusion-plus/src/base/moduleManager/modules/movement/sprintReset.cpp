@@ -97,7 +97,7 @@ void SprintReset::RenderMenu()
 			ImGui::Separator();
 			if (ImGui::BeginChild("sr_settings", ImVec2(425, 54), false))
 			{
-				Menu::Slider(19, "Delay Between W-Taps", ImVec2(225, 0), &settings::SR_DelayBetween, 0.1f, 3.f, "%.2f");
+				Menu::Slider(19, "Delay Between S-Taps", ImVec2(225, 0), &settings::SR_DelayBetween, 0.1f, 3.f, "%.2f");
 				Menu::Slider(20, "Let Go Delay", ImVec2(225, 0), &settings::SR_LetGoDelay, .01f, .3f, "%.3f");
 			}
 			ImGui::EndChild();
