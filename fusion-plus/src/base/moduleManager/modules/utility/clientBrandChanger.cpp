@@ -86,10 +86,13 @@ void ClientBrandChanger::onGetClientModName(JNIEnv* env, bool* cancel)
 	{
 		jobject new_name = env->NewStringUTF(settings::CBC_ClientBrand.c_str());
 		JavaHook::set_return_value<void*>(cancel, *(void**)new_name);
-		*cancel = true;
-		return;
 	}
-	*cancel = false;
+	else
+	{
+		JavaHook::set_return_value<void*>(cancel, *(void**)SDK::Minecraft->OriginalClientBrand.c_str());
+	}
+	*cancel = true;
+	return;
 }
 
 void ClientBrandChanger::getClientModName_callback(HotSpot::frame* frame, HotSpot::Thread* thread, bool* cancel)

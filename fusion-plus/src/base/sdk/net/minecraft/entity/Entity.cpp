@@ -4,6 +4,7 @@
 #include "sdk/strayCache.h"
 
 #include "util/logger.h"
+#include <sdk/sdk.h>
 
 CEntity::CEntity()
 {
@@ -34,11 +35,23 @@ std::string CEntity::GetName()
 
 Vector3 CEntity::GetPos()
 {
-	return Vector3{
-		(float)(double) Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_posX),
-		(float)(double) Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_posY),
-		(float)(double) Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_posZ)
-	};
+	if ((Java::Version == MinecraftVersion::LUNAR_1_7_10 || Java::Version == MinecraftVersion::VANILLA_1_7_10 || Java::Version == MinecraftVersion::FORGE_1_7_10) && this->GetName() == SDK::Minecraft->thePlayer->GetName())
+	{
+		// In 1.7.10, the entity position is the "eye" position, so we need to subtract the eye height to get the actual position. But only for the main player entity
+		return Vector3{
+			(float)(double)Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_posX),
+			(float)(double)Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_posY) - (this->GetHeight() * 0.85f),
+			(float)(double)Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_posZ)
+		};
+	}
+	else
+	{
+		return Vector3{
+			(float)(double)Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_posX),
+			(float)(double)Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_posY),
+			(float)(double)Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_posZ)
+		};
+	}
 }
 
 Vector3 CEntity::GetEyePos()
@@ -46,18 +59,30 @@ Vector3 CEntity::GetEyePos()
 	Vector3 pos = GetPos();
 	return Vector3{
 		pos.x,
-		(float)(double)(pos.y + (this->GetHeight() * 0.85)),
+		(float)(double)(pos.y + (this->GetHeight() * 0.85f)),
 		pos.z
 	};
 }
 
 Vector3 CEntity::GetLastTickPos()
 {
-	return Vector3{
-		(float)(double) Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_lastTickPosX),
-		(float)(double) Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_lastTickPosY),
-		(float)(double) Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_lastTickPosZ)
-	};
+	if ((Java::Version == MinecraftVersion::LUNAR_1_7_10 || Java::Version == MinecraftVersion::VANILLA_1_7_10 || Java::Version == MinecraftVersion::FORGE_1_7_10) && this->GetName() == SDK::Minecraft->thePlayer->GetName())
+	{
+		// In 1.7.10, the entity position is the "eye" position, so we need to subtract the eye height to get the actual position. But only for the main player entity
+		return Vector3{
+			(float)(double)Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_lastTickPosX),
+			(float)(double)Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_lastTickPosY) - (this->GetHeight() * 0.85f),
+			(float)(double)Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_lastTickPosZ)
+		};
+	}
+	else
+	{
+		return Vector3{
+			(float)(double)Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_lastTickPosX),
+			(float)(double)Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_lastTickPosY),
+			(float)(double)Java::Env->GetDoubleField(this->GetInstance(), StrayCache::entity_lastTickPosZ)
+		};
+	}
 }
 
 Vector3 CEntity::GetMotion()

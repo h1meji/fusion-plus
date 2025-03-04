@@ -40,7 +40,7 @@ CMinecraft::CMinecraft()
 	this->gameSettings = new CGameSettings();
 	Logger::Log("Got GameSettings instance");
 
-	this->MethodIDs["getRenderViewEntity"] = StrayCache::minecraft_getRenderViewEntity;
+	this->FieldIDs["renderViewEntity"] = StrayCache::minecraft_renderViewEntity;
 	this->FieldIDs["currentScreen"] = StrayCache::minecraft_currentScreen;
 
 	this->enchantmentHelper = new CEnchantMentHelper();
@@ -51,6 +51,7 @@ CMinecraft::CMinecraft()
 	this->MethodIDs["clickMouse"] = StrayCache::minecraft_clickMouse;
 
 	this->OriginalClientBrand = CClientBrandRetriever::GetClientModName();
+	Logger::Log("Got OriginalClientBrand: %s", this->OriginalClientBrand);
 }
 
 jclass CMinecraft::GetClass()
@@ -65,7 +66,7 @@ jobject CMinecraft::GetInstance()
 
 CEntity CMinecraft::GetRenderViewEntity()
 {
-	return CEntity(Java::Env->CallObjectMethod(this->GetInstance(), this->MethodIDs["getRenderViewEntity"]));
+	return CEntity(Java::Env->GetObjectField(this->GetInstance(), this->FieldIDs["renderViewEntity"]));
 }
 
 std::string GetClassName(jobject obj)

@@ -20,6 +20,8 @@ struct CWorld : IClass
 
 	bool rayTraceBlocks(Vector3 from, Vector3 to, Vector3& result, bool stopOnLiquid, bool ignoreBlockWithoutBoundingBox, bool returnLastUncollidableBlock);
 
-	CIBlockState GetBlockState(CBlockPos pos);
+	//CIBlockState GetBlockState(CBlockPos pos);
+
+	CBlock GetBlock(int x, int y, int z);
 };
 
