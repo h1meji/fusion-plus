@@ -685,7 +685,7 @@ struct StrayCache {
 
 			Java::AssignClass("net.minecraft.inventory.Container", container_class);
 			if (!container_class) Logger::Log("container_class: %p", container_class);
-			container_windowId_name = "";
+			container_windowId_name = "windowId";
 
 			Java::AssignClass("net.minecraft.enchantment.EnchantmentHelper", enchantmentHelper_class);
 			if (!enchantmentHelper_class) Logger::Log("enchantmentHelper_class: %p", enchantmentHelper_class);
@@ -1233,7 +1233,7 @@ struct StrayCache {
 
 			Java::AssignClass("zs", container_class);
 			if (!container_class) Logger::Log("container_class: %p", container_class);
-			container_windowId_name = "";
+			container_windowId_name = "d";
 
 			Java::AssignClass("afv", enchantmentHelper_class);
 			if (!enchantmentHelper_class) Logger::Log("enchantmentHelper_class: %p", enchantmentHelper_class);
@@ -1781,7 +1781,7 @@ struct StrayCache {
 
 			Java::AssignClass("net.minecraft.inventory.Container", container_class);
 			if (!container_class) Logger::Log("container_class: %p", container_class);
-			container_windowId_name = "";
+			container_windowId_name = "field_75152_c";
 
 			Java::AssignClass("net.minecraft.enchantment.EnchantmentHelper", enchantmentHelper_class);
 			if (!enchantmentHelper_class) Logger::Log("enchantmentHelper_class: %p", enchantmentHelper_class);
