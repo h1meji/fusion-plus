@@ -169,32 +169,7 @@ static bool CheckLunarClient()
     if (!launchedVersion) return false;
 
     std::string version = String(launchedVersion).ToString();
-	Logger::Log("Lunar: %s", version.c_str());
-    if (version == "1.8.9") { Java::Version = MinecraftVersion::LUNAR_1_8_9; return true; }
-    else if (version == "1.7.10") { Java::Version = MinecraftVersion::LUNAR_1_7_10; return true; }
 
-    return false;
-}
-
-static bool CheckLabyMod()
-{
-    jclass minecraftClass;
-    Java::AssignClass("net.labymod.api.client.Minecraft", minecraftClass);
-    if (!minecraftClass) return false;
-
-    jmethodID getMinecraftMethod = Java::Env->GetStaticMethodID(minecraftClass, "getMinecraft", "()Lnet/minecraft/client/Minecraft;");
-    if (!getMinecraftMethod) return false;
-
-    jobject theMinecraft = Java::Env->CallStaticObjectMethod(minecraftClass, getMinecraftMethod);
-    if (!theMinecraft) return false;
-
-    jfieldID launchedVersionField = Java::Env->GetFieldID(minecraftClass, "launchedVersion", "Ljava/lang/String;");
-    if (!launchedVersionField) return false;
-
-    jobject launchedVersion = Java::Env->GetObjectField(theMinecraft, launchedVersionField);
-    if (!launchedVersion) return false;
-
-    std::string version = String(launchedVersion).ToString();
     if (version == "1.8.9") { Java::Version = MinecraftVersion::LUNAR_1_8_9; return true; }
     else if (version == "1.7.10") { Java::Version = MinecraftVersion::LUNAR_1_7_10; return true; }
 
@@ -220,6 +195,7 @@ static bool CheckVanilla189()
     if (!launchedVersion) return false;
 
     std::string version = String(launchedVersion).ToString();
+
     if (version == "1.8.9") { Java::Version = MinecraftVersion::VANILLA_1_8_9; return true; }
 
     return false;
@@ -228,22 +204,23 @@ static bool CheckVanilla189()
 static bool CheckVanilla1710()
 {
     jclass minecraftClass;
-    Java::AssignClass("", minecraftClass);
+    Java::AssignClass("bao", minecraftClass);
     if (!minecraftClass) return false;
 
-    jmethodID getMinecraftMethod = Java::Env->GetStaticMethodID(minecraftClass, "", "");
+    jmethodID getMinecraftMethod = Java::Env->GetStaticMethodID(minecraftClass, "B", "()Lbao;");
     if (!getMinecraftMethod) return false;
 
     jobject theMinecraft = Java::Env->CallStaticObjectMethod(minecraftClass, getMinecraftMethod);
     if (!theMinecraft) return false;
 
-    jfieldID launchedVersionField = Java::Env->GetFieldID(minecraftClass, "", "");
+    jfieldID launchedVersionField = Java::Env->GetFieldID(minecraftClass, "Z", "Ljava/lang/String;");
     if (!launchedVersionField) return false;
 
     jobject launchedVersion = Java::Env->GetObjectField(theMinecraft, launchedVersionField);
     if (!launchedVersion) return false;
 
     std::string version = String(launchedVersion).ToString();
+
     if (version == "1.7.10") { Java::Version = MinecraftVersion::VANILLA_1_7_10; return true; }
 
     return false;
@@ -268,7 +245,8 @@ static bool CheckForge189()
     if (!launchedVersion) return false;
 
     std::string version = String(launchedVersion).ToString();
-    if (version.find("1.8.9") != std::string::npos) { Java::Version = MinecraftVersion::FORGE_1_8_9; return true; }
+
+	if (version.find("1.8.9") != std::string::npos) { Java::Version = MinecraftVersion::FORGE_1_8_9; return true; }
 
     return false;
 }
@@ -276,23 +254,25 @@ static bool CheckForge189()
 static bool CheckForge1710()
 {
     jclass minecraftClass;
-    Java::AssignClass("", minecraftClass);
+    Java::AssignClass("net.minecraft.client.Minecraft", minecraftClass);
     if (!minecraftClass) return false;
 
-    jmethodID getMinecraftMethod = Java::Env->GetStaticMethodID(minecraftClass, "", "");
+    jmethodID getMinecraftMethod = Java::Env->GetStaticMethodID(minecraftClass, "func_71410_x", "()Lnet/minecraft/client/Minecraft;");
     if (!getMinecraftMethod) return false;
 
     jobject theMinecraft = Java::Env->CallStaticObjectMethod(minecraftClass, getMinecraftMethod);
     if (!theMinecraft) return false;
 
-    jfieldID launchedVersionField = Java::Env->GetFieldID(minecraftClass, "", "");
+    jfieldID launchedVersionField = Java::Env->GetFieldID(minecraftClass, "field_110447_Z", "Ljava/lang/String;");
     if (!launchedVersionField) return false;
 
     jobject launchedVersion = Java::Env->GetObjectField(theMinecraft, launchedVersionField);
     if (!launchedVersion) return false;
 
     std::string version = String(launchedVersion).ToString();
-    if (version == "1.7.10") { Java::Version = MinecraftVersion::FORGE_1_7_10; return true; }
+	Logger::Log("Version: %s", version.c_str());
+
+	if (version.find("1.7.10") != std::string::npos) { Java::Version = MinecraftVersion::FORGE_1_7_10; return true; }
 
     return false;
 }
@@ -303,12 +283,8 @@ void Java::GetMinecraftVersion()
     if (CheckLunarClient()) return;
     if (CheckVanilla189()) return;
 	if (CheckForge189()) return;
-
-	Java::Version = MinecraftVersion::UNKNOWN;
-    return;
-
-	// Skip 1.7.10 for now
 	if (CheckVanilla1710()) return;
 	if (CheckForge1710()) return;
-
+    
+    Java::Version = MinecraftVersion::UNKNOWN;
 }
