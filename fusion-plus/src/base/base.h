@@ -1,13 +1,17 @@
 #pragma once
+#include <Windows.h>
+#include <string>
 
 struct Base
 {
 	static void Init();
 	static void Kill();
 
-	static void CheatLoop();
 	static void RenderLoop();
 
 	static inline bool Running;
+
+	static inline std::string CrashReportPath;
+	static void WriteCrashReport(EXCEPTION_POINTERS* pException);
 };
 

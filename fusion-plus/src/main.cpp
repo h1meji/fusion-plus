@@ -1,5 +1,13 @@
 #include "main.h"
 
+#include <fstream>
+#include <exception>
+
+static LONG WINAPI GlobalExceptionHandler(EXCEPTION_POINTERS* pException)
+{
+	Base::WriteCrashReport(pException);
+	return EXCEPTION_EXECUTE_HANDLER;
+}
 
 void Main::Init()
 {
@@ -18,7 +26,7 @@ BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, LPVOID lpReserved)
 	{
 		Main::HModule = hModule;
 		DisableThreadLibraryCalls(hModule);
-
+		SetUnhandledExceptionFilter(GlobalExceptionHandler);
 		HANDLE hThread = CreateThread(nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(Main::Init), hModule, 0, nullptr);
 
 		if (hThread) CloseHandle(hThread);

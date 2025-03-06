@@ -51,7 +51,7 @@ CMinecraft::CMinecraft()
 	this->MethodIDs["clickMouse"] = StrayCache::minecraft_clickMouse;
 
 	this->OriginalClientBrand = CClientBrandRetriever::GetClientModName();
-	Logger::Log("Got OriginalClientBrand: %s", this->OriginalClientBrand);
+	Logger::Log("Got OriginalClientBrand: %s", this->OriginalClientBrand.c_str());
 }
 
 jclass CMinecraft::GetClass()

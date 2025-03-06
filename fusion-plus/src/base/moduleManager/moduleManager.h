@@ -16,6 +16,7 @@ public:
 	void RenderMenu(int index);
 
 	std::vector<std::string> GetCategories();
+	std::vector<std::unique_ptr<ModuleBase>>& GetModules() { return modules; }
 
 private:
 	std::vector<std::unique_ptr<ModuleBase>> modules;
