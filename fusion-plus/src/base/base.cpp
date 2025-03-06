@@ -102,9 +102,6 @@ void Base::Init()
 
 	Base::Running = true;
 
-	int* crash = nullptr;
-	*crash = 0;
-
 	while (Base::Running)
 	{
 		g_ModuleManager->UpdateModules();
