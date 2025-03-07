@@ -17,8 +17,7 @@ void LeftAutoClicker::Update()
 	if (!settings::LAC_Enabled) return;
 	if (Menu::Open) return;
 	if (SDK::Minecraft->IsInGuiState()) return;
-	if (settings::LAC_swordOnly && !MinecraftUtils::IsWeapon(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem())) return;
-	if (settings::LAC_emptyHandOnly && !MinecraftUtils::IsEmpty(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem())) return;
+	if (settings::LAC_weaponOnly && !MinecraftUtils::IsWeapon(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem())) return;
 	if (settings::LAC_ignoreBlocks && SDK::Minecraft->GetMouseOver().IsTypeOfBlock())
 	{
 		if ((GetAsyncKeyState(VK_LBUTTON) & 0x8000) && !fix) // fixes the issue where the autoclicker would not break blocks when already holding the mouse button
@@ -104,8 +103,7 @@ void LeftAutoClicker::RenderMenu()
 				Menu::Slider(23, "Max CPS", ImVec2(225, 0), &settings::LAC_leftMaxCps, settings::LAC_leftMinCps, 25);
 				Menu::ToggleButton(24, "Ignore Blocks", ImVec2(368, 0), &settings::LAC_ignoreBlocks);
 				Menu::ToggleButton(132, "Sword Block", ImVec2(368, 0), &settings::LAC_swordBlock);
-				Menu::ToggleButton(133, "Sword Only", ImVec2(368, 0), &settings::LAC_swordOnly);
-				Menu::ToggleButton(134, "Empty Hand Only", ImVec2(368, 0), &settings::LAC_emptyHandOnly);
+				Menu::ToggleButton(133, "Weapon Only", ImVec2(368, 0), &settings::LAC_weaponOnly);
 			}
 			ImGui::EndChild();
 			ImGui::Spacing();

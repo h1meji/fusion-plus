@@ -111,8 +111,7 @@ struct settings {
 	inline static float LAC_leftMinCps = 13;
 	inline static bool LAC_ignoreBlocks = true;
 	inline static bool LAC_swordBlock = true;
-	inline static bool LAC_swordOnly = false;
-	inline static bool LAC_emptyHandOnly = false;
+	inline static bool LAC_weaponOnly = false;
 
 	// Right Auto Clicker
 	inline static bool RAC_Enabled = false;
@@ -152,6 +151,12 @@ struct settings {
 	// Block Reach
 	inline static bool BR_Enabled = false;
 	inline static float BR_ReachDistance = 4.5f;
+
+	// Weapon
+	inline static bool Weapon_Sword = true;
+	inline static bool Weapon_Axe = false;
+	inline static bool Weapon_Stick = false;
+	inline static bool Weapon_Fist = false;
 
 	// Tag Back
 	inline static bool TB_Enabled = false;

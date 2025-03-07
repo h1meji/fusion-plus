@@ -30,6 +30,7 @@ This project is based on the original **Fusion** by [deity](https://www.youtube.
   - **Arraylist**: Displays a list of the user's active modules
   - **Client Brand Changer**: Changes the player's client Brand
   - **Block Reach**: Increases the player's reach distance for blocks
+  - **Weapon**: A feature that lets you select the items you consider weapons (suggested by @/zladen.)
 
 ### Hidden Modules
 - **TnT Tag** (Hypixel)
@@ -70,7 +71,6 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - **Restock**: Automatically restocks the player's hotbar
 - **Tracers / Off-screen Arrows**: Draws lines / arrows to players (off-screen)
 - **Auto Tool**: Automatically selects the best tool for the block being mined (suggested by @/zladen.)
-- **Weapon**: Not really a module, but a feature that lets you select the items you consider weapons (suggested by @/zladen.)
 - **Legit Criticals**: Jumps when hitting an entity to deal critical hits (suggested by @/letalisfatum)
 - **Nametags**: Displays player nametags above their heads (suggested by @/autocliicker)
 - **Auto Soup**: Automatically eats soup when the player's health is low (suggested by @/letalisfatum)

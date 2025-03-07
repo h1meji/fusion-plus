@@ -16,6 +16,7 @@
 #include "modules/utility/arrayList.h"
 #include "modules/utility/clientBrandChanger.h"
 #include "modules/utility/blockReach.h"
+#include "modules/utility/weapon.h"
 #include "modules/tnt-tag/tagBack.h"
 #include "modules/tnt-tag/ITEsp.h"
 #include "commonData.h"
@@ -44,6 +45,7 @@ void ModuleManager::Init()
 	modules.push_back(std::make_unique<ArrayList>());
 	modules.push_back(std::make_unique<ClientBrandChanger>());
 	modules.push_back(std::make_unique<BlockReach>());
+	modules.push_back(std::make_unique<Weapon>());
 
 	modules.push_back(std::make_unique<TagBack>());
 	modules.push_back(std::make_unique<ITEsp>());

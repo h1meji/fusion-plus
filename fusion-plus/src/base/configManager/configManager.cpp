@@ -160,8 +160,7 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["LAC_leftMinCps"] = settings::LAC_leftMinCps;
 	j["LAC_ignoreBlocks"] = settings::LAC_ignoreBlocks;
 	j["LAC_swordBlock"] = settings::LAC_swordBlock;
-	j["LAC_swordOnly"] = settings::LAC_swordOnly;
-	j["LAC_emptyHandOnly"] = settings::LAC_emptyHandOnly;
+	j["LAC_weaponOnly"] = settings::LAC_weaponOnly;
 
 	// Right Auto Clicker
 	j["RAC_Enabled"] = settings::RAC_Enabled;
@@ -195,6 +194,12 @@ bool ConfigManager::SettingsToJson(json& j)
 	// Block Reach
 	j["BR_Enabled"] = settings::BR_Enabled;
 	j["BR_ReachDistance"] = settings::BR_ReachDistance;
+
+	// Weapon
+	j["Weapon_Sword"] = settings::Weapon_Sword;
+	j["Weapon_Axe"] = settings::Weapon_Axe;
+	j["Weapon_Stick"] = settings::Weapon_Stick;
+	j["Weapon_Fist"] = settings::Weapon_Fist;
 
 	// Tag Back
 	j["TB_Enabled"] = settings::TB_Enabled;
@@ -343,8 +348,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::LAC_leftMinCps, "LAC_leftMinCps");
 	ConfigManager::GetJsonValue(j, settings::LAC_ignoreBlocks, "LAC_ignoreBlocks");
 	ConfigManager::GetJsonValue(j, settings::LAC_swordBlock, "LAC_swordBlock");
-	ConfigManager::GetJsonValue(j, settings::LAC_swordOnly, "LAC_swordOnly");
-	ConfigManager::GetJsonValue(j, settings::LAC_emptyHandOnly, "LAC_emptyHandOnly");
+	ConfigManager::GetJsonValue(j, settings::LAC_weaponOnly, "LAC_weaponOnly");
 
 	// Right Auto Clicker
 	ConfigManager::GetJsonValue(j, settings::RAC_Enabled, "RAC_Enabled");
@@ -378,6 +382,12 @@ bool ConfigManager::JsonToSettings(const json& j)
 	// Block Reach
 	ConfigManager::GetJsonValue(j, settings::BR_Enabled, "BR_Enabled");
 	ConfigManager::GetJsonValue(j, settings::BR_ReachDistance, "BR_ReachDistance");
+
+	// Weapon
+	ConfigManager::GetJsonValue(j, settings::Weapon_Sword, "Weapon_Sword");
+	ConfigManager::GetJsonValue(j, settings::Weapon_Axe, "Weapon_Axe");
+	ConfigManager::GetJsonValue(j, settings::Weapon_Stick, "Weapon_Stick");
+	ConfigManager::GetJsonValue(j, settings::Weapon_Fist, "Weapon_Fist");
 
 	// Tag Back
 	ConfigManager::GetJsonValue(j, settings::TB_Enabled, "TB_Enabled");

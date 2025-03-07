@@ -657,7 +657,11 @@ struct MinecraftUtils
 {
     static inline bool IsWeapon(int id)
     {
-		return id == 276 || id == 283 || id == 267 || id == 272 || id == 268;
+        bool isSword = (id == 268 || id == 272 || id == 267 || id == 276 || id == 283) && settings::Weapon_Sword;
+		bool isAxe = (id == 271 || id == 275 || id == 258 || id == 279 || id == 286) && settings::Weapon_Axe;
+		bool isStick = (id == 280) && settings::Weapon_Stick;
+
+		return isSword || isAxe || isStick;
     }
 
     static inline bool IsWeapon(std::string name)
@@ -670,7 +674,7 @@ struct MinecraftUtils
         if (item.GetInstance() != nullptr) {
             return IsWeapon(item.GetItem().GetID());
         }
-		return false;
+        return settings::Weapon_Fist || false;
     }
 
     static inline bool IsEmpty(CItemStack item)
