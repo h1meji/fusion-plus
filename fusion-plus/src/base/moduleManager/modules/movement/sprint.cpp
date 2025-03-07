@@ -55,7 +55,7 @@ void Sprint::RenderMenu()
     {
         ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
         ImGui::BeginGroup();
-        Menu::ToggleButton(21, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::S_Enabled);
+        Menu::ToggleButton(140, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::S_Enabled);
         ImGui::EndGroup();
     }
     ImGui::EndChild();
