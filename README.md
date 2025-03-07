@@ -58,7 +58,7 @@ Open the injector in administrator mode and open Minecraft. Once you are in the 
 The goal of the original *Fusion* project was to provide a solid foundation for developers to build upon, and *Fusion+* continues this mission by offering an updated version with additional features and optimizations. By making this project open-source, I hope to provide a valuable resource for developers seeking to learn more about cheat development and improve their skills. I also welcome contributions from the community to help make *Fusion+* even better.
 
 ## Project Status
-*Fusion+* is currently in active development, with new features and optimizations being added regularly. I want to to provide a high-quality cheat that is both reliable and easy to use. If you encounter any issues or have suggestions for improvements, please let me know by opening an issue on the GitHub repository.
+*Fusion+* is currently in active development, with new features and optimizations being added regularly. I want to to provide a cheat that is both reliable and easy to use. If you encounter any issues or have suggestions for improvements, please let me know by opening an issue on the GitHub repository. I will do my best to address any problems and implement new features based on community feedback.
 
 ### Planned Features
 - More HUD elements (fps, ping, keybind list, etc.)
@@ -70,7 +70,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - **Restock**: Automatically restocks the player's hotbar
 - **Tracers / Off-screen Arrows**: Draws lines / arrows to players (off-screen)
 - **Auto Tool**: Automatically selects the best tool for the block being mined (suggested by @/zladen.)
-- **Auto Weapon**: Automatically selects the best weapon for the entity being attacked (suggested by @/zladen.)
+- **Weapon**: Not really a module, but a feature that lets you select the items you consider weapons (suggested by @/zladen.)
 - **Legit Criticals**: Jumps when hitting an entity to deal critical hits (suggested by @/letalisfatum)
 - **Nametags**: Displays player nametags above their heads (suggested by @/autocliicker)
 - **Auto Soup**: Automatically eats soup when the player's health is low (suggested by @/letalisfatum)
@@ -99,3 +99,6 @@ Big thanks to the original developers of *Fusion* for creating the solid foundat
 ---
 
 Join the [Discord](https://discord.gg/EWkhAPRdwb) server for updates, announcements, and support.
+
+> [!Note]
+> Fusion+ is still an hobby project / learning experience for me, so I can't guarantee that I will be able to fix every issue or implement every feature request. However, I will do my best to provide a cheat that is both reliable and easy to use.

@@ -151,6 +151,9 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["SR_DelayBetween"] = settings::SR_DelayBetween;
 	j["SR_LetGoDelay"] = settings::SR_LetGoDelay;
 
+	// Sprint
+	j["Sprint_Enabled"] = settings::S_Enabled;
+
 	// Left Auto Clicker
 	j["LAC_Enabled"] = settings::LAC_Enabled;
 	j["LAC_leftMaxCps"] = settings::LAC_leftMaxCps;
@@ -330,6 +333,9 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::SR_Enabled, "SR_Enabled");
 	ConfigManager::GetJsonValue(j, settings::SR_DelayBetween, "SR_DelayBetween");
 	ConfigManager::GetJsonValue(j, settings::SR_LetGoDelay, "SR_LetGoDelay");
+
+	// Sprint
+	ConfigManager::GetJsonValue(j, settings::S_Enabled, "S_Enabled");
 
 	// Left Auto Clicker
 	ConfigManager::GetJsonValue(j, settings::LAC_Enabled, "LAC_Enabled");
