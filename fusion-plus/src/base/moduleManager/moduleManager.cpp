@@ -64,7 +64,7 @@ void ModuleManager::Init()
 	// init inventory system
 	InventorySystem::Init();
 
-	// hooks con verificación de seguridad
+	// hook
 	try {
 		if (StrayCache::clientBrandRetriever_getClientModName != nullptr && ClientBrandChanger::getClientModName_callback != nullptr) {
 			bool hookResult = JavaHook::hook(StrayCache::clientBrandRetriever_getClientModName, ClientBrandChanger::getClientModName_callback);
