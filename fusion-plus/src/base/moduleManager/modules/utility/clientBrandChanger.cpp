@@ -82,24 +82,45 @@ void ClientBrandChanger::RenderMenu()
 
 void ClientBrandChanger::onGetClientModName(JNIEnv* env, bool* cancel)
 {
-	if (settings::CBC_Enabled && settings::CBC_ClientBrand != "")
-	{
-		jobject new_name = env->NewStringUTF(settings::CBC_ClientBrand.c_str());
-		JavaHook::set_return_value<void*>(cancel, *(void**)new_name);
-	}
-	else
-	{
-		JavaHook::set_return_value<void*>(cancel, *(void**)SDK::Minecraft->OriginalClientBrand.c_str());
-	}
-	*cancel = true;
-	return;
+    try {
+        if (!env || !cancel || !SDK::Minecraft) {
+            *cancel = false;
+            return;
+        }
+
+        std::string brandToUse;
+        if (settings::CBC_Enabled && !settings::CBC_ClientBrand.empty()) {
+            brandToUse = settings::CBC_ClientBrand;
+        } else {
+            brandToUse = "vanilla";
+        }
+
+        jstring new_name = env->NewStringUTF(brandToUse.c_str());
+        if (new_name) {
+            JavaHook::set_return_value<void*>(cancel, *(void**)new_name);
+            *cancel = true;
+        } else {
+            *cancel = false;
+        }
+    } catch (...) {
+        *cancel = false;
+    }
 }
 
 void ClientBrandChanger::getClientModName_callback(HotSpot::frame* frame, HotSpot::Thread* thread, bool* cancel)
 {
-	if (!Java::Env) return;
-	JNIEnv* env = thread->get_env();
-	JavaHook::JNIFrame jniFrame(env);
-	onGetClientModName(env, cancel);
-	return;
+    try {
+        if (!thread || !cancel) return;
+        
+        JNIEnv* env = thread->get_env();
+        if (!env) {
+            *cancel = false;
+            return;
+        }
+
+        JavaHook::JNIFrame jniFrame(env);
+        onGetClientModName(env, cancel);
+    } catch (...) {
+        if (cancel) *cancel = false;
+    }
 }
