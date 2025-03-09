@@ -52,7 +52,7 @@ struct settings {
 	inline static float AL_backgroundColor[4]{ 0.f, 0.f, 0.f, 0.8f };
 	inline static float AL_backgroundRoundness = 5.f;
 
-	// New Settings
+	// New Settings for array list
     inline static bool AL_rgbEnabled = false;
     inline static int AL_colorMode = 0;
     inline static const char* AL_colorModeList[16]{ 

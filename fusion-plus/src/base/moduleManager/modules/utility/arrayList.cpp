@@ -593,11 +593,7 @@ ImVec2 GetPointOnRoundedRect(const ImVec2& min, const ImVec2& max, float radius,
         );
     }
     distance -= M_PI * 0.5f * radius;
-    
-    // Continue with other sections...
-    // ... (similar code for other corners)
-    
-    // If we get here, use the last corner
+
     float angle = M_PI * 2.0f * (distance / (M_PI * 2.0f * radius));
     return ImVec2(
         left + radius * cosf(angle),
