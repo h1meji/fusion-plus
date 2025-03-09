@@ -15,7 +15,6 @@
 #include "modules/inventory/inventorySorter.h"
 #include "modules/utility/arrayList.h"
 #include "modules/utility/clientBrandChanger.h"
-#include "modules/utility/blockReach.h"
 #include "modules/utility/weapon.h"
 #include "modules/tnt-tag/tagBack.h"
 #include "modules/tnt-tag/ITEsp.h"
@@ -44,7 +43,6 @@ void ModuleManager::Init()
 	modules.push_back(std::make_unique<InventorySorter>());
 	modules.push_back(std::make_unique<ArrayList>());
 	modules.push_back(std::make_unique<ClientBrandChanger>());
-	modules.push_back(std::make_unique<BlockReach>());
 	modules.push_back(std::make_unique<Weapon>());
 
 	modules.push_back(std::make_unique<TagBack>());
@@ -66,9 +64,17 @@ void ModuleManager::Init()
 	// init inventory system
 	InventorySystem::Init();
 
-	// hooks
-	if (JavaHook::hook(StrayCache::clientBrandRetriever_getClientModName, ClientBrandChanger::getClientModName_callback)) Logger::Log("Hooked ClientBrandRetriever.getClientModName"); else Logger::Log("Failed to hook ClientBrandRetriever.getClientModName");
-	if (JavaHook::hook(StrayCache::playerControllerMP_getBlockReachDistance, BlockReach::getBlockReachDistance_callback)) Logger::Log("Hooked PlayerControllerMP.getBlockReachDistance"); else Logger::Log("Failed to hook PlayerControllerMP.getBlockReachDistance");
+	// hooks con verificación de seguridad
+	try {
+		if (StrayCache::clientBrandRetriever_getClientModName != nullptr && ClientBrandChanger::getClientModName_callback != nullptr) {
+			bool hookResult = JavaHook::hook(StrayCache::clientBrandRetriever_getClientModName, ClientBrandChanger::getClientModName_callback);
+			Logger::Log(hookResult ? "Hooked ClientBrandRetriever.getClientModName" : "Failed to hook ClientBrandRetriever.getClientModName");
+		} else {
+			Logger::Log("Skipping ClientBrandRetriever hook - Invalid function pointers");
+		}
+	} catch (const std::exception& e) {
+		Logger::Log("Error during hook initialization: %s", e.what());
+	}
 }
 
 void ModuleManager::UpdateModules()
