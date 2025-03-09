@@ -15,6 +15,9 @@ struct CInventoryPlayer : IClass
 
 	CItemStack GetCurrentItem();
 
+	int GetCurrentItemIndex();
+	void SetCurrentItemIndex(int index);
+
 	std::vector<CItemStack> GetMainInventory();
 	std::vector<CItemStack> GetArmorInventory();
 };

@@ -30,6 +30,8 @@ private:
 
 	bool m_has_pressed_shift = false;
 
+	bool m_is_bridging = false;
+
 private:
 	std::string Name = "Bridge Assist";
 	std::string Category = "Movement";
