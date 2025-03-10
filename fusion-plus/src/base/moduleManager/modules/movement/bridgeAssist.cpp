@@ -3,6 +3,7 @@
 #include <menu/menu.h>
 #include <util/logger.h>
 #include <moduleManager/commonData.h>
+#include <random>
 
 inline static void send_key(WORD vk_key, bool send_down = true)
 {
@@ -40,6 +41,7 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 		}
 
 		m_has_pressed_shift = false;
+		m_is_bridging = false;
 		return;
 	}
 
@@ -51,6 +53,7 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 		}
 
 		m_has_pressed_shift = false;
+		m_is_bridging = false;
 		return;
 	}
 
@@ -60,13 +63,33 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 	CItemStack item = player->GetInventory().GetCurrentItem();
 	if (item.GetInstance() == nullptr || item.GetItem().GetUnlocalizedName().find("tile") == std::string::npos)
 	{
-		if (!m_has_pressed_shift && isSneaking && !settings::BA_OnlyOnShift)
+		bool found = false;
+		if (m_is_bridging && settings::BA_AutoSwap)
 		{
-			UnSneak();
+			std::vector<CItemStack> hotbar = player->GetInventory().GetMainInventory();
+			for (int i = 0; i < 9; i++)
+			{
+				CItemStack stack = hotbar[i];
+				if (stack.GetInstance() != nullptr && stack.GetItem().GetUnlocalizedName().find("tile") != std::string::npos)
+				{
+					player->GetInventory().SetCurrentItemIndex(i);
+					found = true;
+					break;
+				}
+			}
 		}
 
-		m_has_pressed_shift = false;
-		return;
+		if (!found)
+		{
+			if (!m_has_pressed_shift && isSneaking && !settings::BA_OnlyOnShift)
+			{
+				UnSneak();
+			}
+
+			m_has_pressed_shift = false;
+			m_is_bridging = false;
+			return;
+		}
 	}
 
 	if (settings::BA_OnlyOnShift)
@@ -85,11 +108,13 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 		}
 
 		m_has_pressed_shift = false;
+		m_is_bridging = false;
 		return;
 	}
 
 	if (settings::BA_OnlyOnShift && !m_has_pressed_shift)
 	{
+		m_is_bridging = false;
 		return;
 	}
 
@@ -116,12 +141,14 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 		// check if we are back on ground or going down
 		if (player->GetMotion().y < 0.0f || diffY <= 0.0f)
 			jumped = false;
+		m_is_bridging = false;
 		return;
 	}
 
 	if (diffY != 0 && diffY <= settings::BA_BlockCheck)
 	{
 		UnSneak();
+		m_is_bridging = false;
 		return;
 	}
 
@@ -133,6 +160,7 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 
 	if (!isFalling)
 	{
+		m_is_bridging = true;
 		if (static_cast<int>(diffY) != 0 || res == false)
 		{
 			Sneak();
@@ -182,6 +210,7 @@ void BridgeAssist::RenderMenu()
 				Menu::Slider(66, "Pitch Check", ImVec2(225, 0), &settings::BA_PitchCheck, 0.0f, 90.0f);
 				Menu::ToggleButton(67, "Only on Shift", ImVec2(368, 0), &settings::BA_OnlyOnShift);
 				Menu::ToggleButton(6801, "Ignore Forwards Movement", ImVec2(368, 0), &settings::BA_IgnoreForwardsMovement);
+				Menu::ToggleButton(6802, "Auto Swap", ImVec2(368, 0), &settings::BA_AutoSwap);
 			}
 			ImGui::EndChild();
 			ImGui::Spacing();

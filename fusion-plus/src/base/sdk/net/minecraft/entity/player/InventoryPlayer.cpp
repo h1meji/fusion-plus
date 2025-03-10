@@ -28,6 +28,16 @@ CItemStack CInventoryPlayer::GetCurrentItem()
 	return CItemStack(Java::Env->CallObjectMethod(this->GetInstance(), StrayCache::inventoryPlayer_getCurrentItem));
 }
 
+int CInventoryPlayer::GetCurrentItemIndex()
+{
+	return Java::Env->GetIntField(this->GetInstance(), StrayCache::inventoryPlayer_currentItem);
+}
+
+void CInventoryPlayer::SetCurrentItemIndex(int index)
+{
+	Java::Env->SetIntField(this->GetInstance(), StrayCache::inventoryPlayer_currentItem, index);
+}
+
 std::vector<CItemStack> CInventoryPlayer::GetMainInventory()
 {
 	jobject mainInventory = Java::Env->GetObjectField(this->GetInstance(), StrayCache::inventoryPlayer_mainInventory);

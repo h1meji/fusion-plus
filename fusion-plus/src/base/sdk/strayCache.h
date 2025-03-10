@@ -112,6 +112,7 @@ struct StrayCache {
 	inline static jmethodID inventoryPlayer_getCurrentItem;
 	inline static jfieldID inventoryPlayer_mainInventory;
 	inline static jfieldID inventoryPlayer_armorInventory;
+	inline static jfieldID inventoryPlayer_currentItem;
 
 	// WORLD CLASS
 	inline static jclass world_class;
@@ -364,6 +365,8 @@ struct StrayCache {
 			if (!inventoryPlayer_mainInventory) Logger::Log("inventoryPlayer_mainInventory: %p", inventoryPlayer_mainInventory);
 			inventoryPlayer_armorInventory = Java::Env->GetFieldID(inventoryPlayer_class, "armorInventory", "[Lnet/minecraft/item/ItemStack;");
 			if (!inventoryPlayer_armorInventory) Logger::Log("inventoryPlayer_armorInventory: %p", inventoryPlayer_armorInventory);
+			inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "currentItem", "I");
+			if (!inventoryPlayer_currentItem) Logger::Log("inventoryPlayer_currentItem: %p", inventoryPlayer_currentItem);
 
 			Java::AssignClass("net.minecraft.world.World", world_class);
 			if (!world_class) Logger::Log("world_class: %p", world_class);
@@ -644,6 +647,8 @@ struct StrayCache {
 			if (!inventoryPlayer_mainInventory) Logger::Log("inventoryPlayer_mainInventory: %p", inventoryPlayer_mainInventory);
 			inventoryPlayer_armorInventory = Java::Env->GetFieldID(inventoryPlayer_class, "armorInventory", "[Lnet/minecraft/item/ItemStack;");
 			if (!inventoryPlayer_armorInventory) Logger::Log("inventoryPlayer_armorInventory: %p", inventoryPlayer_armorInventory);
+			inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "", "I");
+			if (!inventoryPlayer_currentItem) Logger::Log("inventoryPlayer_currentItem: %p", inventoryPlayer_currentItem);
 
 			Java::AssignClass("net.minecraft.world.World", world_class);
 			if (!world_class) Logger::Log("world_class: %p", world_class);
@@ -912,6 +917,8 @@ struct StrayCache {
 			if (!inventoryPlayer_mainInventory) Logger::Log("inventoryPlayer_mainInventory: %p", inventoryPlayer_mainInventory);
 			inventoryPlayer_armorInventory = Java::Env->GetFieldID(inventoryPlayer_class, "b", "[Lzx;");
 			if (!inventoryPlayer_armorInventory) Logger::Log("inventoryPlayer_armorInventory: %p", inventoryPlayer_armorInventory);
+			inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "", "I");
+			if (!inventoryPlayer_currentItem) Logger::Log("inventoryPlayer_currentItem: %p", inventoryPlayer_currentItem);
 
 			Java::AssignClass("adm", world_class);
 			if (!world_class) Logger::Log("world_class: %p", world_class);
@@ -1192,6 +1199,8 @@ struct StrayCache {
 			if (!inventoryPlayer_mainInventory) Logger::Log("inventoryPlayer_mainInventory: %p", inventoryPlayer_mainInventory);
 			inventoryPlayer_armorInventory = Java::Env->GetFieldID(inventoryPlayer_class, "b", "[Ladd;");
 			if (!inventoryPlayer_armorInventory) Logger::Log("inventoryPlayer_armorInventory: %p", inventoryPlayer_armorInventory);
+			inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "", "I");
+			if (!inventoryPlayer_currentItem) Logger::Log("inventoryPlayer_currentItem: %p", inventoryPlayer_currentItem);
 
 			Java::AssignClass("ahb", world_class);
 			if (!world_class) Logger::Log("world_class: %p", world_class);
@@ -1460,6 +1469,8 @@ struct StrayCache {
 			if (!inventoryPlayer_mainInventory) Logger::Log("inventoryPlayer_mainInventory: %p", inventoryPlayer_mainInventory);
 			inventoryPlayer_armorInventory = Java::Env->GetFieldID(inventoryPlayer_class, "field_70460_b", "[Lnet/minecraft/item/ItemStack;");
 			if (!inventoryPlayer_armorInventory) Logger::Log("inventoryPlayer_armorInventory: %p", inventoryPlayer_armorInventory);
+			inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "", "I");
+			if (!inventoryPlayer_currentItem) Logger::Log("inventoryPlayer_currentItem: %p", inventoryPlayer_currentItem);
 
 			Java::AssignClass("net.minecraft.world.World", world_class);
 			if (!world_class) Logger::Log("world_class: %p", world_class);
@@ -1740,6 +1751,8 @@ struct StrayCache {
 			if (!inventoryPlayer_mainInventory) Logger::Log("inventoryPlayer_mainInventory: %p", inventoryPlayer_mainInventory);
 			inventoryPlayer_armorInventory = Java::Env->GetFieldID(inventoryPlayer_class, "field_70460_b", "[Lnet/minecraft/item/ItemStack;");
 			if (!inventoryPlayer_armorInventory) Logger::Log("inventoryPlayer_armorInventory: %p", inventoryPlayer_armorInventory);
+			inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "", "I");
+			if (!inventoryPlayer_currentItem) Logger::Log("inventoryPlayer_currentItem: %p", inventoryPlayer_currentItem);
 
 			Java::AssignClass("net.minecraft.world.World", world_class);
 			if (!world_class) Logger::Log("world_class: %p", world_class);

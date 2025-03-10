@@ -92,7 +92,7 @@ void ClientBrandChanger::onGetClientModName(JNIEnv* env, bool* cancel)
         if (settings::CBC_Enabled && !settings::CBC_ClientBrand.empty()) {
             brandToUse = settings::CBC_ClientBrand;
         } else {
-            brandToUse = "vanilla";
+			brandToUse = SDK::Minecraft->OriginalClientBrand;
         }
 
         jstring new_name = env->NewStringUTF(brandToUse.c_str());
