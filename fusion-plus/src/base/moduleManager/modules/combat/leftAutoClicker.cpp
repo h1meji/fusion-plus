@@ -16,7 +16,7 @@ void LeftAutoClicker::Update()
 	static bool fix = false;
 	if (!settings::LAC_Enabled) return;
 	if (Menu::Open) return;
-	if (SDK::Minecraft->IsInGuiState()) return;
+	if (SDK::Minecraft->IsInGuiState() && !(settings::LAC_allowInventory && SDK::Minecraft->IsInInventory())) return;
 	if (settings::LAC_weaponOnly && !MinecraftUtils::IsWeapon(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem())) return;
 	if (settings::LAC_ignoreBlocks && SDK::Minecraft->GetMouseOver().IsTypeOfBlock())
 	{
@@ -43,9 +43,11 @@ void LeftAutoClicker::Update()
 
 		lastClickTime = milli;
 
+		float multiplier = SDK::Minecraft->IsInInventory() ? settings::LAC_inventoryMultiplier : 1.0f;
+
 		std::random_device rd;
 		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> distrib(settings::LAC_leftMinCps , settings::LAC_leftMaxCps);
+		std::uniform_int_distribution<> distrib(settings::LAC_leftMinCps * multiplier, settings::LAC_leftMaxCps * multiplier);
 		nextCps = distrib(gen);
 
 		if (settings::LAC_swordBlock && MinecraftUtils::IsWeapon(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem()))
@@ -104,6 +106,11 @@ void LeftAutoClicker::RenderMenu()
 				Menu::ToggleButton(24, "Ignore Blocks", ImVec2(368, 0), &settings::LAC_ignoreBlocks);
 				Menu::ToggleButton(132, "Sword Block", ImVec2(368, 0), &settings::LAC_swordBlock);
 				Menu::ToggleButton(133, "Weapon Only", ImVec2(368, 0), &settings::LAC_weaponOnly);
+				Menu::ToggleButton(134, "Allow in Inventory", ImVec2(368, 0), &settings::LAC_allowInventory);
+				if (settings::LAC_allowInventory)
+				{
+					Menu::Slider(147, "Inventory Multiplier", ImVec2(225, 0), &settings::LAC_inventoryMultiplier, 0.1f, 5.0f);
+				}
 			}
 			ImGui::EndChild();
 			ImGui::Spacing();

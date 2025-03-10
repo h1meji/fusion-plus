@@ -183,11 +183,11 @@ void ArrayList::RenderMenu()
             if (ImGui::BeginChild("al_settings", ImVec2(425, 140), false))
             {
                 Menu::ComboBox(81, "Position", ImVec2(270, 0), &settings::AL_renderPosition, settings::AL_renderPositionList, 4);
-                Menu::ToggleButton(87, "RGB Effect", ImVec2(368, 0), &settings::AL_rgbEnabled);
+                Menu::ToggleButton(148, "RGB Effect", ImVec2(368, 0), &settings::AL_rgbEnabled);
                 if (settings::AL_rgbEnabled)
                 {
-                    Menu::ComboBox(88, "Color Mode", ImVec2(270, 0), &settings::AL_colorMode, settings::AL_colorModeList, 12);
-                    Menu::Slider(89, "RGB Speed", ImVec2(225, 0), &settings::AL_rgbSpeed, 0.1f, 5.0f, "%.1f");
+                    Menu::ComboBox(149, "Color Mode", ImVec2(270, 0), &settings::AL_colorMode, settings::AL_colorModeList, 12);
+                    Menu::Slider(150, "RGB Speed", ImVec2(225, 0), &settings::AL_rgbSpeed, 0.1f, 5.0f, "%.1f");
                 }
                 Menu::Slider(82, "Text Size", ImVec2(225, 0), &settings::AL_textSize, 1, 50);
                 Menu::ColorPicker(83, "Text Color", ImVec2(374, 0), settings::AL_textColor);

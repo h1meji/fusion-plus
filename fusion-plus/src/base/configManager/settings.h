@@ -51,8 +51,6 @@ struct settings {
 	inline static float AL_backgroundPadding = 5;
 	inline static float AL_backgroundColor[4]{ 0.f, 0.f, 0.f, 0.8f };
 	inline static float AL_backgroundRoundness = 5.f;
-
-	// New Settings for array list
     inline static bool AL_rgbEnabled = false;
     inline static int AL_colorMode = 0;
     inline static const char* AL_colorModeList[16]{ 
@@ -129,6 +127,8 @@ struct settings {
 	inline static bool LAC_ignoreBlocks = true;
 	inline static bool LAC_swordBlock = true;
 	inline static bool LAC_weaponOnly = false;
+	inline static bool LAC_allowInventory = false;
+	inline static float LAC_inventoryMultiplier = 1.0f;
 
 	// Right Auto Clicker
 	inline static bool RAC_Enabled = false;
