@@ -46,12 +46,29 @@ struct settings {
 	inline static bool AL_Enabled = false;
 	inline static int AL_renderPosition = 1;
 	inline static const char* AL_renderPositionList[4]{ "Top Left", "Top Right", "Bottom Left", "Bottom Right" };
-	inline static float AL_textSize = 18;
+	inline static float AL_textSize = 11;
 	inline static float AL_textColor[4]{ 1.f, 1.f, 1.f, 1.f };
 	inline static float AL_backgroundPadding = 5;
 	inline static float AL_backgroundColor[4]{ 0.f, 0.f, 0.f, 0.8f };
 	inline static float AL_backgroundRoundness = 5.f;
 
+	// New Settings for array list
+    inline static bool AL_rgbEnabled = false;
+    inline static int AL_colorMode = 0;
+    inline static const char* AL_colorModeList[16]{ 
+	    "Static", "RGB Wave", "Purple Rain", "Golden Luxury", "Red Flow", "Neon Pulse",
+	    "Ocean Depth", "Forest Mystical", "Sunset Dream", "Cotton Candy", "Magma Flow",
+        "Aqua Breeze", "Cosmic Wave", "Cherry Blossom", "Cyberpunk"
+    };
+    inline static float AL_rgbSpeed = 1.0f;
+    inline static bool AL_gradientEnabled = false;
+    inline static float AL_gradientStartColor[4]{ 1.0f, 0.0f, 0.0f, 1.0f };
+    inline static float AL_gradientEndColor[4]{ 0.0f, 0.0f, 1.0f, 1.0f };
+	inline static bool AL_outlineEnabled = false;
+    inline static float AL_outlineThickness = 1.0f;
+    inline static float AL_outlineColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    inline static bool AL_outlineRGB = true;
+	
 	// Radar
 	inline static bool Radar_Enabled = false;
 	inline static float Radar_Radius = 50.0f;
