@@ -1,7 +1,7 @@
 #include "bridgeAssist.h"
 #include <imgui/imgui.h>
 #include <menu/menu.h>
-#include <util/logger.h>
+#include <util/logger/logger.h>
 #include <moduleManager/commonData.h>
 #include <random>
 

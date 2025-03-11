@@ -2,8 +2,8 @@
 #include <imgui/imgui.h>
 #include <menu/menu.h>
 #include <moduleManager/commonData.h>
-#include "util/inventory.h"
-#include <util/minecraft.h>
+#include "util/minecraft/inventory.h"
+#include <util/minecraft/minecraft.h>
 #include <vector>
 #include <algorithm>
 #include <map>

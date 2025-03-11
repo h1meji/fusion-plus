@@ -3,7 +3,7 @@
 #include <menu/menu.h>
 #include <moduleManager/commonData.h>
 
-#include "util/minecraft.h"
+#include "util/minecraft/minecraft.h"
 
 void ChestStealer::Update()
 {

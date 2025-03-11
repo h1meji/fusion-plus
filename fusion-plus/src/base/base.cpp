@@ -2,7 +2,7 @@
 
 #include "../main.h"
 #include "java/java.h"
-#include "util/logger.h"
+#include "util/logger/logger.h"
 #include "menu/menu.h"
 #include "moduleManager/moduleManager.h"
 #include "sdk/sdk.h"
@@ -11,7 +11,7 @@
 
 #include "minhook/minhook.h"
 
-#include "util/minecraft.h"
+#include "util/minecraft/minecraft.h"
 #include "configManager/configManager.h"
 
 #include <thread>

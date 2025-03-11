@@ -1,7 +1,7 @@
 #include "reach.h"
 #include "sdk/sdk.h"
 #include "moduleManager/commonData.h"
-#include "util/logger.h"
+#include "util/logger/logger.h"
 #include "java/java.h"
 #include "util/math/math.h"
 #include "imgui/imgui.h"

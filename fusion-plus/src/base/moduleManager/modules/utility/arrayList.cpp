@@ -1,7 +1,7 @@
 #include "arrayList.h"
-#include "util/renderUtils.h"
-#include "util/colorPresets.h"
-#include "util/timeManager.h"
+#include "util/render/renderUtils.h"
+#include "util/render/colorPresets.h"
+#include "util/time/timeManager.h"
 
 #include <imgui/imgui.h>
 #include "menu/menu.h"

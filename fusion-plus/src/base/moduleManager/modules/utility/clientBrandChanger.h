@@ -5,7 +5,7 @@
 #include "java/javahook.h"
 #include "sdk/strayCache.h"
 
-#include "util/logger.h"
+#include "util/logger/logger.h"
 
 class ClientBrandChanger : public ModuleBase
 {

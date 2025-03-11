@@ -8,7 +8,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_win32.h"
 #include "imgui/imgui_impl_opengl2.h"
-#include "util/logger.h"
+#include "util/logger/logger.h"
 #include "util/trimmer.h"
 #include "fonts/jetbrainsmono.h"
 

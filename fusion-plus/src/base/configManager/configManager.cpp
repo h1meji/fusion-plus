@@ -1,5 +1,5 @@
 #include "configManager.h"
-#include <util/logger.h>
+#include <util/logger/logger.h>
 #include <java/java.h>
 
 bool ConfigManager::LoadConfig(const char* name)

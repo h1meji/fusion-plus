@@ -11,7 +11,7 @@
 #include "moduleManager/moduleManager.h"
 
 #include "sdk/net/minecraft/client/Minecraft.h"
-#include "util/logger.h"
+#include "util/logger/logger.h"
 #include "menu/menu.h"
 #include "configManager/configManager.h"
 

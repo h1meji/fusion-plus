@@ -29,7 +29,6 @@ This project is based on the original **Fusion** by [deity](https://www.youtube.
 - **Utility**
   - **Arraylist**: Displays a list of the user's active modules
   - **Client Brand Changer**: Changes the player's client Brand
-  - **Block Reach**: Increases the player's reach distance for blocks
   - **Weapon**: A feature that lets you select the items you consider weapons (suggested by @/zladen.)
 
 ### Hidden Modules
@@ -86,7 +85,7 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 **Fusion+ Contributors**:
 - **Himeji**: Main developers
 - **11Luke11**: Developed the "Sprint" module
-- **@/autocliicker**: Fixed the "Arraylist" module
+- **autocliicker**: Fixed and improved the "Arraylist" module
 
 **Original Fusion Development Team**:
 - **deity**: Developed the base of the cheat

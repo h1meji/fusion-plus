@@ -1,6 +1,6 @@
 #include "Minecraft.h"
 #include "java/java.h"
-#include "util/logger.h"
+#include "util/logger/logger.h"
 
 #include "sdk/net/minecraft/entity/EntityLivingBase.h"
 #include "ClientBrandRetriever.h"

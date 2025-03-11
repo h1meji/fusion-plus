@@ -2,7 +2,7 @@
 #include <jni/jvmti.h>
 #include "java/java.h"
 #include <vector>
-#include <util/logger.h>
+#include <util/logger/logger.h>
 #include <Windows.h>
 
 // Source: https://github.com/Lefraudeur/RiptermsGhost/blob/master/Ripterms/Hook/JavaHook.cpp

@@ -6,7 +6,7 @@
 #include "sdk/net/minecraft/util/Vec3.h"
 #include "sdk/net/minecraft/util/MovingObjectPosition.h"
 
-#include "util/logger.h"
+#include "util/logger/logger.h"
 
 CWorld::CWorld() 
 {

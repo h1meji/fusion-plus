@@ -1,7 +1,7 @@
 #include "esp.h"
 #include "moduleManager/commonData.h"
 #include "sdk/sdk.h"
-#include "util/logger.h"
+#include "util/logger/logger.h"
 #include "imgui/imgui.h"
 #include "util/math/math.h"
 #include "util/math/worldToScreen.h"

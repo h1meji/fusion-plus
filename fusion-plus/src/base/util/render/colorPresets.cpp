@@ -1,6 +1,6 @@
 #include "colorPresets.h"
 #include <cmath>
-#include "timeManager.h"
+#include "util/time/timeManager.h"
 
 ImVec4 ColorPresets::GetPreset(int preset, float t, float smoothT, float time) {
     switch (preset) {

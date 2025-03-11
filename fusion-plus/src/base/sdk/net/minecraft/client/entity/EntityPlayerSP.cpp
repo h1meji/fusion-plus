@@ -2,7 +2,7 @@
 #include "sdk/sdk.h"
 #include "java/java.h"
 
-#include "util/logger.h"
+#include "util/logger/logger.h"
 
 CEntityPlayerSP::CEntityPlayerSP() : CEntityPlayer()
 {

@@ -3,7 +3,7 @@
 #include "sdk/java/lang/String.h"
 #include "sdk/strayCache.h"
 
-#include "util/logger.h"
+#include "util/logger/logger.h"
 #include <sdk/sdk.h>
 
 CEntity::CEntity()

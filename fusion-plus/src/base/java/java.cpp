@@ -1,5 +1,5 @@
 #include "java.h"
-#include <util/logger.h>
+#include <util/logger/logger.h>
 
 #include "sdk/java/lang/String.h"
 

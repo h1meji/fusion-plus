@@ -1,7 +1,7 @@
 #include "aimAssist.h"
 #include "moduleManager/commonData.h"
 #include "sdk/sdk.h"
-#include "util/logger.h"
+#include "util/logger/logger.h"
 #include "imgui/imgui.h"
 #include "util/math/worldToScreen.h"
 #include "util/math/math.h"
@@ -11,7 +11,7 @@
 #include <chrono>
 #include <random>
 #include <configManager/configManager.h>
-#include <util/minecraft.h>
+#include <util/minecraft/minecraft.h>
 
 static bool IsMouseMoving()
 {

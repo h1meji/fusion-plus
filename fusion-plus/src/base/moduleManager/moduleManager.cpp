@@ -23,7 +23,7 @@
 #include <configManager/configManager.h>
 #include <imgui/imgui.h>
 
-#include "util/inventory.h"
+#include "util/minecraft/inventory.h"
 
 
 void ModuleManager::Init()

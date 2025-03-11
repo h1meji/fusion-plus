@@ -48,7 +48,7 @@
     <ClInclude Include="ext\jni\jvmticmlr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\util\logger.h">
+    <ClInclude Include="src\base\util\logger\logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\base\menu\menu.h">
@@ -279,7 +279,7 @@
     <ClInclude Include="src\base\sdk\net\minecraft\inventory\IInventory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\util\minecraft.h">
+    <ClInclude Include="src\base\util\minecraft\minecraft.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\base\sdk\net\minecraft\inventory\Container.h">
@@ -300,7 +300,7 @@
     <ClInclude Include="src\base\moduleManager\modules\inventory\inventorySorter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\util\inventory.h">
+    <ClInclude Include="src\base\util\minecraft\inventory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\base\sdk\net\minecraft\enchantment\EnchantmentHelper.h">
@@ -327,13 +327,13 @@
     <ClInclude Include="src\base\moduleManager\modules\utility\weapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\util\colorPresets.h">
+    <ClInclude Include="src\base\util\render\colorPresets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\util\renderUtils.h">
+    <ClInclude Include="src\base\util\render\renderUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\util\timeManager.h">
+    <ClInclude Include="src\base\util\time\timeManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -347,7 +347,7 @@
     <ClCompile Include="src\base\java\java.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\util\logger.cpp">
+    <ClCompile Include="src\base\util\logger\logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\menu\menu.cpp">
@@ -581,13 +581,13 @@
     <ClCompile Include="src\base\moduleManager\modules\utility\weapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\util\colorPresets.cpp">
+    <ClCompile Include="src\base\util\render\colorPresets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\util\renderUtils.cpp">
+    <ClCompile Include="src\base\util\render\renderUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\util\timeManager.cpp">
+    <ClCompile Include="src\base\util\time\timeManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

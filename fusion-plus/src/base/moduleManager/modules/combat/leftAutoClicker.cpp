@@ -1,12 +1,12 @@
 #include "leftAutoClicker.h"
 #include "sdk/sdk.h"
 #include "menu/menu.h"
-#include "util/logger.h"
+#include "util/logger/logger.h"
 #include "menu/menu.h"
 
 #include <chrono>
 #include <random>
-#include <util/minecraft.h>
+#include <util/minecraft/minecraft.h>
 
 long lastClickTime = 0;
 int nextCps = 10;

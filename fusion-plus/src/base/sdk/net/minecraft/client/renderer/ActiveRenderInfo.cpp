@@ -3,7 +3,7 @@
 #include "../../../../../java/java.h"
 #include "../../../../sdk.h"
 #include "../../../../java/nio/FloatBuffer.h"
-#include "../../../../../util/logger.h"
+#include "../../../../../util/logger/logger.h"
 
 CActiveRenderInfo::CActiveRenderInfo()
 {
