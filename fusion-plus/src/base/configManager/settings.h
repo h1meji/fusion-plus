@@ -16,12 +16,6 @@ struct settings {
 
 	// ESP
 	inline static bool ESP_Enabled = false;
-	inline static bool ESP_Text = true;
-	inline static float ESP_TextSize = 18;
-	inline static float ESP_TextColor[4]{ 1.0f, 1.0f, 1.0f, 1.0f };
-	inline static bool ESP_TextOutline = true;
-	inline static float ESP_TextOutlineColor[4]{ 0, 0, 0, 1.0f };
-	inline static float ESP_TextUnrenderDistance = 14.0f;
 	inline static float ESP_FadeDistance = 3.0f;
 	inline static bool ESP_HealthBar = true;
 	inline static int ESP_BoxType = 0;

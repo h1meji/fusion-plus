@@ -303,39 +303,6 @@ void Esp::RenderUpdate()
 
 			ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(left - 3, bottom - (diff * scaleFactor)), ImVec2(left - 1, bottom), ImColor((int)(255 * (1.0 - scaleFactor)), (int)(255 * scaleFactor), 0, (int)(255 * data.opacityFadeFactor)));
 		}
-
-		if (settings::ESP_Text && Menu::Font->IsLoaded())
-		{
-			const char* name = data.name.c_str();
-			ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::ESP_TextSize, FLT_MAX, 0.0f, name);
-			float posX = left + ((right - left) / 2) - (textSize.x / 2);
-			float posY = top - textSize.y - 1;
-
-			if (data.dist > settings::ESP_TextUnrenderDistance) {
-				if (settings::ESP_TextOutline)
-				{
-					RenderQOLF::DrawOutlinedText(Menu::Font, settings::ESP_TextSize, ImVec2(posX, posY), ImColor(settings::ESP_TextColor[0], settings::ESP_TextColor[1], settings::ESP_TextColor[2], settings::ESP_TextColor[3] * data.opacityFadeFactor), ImColor(settings::ESP_TextOutlineColor[0], settings::ESP_TextOutlineColor[1], settings::ESP_TextOutlineColor[2], settings::ESP_TextOutlineColor[3] * data.opacityFadeFactor), name);
-				}
-				else {
-
-					ImGui::GetWindowDrawList()->AddText(Menu::Font, settings::ESP_TextSize, ImVec2(posX, posY), ImColor(settings::ESP_TextColor[0], settings::ESP_TextColor[1], settings::ESP_TextColor[2], settings::ESP_TextColor[3] * data.opacityFadeFactor), name);
-				}
-			}
-
-			const char* dist = data.distText.c_str();
-			float distTextSize = settings::ESP_TextSize / 1.5f;
-			textSize = Menu::Font->CalcTextSizeA(distTextSize, FLT_MAX, 0.0f, dist);
-			posX = left + ((right - left) / 2) - (textSize.x / 2);
-			posY = bottom;
-
-			if (settings::ESP_TextOutline)
-			{
-				RenderQOLF::DrawOutlinedText(Menu::Font, distTextSize, ImVec2(posX, posY), ImColor(settings::ESP_TextColor[0], settings::ESP_TextColor[1], settings::ESP_TextColor[2], settings::ESP_TextColor[3] * data.opacityFadeFactor), ImColor(settings::ESP_TextOutlineColor[0], settings::ESP_TextOutlineColor[1], settings::ESP_TextOutlineColor[2], settings::ESP_TextOutlineColor[3] * data.opacityFadeFactor), dist);
-			}
-			else {
-				ImGui::GetWindowDrawList()->AddText(Menu::Font, distTextSize, ImVec2(posX, posY), ImColor(settings::ESP_TextColor[0], settings::ESP_TextColor[1], settings::ESP_TextColor[2], settings::ESP_TextColor[3] * data.opacityFadeFactor), dist);
-			}
-		}
 	}
 }
 
@@ -369,19 +336,6 @@ void Esp::RenderMenu()
 			if (ImGui::BeginChild("esp_settings", ImVec2(425, 215), false))
 			{
 				Menu::ToggleButton(30, "Show Healthbar", ImVec2(368, 0), &settings::ESP_HealthBar);
-				Menu::ToggleButton(31, "Show Text", ImVec2(368, 0), &settings::ESP_Text);
-				if (settings::ESP_Text)
-				{
-					Menu::ColorPicker(32, "Text Color", ImVec2(374, 0), settings::ESP_TextColor);
-					Menu::Slider(33, "Text Size", ImVec2(225, 0), &settings::ESP_TextSize, 1.0f, 50.0f);
-					Menu::Slider(34, "Text Unrender Distance", ImVec2(225, 0), &settings::ESP_TextUnrenderDistance, 0.0f, 20.0f);
-
-					Menu::ToggleButton(35, "Show Text Outline", ImVec2(368, 0), &settings::ESP_TextOutline);
-					if (settings::ESP_TextOutline)
-					{
-						Menu::ColorPicker(36, "Text Outline Color", ImVec2(374, 0), settings::ESP_TextOutlineColor);
-					}
-				}
 				Menu::Slider(37, "Fade Distance", ImVec2(225, 0), &settings::ESP_FadeDistance, 0.0f, 10.0f);
 
 				Menu::ComboBox(38, "Box Type", ImVec2(270, 0), &settings::ESP_BoxType, settings::ESP_BoxTypeList, 2);

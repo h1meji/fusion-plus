@@ -73,12 +73,6 @@ bool ConfigManager::SettingsToJson(json& j)
 
 	// ESP
 	j["ESP_Enabled"] = settings::ESP_Enabled;
-	j["ESP_Text"] = settings::ESP_Text;
-	j["ESP_TextSize"] = settings::ESP_TextSize;
-	j["ESP_TextColor"] = settings::ESP_TextColor;
-	j["ESP_TextOutline"] = settings::ESP_TextOutline;
-	j["ESP_TextOutlineColor"] = settings::ESP_TextOutlineColor;
-	j["ESP_TextUnrenderDistance"] = settings::ESP_TextUnrenderDistance;
 	j["ESP_FadeDistance"] = settings::ESP_FadeDistance;
 	j["ESP_HealthBar"] = settings::ESP_HealthBar;
 	j["ESP_BoxType"] = settings::ESP_BoxType;
@@ -278,12 +272,6 @@ bool ConfigManager::JsonToSettings(const json& j)
 
 	// ESP
 	ConfigManager::GetJsonValue(j, settings::ESP_Enabled, "ESP_Enabled");
-	ConfigManager::GetJsonValue(j, settings::ESP_Text, "ESP_Text");
-	ConfigManager::GetJsonValue(j, settings::ESP_TextSize, "ESP_TextSize");
-	ConfigManager::GetJsonValue(j, settings::ESP_TextColor, "ESP_TextColor");
-	ConfigManager::GetJsonValue(j, settings::ESP_TextOutline, "ESP_TextOutline");
-	ConfigManager::GetJsonValue(j, settings::ESP_TextOutlineColor, "ESP_TextOutlineColor");
-	ConfigManager::GetJsonValue(j, settings::ESP_TextUnrenderDistance, "ESP_TextUnrenderDistance");
 	ConfigManager::GetJsonValue(j, settings::ESP_FadeDistance, "ESP_FadeDistance");
 	ConfigManager::GetJsonValue(j, settings::ESP_HealthBar, "ESP_HealthBar");
 	ConfigManager::GetJsonValue(j, settings::ESP_BoxType, "ESP_BoxType");
