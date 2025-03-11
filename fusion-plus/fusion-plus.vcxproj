@@ -167,6 +167,7 @@
     <ClInclude Include="src\base\moduleManager\modules\movement\velocity.h" />
     <ClInclude Include="src\base\moduleManager\modules\utility\clientBrandChanger.h" />
     <ClInclude Include="src\base\moduleManager\modules\utility\weapon.h" />
+    <ClInclude Include="src\base\moduleManager\modules\visual\nametag.h" />
     <ClInclude Include="src\base\notificationManager\notificationManager.h" />
     <ClInclude Include="src\base\moduleManager\modules\tnt-tag\ITEsp.h" />
     <ClInclude Include="src\base\configManager\configManager.h" />
@@ -274,6 +275,7 @@
     <ClCompile Include="src\base\moduleManager\modules\movement\velocity.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\utility\clientBrandChanger.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\utility\weapon.cpp" />
+    <ClCompile Include="src\base\moduleManager\modules\visual\nametag.cpp" />
     <ClCompile Include="src\base\notificationManager\notificationManager.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\tnt-tag\ITEsp.cpp" />
     <ClCompile Include="src\base\configManager\configManager.cpp" />

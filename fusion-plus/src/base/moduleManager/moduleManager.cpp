@@ -6,6 +6,7 @@
 #include "modules/combat/rightAutoClicker.h"
 #include "modules/visual/esp.h"
 #include "modules/visual/radar.h"
+#include "modules/visual/nametag.h"
 #include "modules/visual/blockEsp.h"
 #include "modules/movement/bridgeAssist.h"
 #include "modules/movement/velocity.h"
@@ -34,6 +35,7 @@ void ModuleManager::Init()
 	modules.push_back(std::make_unique<RightAutoClicker>());
 	modules.push_back(std::make_unique<Esp>());
 	modules.push_back(std::make_unique<Radar>());
+	modules.push_back(std::make_unique<Nametag>());
 	modules.push_back(std::make_unique<BlockEsp>());
 	modules.push_back(std::make_unique<BridgeAssist>());
 	modules.push_back(std::make_unique<Velocity>());

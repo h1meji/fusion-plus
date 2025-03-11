@@ -98,6 +98,22 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["ESP_FriendSecondFilledBoxColor"] = settings::ESP_FriendSecondFilledBoxColor;
 	j["ESP_FriendOutlineColor"] = settings::ESP_FriendOutlineColor;
 
+	// Nametags
+	j["NT_Enabled"] = settings::NT_Enabled;
+	j["NT_TextSize"] = settings::NT_TextSize;
+	j["NT_TextColor"] = settings::NT_TextColor;
+	j["NT_TextOutline"] = settings::NT_TextOutline;
+	j["NT_TextOutlineColor"] = settings::NT_TextOutlineColor;
+	j["NT_TextUnrenderDistance"] = settings::NT_TextUnrenderDistance;
+	j["NT_FadeDistance"] = settings::NT_FadeDistance;
+	j["NT_Background"] = settings::NT_Background;
+	j["NT_BackgroundColor"] = settings::NT_BackgroundColor;
+	j["NT_BackgroundOutline"] = settings::NT_BackgroundOutline;
+	j["NT_BackgroundOutlineColor"] = settings::NT_BackgroundOutlineColor;
+	j["NT_DisplayHealth"] = settings::NT_DisplayHealth;
+	j["NT_DisplayDistance"] = settings::NT_DisplayDistance;
+	j["NT_DisplayInvisible"] = settings::NT_DisplayInvisible;
+
 	// Array List
 	j["AL_Enabled"] = settings::AL_Enabled;
 	j["AL_renderPosition"] = settings::AL_renderPosition;
@@ -286,6 +302,22 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::ESP_FriendFilledBoxColor, "ESP_FriendFilledBoxColor");
 	ConfigManager::GetJsonValue(j, settings::ESP_FriendSecondFilledBoxColor, "ESP_FriendSecondFilledBoxColor");
 	ConfigManager::GetJsonValue(j, settings::ESP_FriendOutlineColor, "ESP_FriendOutlineColor");
+
+	// Nametags
+	ConfigManager::GetJsonValue(j, settings::NT_Enabled, "NT_Enabled");
+	ConfigManager::GetJsonValue(j, settings::NT_TextSize, "NT_TextSize");
+	ConfigManager::GetJsonValue(j, settings::NT_TextColor, "NT_TextColor");
+	ConfigManager::GetJsonValue(j, settings::NT_TextOutline, "NT_TextOutline");
+	ConfigManager::GetJsonValue(j, settings::NT_TextOutlineColor, "NT_TextOutlineColor");
+	ConfigManager::GetJsonValue(j, settings::NT_TextUnrenderDistance, "NT_TextUnrenderDistance");
+	ConfigManager::GetJsonValue(j, settings::NT_FadeDistance, "NT_FadeDistance");
+	ConfigManager::GetJsonValue(j, settings::NT_Background, "NT_Background");
+	ConfigManager::GetJsonValue(j, settings::NT_BackgroundColor, "NT_BackgroundColor");
+	ConfigManager::GetJsonValue(j, settings::NT_BackgroundOutline, "NT_BackgroundOutline");
+	ConfigManager::GetJsonValue(j, settings::NT_BackgroundOutlineColor, "NT_BackgroundOutlineColor");
+	ConfigManager::GetJsonValue(j, settings::NT_DisplayHealth, "NT_DisplayHealth");
+	ConfigManager::GetJsonValue(j, settings::NT_DisplayDistance, "NT_DisplayDistance");
+	ConfigManager::GetJsonValue(j, settings::NT_DisplayInvisible, "NT_DisplayInvisible");
 
 	// Array List
 	ConfigManager::GetJsonValue(j, settings::AL_Enabled, "AL_Enabled");

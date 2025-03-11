@@ -42,6 +42,23 @@ struct settings {
 	inline static float ESP_FriendSecondFilledBoxColor[4]{ 0, 1, 0, 0.15f };
 	inline static float ESP_FriendOutlineColor[4]{ 0, 1, 0, 0.25 };
 
+	// Nametag
+	inline static bool NT_Enabled = false;
+	inline static float NT_TextSize = 18;
+	inline static float NT_TextColor[4]{ 1.0f, 1.0f, 1.0f, 1.0f };
+	inline static bool NT_TextOutline = true;
+	inline static float NT_TextOutlineColor[4]{ 0, 0, 0, 1.0f };
+	inline static float NT_TextUnrenderDistance = 14.0f;
+	inline static float NT_FadeDistance = 3.0f;
+	inline static bool NT_Background = true;
+	inline static float NT_BackgroundColor[4]{ 0, 0, 0, 0.15f };
+	inline static bool NT_BackgroundOutline = true;
+	inline static float NT_BackgroundOutlineColor[4]{ 0, 0, 0, 0.25 };
+	inline static bool NT_IgnoreFriends = true;
+	inline static bool NT_DisplayHealth = true;
+	inline static bool NT_DisplayDistance = true;
+	inline static bool NT_DisplayInvisible = true;
+
 	// Array List
 	inline static bool AL_Enabled = false;
 	inline static int AL_renderPosition = 1;
