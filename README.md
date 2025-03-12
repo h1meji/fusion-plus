@@ -18,6 +18,7 @@ This project is based on the original **Fusion** by [deity](https://www.youtube.
 - **Visual**
   - **ESP**: Displays player names, health, and distance
   - **Radar**: Displays a radar of nearby players
+  - **NameTags**: Displays player nametags (and other information) above their heads (suggested by @/autocliicker)
 - **Movement**
   - **Bridge Assist**: Automatically shifts the player at the edge of blocks while bridging
   - **Velocity**: Reduces knockback taken by the player
@@ -71,7 +72,6 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - **Tracers / Off-screen Arrows**: Draws lines / arrows to players (off-screen)
 - **Auto Tool**: Automatically selects the best tool for the block being mined (suggested by @/zladen.)
 - **Legit Criticals**: Jumps when hitting an entity to deal critical hits (suggested by @/letalisfatum)
-- **Nametags**: Displays player nametags above their heads (suggested by @/autocliicker)
 - **Auto Soup**: Automatically eats soup when the player's health is low (suggested by @/letalisfatum)
 
 ### Planned Changes
