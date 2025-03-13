@@ -64,7 +64,7 @@ ImVec4 GetColorForModule(int index, float rawTime) {
     return ColorPresets::GetPreset(settings::AL_colorMode, t, smoothT, time);
 }
 
-void ArrayList::RenderUpdate() {
+void ArrayList::RenderHud() {
     if (!settings::AL_Enabled) return;
 
     std::vector<std::string> enabledModules;

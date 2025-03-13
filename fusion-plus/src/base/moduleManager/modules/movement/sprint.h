@@ -6,7 +6,8 @@ class Sprint : public ModuleBase
 {
 public:
     void Update() override;
-    void RenderUpdate() override {};
+    void RenderOverlay() override {};
+    void RenderHud() override {};
     void RenderMenu() override;
 
     bool IsEnabled() override { return settings::S_Enabled; }

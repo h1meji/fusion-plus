@@ -11,6 +11,8 @@ void Base::RenderLoop() // Runs every frame
 {
 	if (!Base::Running || settings::Menu_DisableAllRendering) return;
 
+	g_ModuleManager->RenderOverlay();
+
 	if (settings::Menu_Watermark)
 	{
 		const char* watermark = "Fusion+";
@@ -30,7 +32,7 @@ void Base::RenderLoop() // Runs every frame
 		Menu::GlitchText(watermark, textPos);
 	}
 
-	g_ModuleManager->RenderUpdate();
+	g_ModuleManager->RenderHud();
 
 	NotificationManager::Render();
 }

@@ -228,7 +228,7 @@ void AimAssist::Update()
 	}
 }
 
-void AimAssist::RenderUpdate()
+void AimAssist::RenderOverlay()
 {
 	if (!settings::AA_Enabled || !CommonData::dataUpdated) return;
 	if (settings::AA_fovCircle) {

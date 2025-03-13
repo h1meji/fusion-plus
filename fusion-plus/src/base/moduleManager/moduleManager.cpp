@@ -90,12 +90,21 @@ void ModuleManager::UpdateModules()
 	}
 }
 
-void ModuleManager::RenderUpdate()
+void ModuleManager::RenderOverlay()
 {
 	for (auto& module : modules)
 	{
 		if (module->IsEnabled())
-			module->RenderUpdate();
+			module->RenderOverlay();
+	}
+}
+
+void ModuleManager::RenderHud()
+{
+	for (auto& module : modules)
+	{
+		if (module->IsEnabled())
+			module->RenderHud();
 	}
 }
 

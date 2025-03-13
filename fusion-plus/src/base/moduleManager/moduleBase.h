@@ -8,7 +8,8 @@ class ModuleBase
 {
 public:
 	virtual void Update() = 0;
-	virtual void RenderUpdate() = 0;
+	virtual void RenderOverlay() = 0;
+	virtual void RenderHud() = 0;
 
 	virtual void RenderMenu() = 0;
 

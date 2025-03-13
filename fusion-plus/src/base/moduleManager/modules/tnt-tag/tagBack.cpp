@@ -188,7 +188,7 @@ void TagBack::Update()
 	}
 }
 
-void TagBack::RenderUpdate()
+void TagBack::RenderOverlay()
 {
 	if (!settings::TB_Enabled || !CommonData::dataUpdated) return;
 	if (settings::TB_fovCircle) {

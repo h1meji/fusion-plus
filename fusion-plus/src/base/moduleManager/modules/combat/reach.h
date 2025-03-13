@@ -10,7 +10,8 @@ class Reach : public ModuleBase
 {
 public:
 	void Update() override;
-	void RenderUpdate() override {}
+	void RenderOverlay() override {};
+	void RenderHud() override {};
 
 	void RenderMenu() override;
 

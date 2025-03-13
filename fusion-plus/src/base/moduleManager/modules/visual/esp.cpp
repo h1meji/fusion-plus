@@ -146,7 +146,7 @@ void Esp::Update()
 	renderData = newData;
 }
 
-void Esp::RenderUpdate()
+void Esp::RenderOverlay()
 {
 	if (!settings::ESP_Enabled || !CommonData::dataUpdated) return;
 

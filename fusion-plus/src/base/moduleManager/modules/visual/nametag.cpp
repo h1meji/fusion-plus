@@ -143,7 +143,7 @@ void Nametag::Update()
 	nametagData = newData;
 }
 
-void Nametag::RenderUpdate()
+void Nametag::RenderOverlay()
 {
 	if (!settings::NT_Enabled || !CommonData::dataUpdated) return;
 

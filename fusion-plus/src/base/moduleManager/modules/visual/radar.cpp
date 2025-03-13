@@ -3,7 +3,9 @@
 #include <imgui/imgui.h>
 #include "menu/menu.h"
 #include <util/math/math.h>
+#include "util/window/windowHelpers.h"
 #include <configManager/configManager.h>
+#include <imgui/imgui_internal.h>
 
 void Radar::Update()
 {
@@ -53,118 +55,117 @@ void Radar::Update()
 	renderData = newData;
 }
 
-void Radar::RenderUpdate()
+std::once_flag setupWindowFlag;
+void Radar::RenderHud()
 {
 	if (!settings::Radar_Enabled) return;
 
-	ImVec2 screenSize = ImGui::GetWindowSize();
-	float widthRatio = screenSize.x / 1920;
-	float heightRatio = screenSize.y / 1080;
-	ImVec2 zerozero = ImVec2(settings::Radar_Position[0] * widthRatio + settings::Radar_Size / 2, settings::Radar_Position[1] * heightRatio + settings::Radar_Size / 2);
+	std::call_once(setupWindowFlag, []() {
+		ImGui::SetNextWindowPos(ImVec2(settings::Radar_Position[0], settings::Radar_Position[1]));
+		ImGui::SetNextWindowSize(ImVec2(settings::Radar_Size, settings::Radar_Size));
+		});
 
-	// Draw square
-	ImGui::GetWindowDrawList()->AddRectFilled(
-		ImVec2(settings::Radar_Position[0], settings::Radar_Position[1]),
-		ImVec2(settings::Radar_Position[0] + settings::Radar_Size, settings::Radar_Position[1] + settings::Radar_Size),
-		ImColor(settings::Radar_BackgroundColor[0], settings::Radar_BackgroundColor[1], settings::Radar_BackgroundColor[2], settings::Radar_BackgroundColor[3]),
-		settings::Radar_SquareRoundness
-	);
 
-	auto rotatePoint = [](float x, float y, float angle) -> ImVec2 {
-		float rad = angle * (float)((float)PI / 180.f);
-		float cosA = cos(rad);
-		float sinA = sin(rad);
-		return ImVec2(
-			x * cosA - y * sinA,
-			x * sinA + y * cosA
-		);
-		};
+	// Set window background and rounding
+	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(settings::Radar_BackgroundColor[0], settings::Radar_BackgroundColor[1], settings::Radar_BackgroundColor[2], settings::Radar_BackgroundColor[3]));
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, settings::Radar_SquareRoundness);
 
-	ImVec2 localPlayerPos[3] = {};
-	for (Data data : renderData)
+	ImGuiWindowFlags windowFlags;
+	if (!Menu::Open)
 	{
-		float relX = data.relativePosition.x / settings::Radar_Radius * (settings::Radar_Size / 2);
-		float relY = data.relativePosition.y / settings::Radar_Radius * (settings::Radar_Size / 2);
-
-		ImVec2 radarPos(relX, relY);
-
-		if (settings::Radar_RotateWithPlayer) {
-			radarPos = rotatePoint(radarPos.x, radarPos.y, -playerYaw);
-		}
-
-		radarPos.x += zerozero.x;
-		radarPos.y += zerozero.y;
-
-		// if local player, draw a triangle instead of a square.
-		if (data.isLocalPlayer) {
-			//// Draw triangle
-			//ImGui::GetWindowDrawList()->AddTriangleFilled(
-			//	ImVec2(zerozero.x, zerozero.y - 5),
-			//	ImVec2(zerozero.x - 5, zerozero.y + 5),
-			//	ImVec2(zerozero.x + 5, zerozero.y + 5),
-			//	ImColor(255, .5 * 255, 0, 255)
-			//);
-			// Draw player triangle
-			ImVec2 p1 = ImVec2(0, -5);
-			ImVec2 p2 = ImVec2(-5, 5);
-			ImVec2 p3 = ImVec2(5, 5);
-
-			// Rotate triangle points
-			if (!settings::Radar_RotateWithPlayer) {
-				p1 = rotatePoint(p1.x, p1.y, playerYaw);
-				p2 = rotatePoint(p2.x, p2.y, playerYaw);
-				p3 = rotatePoint(p3.x, p3.y, playerYaw);
-			}
-
-			// Translate triangle to radar position
-			p1.x += radarPos.x; p1.y += radarPos.y;
-			p2.x += radarPos.x; p2.y += radarPos.y;
-			p3.x += radarPos.x; p3.y += radarPos.y;
-
-			localPlayerPos[0] = p1;
-			localPlayerPos[1] = p2;
-			localPlayerPos[2] = p3;
-		}
-		else {
-			//// Draw square
-			//ImGui::GetWindowDrawList()->AddRectFilled(
-			//	ImVec2(zerozero.x + data.relativePosition.x / settings::Radar_Radius * (settings::Radar_Size / 2) - 2.5, zerozero.y + data.relativePosition.y / settings::Radar_Radius * (settings::Radar_Size / 2) - 2.5),
-			//	ImVec2(zerozero.x + data.relativePosition.x / settings::Radar_Radius * (settings::Radar_Size / 2) + 2.5, zerozero.y + data.relativePosition.y / settings::Radar_Radius * (settings::Radar_Size / 2) + 2.5),
-			//	ImColor(255, 0, 0, 255)
-			//);
-			//if (settings::Radar_ShowNames)
-			//{
-			//	ImVec2 textSize = ImGui::CalcTextSize(data.name.c_str());
-			//	ImGui::GetWindowDrawList()->AddText(
-			//		ImVec2(zerozero.x + data.relativePosition.x / settings::Radar_Radius * (settings::Radar_Size / 2) - textSize.x / 2, (zerozero.y + 10) + data.relativePosition.y / settings::Radar_Radius * (settings::Radar_Size / 2) - textSize.y / 2),
-			//		ImColor(255, 255, 255, 255),
-			//		data.name.c_str()
-			//	);
-			//}
-			
-			ImColor playerColor = ImColor(settings::Radar_PlayerColor[0], settings::Radar_PlayerColor[1], settings::Radar_PlayerColor[2], settings::Radar_PlayerColor[3]);
-			ImColor friendColor = ImColor(settings::Radar_FriendColor[0], settings::Radar_FriendColor[1], settings::Radar_FriendColor[2], settings::Radar_FriendColor[3]);
-
-			// Draw other players as squares
-			ImGui::GetWindowDrawList()->AddRectFilled(
-				ImVec2(radarPos.x - 2.5f, radarPos.y - 2.5f),
-				ImVec2(radarPos.x + 2.5f, radarPos.y + 2.5f),
-				ConfigManager::IsFriend(data.name) ? friendColor : playerColor
-			);
-
-			// Show names if enabled
-			if (settings::Radar_ShowNames) {
-				ImVec2 textSize = ImGui::CalcTextSize(data.name.c_str());
-				ImGui::GetWindowDrawList()->AddText(
-					ImVec2(radarPos.x - textSize.x / 2, radarPos.y + 5),
-					ImColor(255, 255, 255, 255),
-					data.name.c_str()
-				);
-			}
-		}
+		windowFlags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoResize;
+	}
+	else
+	{
+		windowFlags = 0;
 	}
 
-	ImGui::GetWindowDrawList()->AddTriangleFilled(localPlayerPos[0], localPlayerPos[1], localPlayerPos[2], ImColor(settings::Radar_LocalPlayerColor[0], settings::Radar_LocalPlayerColor[1], settings::Radar_LocalPlayerColor[2], settings::Radar_LocalPlayerColor[3]));
+	WindowHelpers::SetFixedAspectRatio(1.f, 1.f);
+	ImGui::Begin("RaderHudWindow", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | windowFlags);
+	{
+		settings::Radar_Position[0] = ImGui::GetWindowPos().x;
+		settings::Radar_Position[1] = ImGui::GetWindowPos().y;
+		settings::Radar_Size = ImGui::GetWindowSize().x;
+
+		ImVec2 zerozero = ImVec2(settings::Radar_Position[0] + settings::Radar_Size / 2, settings::Radar_Position[1] + settings::Radar_Size / 2);
+
+		auto rotatePoint = [](float x, float y, float angle) -> ImVec2 {
+			float rad = angle * (float)((float)PI / 180.f);
+			float cosA = cos(rad);
+			float sinA = sin(rad);
+			return ImVec2(
+				x * cosA - y * sinA,
+				x * sinA + y * cosA
+			);
+			};
+
+		ImVec2 localPlayerPos[3] = {};
+		for (Data data : renderData)
+		{
+			float relX = data.relativePosition.x / settings::Radar_Radius * (settings::Radar_Size / 2);
+			float relY = data.relativePosition.y / settings::Radar_Radius * (settings::Radar_Size / 2);
+
+			ImVec2 radarPos(relX, relY);
+
+			if (settings::Radar_RotateWithPlayer) {
+				radarPos = rotatePoint(radarPos.x, radarPos.y, -playerYaw);
+			}
+
+			radarPos.x += zerozero.x;
+			radarPos.y += zerozero.y;
+
+			// if local player, draw a triangle instead of a square.
+			if (data.isLocalPlayer) {
+				// Draw player triangle
+				ImVec2 p1 = ImVec2(0, -5);
+				ImVec2 p2 = ImVec2(-5, 5);
+				ImVec2 p3 = ImVec2(5, 5);
+
+				// Rotate triangle points
+				if (!settings::Radar_RotateWithPlayer) {
+					p1 = rotatePoint(p1.x, p1.y, playerYaw);
+					p2 = rotatePoint(p2.x, p2.y, playerYaw);
+					p3 = rotatePoint(p3.x, p3.y, playerYaw);
+				}
+
+				// Translate triangle to radar position
+				p1.x += radarPos.x; p1.y += radarPos.y;
+				p2.x += radarPos.x; p2.y += radarPos.y;
+				p3.x += radarPos.x; p3.y += radarPos.y;
+
+				localPlayerPos[0] = p1;
+				localPlayerPos[1] = p2;
+				localPlayerPos[2] = p3;
+			}
+			else {
+				ImColor playerColor = ImColor(settings::Radar_PlayerColor[0], settings::Radar_PlayerColor[1], settings::Radar_PlayerColor[2], settings::Radar_PlayerColor[3]);
+				ImColor friendColor = ImColor(settings::Radar_FriendColor[0], settings::Radar_FriendColor[1], settings::Radar_FriendColor[2], settings::Radar_FriendColor[3]);
+
+				// Draw other players as squares
+				ImGui::GetWindowDrawList()->AddRectFilled(
+					ImVec2(radarPos.x - 2.5f, radarPos.y - 2.5f),
+					ImVec2(radarPos.x + 2.5f, radarPos.y + 2.5f),
+					ConfigManager::IsFriend(data.name) ? friendColor : playerColor
+				);
+
+				// Show names if enabled
+				if (settings::Radar_ShowNames) {
+					ImVec2 textSize = ImGui::CalcTextSize(data.name.c_str());
+					ImGui::GetWindowDrawList()->AddText(
+						ImVec2(radarPos.x - textSize.x / 2, radarPos.y + 5),
+						ImColor(255, 255, 255, 255),
+						data.name.c_str()
+					);
+				}
+			}
+		}
+
+		ImGui::GetWindowDrawList()->AddTriangleFilled(localPlayerPos[0], localPlayerPos[1], localPlayerPos[2], ImColor(settings::Radar_LocalPlayerColor[0], settings::Radar_LocalPlayerColor[1], settings::Radar_LocalPlayerColor[2], settings::Radar_LocalPlayerColor[3]));
+	}
+	ImGui::End();
+
+	ImGui::PopStyleVar();
+	ImGui::PopStyleColor();
 }
 
 void Radar::RenderMenu()
