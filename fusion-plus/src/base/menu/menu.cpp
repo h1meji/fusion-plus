@@ -14,6 +14,7 @@ void Menu::Init()
 	Menu::Title = "fusion+";
 	Menu::Initialized = false;
 	Menu::Open = false;
+	Menu::OpenHudEditor = false;
 	Menu::Keybind = VK_INSERT;
 
 	Menu::PlaceHooks();
@@ -371,6 +372,7 @@ void Menu::MoveCursorToCenter(bool checkInGame)
 void Menu::Kill()
 {
 	Menu::Open = false;
+	Menu::OpenHudEditor = false;
 	Menu::RemoveHooks();
 	wglMakeCurrent(Menu::HandleDeviceContext, Menu::OriginalGLContext);
 	wglDeleteContext(Menu::MenuGLContext);

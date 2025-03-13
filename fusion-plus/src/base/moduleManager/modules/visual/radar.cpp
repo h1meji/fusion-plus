@@ -55,12 +55,11 @@ void Radar::Update()
 	renderData = newData;
 }
 
-std::once_flag setupWindowFlag;
 void Radar::RenderHud()
 {
 	if (!settings::Radar_Enabled) return;
 
-	std::call_once(setupWindowFlag, []() {
+	std::call_once(*Menu::setupRadarFlag, []() {
 		ImGui::SetNextWindowPos(ImVec2(settings::Radar_Position[0], settings::Radar_Position[1]));
 		ImGui::SetNextWindowSize(ImVec2(settings::Radar_Size, settings::Radar_Size));
 		});
@@ -71,7 +70,7 @@ void Radar::RenderHud()
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, settings::Radar_SquareRoundness);
 
 	ImGuiWindowFlags windowFlags;
-	if (!Menu::Open)
+	if (!Menu::OpenHudEditor)
 	{
 		windowFlags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoResize;
 	}

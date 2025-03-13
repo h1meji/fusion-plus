@@ -8,12 +8,18 @@
 #include "notificationManager/notificationManager.h"
 #include <util/window/windowHelpers.h>
 
-std::once_flag setupWatermarkFlag;
 void Base::RenderLoop() // Runs every frame
 {
-	if (!Base::Running || settings::Menu_DisableAllRendering) return;
+	if (!Base::Running || settings::Hud_DisableAllRendering) return;
 
 	g_ModuleManager->RenderOverlay();
+
+	if (Menu::OpenHudEditor)
+	{
+		// Render a black background to make the HUD editor more visible
+		ImVec2 windowSize = ImGui::GetWindowSize();
+		ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(0, 0), windowSize, IM_COL32(0, 0, 0, 100));
+	}
 
 	if (settings::Hud_Watermark)
 	{
@@ -26,7 +32,7 @@ void Base::RenderLoop() // Runs every frame
 		ImVec2 rectSize = ImVec2(textSize.x + padding * 2, textSize.y + padding * 2);
 
 		ImGuiWindowFlags windowFlags;
-		if (!Menu::Open)
+		if (!Menu::OpenHudEditor)
 		{
 			windowFlags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMouseInputs;
 		}
@@ -35,7 +41,7 @@ void Base::RenderLoop() // Runs every frame
 			windowFlags = 0;
 		}
 
-		std::call_once(setupWatermarkFlag, [&]() {
+		std::call_once(*Menu::setupWatermarkFlag, [&]() {
 			ImGui::SetNextWindowPos(ImVec2(settings::Hud_WatermarkPosition[0], settings::Hud_WatermarkPosition[1]));
 			});
 

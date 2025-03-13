@@ -15,7 +15,7 @@ void LeftAutoClicker::Update()
 {
 	static bool fix = false;
 	if (!settings::LAC_Enabled) return;
-	if (Menu::Open) return;
+	if (Menu::Open || Menu::OpenHudEditor) return;
 	if (SDK::Minecraft->IsInGuiState() && !(settings::LAC_allowInventory && SDK::Minecraft->IsInInventory())) return;
 	if (settings::LAC_weaponOnly && !MinecraftUtils::IsWeapon(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem())) return;
 	if (settings::LAC_ignoreBlocks && SDK::Minecraft->GetMouseOver().IsTypeOfBlock())

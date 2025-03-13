@@ -56,6 +56,7 @@ static void RenderConfigMenu()
 			if (ConfigManager::LoadConfig(selectedConfigName.c_str()))
 			{
 				NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been loaded.", selectedConfigName.c_str());
+				Menu::ResetSetupFlags();
 			}
 			else
 			{
@@ -129,7 +130,7 @@ static void RenderSettingsMenu()
 
 	ImGui::SeparatorText("Friends List");
 
-	int height = min(3 , settings::friends.size() > 0 ? settings::friends.size() : 1);
+	int height = 6;
 	static int friendIndex = -1;
 	if (ImGui::BeginChild("##friendslist", ImVec2(450.f, ImGui::GetTextLineHeightWithSpacing() * height), false))
 	{
@@ -188,16 +189,17 @@ static void RenderSettingsMenu()
 	ImGui::PopStyleVar();
 	ImGui::PopStyleVar();
 
-	ImGui::SeparatorText("Menu Settings");
+	ImGui::Separator();
 
 	Menu::ColorPicker(1001, "Menu Accent Color", ImVec2(374.f, 0.f), settings::Menu_AccentColor);
 	Menu::ToggleButton(1002, "GUI Movement", ImVec2(368.f, 0.f), &settings::Menu_GUIMovement);
 	Menu::ToggleButton(1003, "Show Hidden Categories", ImVec2(368.f, 0.f), &settings::Menu_ShowHiddenCategories);
 
-	ImGui::SeparatorText("Rendering Settings");
-
-	Menu::ToggleButton(1004, "Show Watermark", ImVec2(368.f, 0.f), &settings::Menu_Watermark);
-	Menu::ToggleButton(1005, "Disable All Rendering", ImVec2(368.f, 0.f), &settings::Menu_DisableAllRendering);
+	if (Menu::Button(1004, "Open Hud Editor", ImVec2(384.f, 0.f)))
+	{
+		Menu::OpenHudEditor = true;
+		Menu::Open = false;
+	}
 }
 
 void Menu::RenderMenu()
@@ -306,6 +308,29 @@ void Menu::RenderMenu()
 		ImGui::Spacing();
 	}
 	ImGui::EndChild();
+
+	ImGui::End();
+}
+
+void Menu::RenderHudEditor()
+{
+	ImGui::SetNextWindowSize(ImVec2(424.f, 300.f));
+	ImGui::Begin("Hud Editor", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+	
+	Menu::Text(1011, "Hud Editor", ImVec2(384.f, 0.f), true);
+
+	ImGui::Separator();
+
+	Menu::ToggleButton(1005, "Disable all Hud/Overlay rendering", ImVec2(368.f, 0.f), &settings::Hud_DisableAllRendering);
+	Menu::ToggleButton(1006, "Show Watermark", ImVec2(368.f, 0.f), &settings::Hud_Watermark);
+
+	ImGui::Separator();
+
+	if (Menu::Button(1010, "Close Hud Editor", ImVec2(384.f, 0.f)))
+	{
+		Menu::OpenHudEditor = false;
+		Menu::Open = true;
+	}
 
 	ImGui::End();
 }
