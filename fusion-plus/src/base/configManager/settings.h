@@ -14,6 +14,10 @@ struct settings {
 	inline static bool Menu_ShowHiddenCategories = false;
 	inline static std::vector<std::string> Menu_HiddenCategoriesList{ "TnT Tag" };
 
+	// Hud
+	inline static bool Hud_Watermark = true;
+	inline static float Hud_WatermarkPosition[2]{ 10, 10 };
+
 	// ESP
 	inline static bool ESP_Enabled = false;
 	inline static float ESP_FadeDistance = 3.0f;
