@@ -4,23 +4,9 @@
 #include "imgui/imgui.h"
 #include <imgui/imgui_internal.h>
 
-struct AspectRatioData {
-    float xRatio;
-    float yRatio;
-    float ratio;
-    ImVec2 lastStableSize;
-    bool isFirstUpdate;
-};
-
-void WindowHelpers::SetFixedAspectRatio(float xRatio, float yRatio)
+void WindowHelpers::SetFixedAspectRatio(AspectRatioData* aspectData)
 {
-    // Use static storage for the callback data
-    static AspectRatioData data;
-    data.xRatio = xRatio;
-    data.yRatio = yRatio;
-    data.ratio = xRatio / yRatio;
-    data.isFirstUpdate = true;
-
+	aspectData->isFirstUpdate = true;
     ImGui::SetNextWindowSizeConstraints(
         ImVec2(10, 10),
         ImVec2(FLT_MAX, FLT_MAX),
@@ -46,6 +32,6 @@ void WindowHelpers::SetFixedAspectRatio(float xRatio, float yRatio)
 
             aspectData->lastStableSize = callback_data->DesiredSize;
         },
-        (void*)&data
+        aspectData
     );
 }

@@ -79,7 +79,9 @@ void Radar::RenderHud()
 		windowFlags = 0;
 	}
 
-	WindowHelpers::SetFixedAspectRatio(1.f, 1.f);
+	static AspectRatioData aspectData(1.f, 1.f);
+	WindowHelpers::SetFixedAspectRatio(&aspectData);
+
 	ImGui::Begin("RaderHudWindow", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | windowFlags);
 	{
 		settings::Radar_Position[0] = ImGui::GetWindowPos().x;
