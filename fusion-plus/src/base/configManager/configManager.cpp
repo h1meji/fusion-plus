@@ -70,9 +70,10 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["Menu_ShowHiddenCategories"] = settings::Menu_ShowHiddenCategories;
 
 	// Hud
-	j["Hud_WatermarkPosition"] = { settings::Hud_WatermarkPosition[0], settings::Hud_WatermarkPosition[1] };
-	j["Hud_Watermark"] = settings::Hud_Watermark;
 	j["Hud_DisableAllRendering"] = settings::Hud_DisableAllRendering;
+	j["Hud_Watermark"] = settings::Hud_Watermark;
+	j["Hud_WatermarkPosition"] = { settings::Hud_WatermarkPosition[0], settings::Hud_WatermarkPosition[1] };
+	j["Hud_WatermarkVersion"] = settings::Hud_WatermarkVersion;
 	j["Hud_WatermarkFps"] = settings::Hud_WatermarkFps;
 	j["Hud_WatermarkPing"] = settings::Hud_WatermarkPing;
 	j["Hud_WatermarkCoords"] = settings::Hud_WatermarkCoords;
@@ -276,9 +277,10 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::Menu_ShowHiddenCategories, "Menu_ShowHiddenCategories");
 
 	// Hud
-	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkPosition, "Hud_WatermarkPosition");
-	ConfigManager::GetJsonValue(j, settings::Hud_Watermark, "Hud_Watermark");
 	ConfigManager::GetJsonValue(j, settings::Hud_DisableAllRendering, "Hud_DisableAllRendering");
+	ConfigManager::GetJsonValue(j, settings::Hud_Watermark, "Hud_Watermark");
+	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkPosition, "Hud_WatermarkPosition");
+	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkVersion, "Hud_WatermarkVersion");
 	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkFps, "Hud_WatermarkFps");
 	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkPing, "Hud_WatermarkPing");
 	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkCoords, "Hud_WatermarkCoords");

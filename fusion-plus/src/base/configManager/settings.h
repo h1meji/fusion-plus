@@ -13,9 +13,10 @@ struct settings {
 	inline static std::vector<std::string> Menu_HiddenCategoriesList{ "TnT Tag" };
 
 	// Hud
-	inline static bool Hud_Watermark = true;
 	inline static bool Hud_DisableAllRendering = false;
+	inline static bool Hud_Watermark = true;
 	inline static float Hud_WatermarkPosition[2]{ 10, 10 };
+	inline static bool Hud_WatermarkVersion = true;
 	inline static bool Hud_WatermarkFps = false;
 	inline static bool Hud_WatermarkPing = false;
 	inline static bool Hud_WatermarkCoords = false;

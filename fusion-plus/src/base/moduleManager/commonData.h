@@ -22,6 +22,8 @@ struct CommonData
 
 	inline static int fps;
 	inline static int ping;
+	inline static Vector3 playerPos;
+	inline static float playerYaw;
 	
 	struct PlayerData{
 		CEntityPlayer obj = nullptr;
@@ -85,6 +87,8 @@ struct CommonData
 
 		fps = SDK::Minecraft->GetFps();
 		ping = SDK::Minecraft->thePlayer->GetPing();
+		playerPos = SDK::Minecraft->thePlayer->GetPos();
+		playerYaw = SDK::Minecraft->thePlayer->GetAngles().x;
 
 		dataUpdated = true; // This entire function is stopped, and this is flipped once the world and or player object appears to be null
 							// Mainly for sanity checks for rendering functions, it prevents crashing whenever the user is not in a game because some data

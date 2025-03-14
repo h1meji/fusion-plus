@@ -322,13 +322,18 @@ void Menu::RenderHudEditor()
 	ImGui::Separator();
 
 	Menu::ToggleButton(1005, "Disable all Hud/Overlay rendering", ImVec2(368.f, 0.f), &settings::Hud_DisableAllRendering);
+
+	ImGui::SeparatorText("Watermark");
 	Menu::ToggleButton(1006, "Show Watermark", ImVec2(368.f, 0.f), &settings::Hud_Watermark);
-	Menu::ToggleButton(1007, "Show FPS in Watermark", ImVec2(368.f, 0.f), &settings::Hud_WatermarkFps);
-	Menu::ToggleButton(1008, "Show Ping in Watermark", ImVec2(368.f, 0.f), &settings::Hud_WatermarkPing);
+	Menu::ToggleButton(1007, "Version", ImVec2(368.f, 0.f), &settings::Hud_WatermarkVersion);
+	Menu::ToggleButton(1008, "FPS", ImVec2(368.f, 0.f), &settings::Hud_WatermarkFps);
+	Menu::ToggleButton(1009, "Ping", ImVec2(368.f, 0.f), &settings::Hud_WatermarkPing);
+	Menu::ToggleButton(1010, "Coordinates", ImVec2(368.f, 0.f), &settings::Hud_WatermarkCoords);
+	Menu::ToggleButton(1011, "Direction", ImVec2(368.f, 0.f), &settings::Hud_WatermarkDirection);
 
 	ImGui::Separator();
 
-	if (Menu::Button(1010, "Close Hud Editor", ImVec2(384.f, 0.f)))
+	if (Menu::Button(1100, "Close Hud Editor", ImVec2(384.f, 0.f)))
 	{
 		Menu::OpenHudEditor = false;
 		Menu::Open = true;
