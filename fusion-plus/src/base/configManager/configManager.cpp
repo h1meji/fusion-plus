@@ -73,6 +73,10 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["Hud_WatermarkPosition"] = { settings::Hud_WatermarkPosition[0], settings::Hud_WatermarkPosition[1] };
 	j["Hud_Watermark"] = settings::Hud_Watermark;
 	j["Hud_DisableAllRendering"] = settings::Hud_DisableAllRendering;
+	j["Hud_WatermarkFps"] = settings::Hud_WatermarkFps;
+	j["Hud_WatermarkPing"] = settings::Hud_WatermarkPing;
+	j["Hud_WatermarkCoords"] = settings::Hud_WatermarkCoords;
+	j["Hud_WatermarkDirection"] = settings::Hud_WatermarkDirection;
 
 	// ESP
 	j["ESP_Enabled"] = settings::ESP_Enabled;
@@ -275,6 +279,10 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkPosition, "Hud_WatermarkPosition");
 	ConfigManager::GetJsonValue(j, settings::Hud_Watermark, "Hud_Watermark");
 	ConfigManager::GetJsonValue(j, settings::Hud_DisableAllRendering, "Hud_DisableAllRendering");
+	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkFps, "Hud_WatermarkFps");
+	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkPing, "Hud_WatermarkPing");
+	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkCoords, "Hud_WatermarkCoords");
+	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkDirection, "Hud_WatermarkDirection");
 
 	// ESP
 	ConfigManager::GetJsonValue(j, settings::ESP_Enabled, "ESP_Enabled");

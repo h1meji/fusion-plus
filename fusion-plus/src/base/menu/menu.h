@@ -39,7 +39,7 @@ struct Menu
 	static bool TextInput(int id, const char* text, ImVec2 size, char* buf, size_t bufSize, ImGuiInputTextFlags flags = 0);
 	static bool TextInputButton(int id, const char* text, ImVec2 size, char* buf, size_t bufSize, ImGuiInputTextFlags flags = 0, const char* buttonText = "Save");
 
-	static void GlitchText(const char* text, ImVec2 pos);
+	static void GlitchText(const char* text, ImVec2 pos, int size);
 
 	static void MoveCursorToCenter(bool checkInGame);
 

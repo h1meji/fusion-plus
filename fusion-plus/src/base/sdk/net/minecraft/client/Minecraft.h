@@ -27,6 +27,7 @@ struct CMinecraft : IClass
 	bool IsInChest();
 	void ClickMouse();
 	CMovingObjectPosition GetMouseOver();
+	int GetFps();
 
 	CEntityPlayerSP* thePlayer;
 	CPlayerControllerMP* playerController;

@@ -21,6 +21,7 @@ struct StrayCache {
 	inline static jfieldID minecraft_currentScreen;
 	inline static jfieldID minecraft_objectMouseOver;
 	inline static jfieldID minecraft_launchedVersion;
+	inline static jfieldID minecraft_debugFPS;
 
 	// CLIENT BRAND RETRIEVER CLASS
 	inline static jclass clientBrandRetriever_class;
@@ -222,6 +223,8 @@ struct StrayCache {
 			if (!minecraft_objectMouseOver) Logger::Log("minecraft_objectMouseOver: %p", minecraft_objectMouseOver);
 			minecraft_launchedVersion = Java::Env->GetFieldID(minecraft_class, "launchedVersion", "Ljava/lang/String;");
 			if (!minecraft_launchedVersion) Logger::Log("minecraft_launchedVersion: %p", minecraft_launchedVersion);
+			minecraft_debugFPS = Java::Env->GetStaticFieldID(minecraft_class, "debugFPS", "I");
+			if (!minecraft_debugFPS) Logger::Log("minecraft_debugFPS: %p", minecraft_debugFPS);
 
 			Java::AssignClass("net.minecraft.client.ClientBrandRetriever", clientBrandRetriever_class);
 			if (!clientBrandRetriever_class) Logger::Log("clientBrandRetriever_class: %p", clientBrandRetriever_class);
@@ -504,6 +507,8 @@ struct StrayCache {
 			if (!minecraft_objectMouseOver) Logger::Log("minecraft_objectMouseOver: %p", minecraft_objectMouseOver);
 			minecraft_launchedVersion = Java::Env->GetFieldID(minecraft_class, "launchedVersion", "Ljava/lang/String;");
 			if (!minecraft_launchedVersion) Logger::Log("minecraft_launchedVersion: %p", minecraft_launchedVersion);
+			minecraft_debugFPS = Java::Env->GetStaticFieldID(minecraft_class, "debugFPS", "I");
+			if (!minecraft_debugFPS) Logger::Log("minecraft_debugFPS: %p", minecraft_debugFPS);
 
 			Java::AssignClass("net.minecraft.client.ClientBrandRetriever", clientBrandRetriever_class);
 			if (!clientBrandRetriever_class) Logger::Log("clientBrandRetriever_class: %p", clientBrandRetriever_class);
@@ -774,6 +779,8 @@ struct StrayCache {
 			if (!minecraft_objectMouseOver) Logger::Log("minecraft_objectMouseOver: %p", minecraft_objectMouseOver);
 			minecraft_launchedVersion = Java::Env->GetFieldID(minecraft_class, "al", "Ljava/lang/String;");
 			if (!minecraft_launchedVersion) Logger::Log("minecraft_launchedVersion: %p", minecraft_launchedVersion);
+			minecraft_debugFPS = Java::Env->GetStaticFieldID(minecraft_class, "ao", "I");
+			if (!minecraft_debugFPS) Logger::Log("minecraft_debugFPS: %p", minecraft_debugFPS);
 
 			Java::AssignClass("net/minecraft/client/ClientBrandRetriever", clientBrandRetriever_class);
 			if (!clientBrandRetriever_class) Logger::Log("clientBrandRetriever_class: %p", clientBrandRetriever_class);
@@ -1056,6 +1063,8 @@ struct StrayCache {
 			if (!minecraft_objectMouseOver) Logger::Log("minecraft_objectMouseOver: %p", minecraft_objectMouseOver);
 			minecraft_launchedVersion = Java::Env->GetFieldID(minecraft_class, "Z", "Ljava/lang/String;");
 			if (!minecraft_launchedVersion) Logger::Log("minecraft_launchedVersion: %p", minecraft_launchedVersion);
+			minecraft_debugFPS = Java::Env->GetStaticFieldID(minecraft_class, "ac", "I");
+			if (!minecraft_debugFPS) Logger::Log("minecraft_debugFPS: %p", minecraft_debugFPS);
 
 			Java::AssignClass("net/minecraft/client/ClientBrandRetriever", clientBrandRetriever_class);
 			if (!clientBrandRetriever_class) Logger::Log("clientBrandRetriever_class: %p", clientBrandRetriever_class);
@@ -1326,6 +1335,8 @@ struct StrayCache {
 			if (!minecraft_objectMouseOver) Logger::Log("minecraft_objectMouseOver: %p", minecraft_objectMouseOver);
 			minecraft_launchedVersion = Java::Env->GetFieldID(minecraft_class, "field_110447_Z", "Ljava/lang/String;");
 			if (!minecraft_launchedVersion) Logger::Log("minecraft_launchedVersion: %p", minecraft_launchedVersion);
+			minecraft_debugFPS = Java::Env->GetStaticFieldID(minecraft_class, "field_71470_ab", "I");
+			if (!minecraft_debugFPS) Logger::Log("minecraft_debugFPS: %p", minecraft_debugFPS);
 
 			Java::AssignClass("net.minecraft.client.ClientBrandRetriever", clientBrandRetriever_class);
 			if (!clientBrandRetriever_class) Logger::Log("clientBrandRetriever_class: %p", clientBrandRetriever_class);
@@ -1608,6 +1619,8 @@ struct StrayCache {
 			if (!minecraft_objectMouseOver) Logger::Log("minecraft_objectMouseOver: %p", minecraft_objectMouseOver);
 			minecraft_launchedVersion = Java::Env->GetFieldID(minecraft_class, "field_110447_Z", "Ljava/lang/String;");
 			if (!minecraft_launchedVersion) Logger::Log("minecraft_launchedVersion: %p", minecraft_launchedVersion);
+			minecraft_debugFPS = Java::Env->GetStaticFieldID(minecraft_class, "field_71470_ab", "I");
+			if (!minecraft_debugFPS) Logger::Log("minecraft_debugFPS: %p", minecraft_debugFPS);
 
 			Java::AssignClass("net.minecraft.client.ClientBrandRetriever", clientBrandRetriever_class);
 			if (!clientBrandRetriever_class) Logger::Log("clientBrandRetriever_class: %p", clientBrandRetriever_class);

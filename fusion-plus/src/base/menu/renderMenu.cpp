@@ -219,7 +219,7 @@ void Menu::RenderMenu()
 	float posX = windowPos.x + (columnWidth / 2) - (textSize.x / 2);
 	float posY = windowPos.y + 15;
 
-	Menu::GlitchText("FUSION+", ImVec2(posX, posY));
+	Menu::GlitchText("FUSION+", ImVec2(posX, posY), 28);
 	ImGui::SetCursorPosY(textSize.y + 30.f);
 
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
@@ -323,6 +323,7 @@ void Menu::RenderHudEditor()
 
 	Menu::ToggleButton(1005, "Disable all Hud/Overlay rendering", ImVec2(368.f, 0.f), &settings::Hud_DisableAllRendering);
 	Menu::ToggleButton(1006, "Show Watermark", ImVec2(368.f, 0.f), &settings::Hud_Watermark);
+	Menu::ToggleButton(1007, "Show FPS in Watermark", ImVec2(368.f, 0.f), &settings::Hud_WatermarkFps);
 
 	ImGui::Separator();
 

@@ -16,6 +16,10 @@ struct settings {
 	inline static bool Hud_Watermark = true;
 	inline static bool Hud_DisableAllRendering = false;
 	inline static float Hud_WatermarkPosition[2]{ 10, 10 };
+	inline static bool Hud_WatermarkFps = false;
+	inline static bool Hud_WatermarkPing = false;
+	inline static bool Hud_WatermarkCoords = false;
+	inline static bool Hud_WatermarkDirection = false;
 
 	// ESP
 	inline static bool ESP_Enabled = false;

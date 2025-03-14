@@ -7,6 +7,14 @@
 #include "moduleManager/moduleManager.h"
 #include "notificationManager/notificationManager.h"
 #include <util/window/windowHelpers.h>
+#include <moduleManager/commonData.h>
+
+static void DrawLine(int x, int height, int padding)
+{
+	ImVec2 lineStart = ImVec2(x, settings::Hud_WatermarkPosition[1] + (padding * 1.5));
+	ImVec2 lineEnd = ImVec2(x, settings::Hud_WatermarkPosition[1] + height - (padding * 1.5));
+	ImGui::GetWindowDrawList()->AddLine(lineStart, lineEnd, IM_COL32(155, 155, 155, 255), 2);
+}
 
 void Base::RenderLoop() // Runs every frame
 {
@@ -24,12 +32,27 @@ void Base::RenderLoop() // Runs every frame
 	if (settings::Hud_Watermark)
 	{
 		const char* watermark = "Fusion+";
+		std::string version = "v0.5";
+		std::string fps = std::to_string(CommonData::fps) + " FPS";
 
 		int margin = 10;
 		int padding = 10;
 
-		ImVec2 textSize = Menu::FontBold->CalcTextSizeA(28, FLT_MAX, 0, watermark);
-		ImVec2 rectSize = ImVec2(textSize.x + padding * 2, textSize.y + padding * 2);
+		int watermarkSize = 24;
+		int statsSize = 22;
+
+		ImVec2 textSize = Menu::FontBold->CalcTextSizeA(watermarkSize, FLT_MAX, 0, watermark);
+		ImVec2 versionSize = Menu::FontBold->CalcTextSizeA(statsSize, FLT_MAX, 0, version.c_str());
+		ImVec2 fpsSize = Menu::FontBold->CalcTextSizeA(statsSize, FLT_MAX, 0, fps.c_str());
+
+		int totalTextWidth = textSize.x + versionSize.x + padding;
+		if (settings::Hud_WatermarkFps)
+		{
+			totalTextWidth += 4; // line width
+			totalTextWidth += fpsSize.x + padding * 2;
+		}
+
+		ImVec2 rectSize = ImVec2(totalTextWidth + padding * 2, textSize.y + padding * 2);
 
 		ImGuiWindowFlags windowFlags;
 		if (!Menu::OpenHudEditor)
@@ -54,7 +77,21 @@ void Base::RenderLoop() // Runs every frame
 			settings::Hud_WatermarkPosition[1] = ImGui::GetWindowPos().y;
 
 			ImVec2 textPos = ImVec2(settings::Hud_WatermarkPosition[0] + padding, settings::Hud_WatermarkPosition[1] + padding);
-			Menu::GlitchText(watermark, textPos);
+			Menu::GlitchText(watermark, textPos, watermarkSize);
+
+			ImVec2 versionTextPos = ImVec2(textPos.x + textSize.x + padding, textPos.y + 1);
+			ImGui::GetWindowDrawList()->AddText(Menu::FontBold, statsSize, versionTextPos, IM_COL32(255, 255, 255, 255), version.c_str());
+			int currentX = versionTextPos.x + versionSize.x;
+
+			if (settings::Hud_WatermarkFps)
+			{
+				DrawLine(currentX + padding, rectSize.y, padding);
+
+				ImVec2 fpsTextPos = ImVec2(currentX + padding * 2, textPos.y + 1);
+				ImGui::GetWindowDrawList()->AddText(Menu::FontBold, statsSize, fpsTextPos, IM_COL32(255, 255, 255, 255), fps.c_str());
+
+				currentX = fpsTextPos.x + fpsSize.x;
+			}
 		}
 		ImGui::End();
 
