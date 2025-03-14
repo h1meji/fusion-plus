@@ -12,5 +12,6 @@ struct CEntityPlayer : CEntityLivingBase
 	jobject GetInstance();
 
 	CInventoryPlayer GetInventory();
+	int GetPing();
 };
 

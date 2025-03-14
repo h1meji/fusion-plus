@@ -324,6 +324,7 @@ void Menu::RenderHudEditor()
 	Menu::ToggleButton(1005, "Disable all Hud/Overlay rendering", ImVec2(368.f, 0.f), &settings::Hud_DisableAllRendering);
 	Menu::ToggleButton(1006, "Show Watermark", ImVec2(368.f, 0.f), &settings::Hud_Watermark);
 	Menu::ToggleButton(1007, "Show FPS in Watermark", ImVec2(368.f, 0.f), &settings::Hud_WatermarkFps);
+	Menu::ToggleButton(1008, "Show Ping in Watermark", ImVec2(368.f, 0.f), &settings::Hud_WatermarkPing);
 
 	ImGui::Separator();
 

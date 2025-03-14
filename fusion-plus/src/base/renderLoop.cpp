@@ -34,6 +34,7 @@ void Base::RenderLoop() // Runs every frame
 		const char* watermark = "Fusion+";
 		std::string version = "v0.5";
 		std::string fps = std::to_string(CommonData::fps) + " FPS";
+		std::string ping = std::to_string(CommonData::ping) + "ms";
 
 		int margin = 10;
 		int padding = 10;
@@ -44,12 +45,18 @@ void Base::RenderLoop() // Runs every frame
 		ImVec2 textSize = Menu::FontBold->CalcTextSizeA(watermarkSize, FLT_MAX, 0, watermark);
 		ImVec2 versionSize = Menu::FontBold->CalcTextSizeA(statsSize, FLT_MAX, 0, version.c_str());
 		ImVec2 fpsSize = Menu::FontBold->CalcTextSizeA(statsSize, FLT_MAX, 0, fps.c_str());
+		ImVec2 pingSize = Menu::FontBold->CalcTextSizeA(statsSize, FLT_MAX, 0, ping.c_str());
 
 		int totalTextWidth = textSize.x + versionSize.x + padding;
 		if (settings::Hud_WatermarkFps)
 		{
 			totalTextWidth += 4; // line width
 			totalTextWidth += fpsSize.x + padding * 2;
+		}
+		if (settings::Hud_WatermarkPing)
+		{
+			totalTextWidth += 4; // line width
+			totalTextWidth += pingSize.x + padding * 2;
 		}
 
 		ImVec2 rectSize = ImVec2(totalTextWidth + padding * 2, textSize.y + padding * 2);
@@ -91,6 +98,16 @@ void Base::RenderLoop() // Runs every frame
 				ImGui::GetWindowDrawList()->AddText(Menu::FontBold, statsSize, fpsTextPos, IM_COL32(255, 255, 255, 255), fps.c_str());
 
 				currentX = fpsTextPos.x + fpsSize.x;
+			}
+
+			if (settings::Hud_WatermarkPing)
+			{
+				DrawLine(currentX + padding, rectSize.y, padding);
+
+				ImVec2 pingTextPos = ImVec2(currentX + padding * 2, textPos.y + 1);
+				ImGui::GetWindowDrawList()->AddText(Menu::FontBold, statsSize, pingTextPos, IM_COL32(255, 255, 255, 255), ping.c_str());
+
+				currentX = pingTextPos.x + pingSize.x;
 			}
 		}
 		ImGui::End();
