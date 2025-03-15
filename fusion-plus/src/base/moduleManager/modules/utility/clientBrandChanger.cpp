@@ -37,6 +37,7 @@ void ClientBrandChanger::RenderMenu()
 			ImGui::Separator();
 			if (ImGui::BeginChild("cbc_settings", ImVec2(425, 121), false))
 			{
+				Menu::KeybindButton(177, "Keybind", ImVec2(297, 0), settings::CBC_Key);
 				static char clientBrand[128] = "";
 
 				std::call_once(setOriginalClientBrandFlag, []() {

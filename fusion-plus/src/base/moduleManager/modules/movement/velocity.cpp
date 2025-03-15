@@ -96,6 +96,7 @@ void Velocity::RenderMenu()
 			ImGui::Separator();
 			if (ImGui::BeginChild("velocity_settings", ImVec2(425, 83), false))
 			{
+				Menu::KeybindButton(172, "Keybind", ImVec2(297, 0), settings::Velocity_Key);
 				Menu::ComboBox(69, "Mode", ImVec2(270, 0), &settings::Velocity_Mode, settings::Velocity_ModeList, 1);
 
 				if (settings::Velocity_Mode == 0)

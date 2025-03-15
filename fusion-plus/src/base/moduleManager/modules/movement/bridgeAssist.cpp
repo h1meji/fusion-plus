@@ -206,6 +206,7 @@ void BridgeAssist::RenderMenu()
 			ImGui::Separator();
 			if (ImGui::BeginChild("ba_settings", ImVec2(425, 101), false))
 			{
+				Menu::KeybindButton(169, "Keybind", ImVec2(297, 0), settings::BA_Key);
 				Menu::Slider(65, "Block Check", ImVec2(225, 0), &settings::BA_BlockCheck, 1, 10);
 				Menu::Slider(66, "Pitch Check", ImVec2(225, 0), &settings::BA_PitchCheck, 0.0f, 90.0f);
 				Menu::ToggleButton(67, "Only on Shift", ImVec2(368, 0), &settings::BA_OnlyOnShift);

@@ -74,6 +74,7 @@ void Reach::RenderMenu()
 			ImGui::Separator();
 			if (ImGui::BeginChild("reach_settings", ImVec2(425, 28), false))
 			{
+				Menu::KeybindButton(167, "Keybind", ImVec2(297, 0), settings::Reach_Key);
 				Menu::Slider(17, "Reach Distance", ImVec2(225, 0), &settings::Reach_ReachDistance, 0, 4);
 			}
 			ImGui::EndChild();

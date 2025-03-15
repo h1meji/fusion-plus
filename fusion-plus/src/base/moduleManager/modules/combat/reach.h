@@ -18,7 +18,7 @@ public:
 	bool IsEnabled() override { return settings::Reach_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
-	int GetKey() override { return 0; }
+	int GetKey() override { return settings::Reach_Key; }
 
 	void SetEnabled(bool enabled) override { settings::Reach_Enabled = enabled; }
 	void Toggle() override { settings::Reach_Enabled = !settings::Reach_Enabled; }

@@ -268,6 +268,7 @@ void Nametag::RenderMenu()
 			ImGui::Separator();
 			if (ImGui::BeginChild("nt_settings", ImVec2(425, 215), false))
 			{
+				Menu::KeybindButton(179, "Keybind", ImVec2(297, 0), settings::NT_Key);
 				Menu::Slider(152, "Text Size", ImVec2(225, 0), &settings::NT_TextSize, 1.0f, 50.0f);
 				Menu::ColorPicker(153, "Text Color", ImVec2(374, 0), settings::NT_TextColor);
 

@@ -20,7 +20,7 @@ public:
 	bool IsEnabled() override { return settings::AA_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
-	int GetKey() override { return 0; }
+	int GetKey() override { return settings::AA_Key; }
 
 	void SetEnabled(bool enabled) override { settings::AA_Enabled = enabled; }
 	void Toggle() override { settings::AA_Enabled = !settings::AA_Enabled; }

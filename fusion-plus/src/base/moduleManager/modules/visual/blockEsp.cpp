@@ -105,6 +105,7 @@ void BlockEsp::RenderMenu()
 			ImGui::Separator();
 			if (ImGui::BeginChild("besp_settings", ImVec2(425, 215), false))
 			{
+				Menu::KeybindButton(178, "Keybind", ImVec2(297, 0), settings::BlockESP_Key);
 				Menu::Slider(45363, "Target ID", ImVec2(225, 0), &settings::BlockESP_TargetID, 1, 1000);
 			}
 			ImGui::EndChild();

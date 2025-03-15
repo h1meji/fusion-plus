@@ -199,6 +199,7 @@ void Radar::RenderMenu()
 			ImGui::Separator();
 			if (ImGui::BeginChild("radar_settings", ImVec2(425, 215), false))
 			{
+				Menu::KeybindButton(180, "Keybind", ImVec2(297, 0), settings::Radar_Key);
 				Menu::Slider(53, "Radius", ImVec2(225, 0), &settings::Radar_Radius, 0.0f, 300.0f);
 				Menu::ToggleButton(54, "Rotate with Player", ImVec2(368, 0), &settings::Radar_RotateWithPlayer);
 				Menu::ToggleButton(55, "Show Names", ImVec2(368, 0), &settings::Radar_ShowNames);

@@ -27,6 +27,7 @@ struct settings {
 
 	// ESP
 	inline static bool ESP_Enabled = false;
+	inline static int ESP_Key = 0x0;
 	inline static float ESP_FadeDistance = 3.0f;
 	inline static bool ESP_HealthBar = true;
 	inline static int ESP_BoxType = 0;
@@ -49,6 +50,7 @@ struct settings {
 
 	// Nametag
 	inline static bool NT_Enabled = false;
+	inline static int NT_Key = 0x0;
 	inline static float NT_TextSize = 18;
 	inline static float NT_TextColor[4]{ 1.0f, 1.0f, 1.0f, 1.0f };
 	inline static bool NT_TextOutline = true;
@@ -66,6 +68,7 @@ struct settings {
 
 	// Array List
 	inline static bool AL_Enabled = false;
+	inline static int AL_Key = 0x0;
 	inline static int AL_renderPosition = 1;
 	inline static const char* AL_renderPositionList[4]{ "Top Left", "Top Right", "Bottom Left", "Bottom Right" };
 	inline static float AL_textSize = 11;
@@ -91,6 +94,7 @@ struct settings {
 	
 	// Radar
 	inline static bool Radar_Enabled = false;
+	inline static int Radar_Key = 0x0;
 	inline static float Radar_Radius = 50.0f;
 	inline static bool Radar_RotateWithPlayer = true;
 	inline static bool Radar_ShowNames = false;
@@ -104,10 +108,12 @@ struct settings {
 
 	// Block ESP
 	inline static bool BlockESP_Enabled = false;
+	inline static int BlockESP_Key = 0x0;
 	inline static int BlockESP_TargetID = 35;
 
 	// Aim Assist
 	inline static bool AA_Enabled = false;
+	inline static int AA_Key = 0x0;
 	inline static bool AA_visibilityCheck = true;
 	inline static bool AA_sprintCheck = false;
 	inline static bool AA_blockBreakCheck = true;
@@ -132,18 +138,22 @@ struct settings {
 
 	// Reach
 	inline static bool Reach_Enabled = false;
+	inline static int Reach_Key = 0x0;
 	inline static float Reach_ReachDistance = 3.0f;
 
 	// Sprint Reset
 	inline static bool SR_Enabled = false;
+	inline static int SR_Key = 0x0;
 	inline static float SR_DelayBetween = .5f;
 	inline static float SR_LetGoDelay = .05f;
 
 	// Sprint
 	inline static bool S_Enabled = false;
+	inline static int S_Key = 0x0;
 
 	// Left Auto Clicker
 	inline static bool LAC_Enabled = false;
+	inline static int LAC_Key = 0x0;
 	inline static float LAC_leftMaxCps = 18;
 	inline static float LAC_leftMinCps = 13;
 	inline static bool LAC_ignoreBlocks = true;
@@ -154,12 +164,14 @@ struct settings {
 
 	// Right Auto Clicker
 	inline static bool RAC_Enabled = false;
+	inline static int RAC_Key = 0x0;
 	inline static float RAC_rightMaxCps = 15;
 	inline static float RAC_rightMinCps = 12;
 	inline static bool RAC_blocksOnly = true;
 
 	// Bridge Assist
 	inline static bool BA_Enabled = false;
+	inline static int BA_Key = 0x0;
 	inline static bool BA_OnlyOnShift = true;
 	inline static bool BA_IgnoreForwardsMovement = true;
 	inline static bool BA_AutoSwap = false;
@@ -168,6 +180,7 @@ struct settings {
 
 	// Velocity
 	inline static bool Velocity_Enabled = false;
+	inline static int Velocity_Key = 0x0;
 	inline static int Velocity_Mode = 0;
 	inline static const char* Velocity_ModeList[0]{ "Jump Reset" };
 	inline static float Velocity_JRReactionTime = 0.1f;
@@ -186,10 +199,12 @@ struct settings {
 
 	// Client Brand Changer
 	inline static bool CBC_Enabled = false;
+	inline static int CBC_Key = 0x0;
 	inline static std::string CBC_ClientBrand;
 
 	// Block Reach
 	inline static bool BR_Enabled = false;
+	inline static int BR_Key = 0x0;
 	inline static float BR_ReachDistance = 4.5f;
 
 	// Weapon
@@ -200,6 +215,7 @@ struct settings {
 
 	// Tag Back
 	inline static bool TB_Enabled = false;
+	inline static int TB_Key = 0x0;
 	inline static bool TB_visibilityCheck = true;
 	inline static bool TB_aimAssistFeedback = true;
 	inline static float TB_aimAssistFeedbackColor[4]{ 1, 1, 1, 1 };
@@ -220,6 +236,7 @@ struct settings {
 
 	// IT Esp
 	inline static bool ITESP_Enabled = false;
+	inline static int ITESP_Key = 0x0;
 	inline static bool ITESP_Text = true;
 	inline static float ITESP_TextSize = 18;
 	inline static float ITESP_TextColor[4]{ 1.0f, 1.0f, 1.0f, 1.0f };

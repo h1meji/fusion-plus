@@ -356,6 +356,7 @@ void ITEsp::RenderMenu()
 			ImGui::Separator();
 			if (ImGui::BeginChild("itesp_settings", ImVec2(425, 215), false))
 			{
+				Menu::KeybindButton(174, "Keybind", ImVec2(297, 0), settings::ITESP_Key);
 				Menu::ToggleButton(105, "Show Text", ImVec2(368, 0), &settings::ITESP_Text);
 				if (settings::ITESP_Text)
 				{

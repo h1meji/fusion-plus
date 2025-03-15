@@ -291,6 +291,7 @@ void AimAssist::RenderMenu()
 			ImGui::Separator();
 			if (ImGui::BeginChild("aa_settings", ImVec2(425, 215), false))
 			{
+				Menu::KeybindButton(165, "Keybind", ImVec2(297, 0), settings::AA_Key);
 				Menu::Slider(1, "FOV", ImVec2(225, 0), &settings::AA_fov, 5.0f, 180.0f);
 				Menu::Slider(2, "Lock Distance", ImVec2(225, 0), &settings::AA_aimDistance, 1.0f, 8.0f);
 				Menu::Slider(3, "Smoothness", ImVec2(225, 0), &settings::AA_smooth, 1.0f, 90.0f);

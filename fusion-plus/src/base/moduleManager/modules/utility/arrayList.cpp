@@ -182,6 +182,7 @@ void ArrayList::RenderMenu()
             ImGui::Separator();
             if (ImGui::BeginChild("al_settings", ImVec2(425, 140), false))
             {
+                Menu::KeybindButton(176, "Keybind", ImVec2(297, 0), settings::AL_Key);
                 Menu::ComboBox(81, "Position", ImVec2(270, 0), &settings::AL_renderPosition, settings::AL_renderPositionList, 4);
                 Menu::ToggleButton(148, "RGB Effect", ImVec2(368, 0), &settings::AL_rgbEnabled);
                 if (settings::AL_rgbEnabled)

@@ -18,7 +18,7 @@ public:
 	bool IsEnabled() override { return settings::Radar_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
-	int GetKey() override { return 0; }
+	int GetKey() override { return settings::Radar_Key; }
 
 	void SetEnabled(bool enabled) override { settings::Radar_Enabled = enabled; }
 	void Toggle() override { settings::Radar_Enabled = !settings::Radar_Enabled; }

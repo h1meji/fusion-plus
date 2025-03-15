@@ -14,7 +14,7 @@ public:
 	bool IsEnabled() override { return settings::ITESP_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
-	int GetKey() override { return 0; }
+	int GetKey() override { return settings::ITESP_Key; }
 
 	void SetEnabled(bool enabled) override { settings::ITESP_Enabled = enabled; }
 	void Toggle() override { settings::ITESP_Enabled = !settings::ITESP_Enabled; }

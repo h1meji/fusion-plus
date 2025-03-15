@@ -13,7 +13,7 @@ public:
     bool IsEnabled() override { return settings::S_Enabled; }
     std::string GetName() override { return Name; }
     std::string GetCategory() override { return Category; }
-    int GetKey() override { return 0; }
+    int GetKey() override { return settings::S_Key; }
 
 	void SetEnabled(bool enabled) override { settings::S_Enabled = enabled; }
 	void Toggle() override { settings::S_Enabled = !settings::S_Enabled; }

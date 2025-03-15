@@ -15,7 +15,7 @@ public:
 	bool IsEnabled() override { return settings::NT_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
-	int GetKey() override { return 0; }
+	int GetKey() override { return settings::NT_Key; }
 
 	void SetEnabled(bool enabled) override { settings::NT_Enabled = enabled; }
 	void Toggle() override { settings::NT_Enabled = !settings::NT_Enabled; }

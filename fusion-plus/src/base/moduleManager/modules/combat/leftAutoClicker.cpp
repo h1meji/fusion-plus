@@ -101,6 +101,7 @@ void LeftAutoClicker::RenderMenu()
 			ImGui::Separator();
 			if (ImGui::BeginChild("lac_settings", ImVec2(425, 153), false))
 			{
+				Menu::KeybindButton(166, "Keybind", ImVec2(297, 0), settings::LAC_Key);
 				Menu::Slider(22, "Min CPS", ImVec2(225, 0), &settings::LAC_leftMinCps, 1, settings::LAC_leftMaxCps);
 				Menu::Slider(23, "Max CPS", ImVec2(225, 0), &settings::LAC_leftMaxCps, settings::LAC_leftMinCps, 25);
 				Menu::ToggleButton(24, "Ignore Blocks", ImVec2(368, 0), &settings::LAC_ignoreBlocks);

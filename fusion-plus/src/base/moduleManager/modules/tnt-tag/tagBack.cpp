@@ -251,6 +251,7 @@ void TagBack::RenderMenu()
 			ImGui::Separator();
 			if (ImGui::BeginChild("tb_settings", ImVec2(425, 215), false))
 			{
+				Menu::KeybindButton(175, "Keybind", ImVec2(297, 0), settings::TB_Key);
 				Menu::Slider(87, "FOV", ImVec2(225, 0), &settings::TB_fov, 5.0f, 180.0f);
 				Menu::Slider(89, "Smoothness", ImVec2(225, 0), &settings::TB_smooth, 1.0f, 90.0f);
 

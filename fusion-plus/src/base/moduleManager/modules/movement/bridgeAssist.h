@@ -18,7 +18,7 @@ public:
 	bool IsEnabled() override { return settings::BA_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
-	int GetKey() override { return 0; }
+	int GetKey() override { return settings::BA_Key; }
 
 	void SetEnabled(bool enabled) override { settings::BA_Enabled = enabled; }
 	void Toggle() override { settings::BA_Enabled = !settings::BA_Enabled; }

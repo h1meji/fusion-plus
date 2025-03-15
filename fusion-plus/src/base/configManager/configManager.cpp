@@ -84,6 +84,7 @@ bool ConfigManager::SettingsToJson(json& j)
 
 	// ESP
 	j["ESP_Enabled"] = settings::ESP_Enabled;
+	j["ESP_Key"] = settings::ESP_Key;
 	j["ESP_FadeDistance"] = settings::ESP_FadeDistance;
 	j["ESP_HealthBar"] = settings::ESP_HealthBar;
 	j["ESP_BoxType"] = settings::ESP_BoxType;
@@ -105,6 +106,7 @@ bool ConfigManager::SettingsToJson(json& j)
 
 	// Nametags
 	j["NT_Enabled"] = settings::NT_Enabled;
+	j["NT_Key"] = settings::NT_Key;
 	j["NT_TextSize"] = settings::NT_TextSize;
 	j["NT_TextColor"] = settings::NT_TextColor;
 	j["NT_TextOutline"] = settings::NT_TextOutline;
@@ -121,6 +123,7 @@ bool ConfigManager::SettingsToJson(json& j)
 
 	// Array List
 	j["AL_Enabled"] = settings::AL_Enabled;
+	j["AL_Key"] = settings::AL_Key;
 	j["AL_renderPosition"] = settings::AL_renderPosition;
 	j["AL_textSize"] = settings::AL_textSize;
 	j["AL_textColor"] = settings::AL_textColor;
@@ -129,6 +132,7 @@ bool ConfigManager::SettingsToJson(json& j)
 
 	// Radar
 	j["Radar_Enabled"] = settings::Radar_Enabled;
+	j["Radar_Key"] = settings::Radar_Key;
 	j["Radar_Radius"] = settings::Radar_Radius;
 	j["Radar_RotateWithPlayer"] = settings::Radar_RotateWithPlayer;
 	j["Radar_ShowNames"] = settings::Radar_ShowNames;
@@ -142,6 +146,7 @@ bool ConfigManager::SettingsToJson(json& j)
 
 	// Aim Assist
 	j["AA_Enabled"] = settings::AA_Enabled;
+	j["AA_Key"] = settings::AA_Key;
 	j["AA_visibilityCheck"] = settings::AA_visibilityCheck;
 	j["AA_sprintCheck"] = settings::AA_sprintCheck;
 	j["AA_blockBreakCheck"] = settings::AA_blockBreakCheck;
@@ -165,18 +170,22 @@ bool ConfigManager::SettingsToJson(json& j)
 
 	// Reach
 	j["Reach_Enabled"] = settings::Reach_Enabled;
+	j["Reach_Key"] = settings::Reach_Key;
 	j["Reach_ReachDistance"] = settings::Reach_ReachDistance;
 
 	// Sprint Reset
 	j["SR_Enabled"] = settings::SR_Enabled;
+	j["SR_Key"] = settings::SR_Key;
 	j["SR_DelayBetween"] = settings::SR_DelayBetween;
 	j["SR_LetGoDelay"] = settings::SR_LetGoDelay;
 
 	// Sprint
 	j["Sprint_Enabled"] = settings::S_Enabled;
+	j["Sprint_Key"] = settings::S_Key;
 
 	// Left Auto Clicker
 	j["LAC_Enabled"] = settings::LAC_Enabled;
+	j["LAC_Key"] = settings::LAC_Key;
 	j["LAC_leftMaxCps"] = settings::LAC_leftMaxCps;
 	j["LAC_leftMinCps"] = settings::LAC_leftMinCps;
 	j["LAC_ignoreBlocks"] = settings::LAC_ignoreBlocks;
@@ -185,12 +194,14 @@ bool ConfigManager::SettingsToJson(json& j)
 
 	// Right Auto Clicker
 	j["RAC_Enabled"] = settings::RAC_Enabled;
+	j["RAC_Key"] = settings::RAC_Key;
 	j["RAC_rightMaxCps"] = settings::RAC_rightMaxCps;
 	j["RAC_rightMinCps"] = settings::RAC_rightMinCps;
 	j["RAC_blocksOnly"] = settings::RAC_blocksOnly;
 
 	// Bridge Assist
 	j["BA_Enabled"] = settings::BA_Enabled;
+	j["BA_Key"] = settings::BA_Key;
 	j["BA_OnlyOnShift"] = settings::BA_OnlyOnShift;
 	j["BA_IgnoreForwardsMovement"] = settings::BA_IgnoreForwardsMovement;
 	j["BA_AutoSwap"] = settings::BA_AutoSwap;
@@ -199,6 +210,7 @@ bool ConfigManager::SettingsToJson(json& j)
 
 	// Velocity
 	j["Velocity_Enabled"] = settings::Velocity_Enabled;
+	j["Velocity_Key"] = settings::Velocity_Key;
 	j["Velocity_Mode"] = settings::Velocity_Mode;
 	j["Velocity_JRReactionTime"] = settings::Velocity_JRReactionTime;
 	j["Velocity_JRChange"] = settings::Velocity_JRChange;
@@ -211,10 +223,12 @@ bool ConfigManager::SettingsToJson(json& j)
 
 	// Client Brand Changer
 	j["CBC_Enabled"] = settings::CBC_Enabled;
+	j["CBC_Key"] = settings::CBC_Key;
 	j["CBC_ClientBrand"] = settings::CBC_ClientBrand;
 
 	// Block Reach
 	j["BR_Enabled"] = settings::BR_Enabled;
+	j["BR_Key"] = settings::BR_Key;
 	j["BR_ReachDistance"] = settings::BR_ReachDistance;
 
 	// Weapon
@@ -225,6 +239,7 @@ bool ConfigManager::SettingsToJson(json& j)
 
 	// Tag Back
 	j["TB_Enabled"] = settings::TB_Enabled;
+	j["TB_Key"] = settings::TB_Key;
 	j["TB_visibilityCheck"] = settings::TB_visibilityCheck;
 	j["TB_aimAssistFeedback"] = settings::TB_aimAssistFeedback;
 	j["TB_aimAssistFeedbackColor"] = settings::TB_aimAssistFeedbackColor;
@@ -244,6 +259,7 @@ bool ConfigManager::SettingsToJson(json& j)
 
 	// IT ESP
 	j["ITESP_Enabled"] = settings::ITESP_Enabled;
+	j["ITESP_Key"] = settings::ITESP_Key;
 	j["ITESP_Text"] = settings::ITESP_Text;
 	j["ITESP_TextSize"] = settings::ITESP_TextSize;
 	j["ITESP_TextColor"] = settings::ITESP_TextColor;
@@ -294,6 +310,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 
 	// ESP
 	ConfigManager::GetJsonValue(j, settings::ESP_Enabled, "ESP_Enabled");
+	ConfigManager::GetJsonValue(j, settings::ESP_Key, "ESP_Key");
 	ConfigManager::GetJsonValue(j, settings::ESP_FadeDistance, "ESP_FadeDistance");
 	ConfigManager::GetJsonValue(j, settings::ESP_HealthBar, "ESP_HealthBar");
 	ConfigManager::GetJsonValue(j, settings::ESP_BoxType, "ESP_BoxType");
@@ -315,6 +332,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 
 	// Nametags
 	ConfigManager::GetJsonValue(j, settings::NT_Enabled, "NT_Enabled");
+	ConfigManager::GetJsonValue(j, settings::NT_Key, "NT_Key");
 	ConfigManager::GetJsonValue(j, settings::NT_TextSize, "NT_TextSize");
 	ConfigManager::GetJsonValue(j, settings::NT_TextColor, "NT_TextColor");
 	ConfigManager::GetJsonValue(j, settings::NT_TextOutline, "NT_TextOutline");
@@ -331,6 +349,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 
 	// Array List
 	ConfigManager::GetJsonValue(j, settings::AL_Enabled, "AL_Enabled");
+	ConfigManager::GetJsonValue(j, settings::AL_Key, "AL_Key");
 	ConfigManager::GetJsonValue(j, settings::AL_renderPosition, "AL_renderPosition");
 	ConfigManager::GetJsonValue(j, settings::AL_textSize, "AL_textSize");
 	ConfigManager::GetJsonValue(j, settings::AL_textColor, "AL_textColor");
@@ -339,6 +358,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 
 	// Radar
 	ConfigManager::GetJsonValue(j, settings::Radar_Enabled, "Radar_Enabled");
+	ConfigManager::GetJsonValue(j, settings::Radar_Key, "Radar_Key");
 	ConfigManager::GetJsonValue(j, settings::Radar_Radius, "Radar_Radius");
 	ConfigManager::GetJsonValue(j, settings::Radar_RotateWithPlayer, "Radar_RotateWithPlayer");
 	ConfigManager::GetJsonValue(j, settings::Radar_ShowNames, "Radar_ShowNames");
@@ -352,6 +372,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 
 	// Aim Assist
 	ConfigManager::GetJsonValue(j, settings::AA_Enabled, "AA_Enabled");
+	ConfigManager::GetJsonValue(j, settings::AA_Key, "AA_Key");
 	ConfigManager::GetJsonValue(j, settings::AA_visibilityCheck, "AA_visibilityCheck");
 	ConfigManager::GetJsonValue(j, settings::AA_sprintCheck, "AA_sprintCheck");
 	ConfigManager::GetJsonValue(j, settings::AA_blockBreakCheck, "AA_blockBreakCheck");
@@ -375,18 +396,22 @@ bool ConfigManager::JsonToSettings(const json& j)
 
 	// Reach
 	ConfigManager::GetJsonValue(j, settings::Reach_Enabled, "Reach_Enabled");
+	ConfigManager::GetJsonValue(j, settings::Reach_Key, "Reach_Key");
 	ConfigManager::GetJsonValue(j, settings::Reach_ReachDistance, "Reach_ReachDistance");
 
 	// Sprint Reset
 	ConfigManager::GetJsonValue(j, settings::SR_Enabled, "SR_Enabled");
+	ConfigManager::GetJsonValue(j, settings::SR_Key, "SR_Key");
 	ConfigManager::GetJsonValue(j, settings::SR_DelayBetween, "SR_DelayBetween");
 	ConfigManager::GetJsonValue(j, settings::SR_LetGoDelay, "SR_LetGoDelay");
 
 	// Sprint
 	ConfigManager::GetJsonValue(j, settings::S_Enabled, "S_Enabled");
+	ConfigManager::GetJsonValue(j, settings::S_Key, "S_Key");
 
 	// Left Auto Clicker
 	ConfigManager::GetJsonValue(j, settings::LAC_Enabled, "LAC_Enabled");
+	ConfigManager::GetJsonValue(j, settings::LAC_Key, "LAC_Key");
 	ConfigManager::GetJsonValue(j, settings::LAC_leftMaxCps, "LAC_leftMaxCps");
 	ConfigManager::GetJsonValue(j, settings::LAC_leftMinCps, "LAC_leftMinCps");
 	ConfigManager::GetJsonValue(j, settings::LAC_ignoreBlocks, "LAC_ignoreBlocks");
@@ -395,12 +420,14 @@ bool ConfigManager::JsonToSettings(const json& j)
 
 	// Right Auto Clicker
 	ConfigManager::GetJsonValue(j, settings::RAC_Enabled, "RAC_Enabled");
+	ConfigManager::GetJsonValue(j, settings::RAC_Key, "RAC_Key");
 	ConfigManager::GetJsonValue(j, settings::RAC_rightMaxCps, "RAC_rightMaxCps");
 	ConfigManager::GetJsonValue(j, settings::RAC_rightMinCps, "RAC_rightMinCps");
 	ConfigManager::GetJsonValue(j, settings::RAC_blocksOnly, "RAC_blocksOnly");
 
 	// Bridge Assist
 	ConfigManager::GetJsonValue(j, settings::BA_Enabled, "BA_Enabled");
+	ConfigManager::GetJsonValue(j, settings::BA_Key, "BA_Key");
 	ConfigManager::GetJsonValue(j, settings::BA_OnlyOnShift, "BA_OnlyOnShift");
 	ConfigManager::GetJsonValue(j, settings::BA_IgnoreForwardsMovement, "BA_IgnoreForwardsMovement");
 	ConfigManager::GetJsonValue(j, settings::BA_AutoSwap, "BA_AutoSwap");
@@ -409,6 +436,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 
 	// Velocity
 	ConfigManager::GetJsonValue(j, settings::Velocity_Enabled, "Velocity_Enabled");
+	ConfigManager::GetJsonValue(j, settings::Velocity_Key, "Velocity_Key");
 	ConfigManager::GetJsonValue(j, settings::Velocity_Mode, "Velocity_Mode");
 	ConfigManager::GetJsonValue(j, settings::Velocity_JRReactionTime, "Velocity_JRReactionTime");
 	ConfigManager::GetJsonValue(j, settings::Velocity_JRChange, "Velocity_JRChange");
@@ -421,10 +449,12 @@ bool ConfigManager::JsonToSettings(const json& j)
 
 	// Client Brand Changer
 	ConfigManager::GetJsonValue(j, settings::CBC_Enabled, "CBC_Enabled");
+	ConfigManager::GetJsonValue(j, settings::CBC_Key, "CBC_Key");
 	ConfigManager::GetJsonValue(j, settings::CBC_ClientBrand, "CBC_ClientBrand");
 
 	// Block Reach
 	ConfigManager::GetJsonValue(j, settings::BR_Enabled, "BR_Enabled");
+	ConfigManager::GetJsonValue(j, settings::BR_Key, "BR_Key");
 	ConfigManager::GetJsonValue(j, settings::BR_ReachDistance, "BR_ReachDistance");
 
 	// Weapon
@@ -435,6 +465,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 
 	// Tag Back
 	ConfigManager::GetJsonValue(j, settings::TB_Enabled, "TB_Enabled");
+	ConfigManager::GetJsonValue(j, settings::TB_Key, "TB_Key");
 	ConfigManager::GetJsonValue(j, settings::TB_visibilityCheck, "TB_visibilityCheck");
 	ConfigManager::GetJsonValue(j, settings::TB_aimAssistFeedback, "TB_aimAssistFeedback");
 	ConfigManager::GetJsonValue(j, settings::TB_aimAssistFeedbackColor, "TB_aimAssistFeedbackColor");
@@ -454,6 +485,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 
 	// IT ESP
 	ConfigManager::GetJsonValue(j, settings::ITESP_Enabled, "ITESP_Enabled");
+	ConfigManager::GetJsonValue(j, settings::ITESP_Key, "ITESP_Key");
 	ConfigManager::GetJsonValue(j, settings::ITESP_Text, "ITESP_Text");
 	ConfigManager::GetJsonValue(j, settings::ITESP_TextSize, "ITESP_TextSize");
 	ConfigManager::GetJsonValue(j, settings::ITESP_TextColor, "ITESP_TextColor");

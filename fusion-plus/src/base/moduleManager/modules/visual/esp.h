@@ -18,7 +18,7 @@ public:
 	bool IsEnabled() override { return settings::ESP_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
-	int GetKey() override { return 0; }
+	int GetKey() override { return settings::ESP_Key; }
 
 	void SetEnabled(bool enabled) override { settings::ESP_Enabled = enabled; }
 	void Toggle() override { settings::ESP_Enabled = !settings::ESP_Enabled; }

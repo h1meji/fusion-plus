@@ -19,7 +19,7 @@ public:
 	bool IsEnabled() override { return settings::CBC_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
-	int GetKey() override { return 0; }
+	int GetKey() override { return settings::CBC_Key; }
 
 	void SetEnabled(bool enabled) override { settings::CBC_Enabled = enabled; }
 	void Toggle() override { settings::CBC_Enabled = !settings::CBC_Enabled; }

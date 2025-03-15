@@ -18,7 +18,7 @@ public:
 	bool IsEnabled() override { return settings::BlockESP_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
-	int GetKey() override { return 0; }
+	int GetKey() override { return settings::BlockESP_Key; }
 
 	void SetEnabled(bool enabled) override { settings::BlockESP_Enabled = enabled; }
 	void Toggle() override { settings::BlockESP_Enabled = !settings::BlockESP_Enabled; }

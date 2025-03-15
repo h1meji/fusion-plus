@@ -335,6 +335,7 @@ void Esp::RenderMenu()
 			ImGui::Separator();
 			if (ImGui::BeginChild("esp_settings", ImVec2(425, 215), false))
 			{
+				Menu::KeybindButton(164, "Keybind", ImVec2(297, 0), settings::ESP_Key);
 				Menu::ToggleButton(30, "Show Healthbar", ImVec2(368, 0), &settings::ESP_HealthBar);
 				Menu::Slider(37, "Fade Distance", ImVec2(225, 0), &settings::ESP_FadeDistance, 0.0f, 10.0f);
 

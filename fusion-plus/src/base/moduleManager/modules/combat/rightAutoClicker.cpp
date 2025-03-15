@@ -71,6 +71,7 @@ void RightAutoClicker::RenderMenu()
 			ImGui::Separator();
 			if (ImGui::BeginChild("rac_settings", ImVec2(425, 75), false))
 			{
+				Menu::KeybindButton(168, "Keybind", ImVec2(297, 0), settings::RAC_Key);
 				Menu::Slider(26, "Min CPS", ImVec2(225, 0), &settings::RAC_rightMinCps, 1, settings::RAC_rightMaxCps);
 				Menu::Slider(27, "Max CPS", ImVec2(225, 0), &settings::RAC_rightMaxCps, settings::RAC_rightMinCps, 20);
 				Menu::ToggleButton(28, "Blocks Only", ImVec2(368, 0), &settings::RAC_blocksOnly);
