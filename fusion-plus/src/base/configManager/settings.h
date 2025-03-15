@@ -21,6 +21,7 @@ struct settings {
 	inline static bool Hud_WatermarkPing = false;
 	inline static bool Hud_WatermarkCoords = false;
 	inline static bool Hud_WatermarkDirection = false;
+	inline static bool Hud_WatermarkTime = false;
 
 	// ESP
 	inline static bool ESP_Enabled = false;

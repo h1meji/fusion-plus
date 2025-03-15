@@ -9,6 +9,7 @@
 #include <util/window/windowHelpers.h>
 #include <moduleManager/commonData.h>
 #include <util/math/math.h>
+#include <ctime>
 
 static void DrawLine(int x, int height, int padding)
 {
@@ -57,12 +58,19 @@ void Base::RenderLoop() // Runs every frame
 
 	if (settings::Hud_Watermark)
 	{
+		std::time_t now = std::time(nullptr);
+		std::tm localTime{};  // Declare a local std::tm struct
+		localtime_s(&localTime, &now); // Pass the address of localTime
+		char buffer[9]; // HH:mm:ss
+		std::strftime(buffer, sizeof(buffer), "%H:%M:%S", &localTime);
+
 		const char* watermark = "Fusion+";
 		std::string version = "v0.5";
 		std::string fps = std::to_string(CommonData::fps) + " FPS";
 		std::string ping = std::to_string(CommonData::ping) + "ms";
 		std::string coords = "X: " + floatToString(CommonData::playerPos.x, 1) + " Y: " + floatToString(CommonData::playerPos.y, 1) + " Z: " + floatToString(CommonData::playerPos.z, 1);
 		std::string direction = yawToDirection(CommonData::playerYaw);
+		std::string time = buffer;
 
 		int margin = 10;
 		int padding = 10;
@@ -76,6 +84,7 @@ void Base::RenderLoop() // Runs every frame
 		ImVec2 pingSize = Menu::FontBold->CalcTextSizeA(statsSize, FLT_MAX, 0, ping.c_str());
 		ImVec2 coordsSize = Menu::FontBold->CalcTextSizeA(statsSize, FLT_MAX, 0, coords.c_str());
 		ImVec2 directionSize = Menu::FontBold->CalcTextSizeA(statsSize, FLT_MAX, 0, direction.c_str());
+		ImVec2 timeSize = Menu::FontBold->CalcTextSizeA(statsSize, FLT_MAX, 0, time.c_str());
 
 		int totalTextWidth = textSize.x;
 		if (settings::Hud_WatermarkVersion)
@@ -102,6 +111,11 @@ void Base::RenderLoop() // Runs every frame
 		{
 			totalTextWidth += 4; // line width
 			totalTextWidth += directionSize.x + padding * 2;
+		}
+		if (settings::Hud_WatermarkTime)
+		{
+			totalTextWidth += 4; // line width
+			totalTextWidth += timeSize.x + padding * 2;
 		}
 
 		ImVec2 rectSize = ImVec2(totalTextWidth + padding * 2, textSize.y + padding * 2);
@@ -180,6 +194,16 @@ void Base::RenderLoop() // Runs every frame
 				ImGui::GetWindowDrawList()->AddText(Menu::FontBold, statsSize, directionTextPos, IM_COL32(255, 255, 255, 255), direction.c_str());
 
 				currentX = directionTextPos.x + directionSize.x;
+			}
+
+			if (settings::Hud_WatermarkTime)
+			{
+				DrawLine(currentX + padding, rectSize.y, padding);
+
+				ImVec2 timeTextPos = ImVec2(currentX + padding * 2, textPos.y + 1);
+				ImGui::GetWindowDrawList()->AddText(Menu::FontBold, statsSize, timeTextPos, IM_COL32(255, 255, 255, 255), time.c_str());
+
+				currentX = timeTextPos.x + timeSize.x;
 			}
 		}
 		ImGui::End();

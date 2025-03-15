@@ -330,6 +330,7 @@ void Menu::RenderHudEditor()
 	Menu::ToggleButton(1009, "Ping", ImVec2(368.f, 0.f), &settings::Hud_WatermarkPing);
 	Menu::ToggleButton(1010, "Coordinates", ImVec2(368.f, 0.f), &settings::Hud_WatermarkCoords);
 	Menu::ToggleButton(1011, "Direction", ImVec2(368.f, 0.f), &settings::Hud_WatermarkDirection);
+	Menu::ToggleButton(1012, "Time", ImVec2(368.f, 0.f), &settings::Hud_WatermarkTime);
 
 	ImGui::Separator();
 
