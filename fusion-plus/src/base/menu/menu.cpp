@@ -168,6 +168,8 @@ void Menu::ComboBox(int id, const char* text, ImVec2 size, int* value, const cha
 
 void Menu::KeybindButton(int id, const char* text, ImVec2 size, int& keybind)
 {
+	static std::unordered_map<int, bool> binding;
+
 	ImGui::PushID(id);
 	ImVec2 textSize = Menu::Font->CalcTextSizeA(Menu::Font->FontSize, FLT_MAX, 0.0f, text);
 
@@ -186,9 +188,8 @@ void Menu::KeybindButton(int id, const char* text, ImVec2 size, int& keybind)
 	int keys_size = IM_ARRAYSIZE(keys);
 	char name[18];
 	strncpy_s(name, Keys::GetKeyName(keybind), 18);
-	static bool binding = false;
 
-	if (binding)
+	if (binding[id])
 	{
 		ImGui::Button("[...]", ImVec2(76, 0));
 
@@ -203,7 +204,7 @@ void Menu::KeybindButton(int id, const char* text, ImVec2 size, int& keybind)
 
 				strncpy_s(name, Keys::GetKeyName(keybind), 18);
 
-				binding = false;
+				binding[id] = false;
 
 				break;
 			}
@@ -212,7 +213,7 @@ void Menu::KeybindButton(int id, const char* text, ImVec2 size, int& keybind)
 	else
 	{
 		if (ImGui::Button(name, ImVec2(100, 0)))
-			binding = true;
+			binding[id] = true;
 	}
 
 	ImGui::PopStyleColor(3);
