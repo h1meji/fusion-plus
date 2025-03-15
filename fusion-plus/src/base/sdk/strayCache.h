@@ -836,7 +836,7 @@ struct StrayCache {
 				if (!inventoryPlayer_mainInventory) Logger::Log("inventoryPlayer_mainInventory: %p", inventoryPlayer_mainInventory);
 				inventoryPlayer_armorInventory = Java::Env->GetFieldID(inventoryPlayer_class, "armorInventory", "[Lnet/minecraft/item/ItemStack;");
 				if (!inventoryPlayer_armorInventory) Logger::Log("inventoryPlayer_armorInventory: %p", inventoryPlayer_armorInventory);
-				inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "", "I");
+				inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "currentItem", "I");
 				if (!inventoryPlayer_currentItem) Logger::Log("inventoryPlayer_currentItem: %p", inventoryPlayer_currentItem);
 			}
 
@@ -1237,7 +1237,7 @@ struct StrayCache {
 				if (!inventoryPlayer_mainInventory) Logger::Log("inventoryPlayer_mainInventory: %p", inventoryPlayer_mainInventory);
 				inventoryPlayer_armorInventory = Java::Env->GetFieldID(inventoryPlayer_class, "b", "[Lzx;");
 				if (!inventoryPlayer_armorInventory) Logger::Log("inventoryPlayer_armorInventory: %p", inventoryPlayer_armorInventory);
-				inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "", "I");
+				inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "c", "I");
 				if (!inventoryPlayer_currentItem) Logger::Log("inventoryPlayer_currentItem: %p", inventoryPlayer_currentItem);
 			}
 
@@ -1638,7 +1638,7 @@ struct StrayCache {
 				if (!inventoryPlayer_mainInventory) Logger::Log("inventoryPlayer_mainInventory: %p", inventoryPlayer_mainInventory);
 				inventoryPlayer_armorInventory = Java::Env->GetFieldID(inventoryPlayer_class, "b", "[Ladd;");
 				if (!inventoryPlayer_armorInventory) Logger::Log("inventoryPlayer_armorInventory: %p", inventoryPlayer_armorInventory);
-				inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "", "I");
+				inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "c", "I");
 				if (!inventoryPlayer_currentItem) Logger::Log("inventoryPlayer_currentItem: %p", inventoryPlayer_currentItem);
 			}
 
@@ -2039,7 +2039,7 @@ struct StrayCache {
 				if (!inventoryPlayer_mainInventory) Logger::Log("inventoryPlayer_mainInventory: %p", inventoryPlayer_mainInventory);
 				inventoryPlayer_armorInventory = Java::Env->GetFieldID(inventoryPlayer_class, "field_70460_b", "[Lnet/minecraft/item/ItemStack;");
 				if (!inventoryPlayer_armorInventory) Logger::Log("inventoryPlayer_armorInventory: %p", inventoryPlayer_armorInventory);
-				inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "", "I");
+				inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "field_70461_c", "I");
 				if (!inventoryPlayer_currentItem) Logger::Log("inventoryPlayer_currentItem: %p", inventoryPlayer_currentItem);
 			}
 
@@ -2440,7 +2440,7 @@ struct StrayCache {
 				if (!inventoryPlayer_mainInventory) Logger::Log("inventoryPlayer_mainInventory: %p", inventoryPlayer_mainInventory);
 				inventoryPlayer_armorInventory = Java::Env->GetFieldID(inventoryPlayer_class, "field_70460_b", "[Lnet/minecraft/item/ItemStack;");
 				if (!inventoryPlayer_armorInventory) Logger::Log("inventoryPlayer_armorInventory: %p", inventoryPlayer_armorInventory);
-				inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "", "I");
+				inventoryPlayer_currentItem = Java::Env->GetFieldID(inventoryPlayer_class, "field_70461_c", "I");
 				if (!inventoryPlayer_currentItem) Logger::Log("inventoryPlayer_currentItem: %p", inventoryPlayer_currentItem);
 			}
 
