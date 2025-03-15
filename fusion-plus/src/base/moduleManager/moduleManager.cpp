@@ -25,6 +25,8 @@
 #include <imgui/imgui.h>
 
 #include "util/minecraft/inventory.h"
+#include <menu/menu.h>
+#include <util/keys.h>
 
 
 void ModuleManager::Init()
@@ -105,6 +107,48 @@ void ModuleManager::RenderHud()
 	{
 		if (module->IsEnabled())
 			module->RenderHud();
+	}
+
+	// Render Keybinds Window
+	if (settings::Hud_ShowKeybinds)
+	{
+		ImGuiWindowFlags windowFlags;
+		if (!Menu::OpenHudEditor)
+		{
+			windowFlags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMouseInputs;
+		}
+		else
+		{
+			windowFlags = 0;
+		}
+
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 10));
+
+		std::call_once(*Menu::setupKeybindsFlag, [&]() {
+			ImGui::SetNextWindowPos(ImVec2(settings::Hud_KeybindsPosition[0], settings::Hud_KeybindsPosition[1]));
+			});
+
+		if (ImGui::Begin("Keybinds", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize | windowFlags))
+		{
+			settings::Hud_KeybindsPosition[0] = ImGui::GetWindowPos().x;
+			settings::Hud_KeybindsPosition[1] = ImGui::GetWindowPos().y;
+
+			ImGui::PushFont(Menu::FontBold);
+			ImGui::Text("Keybinds");
+			ImGui::PopFont();
+
+			for (auto& module : modules)
+			{
+				int key = module->GetKey();
+				if (key != 0)
+				{
+					ImGui::Text("%s: %s", module->GetName().c_str(), Keys::GetKeyName(key));
+				}
+			}
+		}
+		ImGui::End();
+
+		ImGui::PopStyleVar();
 	}
 }
 

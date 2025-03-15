@@ -19,6 +19,7 @@ public:
 	bool IsEnabled() override { return settings::CBC_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
+	int GetKey() override { return 0; }
 
 	static void onGetClientModName(JNIEnv* env, bool* cancel);
 	static void getClientModName_callback(HotSpot::frame* frame, HotSpot::Thread* thread, bool* cancel);

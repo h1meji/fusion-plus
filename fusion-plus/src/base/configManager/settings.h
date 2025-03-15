@@ -22,6 +22,8 @@ struct settings {
 	inline static bool Hud_WatermarkCoords = false;
 	inline static bool Hud_WatermarkDirection = false;
 	inline static bool Hud_WatermarkTime = false;
+	inline static bool Hud_ShowKeybinds = true;
+	inline static float Hud_KeybindsPosition[2]{ 10, 10 };
 
 	// ESP
 	inline static bool ESP_Enabled = false;

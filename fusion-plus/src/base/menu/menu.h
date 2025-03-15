@@ -64,5 +64,6 @@ struct Menu
 	static void ResetSetupFlags();
 	static inline auto setupWatermarkFlag = std::make_unique<std::once_flag>();
 	static inline auto setupRadarFlag = std::make_unique<std::once_flag>();
+	static inline auto setupKeybindsFlag = std::make_unique<std::once_flag>();
 };
 

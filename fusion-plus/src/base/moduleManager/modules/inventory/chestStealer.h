@@ -18,6 +18,7 @@ public:
 	bool IsEnabled() override { return settings::CS_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
+	int GetKey() override { return settings::CS_Key; }
 
 private:
 	bool isStealing = false;

@@ -79,6 +79,8 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["Hud_WatermarkCoords"] = settings::Hud_WatermarkCoords;
 	j["Hud_WatermarkDirection"] = settings::Hud_WatermarkDirection;
 	j["Hud_WatermarkTime"] = settings::Hud_WatermarkTime;
+	j["Hud_ShowKeybinds"] = settings::Hud_ShowKeybinds;
+	j["Hud_KeybindsPosition"] = { settings::Hud_KeybindsPosition[0], settings::Hud_KeybindsPosition[1] };
 
 	// ESP
 	j["ESP_Enabled"] = settings::ESP_Enabled;
@@ -287,6 +289,8 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkCoords, "Hud_WatermarkCoords");
 	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkDirection, "Hud_WatermarkDirection");
 	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkTime, "Hud_WatermarkTime");
+	ConfigManager::GetJsonValue(j, settings::Hud_ShowKeybinds, "Hud_ShowKeybinds");
+	ConfigManager::GetJsonValue(j, settings::Hud_KeybindsPosition, "Hud_KeybindsPosition");
 
 	// ESP
 	ConfigManager::GetJsonValue(j, settings::ESP_Enabled, "ESP_Enabled");

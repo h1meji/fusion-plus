@@ -14,6 +14,7 @@ public:
 	bool IsEnabled() override { return settings::ITESP_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
+	int GetKey() override { return 0; }
 
 	struct Data {
 		std::vector<Vector3> boxVerticies;

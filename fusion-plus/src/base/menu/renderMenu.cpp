@@ -314,7 +314,7 @@ void Menu::RenderMenu()
 
 void Menu::RenderHudEditor()
 {
-	ImGui::SetNextWindowSize(ImVec2(424.f, 300.f));
+	ImGui::SetNextWindowSize(ImVec2(424.f, 325.f));
 	ImGui::Begin("Hud Editor", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 	
 	Menu::Text(1011, "Hud Editor", ImVec2(384.f, 0.f), true);
@@ -331,6 +331,10 @@ void Menu::RenderHudEditor()
 	Menu::ToggleButton(1010, "Coordinates", ImVec2(368.f, 0.f), &settings::Hud_WatermarkCoords);
 	Menu::ToggleButton(1011, "Direction", ImVec2(368.f, 0.f), &settings::Hud_WatermarkDirection);
 	Menu::ToggleButton(1012, "Time", ImVec2(368.f, 0.f), &settings::Hud_WatermarkTime);
+
+	ImGui::Separator();
+
+	Menu::ToggleButton(1013, "Show Keybinds", ImVec2(368.f, 0.f), &settings::Hud_ShowKeybinds);
 
 	ImGui::Separator();
 

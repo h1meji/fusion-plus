@@ -13,6 +13,7 @@ public:
     bool IsEnabled() override { return settings::S_Enabled; }
     std::string GetName() override { return Name; }
     std::string GetCategory() override { return Category; }
+    int GetKey() override { return 0; }
 
 private:
     std::string Name = "Sprint";

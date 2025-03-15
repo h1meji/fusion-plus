@@ -18,6 +18,7 @@ public:
 	bool IsEnabled() override { return settings::BlockESP_Enabled; }
 	std::string GetName() override { return Name; }
 	std::string GetCategory() override { return Category; }
+	int GetKey() override { return 0; }
 
 	struct Data {
 		Vector3 position;

@@ -72,4 +72,5 @@ void Menu::ResetSetupFlags()
 {
 	setupWatermarkFlag = std::make_unique<std::once_flag>();
 	setupRadarFlag = std::make_unique<std::once_flag>();
+	setupKeybindsFlag = std::make_unique<std::once_flag>();
 }

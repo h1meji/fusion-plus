@@ -103,6 +103,9 @@ struct CommonData
 
 			// Reset some statistics
 			fps = -1;
+			ping = -1;
+			playerPos = Vector3();
+			playerYaw = 0.f;
 
 			return false;
 		}
