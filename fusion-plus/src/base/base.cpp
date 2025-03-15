@@ -20,17 +20,6 @@
 #include <java/hotspot/hotspot.h>
 #include <java/javahook.h>
 
-static bool IsKeyReleased(int key)
-{
-	static std::unordered_map<int, bool> keyStates;
-
-	bool currentState = (GetAsyncKeyState(key) & 0x8000) == 0;
-	bool prevState = keyStates[key];
-	keyStates[key] = currentState;
-
-	return prevState && !currentState;
-}
-
 void Base::Init()
 {
 	Base::CrashReportPath = ConfigManager::GetFusionPath();

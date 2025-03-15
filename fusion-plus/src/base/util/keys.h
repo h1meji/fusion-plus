@@ -1,4 +1,5 @@
 #pragma once
+#include <unordered_map>
 
 inline static const char* keys[] =
 {
@@ -254,4 +255,48 @@ inline static const char* keys[] =
 	"[reserved]",
 	"[PA1 key]",
 	"[clear]",
+};
+
+struct Keys
+{
+	static bool IsKeyPressed(int key)
+	{
+		static std::unordered_map<int, bool> keyStates;
+
+		bool currentState = (GetAsyncKeyState(key) & 0x8000) == 0;
+		bool prevState = keyStates[key];
+		keyStates[key] = currentState;
+
+		return currentState && !prevState;
+	}
+
+	static bool IsKeyReleased(int key)
+	{
+		static std::unordered_map<int, bool> keyStates;
+
+		bool currentState = (GetAsyncKeyState(key) & 0x8000) == 0;
+		bool prevState = keyStates[key];
+		keyStates[key] = currentState;
+
+		return prevState && !currentState;
+	}
+
+	static bool IsKeyHeld(int key)
+	{
+		static std::unordered_map<int, bool> keyStates;
+
+		bool currentState = (GetAsyncKeyState(key) & 0x8000) == 0;
+		bool prevState = keyStates[key];
+		keyStates[key] = currentState;
+
+		return currentState && prevState;
+	}
+
+	static const char* GetKeyName(int key)
+	{
+		if (key < 0 || key >= sizeof(keys) / sizeof(keys[0]))
+			return "[unknown]";
+
+		return keys[key];
+	}
 };
