@@ -16,6 +16,9 @@ public:
 	std::string GetCategory() override { return Category; }
 	int GetKey() override { return 0; }
 
+	void SetEnabled(bool enabled) override { settings::LAC_Enabled = enabled; }
+	void Toggle() override { settings::LAC_Enabled = !settings::LAC_Enabled; }
+
 private:
 	std::string Name = "Left Auto Clicker";
 	std::string Category = "Combat";

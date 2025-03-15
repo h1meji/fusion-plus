@@ -21,6 +21,9 @@ public:
 	std::string GetCategory() override { return Category; }
 	int GetKey() override { return 0; }
 
+	void SetEnabled(bool enabled) override { settings::CBC_Enabled = enabled; }
+	void Toggle() override { settings::CBC_Enabled = !settings::CBC_Enabled; }
+
 	static void onGetClientModName(JNIEnv* env, bool* cancel);
 	static void getClientModName_callback(HotSpot::frame* frame, HotSpot::Thread* thread, bool* cancel);
 

@@ -17,6 +17,9 @@ public:
 	std::string GetCategory() override { return Category; }
 	int GetKey() override { return 0; }
 
+	void SetEnabled(bool enabled) override { settings::SR_Enabled = enabled; }
+	void Toggle() override { settings::SR_Enabled = !settings::SR_Enabled; }
+
 private:
 	std::string Name = "Sprint Reset";
 	std::string Category = "Movement";

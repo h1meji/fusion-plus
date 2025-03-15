@@ -20,6 +20,9 @@ public:
 	std::string GetCategory() override { return Category; }
 	int GetKey() override { return 0; }
 
+	void SetEnabled(bool enabled) override { settings::Reach_Enabled = enabled; }
+	void Toggle() override { settings::Reach_Enabled = !settings::Reach_Enabled; }
+
 private:
 	std::string Name = "Reach";
 	std::string Category = "Combat";

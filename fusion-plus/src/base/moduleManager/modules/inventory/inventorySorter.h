@@ -28,6 +28,9 @@ public:
 	std::string GetCategory() override { return Category; }
 	int GetKey() override { return settings::IS_Key; }
 
+	void SetEnabled(bool enabled) override { settings::IS_Enabled = enabled; }
+	void Toggle() override { settings::IS_Enabled = !settings::IS_Enabled; }
+
 private:
 	bool isSorting;
 	std::chrono::time_point<std::chrono::steady_clock> lastSortTime;
@@ -46,7 +49,7 @@ private:
 	void DoSwords();
 
 	void GeneratePath();
-	void ResetSort();
+	void ResetSort(bool enabled);
 	void RenderInventoryEditor(bool& isOpen);
 	void RenderCreateCategory(bool& isOpen, int categoryIndex);
 

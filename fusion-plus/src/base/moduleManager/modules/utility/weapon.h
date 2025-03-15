@@ -18,6 +18,9 @@ public:
 	std::string GetCategory() override { return Category; }
 	int GetKey() override { return 0; }
 
+	void SetEnabled(bool enabled) override {}
+	void Toggle() override {}
+
 private:
 	std::string Name = "Weapon";
 	std::string Category = "Utility";

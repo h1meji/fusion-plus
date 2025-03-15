@@ -20,6 +20,9 @@ public:
 	std::string GetCategory() override { return Category; }
 	int GetKey() override { return 0; }
 
+	void SetEnabled(bool enabled) override { settings::BA_Enabled = enabled; }
+	void Toggle() override { settings::BA_Enabled = !settings::BA_Enabled; }
+
 private:
 	void Sneak();
 	void UnSneak();

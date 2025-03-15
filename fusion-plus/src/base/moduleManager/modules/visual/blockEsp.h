@@ -20,6 +20,9 @@ public:
 	std::string GetCategory() override { return Category; }
 	int GetKey() override { return 0; }
 
+	void SetEnabled(bool enabled) override { settings::BlockESP_Enabled = enabled; }
+	void Toggle() override { settings::BlockESP_Enabled = !settings::BlockESP_Enabled; }
+
 	struct Data {
 		Vector3 position;
 		std::string name;

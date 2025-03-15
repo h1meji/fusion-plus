@@ -18,6 +18,9 @@ public:
 	virtual std::string GetCategory() = 0;
 	virtual int GetKey() = 0;
 
+	virtual void SetEnabled(bool enabled) = 0;
+	virtual void Toggle() = 0;
+
 private:
 	std::string Name;
 	std::string Category;

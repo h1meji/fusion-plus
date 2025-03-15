@@ -20,6 +20,9 @@ public:
 	std::string GetCategory() override { return Category; }
 	int GetKey() override { return 0; }
 
+	void SetEnabled(bool enabled) override { settings::Radar_Enabled = enabled; }
+	void Toggle() override { settings::Radar_Enabled = !settings::Radar_Enabled; }
+
 	struct Data {
 		bool isLocalPlayer;
 		std::string name;

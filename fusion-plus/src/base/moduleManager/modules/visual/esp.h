@@ -20,6 +20,9 @@ public:
 	std::string GetCategory() override { return Category; }
 	int GetKey() override { return 0; }
 
+	void SetEnabled(bool enabled) override { settings::ESP_Enabled = enabled; }
+	void Toggle() override { settings::ESP_Enabled = !settings::ESP_Enabled; }
+
 	struct Data {
 		std::vector<Vector3> boxVerticies;
 		std::string name;

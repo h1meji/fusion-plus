@@ -18,6 +18,9 @@ public:
 	std::string GetCategory() override { return Category; }
 	int GetKey() override { return 0; }
 
+	void SetEnabled(bool enabled) override { settings::AL_Enabled = enabled; }
+	void Toggle() override { settings::AL_Enabled = !settings::AL_Enabled; }
+
 private:
 	std::string Name = "Array List";
 	std::string Category = "Utility";

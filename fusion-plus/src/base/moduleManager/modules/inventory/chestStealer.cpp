@@ -13,38 +13,28 @@ void ChestStealer::Update()
 
 	if (!SDK::Minecraft->IsInChest()) { ResetSteal(); return; }
 
-	if (Keys::IsKeyPressed(settings::CS_Key))
+	if (!isStealing)
 	{
-		if (isStealing)
-		{
-			ResetSteal();
-			Logger::Log("Stopped Stealing");
-			activated = std::chrono::steady_clock::now();
-			return;
-		}
-		else if (!isStealing)
-		{
-			IInventory* inventory = SDK::Minecraft->GetGuiChest()->GetLowerChestInventory();
+		IInventory* inventory = SDK::Minecraft->GetGuiChest()->GetLowerChestInventory();
 
-			chestSlots.clear();
-			for (int i = 0; i < inventory->GetSizeInventory(); i++)
+		chestSlots.clear();
+		for (int i = 0; i < inventory->GetSizeInventory(); i++)
+		{
+			CItemStack* item = inventory->GetStackInSlot(i);
+			if (item->GetInstance() == nullptr) continue;
+
+			for (std::pair<int, int> id : settings::CS_Items)
 			{
-				CItemStack* item = inventory->GetStackInSlot(i);
-				if (item->GetInstance() == nullptr) continue;
-
-				for (std::pair<int, int> id : settings::CS_Items)
-				{
-					if (item->GetItem().GetID() != id.first || (item->GetMetadata() != id.second && id.second != -1)) continue;
-					chestSlots.push_back(i);
-					break;
-				}
+				if (item->GetItem().GetID() != id.first || (item->GetMetadata() != id.second && id.second != -1)) continue;
+				chestSlots.push_back(i);
+				break;
 			}
-
-			isStealing = true;
-			chestSlotIndex = 0;
-			lastStealTime = std::chrono::steady_clock::now();
-			activated = std::chrono::steady_clock::now();
 		}
+
+		isStealing = true;
+		chestSlotIndex = 0;
+		lastStealTime = std::chrono::steady_clock::now();
+		activated = std::chrono::steady_clock::now();
 	}
 
 	if (isStealing)
@@ -129,6 +119,8 @@ void ChestStealer::ResetSteal()
 {
 	isStealing = false;
 	chestSlotIndex = 0;
+
+	settings::CS_Enabled = false;
 }
 
 static std::string toLower(const std::string& str) {

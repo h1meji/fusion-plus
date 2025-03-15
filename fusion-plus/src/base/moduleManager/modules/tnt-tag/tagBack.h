@@ -18,6 +18,9 @@ public:
 	std::string GetCategory() override { return Category; }
 	int GetKey() override { return 0; }
 
+	void SetEnabled(bool enabled) override { settings::TB_Enabled = enabled; }
+	void Toggle() override { settings::TB_Enabled = !settings::TB_Enabled; }
+
 private:
 	std::string Name = "Tag Back";
 	std::string Category = "TnT Tag";

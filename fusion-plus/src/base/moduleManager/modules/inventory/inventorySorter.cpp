@@ -12,26 +12,16 @@
 
 void InventorySorter::Update()
 {
-	if (!settings::IS_Enabled) { ResetSort(); return; }
-	if (!CommonData::SanityCheck()) { ResetSort(); return; }
+	if (!settings::IS_Enabled) { ResetSort(false); return; }
+	if (!CommonData::SanityCheck()) { ResetSort(false); return; }
 
-	if (!SDK::Minecraft->IsInInventory()) { ResetSort(); return; }
+	if (!SDK::Minecraft->IsInInventory()) { ResetSort(false); return; }
 
-	if (Keys::IsKeyPressed(settings::IS_Key))
+	if (!isDroppingUselessItems && !isDoingArmor && !isDoingSwords && !isCombiningStacks && !isSorting)
 	{
-		if (isDroppingUselessItems || isDoingArmor || isDoingSwords || isCombiningStacks || isSorting)
-		{
-			ResetSort();
-			Logger::Log("Stopped Sorting");
-		}
-		else
-		{
-			Logger::Log("Started Sorting");
-			isDroppingUselessItems = true;
-			DropUselessItems();
-		}
-
-		activated = std::chrono::steady_clock::now();
+		Logger::Log("Started Sorting");
+		isDroppingUselessItems = true;
+		DropUselessItems();
 	}
 
 	if (isDroppingUselessItems || isDoingArmor || isDoingSwords || isCombiningStacks || isSorting)
@@ -42,28 +32,28 @@ void InventorySorter::Update()
 		{
 			if (isDroppingUselessItems)
 			{
-				ResetSort();
+				ResetSort(true);
 				isDoingArmor = true;
 				Logger::Log("Dropped Useless Items");
 				DoArmor();
 			}
 			else if (isDoingArmor)
 			{
-				ResetSort();
+				ResetSort(true);
 				isCombiningStacks = true;
 				Logger::Log("Did Armor");
 				CombineStacks();
 			}
 			else if (isCombiningStacks)
 			{
-				ResetSort();
+				ResetSort(true);
 				isDoingSwords = true;
 				Logger::Log("Combined Stacks");
 				DoSwords();
 			}
 			else if (isDoingSwords)
 			{
-				ResetSort();
+				ResetSort(true);
 				isSorting = true;
 				Logger::Log("Did Swords");
 				GeneratePath();
@@ -71,7 +61,7 @@ void InventorySorter::Update()
 			else if (isSorting)
 			{
 				Logger::Log("Finished Sorting");
-				ResetSort();
+				ResetSort(false);
 			}
 			return;
 		}
@@ -642,7 +632,7 @@ void InventorySorter::GeneratePath()
 	}
 }
 
-void InventorySorter::ResetSort()
+void InventorySorter::ResetSort(bool enabled)
 {
 	isDroppingUselessItems = false;
 	isDoingArmor = false;
@@ -651,6 +641,8 @@ void InventorySorter::ResetSort()
 	isSorting = false;
 	inventoryPath.clear();
 	pathIndex = 0;
+
+	settings::IS_Enabled = enabled;
 }
 
 void InventorySorter::RenderOverlay()

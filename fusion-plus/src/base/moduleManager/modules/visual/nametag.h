@@ -17,6 +17,9 @@ public:
 	std::string GetCategory() override { return Category; }
 	int GetKey() override { return 0; }
 
+	void SetEnabled(bool enabled) override { settings::NT_Enabled = enabled; }
+	void Toggle() override { settings::NT_Enabled = !settings::NT_Enabled; }
+
 	struct Data {
 		std::vector<Vector3> boxVerticies;
 		std::vector<Vector3> boundingBoxVerticies;

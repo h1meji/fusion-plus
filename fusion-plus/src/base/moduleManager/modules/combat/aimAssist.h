@@ -22,6 +22,9 @@ public:
 	std::string GetCategory() override { return Category; }
 	int GetKey() override { return 0; }
 
+	void SetEnabled(bool enabled) override { settings::AA_Enabled = enabled; }
+	void Toggle() override { settings::AA_Enabled = !settings::AA_Enabled; }
+
 private:
 	std::string Name = "Aim Assist";
 	std::string Category = "Combat";

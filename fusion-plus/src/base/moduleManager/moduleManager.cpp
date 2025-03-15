@@ -87,6 +87,12 @@ void ModuleManager::UpdateModules()
 
 	for (auto& module : modules)
 	{
+		// Keybinds
+		if (module->GetKey() != 0 && Keys::IsKeyPressed(module->GetKey()))
+		{
+			module->Toggle();
+		}
+
 		if (module->IsEnabled())
 			module->Update();
 	}
