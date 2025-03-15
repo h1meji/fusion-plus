@@ -20,6 +20,7 @@ void Menu::Init()
 	Menu::PlaceHooks();
 	Logger::Log("Menu initialized");
 }
+
 bool Menu::TabButton(const char* format, ImVec4 color)
 {
 	ImGui::PushStyleColor(ImGuiCol_Button, color);
@@ -184,7 +185,7 @@ void Menu::KeybindButton(int id, const char* text, ImVec2 size, int& keybind)
 
 	int keys_size = IM_ARRAYSIZE(keys);
 	char name[18];
-	strncpy_s(name, keys[std::clamp(keybind, 0, keys_size)], 18);
+	strncpy_s(name, Keys::GetKeyName(keybind), 18);
 	static bool binding = false;
 
 	if (binding)
@@ -200,7 +201,7 @@ void Menu::KeybindButton(int id, const char* text, ImVec2 size, int& keybind)
 				else
 					keybind = i;
 
-				strncpy_s(name, keys[std::clamp(keybind, 0, keys_size)], 18);
+				strncpy_s(name, Keys::GetKeyName(keybind), 18);
 
 				binding = false;
 

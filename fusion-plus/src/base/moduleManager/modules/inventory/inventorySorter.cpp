@@ -3,6 +3,7 @@
 #include <menu/menu.h>
 #include <moduleManager/commonData.h>
 #include "util/minecraft/inventory.h"
+#include "util/keys.h"
 #include <util/minecraft/minecraft.h>
 #include <vector>
 #include <algorithm>
@@ -16,7 +17,7 @@ void InventorySorter::Update()
 
 	if (!SDK::Minecraft->IsInInventory()) { ResetSort(); return; }
 
-	if ((GetAsyncKeyState(settings::IS_Key) && 1) && std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - activated).count() > 100)
+	if (Keys::IsKeyPressed(settings::IS_Key))
 	{
 		if (isDroppingUselessItems || isDoingArmor || isDoingSwords || isCombiningStacks || isSorting)
 		{

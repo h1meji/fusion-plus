@@ -4,6 +4,7 @@
 #include <moduleManager/commonData.h>
 
 #include "util/minecraft/minecraft.h"
+#include "util/keys.h"
 
 void ChestStealer::Update()
 {
@@ -12,16 +13,16 @@ void ChestStealer::Update()
 
 	if (!SDK::Minecraft->IsInChest()) { ResetSteal(); return; }
 
-	if (GetAsyncKeyState(settings::CS_Key) && 1)
+	if (Keys::IsKeyPressed(settings::CS_Key))
 	{
-		if (isStealing && std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - activated).count() > 100)
+		if (isStealing)
 		{
 			ResetSteal();
 			Logger::Log("Stopped Stealing");
 			activated = std::chrono::steady_clock::now();
 			return;
 		}
-		else if (!isStealing && std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - activated).count() > 100)
+		else if (!isStealing)
 		{
 			IInventory* inventory = SDK::Minecraft->GetGuiChest()->GetLowerChestInventory();
 

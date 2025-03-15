@@ -263,7 +263,7 @@ struct Keys
 	{
 		static std::unordered_map<int, bool> keyStates;
 
-		bool currentState = (GetAsyncKeyState(key) & 0x8000) == 0;
+		bool currentState = GetAsyncKeyState(key) & 0x8000;
 		bool prevState = keyStates[key];
 		keyStates[key] = currentState;
 
@@ -274,7 +274,7 @@ struct Keys
 	{
 		static std::unordered_map<int, bool> keyStates;
 
-		bool currentState = (GetAsyncKeyState(key) & 0x8000) == 0;
+		bool currentState = GetAsyncKeyState(key) & 0x8000;
 		bool prevState = keyStates[key];
 		keyStates[key] = currentState;
 
@@ -285,11 +285,22 @@ struct Keys
 	{
 		static std::unordered_map<int, bool> keyStates;
 
-		bool currentState = (GetAsyncKeyState(key) & 0x8000) == 0;
+		bool currentState = GetAsyncKeyState(key) & 0x8000;
 		bool prevState = keyStates[key];
 		keyStates[key] = currentState;
 
 		return currentState && prevState;
+	}
+
+	static bool IsKeyNotHeld(int key)
+	{
+		static std::unordered_map<int, bool> keyStates;
+
+		bool currentState = GetAsyncKeyState(key) & 0x8000;
+		bool prevState = keyStates[key];
+		keyStates[key] = currentState;
+
+		return !currentState && !prevState;
 	}
 
 	static const char* GetKeyName(int key)
