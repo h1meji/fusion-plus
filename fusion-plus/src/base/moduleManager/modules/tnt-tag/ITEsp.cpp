@@ -146,7 +146,7 @@ void ITEsp::Update()
 	renderData = newData;
 }
 
-void ITEsp::RenderUpdate()
+void ITEsp::RenderOverlay()
 {
 	if (!settings::ITESP_Enabled || !CommonData::dataUpdated) return;
 

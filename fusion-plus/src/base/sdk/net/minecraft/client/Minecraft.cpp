@@ -4,6 +4,7 @@
 
 #include "sdk/net/minecraft/entity/EntityLivingBase.h"
 #include "ClientBrandRetriever.h"
+#include <mutex>
 
 CMinecraft::CMinecraft()
 {
@@ -120,6 +121,12 @@ CMovingObjectPosition CMinecraft::GetMouseOver()
 {
 	return CMovingObjectPosition(Java::Env->GetObjectField(this->Instance, this->FieldIDs["objectMouseOver"]));
 }
+
+int CMinecraft::GetFps()
+{
+	return Java::Env->GetStaticIntField(this->GetClass(), StrayCache::minecraft_debugFPS);
+}
+
 
 CGuiChest* CMinecraft::GetGuiChest()
 {

@@ -256,6 +256,7 @@
     <ClInclude Include="src\base\util\math\geometry.h" />
     <ClInclude Include="src\base\util\math\math.h" />
     <ClInclude Include="src\base\util\math\worldToScreen.h" />
+    <ClInclude Include="src\base\util\window\windowHelpers.h" />
     <ClInclude Include="src\main.h" />
     <ClInclude Include="src\base\sdk\java\lang\String.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\world\World.h" />
@@ -345,6 +346,7 @@
     <ClCompile Include="src\base\base.cpp" />
     <ClCompile Include="src\base\util\math\math.cpp" />
     <ClCompile Include="src\base\util\math\worldToScreen.cpp" />
+    <ClCompile Include="src\base\util\window\windowHelpers.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\world\World.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\client\multiplayer\WorldClient.cpp" />

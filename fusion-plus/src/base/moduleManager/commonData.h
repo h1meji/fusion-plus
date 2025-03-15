@@ -19,6 +19,11 @@ struct CommonData
 	inline static float renderPartialTicks;
 	inline static float fov;
 	inline static int thirdPersonView;
+
+	inline static int fps;
+	inline static int ping;
+	inline static Vector3 playerPos;
+	inline static float playerYaw;
 	
 	struct PlayerData{
 		CEntityPlayer obj = nullptr;
@@ -80,6 +85,11 @@ struct CommonData
 		}
 		nativePlayerList = newData;
 
+		fps = SDK::Minecraft->GetFps();
+		ping = SDK::Minecraft->thePlayer->GetPing();
+		playerPos = SDK::Minecraft->thePlayer->GetPos();
+		playerYaw = SDK::Minecraft->thePlayer->GetAngles().x;
+
 		dataUpdated = true; // This entire function is stopped, and this is flipped once the world and or player object appears to be null
 							// Mainly for sanity checks for rendering functions, it prevents crashing whenever the user is not in a game because some data
 							// might be needed from within the render functions.
@@ -90,6 +100,10 @@ struct CommonData
 		if (!SDK::Minecraft->thePlayer->GetInstance() || !SDK::Minecraft->theWorld->GetInstance())
 		{
 			CommonData::dataUpdated = false;
+
+			// Reset some statistics
+			fps = -1;
+
 			return false;
 		}
 		return true;

@@ -652,7 +652,7 @@ void InventorySorter::ResetSort()
 	pathIndex = 0;
 }
 
-void InventorySorter::RenderUpdate()
+void InventorySorter::RenderOverlay()
 {
 }
 

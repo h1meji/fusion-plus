@@ -11,7 +11,8 @@ public:
 	void Init();
 
 	void UpdateModules();
-	void RenderUpdate();
+	void RenderOverlay();
+	void RenderHud();
 
 	void RenderMenu(int index);
 

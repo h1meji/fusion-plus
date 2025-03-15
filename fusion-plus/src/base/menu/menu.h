@@ -15,6 +15,7 @@ struct Menu
 
 	static inline std::string Title;
 	static inline bool Open;
+	static inline bool OpenHudEditor;
 	static inline int Keybind;
 	static inline ImFont* Font;
 	static inline ImFont* FontBold;
@@ -22,6 +23,7 @@ struct Menu
 
 	static void SetupImgui();
 	static void RenderMenu();
+	static void RenderHudEditor();
 
 	static bool TabButton(const char* format, ImVec4 color);
 
@@ -37,7 +39,7 @@ struct Menu
 	static bool TextInput(int id, const char* text, ImVec2 size, char* buf, size_t bufSize, ImGuiInputTextFlags flags = 0);
 	static bool TextInputButton(int id, const char* text, ImVec2 size, char* buf, size_t bufSize, ImGuiInputTextFlags flags = 0, const char* buttonText = "Save");
 
-	static void GlitchText(const char* text, ImVec2 pos);
+	static void GlitchText(const char* text, ImVec2 pos, int size);
 
 	static void MoveCursorToCenter(bool checkInGame);
 
@@ -58,7 +60,9 @@ struct Menu
 	static void Unhook_wglSwapBuffers();
 	static void Unhook_wndProc();
 
-	// ints for IDs
-	static inline int ID = 0;
+	// Hud Setup Flags
+	static void ResetSetupFlags();
+	static inline auto setupWatermarkFlag = std::make_unique<std::once_flag>();
+	static inline auto setupRadarFlag = std::make_unique<std::once_flag>();
 };
 

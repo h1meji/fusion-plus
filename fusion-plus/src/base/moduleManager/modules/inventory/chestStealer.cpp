@@ -68,7 +68,7 @@ void ChestStealer::Update()
 	}
 }
 
-void ChestStealer::RenderUpdate()
+void ChestStealer::RenderOverlay()
 {
 }
 

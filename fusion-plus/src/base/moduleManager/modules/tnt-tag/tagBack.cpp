@@ -15,7 +15,7 @@ void TagBack::Update()
 	if (!settings::TB_Enabled) return;
 	if (!CommonData::SanityCheck()) return;
 	if (SDK::Minecraft->IsInGuiState()) return;
-	if (Menu::Open) return;
+	if (Menu::Open || Menu::OpenHudEditor) return;
 
 	CEntityPlayerSP* thePlayer = SDK::Minecraft->thePlayer;
 
@@ -188,7 +188,7 @@ void TagBack::Update()
 	}
 }
 
-void TagBack::RenderUpdate()
+void TagBack::RenderOverlay()
 {
 	if (!settings::TB_Enabled || !CommonData::dataUpdated) return;
 	if (settings::TB_fovCircle) {

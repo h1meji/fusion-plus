@@ -67,9 +67,17 @@ bool ConfigManager::SettingsToJson(json& j)
 	// Menu
 	j["Menu_AccentColor"] = settings::Menu_AccentColor;
 	j["Menu_GUIMovement"] = settings::Menu_GUIMovement;
-	j["Menu_Watermark"] = settings::Menu_Watermark;
-	j["Menu_DisableAllRendering"] = settings::Menu_DisableAllRendering;
 	j["Menu_ShowHiddenCategories"] = settings::Menu_ShowHiddenCategories;
+
+	// Hud
+	j["Hud_DisableAllRendering"] = settings::Hud_DisableAllRendering;
+	j["Hud_Watermark"] = settings::Hud_Watermark;
+	j["Hud_WatermarkPosition"] = { settings::Hud_WatermarkPosition[0], settings::Hud_WatermarkPosition[1] };
+	j["Hud_WatermarkVersion"] = settings::Hud_WatermarkVersion;
+	j["Hud_WatermarkFps"] = settings::Hud_WatermarkFps;
+	j["Hud_WatermarkPing"] = settings::Hud_WatermarkPing;
+	j["Hud_WatermarkCoords"] = settings::Hud_WatermarkCoords;
+	j["Hud_WatermarkDirection"] = settings::Hud_WatermarkDirection;
 
 	// ESP
 	j["ESP_Enabled"] = settings::ESP_Enabled;
@@ -266,9 +274,17 @@ bool ConfigManager::JsonToSettings(const json& j)
 	// Menu
 	ConfigManager::GetJsonValue(j, settings::Menu_AccentColor, "Menu_AccentColor");
 	ConfigManager::GetJsonValue(j, settings::Menu_GUIMovement, "Menu_GUIMovement");
-	ConfigManager::GetJsonValue(j, settings::Menu_Watermark, "Menu_Watermark");
-	ConfigManager::GetJsonValue(j, settings::Menu_DisableAllRendering, "Menu_DisableAllRendering");
 	ConfigManager::GetJsonValue(j, settings::Menu_ShowHiddenCategories, "Menu_ShowHiddenCategories");
+
+	// Hud
+	ConfigManager::GetJsonValue(j, settings::Hud_DisableAllRendering, "Hud_DisableAllRendering");
+	ConfigManager::GetJsonValue(j, settings::Hud_Watermark, "Hud_Watermark");
+	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkPosition, "Hud_WatermarkPosition");
+	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkVersion, "Hud_WatermarkVersion");
+	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkFps, "Hud_WatermarkFps");
+	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkPing, "Hud_WatermarkPing");
+	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkCoords, "Hud_WatermarkCoords");
+	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkDirection, "Hud_WatermarkDirection");
 
 	// ESP
 	ConfigManager::GetJsonValue(j, settings::ESP_Enabled, "ESP_Enabled");

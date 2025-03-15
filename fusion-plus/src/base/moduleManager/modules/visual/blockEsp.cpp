@@ -58,7 +58,7 @@ void BlockEsp::Update()
 	renderData = newRenderData;
 }
 
-void BlockEsp::RenderUpdate()
+void BlockEsp::RenderOverlay()
 {
 	if (!settings::BlockESP_Enabled || !CommonData::dataUpdated) return;
 

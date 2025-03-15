@@ -8,7 +8,8 @@ public:
 	Vector3 renderData;
 
 	void Update() override;
-	void RenderUpdate() override;
+	void RenderOverlay() override;
+	void RenderHud() override {};
 
 	void RenderMenu() override;
 

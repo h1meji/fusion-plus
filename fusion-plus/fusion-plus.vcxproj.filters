@@ -339,6 +339,9 @@
     <ClInclude Include="src\base\moduleManager\modules\visual\nametag.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\base\util\window\windowHelpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -594,6 +597,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\moduleManager\modules\visual\nametag.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\util\window\windowHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

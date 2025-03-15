@@ -35,7 +35,7 @@ void SprintReset::Update()
 		return;
 	}
 
-	if (!settings::SR_Enabled || !CommonData::SanityCheck() || SDK::Minecraft->IsInGuiState() || Menu::Open)
+	if (!settings::SR_Enabled || !CommonData::SanityCheck() || SDK::Minecraft->IsInGuiState() || Menu::Open || Menu::OpenHudEditor)
 	{
 		return;
 	}

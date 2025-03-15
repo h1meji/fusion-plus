@@ -14,17 +14,19 @@ LRESULT CALLBACK hook_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		if (wParam == Menu::Keybind)
 		{
-			if (Menu::Open) Menu::MoveCursorToCenter(true);
+			if (Menu::Open || Menu::OpenHudEditor) Menu::MoveCursorToCenter(true);
 			Menu::Open = !Menu::Open;
+			Menu::OpenHudEditor = false;
 		}
-		if (wParam == VK_ESCAPE && Menu::Open)
+		if (wParam == VK_ESCAPE && (Menu::Open || Menu::OpenHudEditor))
 		{
 			Menu::MoveCursorToCenter(false);
 			Menu::Open = false;
+			Menu::OpenHudEditor = false;
 		}
 	}
 
-	if (Menu::Open && Menu::Initialized)
+	if ((Menu::Open || Menu::OpenHudEditor) && Menu::Initialized)
 	{
 		if (settings::Menu_GUIMovement)
 		{
@@ -64,4 +66,10 @@ void Menu::Hook_wndProc()
 void Menu::Unhook_wndProc()
 {
 	SetWindowLongPtr(Menu::HandleWindow, GWLP_WNDPROC, (LONG_PTR)original_wndProc);
+}
+
+void Menu::ResetSetupFlags()
+{
+	setupWatermarkFlag = std::make_unique<std::once_flag>();
+	setupRadarFlag = std::make_unique<std::once_flag>();
 }

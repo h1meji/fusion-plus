@@ -50,7 +50,7 @@ Suggested settings:
 void AimAssist::Update()
 {
 	if (!settings::AA_Enabled) return;
-	if (Menu::Open) return;
+	if (Menu::Open || Menu::OpenHudEditor) return;
 	if (!CommonData::SanityCheck()) return;
 	if (SDK::Minecraft->IsInGuiState()) return;
 
@@ -228,7 +228,7 @@ void AimAssist::Update()
 	}
 }
 
-void AimAssist::RenderUpdate()
+void AimAssist::RenderOverlay()
 {
 	if (!settings::AA_Enabled || !CommonData::dataUpdated) return;
 	if (settings::AA_fovCircle) {

@@ -26,7 +26,7 @@ BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, LPVOID lpReserved)
 	{
 		Main::HModule = hModule;
 		DisableThreadLibraryCalls(hModule);
-		SetUnhandledExceptionFilter(GlobalExceptionHandler);
+		//SetUnhandledExceptionFilter(GlobalExceptionHandler);
 		HANDLE hThread = CreateThread(nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(Main::Init), hModule, 0, nullptr);
 
 		if (hThread) CloseHandle(hThread);

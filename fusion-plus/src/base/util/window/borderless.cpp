@@ -5,6 +5,7 @@ void Borderless::Enable(HWND hWindow)
 {
 	Borderless::Enabled = true;
 	Menu::Open = false;
+	Menu::OpenHudEditor = false;
 	Borderless::OriginalStyle = GetWindowLongPtr(hWindow, GWL_STYLE);
 
 	ShowWindow(hWindow, SW_MAXIMIZE);

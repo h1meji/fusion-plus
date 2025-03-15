@@ -13,7 +13,7 @@ int rightNextCps = 10;
 void RightAutoClicker::Update()
 {
 	if (!settings::RAC_Enabled) return;
-	if (Menu::Open) return;
+	if (Menu::Open || Menu::OpenHudEditor) return;
 	if (SDK::Minecraft->IsInGuiState()) return;
 
 	jclass blockClass;

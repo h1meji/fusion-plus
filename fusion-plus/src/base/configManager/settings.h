@@ -9,10 +9,18 @@ struct settings {
 	// Menu
 	inline static float Menu_AccentColor[4]{ 0, 0.4f, 0.4f, 1.0f };
 	inline static bool Menu_GUIMovement = false;
-	inline static bool Menu_Watermark = true;
-	inline static bool Menu_DisableAllRendering = false;
 	inline static bool Menu_ShowHiddenCategories = false;
 	inline static std::vector<std::string> Menu_HiddenCategoriesList{ "TnT Tag" };
+
+	// Hud
+	inline static bool Hud_DisableAllRendering = false;
+	inline static bool Hud_Watermark = true;
+	inline static float Hud_WatermarkPosition[2]{ 10, 10 };
+	inline static bool Hud_WatermarkVersion = true;
+	inline static bool Hud_WatermarkFps = false;
+	inline static bool Hud_WatermarkPing = false;
+	inline static bool Hud_WatermarkCoords = false;
+	inline static bool Hud_WatermarkDirection = false;
 
 	// ESP
 	inline static bool ESP_Enabled = false;

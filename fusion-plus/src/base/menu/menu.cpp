@@ -14,6 +14,7 @@ void Menu::Init()
 	Menu::Title = "fusion+";
 	Menu::Initialized = false;
 	Menu::Open = false;
+	Menu::OpenHudEditor = false;
 	Menu::Keybind = VK_INSERT;
 
 	Menu::PlaceHooks();
@@ -332,18 +333,18 @@ bool Menu::TextInputButton(int id, const char* text, ImVec2 size, char* buf, siz
 	return result;
 }
 
-void Menu::GlitchText(const char* text, ImVec2 pos)
+void Menu::GlitchText(const char* text, ImVec2 pos, int size)
 {
 	// Red Text
 	ImVec2 pos_one = ImVec2(pos.x - (1 + (rand() % 3)), pos.y - (rand() % 2));
-	ImGui::GetWindowDrawList()->AddText(Menu::FontBold, 28, pos_one, ImColor(235, 5, 90, 100 + (rand() % 60)), text);
+	ImGui::GetWindowDrawList()->AddText(Menu::FontBold, size, pos_one, ImColor(235, 5, 90, 100 + (rand() % 60)), text);
 
 	// Cyan Text;
 	ImVec2 pos_two = ImVec2(pos.x + (1 + (rand() % 3)), pos.y + (rand() % 2));
-	ImGui::GetWindowDrawList()->AddText(Menu::FontBold, 28, pos_two, ImColor(32, 217, 217, 100 + (rand() % 60)), text);
+	ImGui::GetWindowDrawList()->AddText(Menu::FontBold, size, pos_two, ImColor(32, 217, 217, 100 + (rand() % 60)), text);
 
 	// Real Text
-	ImGui::GetWindowDrawList()->AddText(Menu::FontBold, 28, pos, ImColor(255, 255, 255), text);
+	ImGui::GetWindowDrawList()->AddText(Menu::FontBold, size, pos, ImColor(255, 255, 255), text);
 }
 
 void Menu::MoveCursorToCenter(bool checkInGame)
@@ -371,6 +372,7 @@ void Menu::MoveCursorToCenter(bool checkInGame)
 void Menu::Kill()
 {
 	Menu::Open = false;
+	Menu::OpenHudEditor = false;
 	Menu::RemoveHooks();
 	wglMakeCurrent(Menu::HandleDeviceContext, Menu::OriginalGLContext);
 	wglDeleteContext(Menu::MenuGLContext);
