@@ -10,6 +10,11 @@
 
 long lastClickTime = 0;
 int nextCps = 10;
+bool shouldDrop = false;
+bool shouldSpike = false;
+
+float normalCps = 0.0f;
+float lastKurtosisValue = 0.0f;
 
 void LeftAutoClicker::Update()
 {
@@ -20,7 +25,7 @@ void LeftAutoClicker::Update()
 	if (settings::LAC_weaponOnly && !MinecraftUtils::IsWeapon(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem())) return;
 	if (settings::LAC_ignoreBlocks && SDK::Minecraft->GetMouseOver().IsTypeOfBlock())
 	{
-		if ((GetAsyncKeyState(VK_LBUTTON) & 0x8000) && !fix) // fixes the issue where the autoclicker would not break blocks when already holding the mouse button
+		if ((GetAsyncKeyState(VK_LBUTTON) & 0x8000) && !fix)
 		{
 			POINT pos_cursor;
 			GetCursorPos(&pos_cursor);
@@ -35,7 +40,35 @@ void LeftAutoClicker::Update()
 	if (lastClickTime == 0) lastClickTime = milli;
 	if ((milli - lastClickTime) < (1000 / nextCps)) return;
 
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	if (settings::LAC_advancedMode && settings::LAC_dropChance > 0)
+	{
+		std::uniform_real_distribution<> dropDist(0.0, 100.0);
+		shouldDrop = dropDist(gen) < settings::LAC_dropChance;
+	}
+	else
+	{
+		shouldDrop = false;
+	}
+
+	if (settings::LAC_advancedMode && settings::LAC_spikeChance > 0)
+	{
+		std::uniform_real_distribution<> spikeDist(0.0, 100.0);
+		shouldSpike = spikeDist(gen) < settings::LAC_spikeChance;
+	}
+	else
+	{
+		shouldSpike = false;
+	}
+
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000) {
+		if (shouldDrop)
+		{
+			lastClickTime = milli;
+			return;
+		}
+
 		POINT pos_cursor;
 		GetCursorPos(&pos_cursor);
 		SendMessage(Menu::HandleWindow, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(pos_cursor.x, pos_cursor.y));
@@ -45,10 +78,54 @@ void LeftAutoClicker::Update()
 
 		float multiplier = SDK::Minecraft->IsInInventory() ? settings::LAC_inventoryMultiplier : 1.0f;
 
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> distrib(settings::LAC_leftMinCps * multiplier, settings::LAC_leftMaxCps * multiplier);
-		nextCps = distrib(gen);
+		if (settings::LAC_advancedMode)
+		{
+			float minCps = settings::LAC_leftMinCps * multiplier;
+			float maxCps = settings::LAC_leftMaxCps * multiplier;
+
+			if (shouldSpike)
+			{
+				maxCps = (std::min)(maxCps * settings::LAC_spikeMultiplier, 25.0f);
+			}
+
+			if (settings::LAC_kurtosis > 0)
+			{
+				float meanCps = (minCps + maxCps) / 2.0f;
+
+				if (normalCps == 0.0f || std::abs(settings::LAC_kurtosis - lastKurtosisValue) > 0.1f)
+				{
+					std::normal_distribution<float> normalDist(meanCps, (maxCps - minCps) / (4.0f + settings::LAC_kurtosis * 2.0f));
+					normalCps = normalDist(gen);
+					lastKurtosisValue = settings::LAC_kurtosis;
+				}
+
+				std::normal_distribution<float> walkDist(0.0f, 0.5f);
+				normalCps += walkDist(gen);
+
+				normalCps = std::max<float>(minCps, std::min<float>(maxCps, normalCps));
+				nextCps = static_cast<int>(normalCps);
+			}
+			else
+			{
+				std::uniform_int_distribution<> distrib(minCps, maxCps);
+				nextCps = distrib(gen);
+			}
+
+			if (settings::LAC_burstEnabled)
+			{
+				std::uniform_real_distribution<> burstChanceDist(0.0, 100.0);
+				if (burstChanceDist(gen) < settings::LAC_burstChance)
+				{
+					float meanCps = (settings::LAC_leftMinCps + settings::LAC_leftMaxCps) / 2.0f;
+					nextCps = static_cast<int>(meanCps * multiplier);
+				}
+			}
+		}
+		else
+		{
+			std::uniform_int_distribution<> distrib(settings::LAC_leftMinCps * multiplier, settings::LAC_leftMaxCps * multiplier);
+			nextCps = distrib(gen);
+		}
 
 		if (settings::LAC_swordBlock && MinecraftUtils::IsWeapon(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem()))
 		{
@@ -81,7 +158,15 @@ void LeftAutoClicker::RenderMenu()
 	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
 	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("lac_header", ImVec2(425, renderSettings ? 198 : 35), false))
+	float childHeight = 35;
+	if (renderSettings) {
+		childHeight += 153;
+		if (settings::LAC_advancedMode) {
+			childHeight += 110;
+		}
+	}
+
+	if (ImGui::BeginChild("lac_header", ImVec2(425, childHeight), false))
 	{
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
 		ImGui::BeginGroup();
@@ -99,19 +184,9 @@ void LeftAutoClicker::RenderMenu()
 		{
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 			ImGui::Separator();
-			if (ImGui::BeginChild("lac_settings", ImVec2(425, 153), false))
+			if (ImGui::BeginChild("lac_settings", ImVec2(425, childHeight - 40), false))
 			{
 				Menu::KeybindButton(166, "Keybind", ImVec2(297, 0), settings::LAC_Key);
-				Menu::Slider(22, "Min CPS", ImVec2(225, 0), &settings::LAC_leftMinCps, 1, settings::LAC_leftMaxCps);
-				Menu::Slider(23, "Max CPS", ImVec2(225, 0), &settings::LAC_leftMaxCps, settings::LAC_leftMinCps, 25);
-				Menu::ToggleButton(24, "Ignore Blocks", ImVec2(368, 0), &settings::LAC_ignoreBlocks);
-				Menu::ToggleButton(132, "Sword Block", ImVec2(368, 0), &settings::LAC_swordBlock);
-				Menu::ToggleButton(133, "Weapon Only", ImVec2(368, 0), &settings::LAC_weaponOnly);
-				Menu::ToggleButton(134, "Allow in Inventory", ImVec2(368, 0), &settings::LAC_allowInventory);
-				if (settings::LAC_allowInventory)
-				{
-					Menu::Slider(147, "Inventory Multiplier", ImVec2(225, 0), &settings::LAC_inventoryMultiplier, 0.1f, 5.0f);
-				}
 			}
 			ImGui::EndChild();
 			ImGui::Spacing();

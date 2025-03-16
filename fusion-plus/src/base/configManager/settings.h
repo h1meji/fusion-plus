@@ -161,6 +161,13 @@ struct settings {
 	inline static bool LAC_weaponOnly = false;
 	inline static bool LAC_allowInventory = false;
 	inline static float LAC_inventoryMultiplier = 1.0f;
+	inline static bool LAC_advancedMode = false;
+	inline static float LAC_dropChance = 5.0f;
+	inline static float LAC_spikeChance = 8.0f;
+	inline static float LAC_spikeMultiplier = 1.3f;
+	inline static float LAC_kurtosis = 1.0f;
+	inline static bool LAC_burstEnabled = true;
+	inline static float LAC_burstChance = 15.0f;
 
 	// Right Auto Clicker
 	inline static bool RAC_Enabled = false;
