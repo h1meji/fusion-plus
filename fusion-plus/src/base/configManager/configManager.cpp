@@ -426,6 +426,15 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::LAC_ignoreBlocks, "LAC_ignoreBlocks");
 	ConfigManager::GetJsonValue(j, settings::LAC_swordBlock, "LAC_swordBlock");
 	ConfigManager::GetJsonValue(j, settings::LAC_weaponOnly, "LAC_weaponOnly");
+	ConfigManager::GetJsonValue(j, settings::LAC_allowInventory, "LAC_allowInventory");
+	ConfigManager::GetJsonValue(j, settings::LAC_inventoryMultiplier, "LAC_inventoryMultiplier");
+	ConfigManager::GetJsonValue(j, settings::LAC_advancedMode, "LAC_advancedMode");
+	ConfigManager::GetJsonValue(j, settings::LAC_dropChance, "LAC_dropChance");
+	ConfigManager::GetJsonValue(j, settings::LAC_spikeChance, "LAC_spikeChance");
+	ConfigManager::GetJsonValue(j, settings::LAC_spikeMultiplier, "LAC_spikeMultiplier");
+	ConfigManager::GetJsonValue(j, settings::LAC_kurtosis, "LAC_kurtosis");
+	ConfigManager::GetJsonValue(j, settings::LAC_burstEnabled, "LAC_burstEnabled");
+	ConfigManager::GetJsonValue(j, settings::LAC_burstChance, "LAC_burstChance");
 
 	// Right Auto Clicker
 	ConfigManager::GetJsonValue(j, settings::RAC_Enabled, "RAC_Enabled");
