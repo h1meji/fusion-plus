@@ -2,11 +2,10 @@
 #include "sdk/sdk.h"
 #include "menu/menu.h"
 #include "util/logger/logger.h"
-#include "menu/menu.h"
+#include "util/minecraft/minecraft.h"
 
 #include <chrono>
 #include <random>
-#include <util/minecraft/minecraft.h>
 
 long lastClickTime = 0;
 int nextCps = 10;
@@ -82,26 +81,26 @@ void LeftAutoClicker::Update()
 		{
 			float minCps = settings::LAC_leftMinCps * multiplier;
 			float maxCps = settings::LAC_leftMaxCps * multiplier;
-			
+
 			if (shouldSpike)
 			{
 				maxCps = (std::min)(maxCps * settings::LAC_spikeMultiplier, 25.0f);
 			}
-			
+
 			if (settings::LAC_kurtosis > 0)
 			{
 				float meanCps = (minCps + maxCps) / 2.0f;
-				
+
 				if (normalCps == 0.0f || std::abs(settings::LAC_kurtosis - lastKurtosisValue) > 0.1f)
 				{
 					std::normal_distribution<float> normalDist(meanCps, (maxCps - minCps) / (4.0f + settings::LAC_kurtosis * 2.0f));
 					normalCps = normalDist(gen);
 					lastKurtosisValue = settings::LAC_kurtosis;
 				}
-				
+
 				std::normal_distribution<float> walkDist(0.0f, 0.5f);
 				normalCps += walkDist(gen);
-				
+
 				normalCps = std::max<float>(minCps, std::min<float>(maxCps, normalCps));
 				nextCps = static_cast<int>(normalCps);
 			}
@@ -110,7 +109,7 @@ void LeftAutoClicker::Update()
 				std::uniform_int_distribution<> distrib(minCps, maxCps);
 				nextCps = distrib(gen);
 			}
-			
+
 			if (settings::LAC_burstEnabled)
 			{
 				std::uniform_real_distribution<> burstChanceDist(0.0, 100.0);
@@ -197,26 +196,26 @@ void LeftAutoClicker::RenderMenu()
 				{
 					Menu::Slider(147, "Inventory Multiplier", ImVec2(225, 0), &settings::LAC_inventoryMultiplier, 0.1f, 5.0f);
 				}
-				
-				Menu::ToggleButton(200, "Advanced Mode", ImVec2(368, 0), &settings::LAC_advancedMode);
-				
+
+				Menu::ToggleButton(200, "Advanced Randomization Mode", ImVec2(368, 0), &settings::LAC_advancedMode);
+
 				if (settings::LAC_advancedMode)
 				{
 					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
 					ImGui::Separator();
 					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-					ImGui::Text("Advanced Randomization");
-					
+					ImGui::Text("Advanced Randomization Mode");
+
 					Menu::Slider(201, "Drop Chance", ImVec2(225, 0), &settings::LAC_dropChance, 0.0f, 20.0f);
-					
+
 					Menu::Slider(202, "Spike Chance", ImVec2(225, 0), &settings::LAC_spikeChance, 0.0f, 30.0f);
 					if (settings::LAC_spikeChance > 0.0f)
 					{
 						Menu::Slider(203, "Spike Multiplier", ImVec2(225, 0), &settings::LAC_spikeMultiplier, 0.0f, 3.0f);
 					}
-					
+
 					Menu::Slider(204, "Kurtosis", ImVec2(225, 0), &settings::LAC_kurtosis, 0.0f, 5.0f);
-					
+
 					Menu::ToggleButton(205, "Burst Pattern", ImVec2(368, 0), &settings::LAC_burstEnabled);
 					if (settings::LAC_burstEnabled)
 					{

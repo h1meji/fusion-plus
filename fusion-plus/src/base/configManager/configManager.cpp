@@ -191,6 +191,15 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["LAC_ignoreBlocks"] = settings::LAC_ignoreBlocks;
 	j["LAC_swordBlock"] = settings::LAC_swordBlock;
 	j["LAC_weaponOnly"] = settings::LAC_weaponOnly;
+	j["LAC_allowInventory"] = settings::LAC_allowInventory;
+	j["LAC_inventoryMultiplier"] = settings::LAC_inventoryMultiplier;
+	j["LAC_advancedMode"] = settings::LAC_advancedMode;
+	j["LAC_dropChance"] = settings::LAC_dropChance;
+	j["LAC_spikeChance"] = settings::LAC_spikeChance;
+	j["LAC_spikeMultiplier"] = settings::LAC_spikeMultiplier;
+	j["LAC_kurtosis"] = settings::LAC_kurtosis;
+	j["LAC_burstEnabled"] = settings::LAC_burstEnabled;
+	j["LAC_burstChance"] = settings::LAC_burstChance;
 
 	// Right Auto Clicker
 	j["RAC_Enabled"] = settings::RAC_Enabled;
