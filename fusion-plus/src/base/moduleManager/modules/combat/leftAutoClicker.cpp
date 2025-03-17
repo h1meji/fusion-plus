@@ -82,26 +82,26 @@ void LeftAutoClicker::Update()
 		{
 			float minCps = settings::LAC_leftMinCps * multiplier;
 			float maxCps = settings::LAC_leftMaxCps * multiplier;
-
+			
 			if (shouldSpike)
 			{
 				maxCps = (std::min)(maxCps * settings::LAC_spikeMultiplier, 25.0f);
 			}
-
+			
 			if (settings::LAC_kurtosis > 0)
 			{
 				float meanCps = (minCps + maxCps) / 2.0f;
-
+				
 				if (normalCps == 0.0f || std::abs(settings::LAC_kurtosis - lastKurtosisValue) > 0.1f)
 				{
 					std::normal_distribution<float> normalDist(meanCps, (maxCps - minCps) / (4.0f + settings::LAC_kurtosis * 2.0f));
 					normalCps = normalDist(gen);
 					lastKurtosisValue = settings::LAC_kurtosis;
 				}
-
+				
 				std::normal_distribution<float> walkDist(0.0f, 0.5f);
 				normalCps += walkDist(gen);
-
+				
 				normalCps = std::max<float>(minCps, std::min<float>(maxCps, normalCps));
 				nextCps = static_cast<int>(normalCps);
 			}
@@ -110,7 +110,7 @@ void LeftAutoClicker::Update()
 				std::uniform_int_distribution<> distrib(minCps, maxCps);
 				nextCps = distrib(gen);
 			}
-
+			
 			if (settings::LAC_burstEnabled)
 			{
 				std::uniform_real_distribution<> burstChanceDist(0.0, 100.0);
@@ -187,6 +187,42 @@ void LeftAutoClicker::RenderMenu()
 			if (ImGui::BeginChild("lac_settings", ImVec2(425, childHeight - 40), false))
 			{
 				Menu::KeybindButton(166, "Keybind", ImVec2(297, 0), settings::LAC_Key);
+				Menu::Slider(22, "Min CPS", ImVec2(225, 0), &settings::LAC_leftMinCps, 1, settings::LAC_leftMaxCps);
+				Menu::Slider(23, "Max CPS", ImVec2(225, 0), &settings::LAC_leftMaxCps, settings::LAC_leftMinCps, 25);
+				Menu::ToggleButton(24, "Ignore Blocks", ImVec2(368, 0), &settings::LAC_ignoreBlocks);
+				Menu::ToggleButton(132, "Sword Block", ImVec2(368, 0), &settings::LAC_swordBlock);
+				Menu::ToggleButton(133, "Weapon Only", ImVec2(368, 0), &settings::LAC_weaponOnly);
+				Menu::ToggleButton(134, "Allow in Inventory", ImVec2(368, 0), &settings::LAC_allowInventory);
+				if (settings::LAC_allowInventory)
+				{
+					Menu::Slider(147, "Inventory Multiplier", ImVec2(225, 0), &settings::LAC_inventoryMultiplier, 0.1f, 5.0f);
+				}
+				
+				Menu::ToggleButton(200, "Advanced Mode", ImVec2(368, 0), &settings::LAC_advancedMode);
+				
+				if (settings::LAC_advancedMode)
+				{
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+					ImGui::Separator();
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+					ImGui::Text("Advanced Randomization");
+					
+					Menu::Slider(201, "Drop Chance", ImVec2(225, 0), &settings::LAC_dropChance, 0.0f, 20.0f);
+					
+					Menu::Slider(202, "Spike Chance", ImVec2(225, 0), &settings::LAC_spikeChance, 0.0f, 30.0f);
+					if (settings::LAC_spikeChance > 0.0f)
+					{
+						Menu::Slider(203, "Spike Multiplier", ImVec2(225, 0), &settings::LAC_spikeMultiplier, 0.0f, 3.0f);
+					}
+					
+					Menu::Slider(204, "Kurtosis", ImVec2(225, 0), &settings::LAC_kurtosis, 0.0f, 5.0f);
+					
+					Menu::ToggleButton(205, "Burst Pattern", ImVec2(368, 0), &settings::LAC_burstEnabled);
+					if (settings::LAC_burstEnabled)
+					{
+						Menu::Slider(206, "Burst Chance", ImVec2(225, 0), &settings::LAC_burstChance, 5.0f, 40.0f);
+					}
+				}
 			}
 			ImGui::EndChild();
 			ImGui::Spacing();
