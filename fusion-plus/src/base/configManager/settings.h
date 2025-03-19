@@ -66,6 +66,17 @@ struct settings {
 	inline static bool NT_DisplayDistance = true;
 	inline static bool NT_DisplayInvisible = true;
 
+	// Tracers
+	inline static bool Tracers_Enabled = false;
+	inline static int Tracers_Key = 0x0;
+	inline static const char* Tracers_TypeList[2]{ "Line", "Arrow" };
+	inline static int Tracers_Type = 0;
+	inline static const char* Tracers_PositionList[3]{ "Head", "Body", "Feet" };
+	inline static int Tracers_Position = 1;
+	inline static float Tracers_Thickness = 1.0f;
+	inline static bool Tracers_OffScreenOnly = false;
+	inline static float Tracers_Color[4]{ 1.0f, 1.0f, 1.0f, 1.0f };
+
 	// Array List
 	inline static bool AL_Enabled = false;
 	inline static int AL_Key = 0x0;
