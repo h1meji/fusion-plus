@@ -18,19 +18,19 @@ This project is based on the original **Fusion** by [deity](https://www.youtube.
 - **Visual**
   - **ESP**: Displays player names, health, and distance
   - **Radar**: Displays a radar of nearby players
-  - **NameTags**: Displays player nametags (and other information) above their heads (suggested by @/autocliicker)
+  - **NameTags**: Displays player nametags (and other information) above their heads (suggested by **Autocliicker**)
 - **Movement**
   - **Bridge Assist**: Automatically shifts the player at the edge of blocks while bridging
   - **Velocity**: Reduces knockback taken by the player
   - **Sprint Reset**: Automatically resets the player's sprint when hitting an entity
-  - **Sprint**: Automatically sprints for the player (created by 11Luke11)
+  - **Sprint**: Automatically sprints for the player (created by **11Luke11**)
 - **Inventory**
   - **Chest Stealer**: Automatically steals items from chests
   - **Inventory Sorter**: Automatically sorts the player's inventory (buggy & complicated)
 - **Utility**
   - **Arraylist**: Displays a list of the user's active modules
   - **Client Brand Changer**: Changes the player's client Brand
-  - **Weapon**: A feature that lets you select the items you consider weapons (suggested by @/zladen.)
+  - **Weapon**: A feature that lets you select the items you consider weapons (suggested by **@/zladen.**)
 
 ### Hidden Modules
 - **TnT Tag** (Hypixel)
@@ -62,30 +62,33 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 *Fusion+* is currently in active development, with new features and optimizations being added regularly. I want to to provide a cheat that is both reliable and easy to use. If you encounter any issues or have suggestions for improvements, please let me know by opening an issue on the GitHub repository. I will do my best to address any problems and implement new features based on community feedback.
 
 ### Planned Features
-- More HUD elements (fps, ping, keybind list, etc.)
-- Deticated HUD editor
-- Keybind options for modules
+- *Nothing planned at the moment*
 
 ### Planned Modules
 - **BlockESP**: Displays blocks selected in the world
 - **Restock**: Automatically restocks the player's hotbar
 - **Tracers / Off-screen Arrows**: Draws lines / arrows to players (off-screen)
-- **Auto Tool**: Automatically selects the best tool for the block being mined (suggested by @/zladen.)
-- **Legit Criticals**: Jumps when hitting an entity to deal critical hits (suggested by @/letalisfatum)
-- **Auto Soup**: Automatically eats soup when the player's health is low (suggested by @/letalisfatum)
+- **Auto Tool**: Automatically selects the best tool for the block being mined (suggested by **@/zladen.**)
+- **Legit Criticals**: Jumps when hitting an entity to deal critical hits (suggested by **@/letalisfatum**)
+- **Auto Soup**: Automatically eats soup when the player's health is low (suggested by **@/letalisfatum**)
+- **No Hit Delay**: Removes the hit delay when hitting an entity (suggested by **@/.fyoki**)
+- **Auto Block**: Automatically blocks with a sword when hitting an entity (seperating it from the "Auto Clicker" module)
+- **Fast Place**: Removes the delay between placing blocks
 
 ### Planned Changes
 - Better looking GUI
 - More customization options for the GUI
+- Arraylist module information (certain settings displayed besides the name)
+- NameTags one-line display option (inspired by **autocliicker**)
 
 ### Notices
 - This cheat is not screen-share proof, but the overlay is hidden from OBS "Game Capture".
 
 ## Credits
 **Fusion+ Contributors**:
-- **Himeji**: Main developers
-- **11Luke11**: Developed the "Sprint" module
-- **autocliicker**: Fixed and improved the "Arraylist" module
+- **Himeji**: Main developer
+- **11Luke11**: Developed the "Sprint" module. Updated the "Left Clicker" module with more advanced settings
+- **Autocliicker**: Fixed and improved the "Arraylist" module
 
 **Original Fusion Development Team**:
 - **deity**: Developed the base of the cheat
