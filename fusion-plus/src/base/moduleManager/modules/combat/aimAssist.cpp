@@ -300,7 +300,7 @@ void AimAssist::RenderMenu()
 
 				ImGui::Separator();
 
-				Menu::ToggleButton(4, "Visbility Check", ImVec2(368, 0), &settings::AA_visibilityCheck);
+				Menu::ToggleButton(4, "Visibility Check", ImVec2(368, 0), &settings::AA_visibilityCheck);
 				Menu::ToggleButton(5, "Sprint Check", ImVec2(368, 0), &settings::AA_sprintCheck);
 				Menu::ToggleButton(127, "Invisible Check", ImVec2(368, 0), &settings::AA_invisibleCheck);
 				Menu::ToggleButton(128, "Block Break Check", ImVec2(368, 0), &settings::AA_blockBreakCheck);
