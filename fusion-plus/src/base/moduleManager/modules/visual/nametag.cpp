@@ -40,7 +40,6 @@ void Nametag::Update()
 			distance = -distance;
 		}
 
-		// This whole calculation came from gaspers source from their reach module, which you can find in this cheat as well
 		float cos = std::cos(Math::degToRadiants(angles.x + 90.0f));
 		float sin = std::sin(Math::degToRadiants(angles.x + 90.0f));
 		float cosPitch = std::cos(Math::degToRadiants(angles.y));
@@ -49,11 +48,6 @@ void Nametag::Update()
 		float x = renderPos.x - (cos * distance * cosPitch);
 		float y = renderPos.y + (distance * sinPitch);
 		float z = renderPos.z - (sin * distance * cosPitch);
-
-		// The raycast that is commented out below does not work that well for some reason, acts weirdly when colliding with chests, and other things.
-		// Also might be poor in performance.
-		//Vector3 ray = world->rayTraceBlocks(renderPos, Vector3{ x, y, z }, false, false, false);
-		//renderPos = ray.x == 0 ? Vector3{ x,y,z } : ray;
 
 		renderPos = Vector3{ x,y,z };
 	}
@@ -180,59 +174,94 @@ void Nametag::RenderOverlay()
 		if (ConfigManager::IsFriend(data.name) && settings::NT_IgnoreFriends)
 			continue;
 
-		std::vector<std::string> texts;
-		if (!data.name.empty()) texts.push_back(data.name);
-		if (settings::NT_DisplayHealth && !data.healthText.empty()) texts.push_back(data.healthText);
-		if (settings::NT_DisplayDistance && !data.distText.empty()) texts.push_back(data.distText);
-		if (settings::NT_DisplayInvisible && !data.invisbleText.empty()) texts.push_back(data.invisbleText);
-
-		// Render Background with one big box
-		if (settings::NT_Background)
+		if (settings::NT_MultiLine)
 		{
-			std::string finalText = "";
-			for (std::string text : texts)
+			std::vector<std::string> texts;
+			if (!data.name.empty()) texts.push_back(data.name);
+			if (settings::NT_DisplayHealth && !data.healthText.empty()) texts.push_back(data.healthText);
+			if (settings::NT_DisplayDistance && !data.distText.empty()) texts.push_back(data.distText);
+			if (settings::NT_DisplayInvisible && !data.invisbleText.empty()) texts.push_back(data.invisbleText);
+
+			// Render Background with one big box
+			if (settings::NT_Background)
 			{
-				finalText += text + "\n";
+				std::string finalText = "";
+				for (std::string text : texts)
+				{
+					finalText += text + "\n";
+				}
+
+				ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::NT_TextSize, FLT_MAX, 0.0f, finalText.c_str());
+				float posX = left + ((right - left) / 2) - (textSize.x / 2);
+				float posY = top - textSize.y - 1;
+
+				ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(posX - 5, posY - 5), ImVec2(posX + textSize.x + 5, posY + textSize.y + 5), ImColor(settings::NT_BackgroundColor[0], settings::NT_BackgroundColor[1], settings::NT_BackgroundColor[2], settings::NT_BackgroundColor[3] * data.opacityFadeFactor));
+
+				if (settings::NT_BackgroundOutline)
+				{
+					ImGui::GetWindowDrawList()->AddRect(ImVec2(posX - 5, posY - 5), ImVec2(posX + textSize.x + 5, posY + textSize.y + 5), ImColor(settings::NT_BackgroundOutlineColor[0], settings::NT_BackgroundOutlineColor[1], settings::NT_BackgroundOutlineColor[2], settings::NT_BackgroundOutlineColor[3] * data.opacityFadeFactor));
+				}
 			}
+
+			float totalHeight = 0.0f;
+			std::vector<ImVec2> textSizes;
+
+			for (const std::string& text : texts)
+			{
+				ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::NT_TextSize, FLT_MAX, 0.0f, text.c_str());
+				textSizes.push_back(textSize);
+				totalHeight += textSize.y;
+			}
+
+			float startY = top - totalHeight - 1;
+
+			for (size_t i = 0; i < texts.size(); ++i)
+			{
+				ImVec2 textSize = textSizes[i];
+				float posX = left + ((right - left) / 2) - (textSize.x / 2);
+				float posY = startY;
+				startY += textSize.y;
+
+				if (settings::NT_TextOutline)
+				{
+					RenderQOLF::DrawOutlinedText(Menu::Font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), ImColor(settings::NT_TextOutlineColor[0], settings::NT_TextOutlineColor[1], settings::NT_TextOutlineColor[2], settings::NT_TextOutlineColor[3] * data.opacityFadeFactor), texts[i].c_str());
+				}
+				else
+				{
+					ImGui::GetWindowDrawList()->AddText(Menu::Font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), texts[i].c_str());
+				}
+			}
+		}
+		else
+		{
+			std::string finalText = data.name;
+			if (settings::NT_DisplayHealth && !data.healthText.empty()) finalText += " | " + data.healthText;
+			if (settings::NT_DisplayDistance && !data.distText.empty()) finalText += " | " + data.distText;
+			if (settings::NT_DisplayInvisible && !data.invisbleText.empty()) finalText += " | " + data.invisbleText;
 
 			ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::NT_TextSize, FLT_MAX, 0.0f, finalText.c_str());
+			if (settings::NT_Background)
+			{
+				float posX = left + ((right - left) / 2) - (textSize.x / 2);
+				float posY = top - textSize.y - 1;
+
+				ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(posX - 5, posY - 5), ImVec2(posX + textSize.x + 5, posY + textSize.y + 5), ImColor(settings::NT_BackgroundColor[0], settings::NT_BackgroundColor[1], settings::NT_BackgroundColor[2], settings::NT_BackgroundColor[3] * data.opacityFadeFactor));
+
+				if (settings::NT_BackgroundOutline)
+				{
+					ImGui::GetWindowDrawList()->AddRect(ImVec2(posX - 5, posY - 5), ImVec2(posX + textSize.x + 5, posY + textSize.y + 5), ImColor(settings::NT_BackgroundOutlineColor[0], settings::NT_BackgroundOutlineColor[1], settings::NT_BackgroundOutlineColor[2], settings::NT_BackgroundOutlineColor[3] * data.opacityFadeFactor));
+				}
+			}
+
 			float posX = left + ((right - left) / 2) - (textSize.x / 2);
 			float posY = top - textSize.y - 1;
-
-			ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(posX - 5, posY - 5), ImVec2(posX + textSize.x + 5, posY + textSize.y + 5), ImColor(settings::NT_BackgroundColor[0], settings::NT_BackgroundColor[1], settings::NT_BackgroundColor[2], settings::NT_BackgroundColor[3] * data.opacityFadeFactor));
-		
-			if (settings::NT_BackgroundOutline)
-			{
-				ImGui::GetWindowDrawList()->AddRect(ImVec2(posX - 5, posY - 5), ImVec2(posX + textSize.x + 5, posY + textSize.y + 5), ImColor(settings::NT_BackgroundOutlineColor[0], settings::NT_BackgroundOutlineColor[1], settings::NT_BackgroundOutlineColor[2], settings::NT_BackgroundOutlineColor[3] * data.opacityFadeFactor));
-			}
-		}
-
-		float totalHeight = 0.0f;
-		std::vector<ImVec2> textSizes;
-
-		for (const std::string& text : texts)
-		{
-			ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::NT_TextSize, FLT_MAX, 0.0f, text.c_str());
-			textSizes.push_back(textSize);
-			totalHeight += textSize.y;
-		}
-
-		float startY = top - totalHeight - 1;
-
-		for (size_t i = 0; i < texts.size(); ++i)
-		{
-			ImVec2 textSize = textSizes[i];
-			float posX = left + ((right - left) / 2) - (textSize.x / 2);
-			float posY = startY;
-			startY += textSize.y;
-
 			if (settings::NT_TextOutline)
 			{
-				RenderQOLF::DrawOutlinedText(Menu::Font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), ImColor(settings::NT_TextOutlineColor[0], settings::NT_TextOutlineColor[1], settings::NT_TextOutlineColor[2], settings::NT_TextOutlineColor[3] * data.opacityFadeFactor), texts[i].c_str());
+				RenderQOLF::DrawOutlinedText(Menu::Font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), ImColor(settings::NT_TextOutlineColor[0], settings::NT_TextOutlineColor[1], settings::NT_TextOutlineColor[2], settings::NT_TextOutlineColor[3] * data.opacityFadeFactor), finalText.c_str());
 			}
 			else
 			{
-				ImGui::GetWindowDrawList()->AddText(Menu::Font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), texts[i].c_str());
+				ImGui::GetWindowDrawList()->AddText(Menu::Font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), finalText.c_str());
 			}
 		}
 	}
@@ -293,6 +322,7 @@ void Nametag::RenderMenu()
 				Menu::Slider(156, "Unrender Distance", ImVec2(225, 0), &settings::NT_TextUnrenderDistance, 0.0f, 300.0f);
 				Menu::Slider(157, "Fade Distance", ImVec2(225, 0), &settings::NT_FadeDistance, 0.0f, 300.0f);
 
+				Menu::ToggleButton(207, "Multi Line", ImVec2(368, 0), &settings::NT_MultiLine);
 				Menu::ToggleButton(160, "Display Health", ImVec2(368, 0), &settings::NT_DisplayHealth);
 				Menu::ToggleButton(161, "Display Distance", ImVec2(368, 0), &settings::NT_DisplayDistance);
 				Menu::ToggleButton(162, "Display Invisible", ImVec2(368, 0), &settings::NT_DisplayInvisible);

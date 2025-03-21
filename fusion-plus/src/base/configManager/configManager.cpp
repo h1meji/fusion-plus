@@ -117,6 +117,7 @@ bool ConfigManager::SettingsToJson(json& j)
 	j["NT_BackgroundColor"] = settings::NT_BackgroundColor;
 	j["NT_BackgroundOutline"] = settings::NT_BackgroundOutline;
 	j["NT_BackgroundOutlineColor"] = settings::NT_BackgroundOutlineColor;
+	j["NT_MultiLine"] = settings::NT_MultiLine;
 	j["NT_DisplayHealth"] = settings::NT_DisplayHealth;
 	j["NT_DisplayDistance"] = settings::NT_DisplayDistance;
 	j["NT_DisplayInvisible"] = settings::NT_DisplayInvisible;
@@ -352,6 +353,7 @@ bool ConfigManager::JsonToSettings(const json& j)
 	ConfigManager::GetJsonValue(j, settings::NT_BackgroundColor, "NT_BackgroundColor");
 	ConfigManager::GetJsonValue(j, settings::NT_BackgroundOutline, "NT_BackgroundOutline");
 	ConfigManager::GetJsonValue(j, settings::NT_BackgroundOutlineColor, "NT_BackgroundOutlineColor");
+	ConfigManager::GetJsonValue(j, settings::NT_MultiLine, "NT_MultiLine");
 	ConfigManager::GetJsonValue(j, settings::NT_DisplayHealth, "NT_DisplayHealth");
 	ConfigManager::GetJsonValue(j, settings::NT_DisplayDistance, "NT_DisplayDistance");
 	ConfigManager::GetJsonValue(j, settings::NT_DisplayInvisible, "NT_DisplayInvisible");

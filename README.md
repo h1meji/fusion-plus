@@ -79,7 +79,6 @@ The goal of the original *Fusion* project was to provide a solid foundation for 
 - Better looking GUI
 - More customization options for the GUI
 - Arraylist module information (certain settings displayed besides the name)
-- NameTags one-line display option (inspired by **autocliicker**)
 
 ### Notices
 - This cheat is not screen-share proof, but the overlay is hidden from OBS "Game Capture".

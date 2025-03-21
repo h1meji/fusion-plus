@@ -62,6 +62,7 @@ struct settings {
 	inline static bool NT_BackgroundOutline = true;
 	inline static float NT_BackgroundOutlineColor[4]{ 0, 0, 0, 0.25 };
 	inline static bool NT_IgnoreFriends = true;
+	inline static bool NT_MultiLine = false;
 	inline static bool NT_DisplayHealth = true;
 	inline static bool NT_DisplayDistance = true;
 	inline static bool NT_DisplayInvisible = true;
