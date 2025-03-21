@@ -7,22 +7,7 @@
 #include "menu/menu.h"
 #include "moduleManager/commonData.h"
 
-// Modules
-#include "moduleManager/modules/visual/esp.h"
-#include "moduleManager/modules/visual/radar.h"
-#include "moduleManager/modules/visual/blockEsp.h"
-#include "moduleManager/modules/combat/aimAssist.h"
-#include "moduleManager/modules/combat/reach.h"
-#include "moduleManager/modules/combat/leftAutoClicker.h"
-#include "moduleManager/modules/combat/rightAutoClicker.h"
-#include "moduleManager/modules/movement/bridgeAssist.h"
-#include "moduleManager/modules/movement/velocity.h"
-#include "moduleManager/modules/movement/sprintReset.h"
-#include "moduleManager/modules/inventory/chestStealer.h"
-#include "moduleManager/modules/inventory/inventorySorter.h"
-#include "moduleManager/modules/utility/clientBrandChanger.h"
-#include "moduleManager/modules/tnt-tag/tagBack.h"
-#include "moduleManager/modules/tnt-tag/ITEsp.h"
+#include <moduleManager/moduleManager.h>
 
 #define M_PI 3.14159265358979323846
 
@@ -70,21 +55,11 @@ void ArrayList::RenderHud() {
     std::vector<std::string> enabledModules;
     
     // Collect enabled modules
-    if (Esp().IsEnabled()) enabledModules.push_back(Esp().GetName());
-    if (Radar().IsEnabled()) enabledModules.push_back(Radar().GetName());
-    if (BlockEsp().IsEnabled()) enabledModules.push_back(BlockEsp().GetName());
-    if (AimAssist().IsEnabled()) enabledModules.push_back(AimAssist().GetName());
-    if (Reach().IsEnabled()) enabledModules.push_back(Reach().GetName());
-    if (LeftAutoClicker().IsEnabled()) enabledModules.push_back(LeftAutoClicker().GetName());
-    if (RightAutoClicker().IsEnabled()) enabledModules.push_back(RightAutoClicker().GetName());
-    if (BridgeAssist().IsEnabled()) enabledModules.push_back(BridgeAssist().GetName());
-    if (Velocity().IsEnabled()) enabledModules.push_back(Velocity().GetName());
-    if (SprintReset().IsEnabled()) enabledModules.push_back(SprintReset().GetName());
-    if (ChestStealer().IsEnabled()) enabledModules.push_back(ChestStealer().GetName());
-    if (InventorySorter().IsEnabled()) enabledModules.push_back(InventorySorter().GetName());
-    if (ClientBrandChanger().IsEnabled()) enabledModules.push_back(ClientBrandChanger().GetName());
-    if (TagBack().IsEnabled()) enabledModules.push_back(TagBack().GetName());
-    if (ITEsp().IsEnabled()) enabledModules.push_back(ITEsp().GetName());
+	for (std::unique_ptr<ModuleBase>& module : g_ModuleManager->GetModules()) {
+        if (module->IsEnabled()) {
+            enabledModules.push_back(module->GetName());
+        }
+	}
 
     if (enabledModules.empty()) return;
 
