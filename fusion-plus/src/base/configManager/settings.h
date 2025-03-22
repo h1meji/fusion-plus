@@ -7,7 +7,18 @@ struct settings {
 	inline static std::vector<std::string> friends;
 
 	// Menu
-	inline static float Menu_AccentColor[4]{ 0, 0.4f, 0.4f, 1.0f };
+	inline static float Menu_TextColor[4]{ 1.0f, 1.0f, 1.0f, 1.0f };
+	inline static float Menu_SeperatorColor[4]{ 1.0f, 1.0f, 1.0f, 1.0f };
+	inline static float Menu_PrimaryColor[4]{ 0.49f, 0.23f, 0.85f, 1.0f };
+	inline static float Menu_SecondaryColor[4]{ 1.0f, 1.0f, 1.0f, 0.5f };
+	inline static float Menu_BackgroundColor[4]{ 0.0f, 0.0f, 0.0f, 0.8f };
+	inline static float Menu_ChildBackgroundColor[4]{ 0.0f, 0.0f, 0.0f, 0.5f };
+	inline static float Menu_OutlineColor[4]{ 0.18f, 0.18f, 0.18f, 1.0f };
+	inline static float Menu_DetachButtonColor[4]{ 1.0f, 0.0f, 0.0f, 0.5f };
+
+	inline static float Menu_WindowRounding = 10.0f;
+	inline static float Menu_ComponentsRounding = 5.0f;
+
 	inline static bool Menu_GUIMovement = false;
 	inline static bool Menu_ShowHiddenCategories = false;
 	inline static std::vector<std::string> Menu_HiddenCategoriesList{ "TnT Tag" };

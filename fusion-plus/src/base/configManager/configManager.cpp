@@ -65,7 +65,6 @@ std::vector<std::string> ConfigManager::GetConfigList()
 bool ConfigManager::SettingsToJson(json& j)
 {
 	// Menu
-	j["Menu_AccentColor"] = settings::Menu_AccentColor;
 	j["Menu_GUIMovement"] = settings::Menu_GUIMovement;
 	j["Menu_ShowHiddenCategories"] = settings::Menu_ShowHiddenCategories;
 
@@ -301,7 +300,6 @@ bool ConfigManager::SettingsToJson(json& j)
 bool ConfigManager::JsonToSettings(const json& j)
 {
 	// Menu
-	ConfigManager::GetJsonValue(j, settings::Menu_AccentColor, "Menu_AccentColor");
 	ConfigManager::GetJsonValue(j, settings::Menu_GUIMovement, "Menu_GUIMovement");
 	ConfigManager::GetJsonValue(j, settings::Menu_ShowHiddenCategories, "Menu_ShowHiddenCategories");
 

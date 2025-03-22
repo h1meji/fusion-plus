@@ -65,7 +65,7 @@ void Base::RenderLoop() // Runs every frame
 		std::strftime(buffer, sizeof(buffer), "%H:%M:%S", &localTime);
 
 		const char* watermark = "Fusion+";
-		std::string version = "v0.5";
+		std::string version = Base::version;
 		std::string fps = std::to_string(CommonData::fps) + " FPS";
 		std::string ping = std::to_string(CommonData::ping) + "ms";
 		std::string coords = "X: " + floatToString(CommonData::playerPos.x, 1) + " Y: " + floatToString(CommonData::playerPos.y, 1) + " Z: " + floatToString(CommonData::playerPos.z, 1);

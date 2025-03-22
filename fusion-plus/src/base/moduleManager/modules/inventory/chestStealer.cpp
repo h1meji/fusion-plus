@@ -131,111 +131,111 @@ static std::string toLower(const std::string& str) {
 
 void ChestStealer::RenderItems(bool& isOpen)
 {
-	if (!isOpen) return;
+	//if (!isOpen) return;
 
-	static char filterBuffer[128] = "";
-	static bool showAddPopup = false;
+	//static char filterBuffer[128] = "";
+	//static bool showAddPopup = false;
 
 
-	if (showAddPopup)
-	{
-		ImGui::OpenPopup("Add Item Popup");
-		showAddPopup = false;
-	}
+	//if (showAddPopup)
+	//{
+	//	ImGui::OpenPopup("Add Item Popup");
+	//	showAddPopup = false;
+	//}
 
-	// Popup for adding a block
-	if (ImGui::BeginPopup("Add Item Popup"))
-	{
-		ImGui::Text("Select a Item to Add");
-		ImGui::Separator();
+	//// Popup for adding a block
+	//if (ImGui::BeginPopup("Add Item Popup"))
+	//{
+	//	ImGui::Text("Select a Item to Add");
+	//	ImGui::Separator();
 
-		// Filter input
-		ImGui::SetNextItemWidth(400);
-		ImGui::InputTextWithHint("##filter", "Filter...", filterBuffer, IM_ARRAYSIZE(filterBuffer));
+	//	// Filter input
+	//	ImGui::SetNextItemWidth(400);
+	//	ImGui::InputTextWithHint("##filter", "Filter...", filterBuffer, IM_ARRAYSIZE(filterBuffer));
 
-		std::string filterLower = toLower(filterBuffer);
+	//	std::string filterLower = toLower(filterBuffer);
 
-		// Filtered block list
-		if (ImGui::BeginListBox("##blockList", ImVec2(300, 200)))
-		{
-			for (const auto& [blockName, blockData] : MinecraftItems::nameToBlock)
-			{
-				// Convert block name to lowercase for comparison
-				std::string blockNameLower = toLower(blockName);
-				if (blockNameLower.find(filterLower) != std::string::npos)
-				{
-					if (ImGui::Selectable(blockName.c_str()))
-					{
-						// Add the selected block to userBlocks (ID, metadata pair)
-						settings::CS_Items.push_back({ blockData.id, blockData.metadata });
-						ImGui::CloseCurrentPopup();
-					}
-				}
-			}
-			ImGui::EndListBox();
-		}
+	//	// Filtered block list
+	//	if (ImGui::BeginListBox("##blockList", ImVec2(300, 200)))
+	//	{
+	//		for (const auto& [blockName, blockData] : MinecraftItems::nameToBlock)
+	//		{
+	//			// Convert block name to lowercase for comparison
+	//			std::string blockNameLower = toLower(blockName);
+	//			if (blockNameLower.find(filterLower) != std::string::npos)
+	//			{
+	//				if (ImGui::Selectable(blockName.c_str()))
+	//				{
+	//					// Add the selected block to userBlocks (ID, metadata pair)
+	//					settings::CS_Items.push_back({ blockData.id, blockData.metadata });
+	//					ImGui::CloseCurrentPopup();
+	//				}
+	//			}
+	//		}
+	//		ImGui::EndListBox();
+	//	}
 
-		// Close the popup
-		if (ImGui::Button("Close"))
-		{
-			ImGui::CloseCurrentPopup();
-		}
+	//	// Close the popup
+	//	if (ImGui::Button("Close"))
+	//	{
+	//		ImGui::CloseCurrentPopup();
+	//	}
 
-		ImGui::EndPopup();
-	}
+	//	ImGui::EndPopup();
+	//}
 
-	ImGui::SetNextWindowSize(ImVec2(534, 255));
-	if (ImGui::Begin("  Chest Stealer", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize))
-	{
-		ImGui::SeparatorText("Items");
+	//ImGui::SetNextWindowSize(ImVec2(534, 255));
+	//if (ImGui::Begin("  Chest Stealer", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize))
+	//{
+	//	ImGui::SeparatorText("Items");
 
-		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
-		if (ImGui::BeginListBox("##items", ImVec2(514, 145)))
-		{
-			for (int i = 0; i < settings::CS_Items.size(); i++)
-			{
-				const auto& item = settings::CS_Items[i];
+	//	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
+	//	if (ImGui::BeginListBox("##items", ImVec2(514, 145)))
+	//	{
+	//		for (int i = 0; i < settings::CS_Items.size(); i++)
+	//		{
+	//			const auto& item = settings::CS_Items[i];
 
-				ImGui::Text("%s", MinecraftItems::GetNameByData(item.first, item.second).c_str());
+	//			ImGui::Text("%s", MinecraftItems::GetNameByData(item.first, item.second).c_str());
 
-				if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Right))
-				{
-					ImGui::OpenPopup(("Delete Item " + std::to_string(item.first)).c_str());
-				}
+	//			if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Right))
+	//			{
+	//				ImGui::OpenPopup(("Delete Item " + std::to_string(item.first)).c_str());
+	//			}
 
-				if (ImGui::BeginPopup(("Delete Item " + std::to_string(item.first)).c_str()))
-				{
-					if (ImGui::Button("Delete"))
-					{
-						settings::CS_Items.erase(settings::CS_Items.begin() + i);
-						i--;
-						ImGui::CloseCurrentPopup();
-					}
-					ImGui::EndPopup();
-				}
-			}
-			ImGui::EndListBox();
-		}
+	//			if (ImGui::BeginPopup(("Delete Item " + std::to_string(item.first)).c_str()))
+	//			{
+	//				if (ImGui::Button("Delete"))
+	//				{
+	//					settings::CS_Items.erase(settings::CS_Items.begin() + i);
+	//					i--;
+	//					ImGui::CloseCurrentPopup();
+	//				}
+	//				ImGui::EndPopup();
+	//			}
+	//		}
+	//		ImGui::EndListBox();
+	//	}
 
-		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82f, settings::Menu_AccentColor[1] * 0.82f, settings::Menu_AccentColor[2] * 0.82f, settings::Menu_AccentColor[3] * 0.82f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
+	//	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
+	//	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82f, settings::Menu_AccentColor[1] * 0.82f, settings::Menu_AccentColor[2] * 0.82f, settings::Menu_AccentColor[3] * 0.82f));
+	//	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
+	//	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
 
-		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
-		if (ImGui::Button("Add Item", ImVec2(514, 22)))
-		{
-			showAddPopup = true;
-		}
+	//	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
+	//	if (ImGui::Button("Add Item", ImVec2(514, 22)))
+	//	{
+	//		showAddPopup = true;
+	//	}
 
-		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
-		if (ImGui::Button("Save & Close", ImVec2(514, 22)))
-		{
-			isOpen = false;
-		}
+	//	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
+	//	if (ImGui::Button("Save & Close", ImVec2(514, 22)))
+	//	{
+	//		isOpen = false;
+	//	}
 
-		ImGui::PopStyleColor(3);
-		ImGui::PopStyleVar();
-	}
-	ImGui::End();
+	//	ImGui::PopStyleColor(3);
+	//	ImGui::PopStyleVar();
+	//}
+	//ImGui::End();
 }

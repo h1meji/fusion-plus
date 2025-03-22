@@ -710,300 +710,300 @@ static std::string toLower(const std::string& str) {
 
 void InventorySorter::RenderInventoryEditor(bool& isOpen)
 {
-	if (!isOpen) return;
-    ImGui::SetNextWindowSize(ImVec2(534, 602));
-	std::vector<InventorySystem::Category> categories = InventorySystem::GetCategories();
-	if (ImGui::Begin("  Inventory Editor", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize))
-	{
-		ImGui::SeparatorText("Armor Slots");
-		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
-		ImGui::BeginGroup();
-		std::vector<InventorySystem::Slot> armorSlots = InventorySystem::GetArmorSlots();
-		for (int i = 0; i < 4; i++)
-		{
-			InventorySystem::Slot slot = armorSlots[i];
-			ImGui::PushID(i);
-			ImGui::BeginDisabled();
-			if (ImGui::Button(slot.category.name.c_str(), ImVec2(50, 50)))
-			{
-			}
-			ImGui::EndDisabled();
+	//if (!isOpen) return;
+ //   ImGui::SetNextWindowSize(ImVec2(534, 602));
+	//std::vector<InventorySystem::Category> categories = InventorySystem::GetCategories();
+	//if (ImGui::Begin("  Inventory Editor", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize))
+	//{
+	//	ImGui::SeparatorText("Armor Slots");
+	//	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
+	//	ImGui::BeginGroup();
+	//	std::vector<InventorySystem::Slot> armorSlots = InventorySystem::GetArmorSlots();
+	//	for (int i = 0; i < 4; i++)
+	//	{
+	//		InventorySystem::Slot slot = armorSlots[i];
+	//		ImGui::PushID(i);
+	//		ImGui::BeginDisabled();
+	//		if (ImGui::Button(slot.category.name.c_str(), ImVec2(50, 50)))
+	//		{
+	//		}
+	//		ImGui::EndDisabled();
 
-			ImGui::PopID();
+	//		ImGui::PopID();
 
-			if (i < 3) ImGui::SameLine();
-		}
-		ImGui::EndGroup();
+	//		if (i < 3) ImGui::SameLine();
+	//	}
+	//	ImGui::EndGroup();
 
-		ImGui::SeparatorText("Inventory Slots");
-		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
-		ImGui::BeginGroup();
-		std::vector<InventorySystem::Slot> inventorySlots = InventorySystem::GetInventorySlots();
-		for (int i = 0; i < 27; i++)
-		{
-			InventorySystem::Slot slot = inventorySlots[i + 9];
-			ImGui::PushID(4 + i);
+	//	ImGui::SeparatorText("Inventory Slots");
+	//	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
+	//	ImGui::BeginGroup();
+	//	std::vector<InventorySystem::Slot> inventorySlots = InventorySystem::GetInventorySlots();
+	//	for (int i = 0; i < 27; i++)
+	//	{
+	//		InventorySystem::Slot slot = inventorySlots[i + 9];
+	//		ImGui::PushID(4 + i);
 
-			std::string slotName = "";
-			if (slot.item.id != -1)
-			{
-				slotName = MinecraftItems::GetNameByData(slot.item.id, slot.item.metadata);
-			}
-			else
-			{
-				slotName = slot.category.name;
-			}
+	//		std::string slotName = "";
+	//		if (slot.item.id != -1)
+	//		{
+	//			slotName = MinecraftItems::GetNameByData(slot.item.id, slot.item.metadata);
+	//		}
+	//		else
+	//		{
+	//			slotName = slot.category.name;
+	//		}
 
-			if (ImGui::Button(slotName.c_str(), ImVec2(50, 50)))
-			{
-				ImGui::OpenPopup("CategorySelector");
-			}
-			if (ImGui::IsItemHovered())
-			{
-				ImGui::BeginTooltip();
-				ImGui::Text(slotName.c_str());
-				ImGui::EndTooltip();
-			}
+	//		if (ImGui::Button(slotName.c_str(), ImVec2(50, 50)))
+	//		{
+	//			ImGui::OpenPopup("CategorySelector");
+	//		}
+	//		if (ImGui::IsItemHovered())
+	//		{
+	//			ImGui::BeginTooltip();
+	//			ImGui::Text(slotName.c_str());
+	//			ImGui::EndTooltip();
+	//		}
 
-			if (ImGui::BeginPopup("CategorySelector"))
-			{
-				ImGui::Text("Select an Item Category");
-				if (ImGui::BeginListBox("##listbox", ImVec2(300, 100)))
-				{
-					for (int j = 0; j < categories.size(); j++)
-					{
-						InventorySystem::Category category = categories[j];
-						if (ImGui::Selectable(category.name.c_str()))
-						{
-							InventorySystem::AddCategoryToSlot(i + 9, j);
-							ImGui::CloseCurrentPopup();
-						}
-					}
-					ImGui::EndListBox();
-				}
+	//		if (ImGui::BeginPopup("CategorySelector"))
+	//		{
+	//			ImGui::Text("Select an Item Category");
+	//			if (ImGui::BeginListBox("##listbox", ImVec2(300, 100)))
+	//			{
+	//				for (int j = 0; j < categories.size(); j++)
+	//				{
+	//					InventorySystem::Category category = categories[j];
+	//					if (ImGui::Selectable(category.name.c_str()))
+	//					{
+	//						InventorySystem::AddCategoryToSlot(i + 9, j);
+	//						ImGui::CloseCurrentPopup();
+	//					}
+	//				}
+	//				ImGui::EndListBox();
+	//			}
 
-				ImGui::Text("Select an Item");
-				static char filterBuffer[128] = "";
-				static bool showAddPopup = false;
+	//			ImGui::Text("Select an Item");
+	//			static char filterBuffer[128] = "";
+	//			static bool showAddPopup = false;
 
-				ImGui::SetNextItemWidth(400);
-				ImGui::InputTextWithHint("##filter", "Filter...", filterBuffer, IM_ARRAYSIZE(filterBuffer));
+	//			ImGui::SetNextItemWidth(400);
+	//			ImGui::InputTextWithHint("##filter", "Filter...", filterBuffer, IM_ARRAYSIZE(filterBuffer));
 
-				std::string filterLower = toLower(filterBuffer);
+	//			std::string filterLower = toLower(filterBuffer);
 
-				if (ImGui::BeginListBox("##blockList", ImVec2(300, 100)))
-				{
-					for (const auto& [blockName, blockData] : MinecraftItems::nameToBlock) {
-						std::string blockNameLower = toLower(blockName);
-						if (blockNameLower.find(filterLower) != std::string::npos) {
-							if (ImGui::Selectable(blockName.c_str())) {
-								// Add the selected block to userBlocks (ID, metadata pair)
-								Logger::Log("Block Name: %s", blockName.c_str());
-								InventorySystem::AddItemToSlot(i + 9, blockData.id, blockData.metadata);
-								Logger::Log("Slot: %d", i + 9);
-								ImGui::CloseCurrentPopup();
-							}
-						}
-					}
-					ImGui::EndListBox();
-				}
+	//			if (ImGui::BeginListBox("##blockList", ImVec2(300, 100)))
+	//			{
+	//				for (const auto& [blockName, blockData] : MinecraftItems::nameToBlock) {
+	//					std::string blockNameLower = toLower(blockName);
+	//					if (blockNameLower.find(filterLower) != std::string::npos) {
+	//						if (ImGui::Selectable(blockName.c_str())) {
+	//							// Add the selected block to userBlocks (ID, metadata pair)
+	//							Logger::Log("Block Name: %s", blockName.c_str());
+	//							InventorySystem::AddItemToSlot(i + 9, blockData.id, blockData.metadata);
+	//							Logger::Log("Slot: %d", i + 9);
+	//							ImGui::CloseCurrentPopup();
+	//						}
+	//					}
+	//				}
+	//				ImGui::EndListBox();
+	//			}
 
-				ImGui::EndPopup();
-			}
+	//			ImGui::EndPopup();
+	//		}
 
-			ImGui::PopID();
+	//		ImGui::PopID();
 
-			// 3x9 grid
-			if (i % 9 != 8)
-			{
-				ImGui::SameLine();
-			}
-		}
-		ImGui::EndGroup();
+	//		// 3x9 grid
+	//		if (i % 9 != 8)
+	//		{
+	//			ImGui::SameLine();
+	//		}
+	//	}
+	//	ImGui::EndGroup();
 
-		ImGui::SeparatorText("Hotbar Slots");
-		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
-		ImGui::BeginGroup();
-		for (int i = 0; i < 9; i++)
-		{
-			InventorySystem::Slot slot = inventorySlots[i];
-			ImGui::PushID(31 + i);
+	//	ImGui::SeparatorText("Hotbar Slots");
+	//	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
+	//	ImGui::BeginGroup();
+	//	for (int i = 0; i < 9; i++)
+	//	{
+	//		InventorySystem::Slot slot = inventorySlots[i];
+	//		ImGui::PushID(31 + i);
 
-			std::string slotName = "";
-			if (slot.item.id != -1)
-			{
-				slotName = MinecraftItems::GetNameByData(slot.item.id, slot.item.metadata);
-			}
-			else
-			{
-				slotName = slot.category.name;
-			}
+	//		std::string slotName = "";
+	//		if (slot.item.id != -1)
+	//		{
+	//			slotName = MinecraftItems::GetNameByData(slot.item.id, slot.item.metadata);
+	//		}
+	//		else
+	//		{
+	//			slotName = slot.category.name;
+	//		}
 
-			if (ImGui::Button(slotName.c_str(), ImVec2(50, 50)))
-			{
-				ImGui::OpenPopup("CategorySelector");
-			}
-			if (ImGui::IsItemHovered())
-			{
-				ImGui::BeginTooltip();
-				ImGui::Text(slotName.c_str());
-				ImGui::EndTooltip();
-			}
+	//		if (ImGui::Button(slotName.c_str(), ImVec2(50, 50)))
+	//		{
+	//			ImGui::OpenPopup("CategorySelector");
+	//		}
+	//		if (ImGui::IsItemHovered())
+	//		{
+	//			ImGui::BeginTooltip();
+	//			ImGui::Text(slotName.c_str());
+	//			ImGui::EndTooltip();
+	//		}
 
-			if (ImGui::BeginPopup("CategorySelector"))
-			{
-				ImGui::Text("Select an Item Category");
-				if (ImGui::BeginListBox("##listbox", ImVec2(300, 100)))
-				{
-					for (int j = 0; j < categories.size(); j++)
-					{
-						InventorySystem::Category category = categories[j];
-						if (ImGui::Selectable(category.name.c_str()))
-						{
-							InventorySystem::AddCategoryToSlot(i, j);
-							Logger::Log("Slot: %d", i);
-							ImGui::CloseCurrentPopup();
-						}
-					}
-					ImGui::EndListBox();
-				}
+	//		if (ImGui::BeginPopup("CategorySelector"))
+	//		{
+	//			ImGui::Text("Select an Item Category");
+	//			if (ImGui::BeginListBox("##listbox", ImVec2(300, 100)))
+	//			{
+	//				for (int j = 0; j < categories.size(); j++)
+	//				{
+	//					InventorySystem::Category category = categories[j];
+	//					if (ImGui::Selectable(category.name.c_str()))
+	//					{
+	//						InventorySystem::AddCategoryToSlot(i, j);
+	//						Logger::Log("Slot: %d", i);
+	//						ImGui::CloseCurrentPopup();
+	//					}
+	//				}
+	//				ImGui::EndListBox();
+	//			}
 
-				ImGui::Text("Select an Item");
-				static char filterBuffer[128] = "";
-				static bool showAddPopup = false;
+	//			ImGui::Text("Select an Item");
+	//			static char filterBuffer[128] = "";
+	//			static bool showAddPopup = false;
 
-				ImGui::SetNextItemWidth(400);
-				ImGui::InputTextWithHint("##filter", "Filter...", filterBuffer, IM_ARRAYSIZE(filterBuffer));
+	//			ImGui::SetNextItemWidth(400);
+	//			ImGui::InputTextWithHint("##filter", "Filter...", filterBuffer, IM_ARRAYSIZE(filterBuffer));
 
-				std::string filterLower = toLower(filterBuffer);
+	//			std::string filterLower = toLower(filterBuffer);
 
-				if (ImGui::BeginListBox("##blockList", ImVec2(300, 100)))
-				{
-					for (const auto& [blockName, blockData] : MinecraftItems::nameToBlock) {
-						std::string blockNameLower = toLower(blockName);
-						if (blockNameLower.find(filterLower) != std::string::npos) {
-							if (ImGui::Selectable(blockName.c_str())) {
-								InventorySystem::AddItemToSlot(i, blockData.id, blockData.metadata);
-								Logger::Log("Slot: %d", i);
-								ImGui::CloseCurrentPopup();
-							}
-						}
-					}
-					ImGui::EndListBox();
-				}
+	//			if (ImGui::BeginListBox("##blockList", ImVec2(300, 100)))
+	//			{
+	//				for (const auto& [blockName, blockData] : MinecraftItems::nameToBlock) {
+	//					std::string blockNameLower = toLower(blockName);
+	//					if (blockNameLower.find(filterLower) != std::string::npos) {
+	//						if (ImGui::Selectable(blockName.c_str())) {
+	//							InventorySystem::AddItemToSlot(i, blockData.id, blockData.metadata);
+	//							Logger::Log("Slot: %d", i);
+	//							ImGui::CloseCurrentPopup();
+	//						}
+	//					}
+	//				}
+	//				ImGui::EndListBox();
+	//			}
 
-				ImGui::EndPopup();
-			}
-			ImGui::PopID();
-			ImGui::SameLine();
-		}
-		ImGui::EndGroup();
+	//			ImGui::EndPopup();
+	//		}
+	//		ImGui::PopID();
+	//		ImGui::SameLine();
+	//	}
+	//	ImGui::EndGroup();
 
-		ImGui::SeparatorText("Custom Categories");
-		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
-		static bool renderCreateCategory = false;
-		static int selectedCategory = -1;
-		if (ImGui::BeginListBox("##customcategories", ImVec2(514, 150)))
-		{
-			for (int i = 0; i < categories.size(); i++)
-			{
-				if (categories[i].category != InventorySystem::ItemCategory::Custom) continue;
-				ImGui::PushID(60 + i);
-				if (ImGui::Selectable(categories[i].name.c_str(), false, ImGuiSelectableFlags_AllowDoubleClick))
-				{
-					if (ImGui::IsMouseDoubleClicked(0))
-					{
-						Logger::Log("Double Clicked Category %s", categories[i].name.c_str());
-						selectedCategory = i;
-						renderCreateCategory = true;
-					}
-				}
-				if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Right))
-				{
-					ImGui::OpenPopup(("Delete Category " + categories[i].name).c_str());
-				}
+	//	ImGui::SeparatorText("Custom Categories");
+	//	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
+	//	static bool renderCreateCategory = false;
+	//	static int selectedCategory = -1;
+	//	if (ImGui::BeginListBox("##customcategories", ImVec2(514, 150)))
+	//	{
+	//		for (int i = 0; i < categories.size(); i++)
+	//		{
+	//			if (categories[i].category != InventorySystem::ItemCategory::Custom) continue;
+	//			ImGui::PushID(60 + i);
+	//			if (ImGui::Selectable(categories[i].name.c_str(), false, ImGuiSelectableFlags_AllowDoubleClick))
+	//			{
+	//				if (ImGui::IsMouseDoubleClicked(0))
+	//				{
+	//					Logger::Log("Double Clicked Category %s", categories[i].name.c_str());
+	//					selectedCategory = i;
+	//					renderCreateCategory = true;
+	//				}
+	//			}
+	//			if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Right))
+	//			{
+	//				ImGui::OpenPopup(("Delete Category " + categories[i].name).c_str());
+	//			}
 
-				if (ImGui::BeginPopup(("Delete Category " + categories[i].name).c_str()))
-				{
-					if (ImGui::Button("Delete"))
-					{
-						InventorySystem::RemoveCategory(i);
-						i--;
-						ImGui::CloseCurrentPopup();
-					}
-					ImGui::EndPopup();
-				}
-				ImGui::PopID();
-			}
-			ImGui::EndListBox();
-		}
+	//			if (ImGui::BeginPopup(("Delete Category " + categories[i].name).c_str()))
+	//			{
+	//				if (ImGui::Button("Delete"))
+	//				{
+	//					InventorySystem::RemoveCategory(i);
+	//					i--;
+	//					ImGui::CloseCurrentPopup();
+	//				}
+	//				ImGui::EndPopup();
+	//			}
+	//			ImGui::PopID();
+	//		}
+	//		ImGui::EndListBox();
+	//	}
 
-		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82f, settings::Menu_AccentColor[1] * 0.82f, settings::Menu_AccentColor[2] * 0.82f, settings::Menu_AccentColor[3] * 0.82f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
+	//	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
+	//	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(settings::Menu_AccentColor[0] * 0.82f, settings::Menu_AccentColor[1] * 0.82f, settings::Menu_AccentColor[2] * 0.82f, settings::Menu_AccentColor[3] * 0.82f));
+	//	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
+	//	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(settings::Menu_AccentColor[0], settings::Menu_AccentColor[1], settings::Menu_AccentColor[2], settings::Menu_AccentColor[3]));
 
-		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
-		if (ImGui::Button("Create Category", ImVec2(450, 22)))
-		{
-			renderCreateCategory = !renderCreateCategory;
-			selectedCategory = -1;
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Help", ImVec2(54, 22)))
-		{
-			ImGui::OpenPopup("Help");
-		}
+	//	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
+	//	if (ImGui::Button("Create Category", ImVec2(450, 22)))
+	//	{
+	//		renderCreateCategory = !renderCreateCategory;
+	//		selectedCategory = -1;
+	//	}
+	//	ImGui::SameLine();
+	//	if (ImGui::Button("Help", ImVec2(54, 22)))
+	//	{
+	//		ImGui::OpenPopup("Help");
+	//	}
 
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(5, 5));
-		if (ImGui::BeginPopup("Help"))
-		{
-			ImGui::SeparatorText("How does the Inventory Editor work?");
-			ImGui::Text("For each slot in the inventory, you can assign a category or a specific item.");
-			ImGui::Text("To assign something to a slot, click on the slot and select a category or item.");
-			ImGui::Separator();
-			ImGui::SeparatorText("What are Categories?");
-			ImGui::Text("Categories are groups of items that you can assign to slots.");
-			ImGui::Separator();
-			ImGui::SeparatorText("How does Priority work?");
-			ImGui::Text("Items have priorities. Higher-priority items replace lower ones.");
-			ImGui::Text("If a top-priority item is missing, the next priority is used.");
-			ImGui::Separator();
-			ImGui::SeparatorText("How do I create a Category?");
-			ImGui::Text("Click on 'Create Category' and enter a name for the category.");
-			ImGui::Text("Then, add items to the category and set their priorities.");
-			ImGui::Separator();
-			ImGui::SeparatorText("How do I edit a Category?");
-			ImGui::Text("Double-click on a category to open the editor.");
-			ImGui::Text("You can then add or remove items and change their priorities.");
-			ImGui::Separator();
-			ImGui::SeparatorText("Can I edit or delete default categories?");
-			ImGui::Text("No, you can only edit or delete custom categories.");
-			ImGui::Text("For the armor slots, the categories are fixed.");
+	//	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(5, 5));
+	//	if (ImGui::BeginPopup("Help"))
+	//	{
+	//		ImGui::SeparatorText("How does the Inventory Editor work?");
+	//		ImGui::Text("For each slot in the inventory, you can assign a category or a specific item.");
+	//		ImGui::Text("To assign something to a slot, click on the slot and select a category or item.");
+	//		ImGui::Separator();
+	//		ImGui::SeparatorText("What are Categories?");
+	//		ImGui::Text("Categories are groups of items that you can assign to slots.");
+	//		ImGui::Separator();
+	//		ImGui::SeparatorText("How does Priority work?");
+	//		ImGui::Text("Items have priorities. Higher-priority items replace lower ones.");
+	//		ImGui::Text("If a top-priority item is missing, the next priority is used.");
+	//		ImGui::Separator();
+	//		ImGui::SeparatorText("How do I create a Category?");
+	//		ImGui::Text("Click on 'Create Category' and enter a name for the category.");
+	//		ImGui::Text("Then, add items to the category and set their priorities.");
+	//		ImGui::Separator();
+	//		ImGui::SeparatorText("How do I edit a Category?");
+	//		ImGui::Text("Double-click on a category to open the editor.");
+	//		ImGui::Text("You can then add or remove items and change their priorities.");
+	//		ImGui::Separator();
+	//		ImGui::SeparatorText("Can I edit or delete default categories?");
+	//		ImGui::Text("No, you can only edit or delete custom categories.");
+	//		ImGui::Text("For the armor slots, the categories are fixed.");
 
-			ImGui::EndPopup();
-		}
-		ImGui::PopStyleVar();
+	//		ImGui::EndPopup();
+	//	}
+	//	ImGui::PopStyleVar();
 
 
-		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
-		if (ImGui::Button("Save & Close", ImVec2(514, 22)))
-		{
-			isOpen = false;
-		}
+	//	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.0f);
+	//	if (ImGui::Button("Save & Close", ImVec2(514, 22)))
+	//	{
+	//		isOpen = false;
+	//	}
 
-		ImGui::PopStyleColor(3);
-		ImGui::PopStyleVar();
+	//	ImGui::PopStyleColor(3);
+	//	ImGui::PopStyleVar();
 
-		RenderCreateCategory(renderCreateCategory, selectedCategory);
-		selectedCategory = -1;
-    }
-    ImGui::End();
+	//	RenderCreateCategory(renderCreateCategory, selectedCategory);
+	//	selectedCategory = -1;
+ //   }
+ //   ImGui::End();
 }
 
 void InventorySorter::RenderCreateCategory(bool& isOpen, int categoryIndex = -1)
 {
-	static std::vector<InventorySystem::Item> itemsForCategory;
+	/*static std::vector<InventorySystem::Item> itemsForCategory;
 	static bool isEditing = false;
 	if (!isOpen)
 	{
@@ -1150,5 +1150,5 @@ void InventorySorter::RenderCreateCategory(bool& isOpen, int categoryIndex = -1)
 		ImGui::PopStyleColor(3);
 		ImGui::PopStyleVar();
 	}
-	ImGui::End();
+	ImGui::End();*/
 }

@@ -1,4 +1,5 @@
 #include "menu/menu.h"
+#include "base.h"
 
 #include "imgui/imgui_impl_win32.h"
 
@@ -23,6 +24,11 @@ LRESULT CALLBACK hook_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			Menu::MoveCursorToCenter(false);
 			Menu::Open = false;
 			Menu::OpenHudEditor = false;
+		}
+
+		if (wParam == VK_END)
+		{
+			Base::Running = false;
 		}
 	}
 

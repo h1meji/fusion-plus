@@ -13,5 +13,7 @@ struct Base
 
 	static inline std::string CrashReportPath;
 	static void WriteCrashReport(EXCEPTION_POINTERS* pException);
+
+	static inline const char* version = "v0.5";
 };
 
