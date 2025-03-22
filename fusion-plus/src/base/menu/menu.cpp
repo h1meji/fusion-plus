@@ -378,13 +378,12 @@ void Menu::Kill()
 	Menu::RemoveHooks();
 	wglMakeCurrent(Menu::HandleDeviceContext, Menu::OriginalGLContext);
 	wglDeleteContext(Menu::MenuGLContext);
-	ImGui::DestroyContext();
+	//ImGui::DestroyContext(); // This is causing a crash
 }
 
 void Menu::PlaceHooks()
 {
 	Menu::Hook_wglSwapBuffers();
-	//Menu::Hook_tick();
 }
 
 void Menu::RemoveHooks()

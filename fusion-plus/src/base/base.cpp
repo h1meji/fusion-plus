@@ -106,13 +106,11 @@ void Base::Kill()
 	Patcher::Kill();
 	if (Borderless::Enabled)
 		Borderless::Restore(Menu::HandleWindow);
-
 	JavaHook::clean();
 	StrayCache::DeleteRefs();
 	Java::Kill();
 	Menu::Kill();
 	Logger::Kill();
-
 	MH_Uninitialize();
 }
 

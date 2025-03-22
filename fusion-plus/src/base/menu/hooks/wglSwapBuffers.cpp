@@ -10,7 +10,9 @@
 #include "imgui/imgui_impl_opengl2.h"
 #include "util/logger/logger.h"
 #include "util/trimmer.h"
+
 #include "fonts/jetbrainsmono.h"
+#include "fonts/inter.h"
 
 #include "base.h"
 
@@ -147,9 +149,14 @@ void Menu::SetupImgui()
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontDefault();
 
-	//Menu::Font = io.Fonts->AddFontFromMemoryTTF(jetbrainsmono, sizeof(jetbrainsmono), 16);
-	Menu::Font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\segoeui.ttf", 16);
-	Menu::FontBold = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\segoeuib.ttf", 24);
+	//Menu::Font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\segoeui.ttf", 16);
+	//Menu::FontBold = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\segoeuib.ttf", 24);
+
+	Menu::Font = io.Fonts->AddFontFromMemoryTTF(inter_regular, sizeof(inter_regular), 16);
+	Menu::FontBold = io.Fonts->AddFontFromMemoryTTF(inter_bold, sizeof(inter_bold), 24);
+
+	//Menu::Font = io.Fonts->AddFontFromMemoryTTF(jetbrains_regular, sizeof(jetbrains_regular), 16);
+	//Menu::FontBold = io.Fonts->AddFontFromMemoryTTF(jetbrains_bold, sizeof(jetbrains_bold), 24);
 
 	ImVec4* colors = ImGui::GetStyle().Colors;
 	colors[ImGuiCol_Text] = ImVec4(1.f, 1.f, 1.f, 1.00f);
