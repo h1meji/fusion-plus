@@ -185,3 +185,14 @@ std::vector<std::string> ModuleManager::GetCategories()
 
 	return categories;
 }
+
+int ModuleManager::GetFirstModuleIndexByCategory(const std::string& category)
+{
+	for (int i = 0; i < modules.size(); i++)
+	{
+		if (modules[i]->GetCategory() == category)
+			return i;
+	}
+
+	return -1;
+}

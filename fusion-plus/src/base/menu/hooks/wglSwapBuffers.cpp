@@ -161,14 +161,18 @@ void Menu::SetupImgui()
 	//Menu::FontBold = io.Fonts->AddFontFromMemoryTTF(jetbrains_bold, sizeof(jetbrains_bold), 24);
 
 	Menu::Font28 = io.Fonts->AddFontFromMemoryTTF(inter_regular, sizeof(inter_regular), 28);
+	Menu::Font26 = io.Fonts->AddFontFromMemoryTTF(inter_regular, sizeof(inter_regular), 26);
 	Menu::Font24 = io.Fonts->AddFontFromMemoryTTF(inter_regular, sizeof(inter_regular), 24);
+	Menu::Font22 = io.Fonts->AddFontFromMemoryTTF(inter_regular, sizeof(inter_regular), 22);
 	Menu::Font20 = io.Fonts->AddFontFromMemoryTTF(inter_regular, sizeof(inter_regular), 20);
 	Menu::Font18 = io.Fonts->AddFontFromMemoryTTF(inter_regular, sizeof(inter_regular), 18);
 	Menu::Font16 = io.Fonts->AddFontFromMemoryTTF(inter_regular, sizeof(inter_regular), 16);
 	Menu::Font14 = io.Fonts->AddFontFromMemoryTTF(inter_regular, sizeof(inter_regular), 14);
 
 	Menu::BoldFont28 = io.Fonts->AddFontFromMemoryTTF(inter_bold, sizeof(inter_bold), 28);
+	Menu::BoldFont26 = io.Fonts->AddFontFromMemoryTTF(inter_bold, sizeof(inter_bold), 26);
 	Menu::BoldFont24 = io.Fonts->AddFontFromMemoryTTF(inter_bold, sizeof(inter_bold), 24);
+	Menu::BoldFont22 = io.Fonts->AddFontFromMemoryTTF(inter_bold, sizeof(inter_bold), 22);
 	Menu::BoldFont20 = io.Fonts->AddFontFromMemoryTTF(inter_bold, sizeof(inter_bold), 20);
 	Menu::BoldFont18 = io.Fonts->AddFontFromMemoryTTF(inter_bold, sizeof(inter_bold), 18);
 	Menu::BoldFont16 = io.Fonts->AddFontFromMemoryTTF(inter_bold, sizeof(inter_bold), 16);

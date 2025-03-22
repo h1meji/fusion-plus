@@ -11,7 +11,9 @@
 enum FontSize
 {
 	SIZE_28,
+	SIZE_26,
 	SIZE_24,
+	SIZE_22,
 	SIZE_20,
 	SIZE_18,
 	SIZE_16,
@@ -33,19 +35,24 @@ struct Menu
 
 	// Fonts
 	static inline ImFont* Font28;
+	static inline ImFont* Font26;
 	static inline ImFont* Font24;
+	static inline ImFont* Font22;
 	static inline ImFont* Font20;
 	static inline ImFont* Font18;
 	static inline ImFont* Font16;
 	static inline ImFont* Font14;
 	static inline ImFont* BoldFont28;
+	static inline ImFont* BoldFont26;
 	static inline ImFont* BoldFont24;
+	static inline ImFont* BoldFont22;
 	static inline ImFont* BoldFont20;
 	static inline ImFont* BoldFont18;
 	static inline ImFont* BoldFont16;
 	static inline ImFont* BoldFont14;
 
 	static void SetupImgui();
+
 	static void RenderMenu();
 	static void RenderHudEditor();
 

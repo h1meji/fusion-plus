@@ -357,7 +357,9 @@ void Menu::GlitchText(const char* text, ImVec2 pos, int size)
 void Menu::Text(const char* text, FontSize size)
 {
 	if (size == FontSize::SIZE_28) ImGui::PushFont(Menu::Font28);
+	else if (size == FontSize::SIZE_26) ImGui::PushFont(Menu::Font26);
 	else if (size == FontSize::SIZE_24) ImGui::PushFont(Menu::Font24);
+	else if (size == FontSize::SIZE_22) ImGui::PushFont(Menu::Font22);
 	else if (size == FontSize::SIZE_20) ImGui::PushFont(Menu::Font20);
 	else if (size == FontSize::SIZE_18) ImGui::PushFont(Menu::Font18);
 	else if (size == FontSize::SIZE_16) ImGui::PushFont(Menu::Font16);
@@ -371,7 +373,9 @@ void Menu::Text(const char* text, FontSize size)
 void Menu::BoldText(const char* text, FontSize size)
 {
 	if (size == FontSize::SIZE_28) ImGui::PushFont(Menu::BoldFont28);
+	else if (size == FontSize::SIZE_26) ImGui::PushFont(Menu::BoldFont26);
 	else if (size == FontSize::SIZE_24) ImGui::PushFont(Menu::BoldFont24);
+	else if (size == FontSize::SIZE_22) ImGui::PushFont(Menu::BoldFont22);
 	else if (size == FontSize::SIZE_20) ImGui::PushFont(Menu::BoldFont20);
 	else if (size == FontSize::SIZE_18) ImGui::PushFont(Menu::BoldFont18);
 	else if (size == FontSize::SIZE_16) ImGui::PushFont(Menu::BoldFont16);
@@ -389,7 +393,9 @@ void Menu::GlitchText(const char* text, FontSize size)
 
 	// Push the custom font with the given size
 	if (size == FontSize::SIZE_28) ImGui::PushFont(Menu::BoldFont28);
+	else if (size == FontSize::SIZE_26) ImGui::PushFont(Menu::BoldFont26);
 	else if (size == FontSize::SIZE_24) ImGui::PushFont(Menu::BoldFont24);
+	else if (size == FontSize::SIZE_22) ImGui::PushFont(Menu::BoldFont22);
 	else if (size == FontSize::SIZE_20) ImGui::PushFont(Menu::BoldFont20);
 	else if (size == FontSize::SIZE_18) ImGui::PushFont(Menu::BoldFont18);
 	else if (size == FontSize::SIZE_16) ImGui::PushFont(Menu::BoldFont16);
@@ -459,7 +465,9 @@ bool Menu::TransparentButton(const char* text, ImVec2 btn_size, FontSize font_si
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0, 0, 0));
 	
 	if (font_size == FontSize::SIZE_28) ImGui::PushFont(Menu::Font28);
+	else if (font_size == FontSize::SIZE_26) ImGui::PushFont(Menu::Font26);
 	else if (font_size == FontSize::SIZE_24) ImGui::PushFont(Menu::Font24);
+	else if (font_size == FontSize::SIZE_22) ImGui::PushFont(Menu::Font22);
 	else if (font_size == FontSize::SIZE_20) ImGui::PushFont(Menu::Font20);
 	else if (font_size == FontSize::SIZE_18) ImGui::PushFont(Menu::Font18);
 	else if (font_size == FontSize::SIZE_16) ImGui::PushFont(Menu::Font16);
@@ -488,7 +496,9 @@ bool Menu::MenuButton(const char* text, ImVec2 btn_size, FontSize font_size)
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, settings::Menu_WindowRounding);
 
 	if (font_size == FontSize::SIZE_28) ImGui::PushFont(Menu::Font28);
+	else if (font_size == FontSize::SIZE_26) ImGui::PushFont(Menu::Font26);
 	else if (font_size == FontSize::SIZE_24) ImGui::PushFont(Menu::Font24);
+	else if (font_size == FontSize::SIZE_22) ImGui::PushFont(Menu::Font22);
 	else if (font_size == FontSize::SIZE_20) ImGui::PushFont(Menu::Font20);
 	else if (font_size == FontSize::SIZE_18) ImGui::PushFont(Menu::Font18);
 	else if (font_size == FontSize::SIZE_16) ImGui::PushFont(Menu::Font16);
@@ -518,7 +528,9 @@ bool Menu::DetachButton(const char* text, ImVec2 btn_size, FontSize font_size)
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, settings::Menu_WindowRounding);
 
 	if (font_size == FontSize::SIZE_28) ImGui::PushFont(Menu::Font28);
+	else if (font_size == FontSize::SIZE_26) ImGui::PushFont(Menu::Font26);
 	else if (font_size == FontSize::SIZE_24) ImGui::PushFont(Menu::Font24);
+	else if (font_size == FontSize::SIZE_22) ImGui::PushFont(Menu::Font22);
 	else if (font_size == FontSize::SIZE_20) ImGui::PushFont(Menu::Font20);
 	else if (font_size == FontSize::SIZE_18) ImGui::PushFont(Menu::Font18);
 	else if (font_size == FontSize::SIZE_16) ImGui::PushFont(Menu::Font16);
