@@ -263,8 +263,6 @@ void AimAssist::RenderOverlay()
 
 void AimAssist::RenderMenu()
 {
-	ImVec2 windowSize = ImGui::GetWindowSize();
-
 	Menu::ToggleWithKeybind(&settings::AA_Enabled, settings::AA_Key);
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);

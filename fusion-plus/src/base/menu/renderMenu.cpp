@@ -263,6 +263,12 @@ void Menu::RenderMenu()
 				{
 					Menu::KeybindButton("Menu", settings::Menu_Keybind, false);
 					Menu::KeybindButton("Detach", settings::Menu_DetachKey, false);
+
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+					Menu::HorizontalSeparator("AA_Sep3");
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+
+					Menu::Checkbox("GUI Movement", &settings::Menu_GUIMovement);
 				}
 				else if (selectedModule == 1) // Friends
 				{
