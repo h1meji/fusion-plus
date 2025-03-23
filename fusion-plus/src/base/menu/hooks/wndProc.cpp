@@ -19,12 +19,13 @@ LRESULT CALLBACK hook_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			Menu::Open = !Menu::Open;
 			Menu::OpenHudEditor = false;
 		}
-		if (wParam == VK_ESCAPE && (Menu::Open || Menu::OpenHudEditor))
-		{
-			Menu::MoveCursorToCenter(false);
-			Menu::Open = false;
-			Menu::OpenHudEditor = false;
-		}
+
+		//if (wParam == VK_ESCAPE && (Menu::Open || Menu::OpenHudEditor))
+		//{
+		//	Menu::MoveCursorToCenter(false);
+		//	Menu::Open = false;
+		//	Menu::OpenHudEditor = false;
+		//}
 
 		if (wParam == VK_END)
 		{
@@ -50,6 +51,10 @@ LRESULT CALLBACK hook_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// block mouse scroll events from reaching minecraft
 			if (msg == WM_MOUSEWHEEL)
+				return true;
+
+			// block "esc" key from reaching minecraft
+			if (msg == WM_KEYDOWN && wParam == VK_ESCAPE)
 				return true;
 		}
 		else

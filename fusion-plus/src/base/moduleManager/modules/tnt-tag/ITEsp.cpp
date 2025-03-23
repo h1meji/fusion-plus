@@ -328,103 +328,103 @@ void ITEsp::RenderOverlay()
 
 void ITEsp::RenderMenu()
 {
-	static bool renderSettings = false;
+	//static bool renderSettings = false;
 
-	ImGui::BeginGroup();
+	//ImGui::BeginGroup();
 
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
+	//ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+	//ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
+	//ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("itesp_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
-	{
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-		ImGui::BeginGroup();
-		Menu::ToggleButton(104, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::ITESP_Enabled);
-		ImGui::EndGroup();
-		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-		{
-			renderSettings = !renderSettings;
-		}
+	//if (ImGui::BeginChild("itesp_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
+	//{
+	//	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
+	//	ImGui::BeginGroup();
+	//	Menu::ToggleButton(104, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::ITESP_Enabled);
+	//	ImGui::EndGroup();
+	//	if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+	//	{
+	//		renderSettings = !renderSettings;
+	//	}
 
-		ImGui::PopStyleColor();
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
+	//	ImGui::PopStyleColor();
+	//	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
 
-		if (renderSettings)
-		{
-			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-			ImGui::Separator();
-			if (ImGui::BeginChild("itesp_settings", ImVec2(425, 215), false))
-			{
-				Menu::KeybindButton(174, "Keybind", ImVec2(297, 0), settings::ITESP_Key);
-				Menu::ToggleButton(105, "Show Text", ImVec2(368, 0), &settings::ITESP_Text);
-				if (settings::ITESP_Text)
-				{
-					Menu::ColorPicker(106, "Text Color", ImVec2(374, 0), settings::ITESP_TextColor);
-					Menu::Slider(107, "Text Size", ImVec2(225, 0), &settings::ITESP_TextSize, 1.0f, 50.0f);
-					Menu::Slider(108, "Text Unrender Distance", ImVec2(225, 0), &settings::ITESP_TextUnrenderDistance, 0.0f, 20.0f);
+	//	if (renderSettings)
+	//	{
+	//		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+	//		ImGui::Separator();
+	//		if (ImGui::BeginChild("itesp_settings", ImVec2(425, 215), false))
+	//		{
+	//			Menu::KeybindButton(174, "Keybind", ImVec2(297, 0), settings::ITESP_Key);
+	//			Menu::ToggleButton(105, "Show Text", ImVec2(368, 0), &settings::ITESP_Text);
+	//			if (settings::ITESP_Text)
+	//			{
+	//				Menu::ColorPicker(106, "Text Color", ImVec2(374, 0), settings::ITESP_TextColor);
+	//				Menu::Slider(107, "Text Size", ImVec2(225, 0), &settings::ITESP_TextSize, 1.0f, 50.0f);
+	//				Menu::Slider(108, "Text Unrender Distance", ImVec2(225, 0), &settings::ITESP_TextUnrenderDistance, 0.0f, 20.0f);
 
-					Menu::ToggleButton(109, "Show Text Outline", ImVec2(368, 0), &settings::ITESP_TextOutline);
-					if (settings::ITESP_TextOutline)
-					{
-						Menu::ColorPicker(110, "Text Outline Color", ImVec2(374, 0), settings::ITESP_TextOutlineColor);
-					}
-				}
-				Menu::Slider(111, "Fade Distance", ImVec2(225, 0), &settings::ITESP_FadeDistance, 0.0f, 10.0f);
+	//				Menu::ToggleButton(109, "Show Text Outline", ImVec2(368, 0), &settings::ITESP_TextOutline);
+	//				if (settings::ITESP_TextOutline)
+	//				{
+	//					Menu::ColorPicker(110, "Text Outline Color", ImVec2(374, 0), settings::ITESP_TextOutlineColor);
+	//				}
+	//			}
+	//			Menu::Slider(111, "Fade Distance", ImVec2(225, 0), &settings::ITESP_FadeDistance, 0.0f, 10.0f);
 
-				Menu::ComboBox(112, "Box Type", ImVec2(270, 0), &settings::ITESP_BoxType, settings::ITESP_BoxTypeList, 2);
+	//			Menu::ComboBox(112, "Box Type", ImVec2(270, 0), &settings::ITESP_BoxType, settings::ITESP_BoxTypeList, 2);
 
-				Menu::ToggleButton(113, "Highlight Friends", ImVec2(368, 0), &settings::ITESP_HighlightFriends);
+	//			Menu::ToggleButton(113, "Highlight Friends", ImVec2(368, 0), &settings::ITESP_HighlightFriends);
 
-				if (settings::ITESP_BoxType == 0)
-				{
-					Menu::ToggleButton(114, "Show Box", ImVec2(368, 0), &settings::ITESP_Box);
-					if (settings::ITESP_Box)
-					{
-						Menu::ColorPicker(115, "Box Color", ImVec2(374, 0), settings::ITESP_BoxColor);
-						if (settings::ITESP_HighlightFriends)
-						{
-							Menu::ColorPicker(116, "Friend Box Color", ImVec2(374, 0), settings::ITESP_FriendBoxColor);
-						}
-					}
-				}
-				else if (settings::ITESP_BoxType == 1)
-				{
-					Menu::Slider(117, "Box Thickness", ImVec2(225, 0), &settings::ITESP_3DBoxThickness, 0.5f, 5.0f);
-				}
+	//			if (settings::ITESP_BoxType == 0)
+	//			{
+	//				Menu::ToggleButton(114, "Show Box", ImVec2(368, 0), &settings::ITESP_Box);
+	//				if (settings::ITESP_Box)
+	//				{
+	//					Menu::ColorPicker(115, "Box Color", ImVec2(374, 0), settings::ITESP_BoxColor);
+	//					if (settings::ITESP_HighlightFriends)
+	//					{
+	//						Menu::ColorPicker(116, "Friend Box Color", ImVec2(374, 0), settings::ITESP_FriendBoxColor);
+	//					}
+	//				}
+	//			}
+	//			else if (settings::ITESP_BoxType == 1)
+	//			{
+	//				Menu::Slider(117, "Box Thickness", ImVec2(225, 0), &settings::ITESP_3DBoxThickness, 0.5f, 5.0f);
+	//			}
 
-				Menu::ToggleButton(118, "Show Filled Box", ImVec2(368, 0), &settings::ITESP_FilledBox);
-				if (settings::ITESP_FilledBox)
-				{
-					Menu::ColorPicker(119, "Filled Box Color", ImVec2(374, 0), settings::ITESP_FilledBoxColor);
-					if (settings::ITESP_BoxType == 0)
-						Menu::ColorPicker(120, "Second Filled Box Color", ImVec2(374, 0), settings::ITESP_SecondFilledBoxColor);
-					if (settings::ITESP_HighlightFriends)
-					{
-						Menu::ColorPicker(121, "Friend Filled Box Color", ImVec2(374, 0), settings::ITESP_FriendFilledBoxColor);
-						if (settings::ITESP_BoxType == 0)
-							Menu::ColorPicker(122, "Friend Second Filled Box Color", ImVec2(374, 0), settings::ITESP_FriendSecondFilledBoxColor);
-					}
-				}
+	//			Menu::ToggleButton(118, "Show Filled Box", ImVec2(368, 0), &settings::ITESP_FilledBox);
+	//			if (settings::ITESP_FilledBox)
+	//			{
+	//				Menu::ColorPicker(119, "Filled Box Color", ImVec2(374, 0), settings::ITESP_FilledBoxColor);
+	//				if (settings::ITESP_BoxType == 0)
+	//					Menu::ColorPicker(120, "Second Filled Box Color", ImVec2(374, 0), settings::ITESP_SecondFilledBoxColor);
+	//				if (settings::ITESP_HighlightFriends)
+	//				{
+	//					Menu::ColorPicker(121, "Friend Filled Box Color", ImVec2(374, 0), settings::ITESP_FriendFilledBoxColor);
+	//					if (settings::ITESP_BoxType == 0)
+	//						Menu::ColorPicker(122, "Friend Second Filled Box Color", ImVec2(374, 0), settings::ITESP_FriendSecondFilledBoxColor);
+	//				}
+	//			}
 
-				Menu::ToggleButton(123, "Show Outline", ImVec2(368, 0), &settings::ITESP_Outline);
-				if (settings::ITESP_Outline)
-				{
-					Menu::ColorPicker(124, "Outline Color", ImVec2(374, 0), settings::ITESP_OutlineColor);
-					if (settings::ITESP_HighlightFriends)
-					{
-						Menu::ColorPicker(125, "Friend Outline Color", ImVec2(374, 0), settings::ITESP_FriendOutlineColor);
-					}
-				}
-			}
-			ImGui::EndChild();
-			ImGui::Spacing();
-		}
-	}
-	ImGui::EndChild();
+	//			Menu::ToggleButton(123, "Show Outline", ImVec2(368, 0), &settings::ITESP_Outline);
+	//			if (settings::ITESP_Outline)
+	//			{
+	//				Menu::ColorPicker(124, "Outline Color", ImVec2(374, 0), settings::ITESP_OutlineColor);
+	//				if (settings::ITESP_HighlightFriends)
+	//				{
+	//					Menu::ColorPicker(125, "Friend Outline Color", ImVec2(374, 0), settings::ITESP_FriendOutlineColor);
+	//				}
+	//			}
+	//		}
+	//		ImGui::EndChild();
+	//		ImGui::Spacing();
+	//	}
+	//}
+	//ImGui::EndChild();
 
-	ImGui::PopStyleVar();
-	ImGui::PopStyleColor();
+	//ImGui::PopStyleVar();
+	//ImGui::PopStyleColor();
 
-	ImGui::EndGroup();
+	//ImGui::EndGroup();
 }

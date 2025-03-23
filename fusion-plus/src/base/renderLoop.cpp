@@ -143,7 +143,7 @@ void Base::RenderLoop() // Runs every frame
 			settings::Hud_WatermarkPosition[1] = ImGui::GetWindowPos().y;
 
 			ImVec2 textPos = ImVec2(settings::Hud_WatermarkPosition[0] + padding, settings::Hud_WatermarkPosition[1] + padding);
-			Menu::GlitchText(watermark, textPos, watermarkSize);
+			//Menu::GlitchText(watermark, textPos, watermarkSize);
 
 			int currentX = textPos.x + textSize.x;
 			if (settings::Hud_WatermarkVersion)

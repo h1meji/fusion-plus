@@ -65,54 +65,54 @@ void ChestStealer::RenderOverlay()
 
 void ChestStealer::RenderMenu()
 {
-	static bool renderSettings = false;
-	static bool renderChestStealerItems = false;
+	//static bool renderSettings = false;
+	//static bool renderChestStealerItems = false;
 
-	ImGui::BeginGroup();
+	//ImGui::BeginGroup();
 
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
+	//ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+	//ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
+	//ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("cs_header", ImVec2(425.f, renderSettings ? 130.f : 35.f), false))
-	{
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-		ImGui::BeginGroup();
-		Menu::ToggleButton(72, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::CS_Enabled);
-		ImGui::EndGroup();
-		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-		{
-			renderSettings = !renderSettings;
-		}
+	//if (ImGui::BeginChild("cs_header", ImVec2(425.f, renderSettings ? 130.f : 35.f), false))
+	//{
+	//	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
+	//	ImGui::BeginGroup();
+	//	Menu::ToggleButton(72, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::CS_Enabled);
+	//	ImGui::EndGroup();
+	//	if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+	//	{
+	//		renderSettings = !renderSettings;
+	//	}
 
-		ImGui::PopStyleColor();
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
+	//	ImGui::PopStyleColor();
+	//	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
 
-		if (renderSettings)
-		{
-			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-			ImGui::Separator();
-			if (ImGui::BeginChild("cs_settings", ImVec2(425, 85), false))
-			{
-				Menu::Slider(73, "Delay (ms)", ImVec2(225, 0), &settings::CS_Delay, 0, 1000);
-				Menu::KeybindButton(74, "Keybind", ImVec2(297, 0), settings::CS_Key);
-				if (Menu::Button(75, "Edit Items", ImVec2(384, 0)))
-				{
-					renderChestStealerItems = !renderChestStealerItems;
-				}
+	//	if (renderSettings)
+	//	{
+	//		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+	//		ImGui::Separator();
+	//		if (ImGui::BeginChild("cs_settings", ImVec2(425, 85), false))
+	//		{
+	//			Menu::Slider(73, "Delay (ms)", ImVec2(225, 0), &settings::CS_Delay, 0, 1000);
+	//			Menu::KeybindButton(74, "Keybind", ImVec2(297, 0), settings::CS_Key);
+	//			if (Menu::Button(75, "Edit Items", ImVec2(384, 0)))
+	//			{
+	//				renderChestStealerItems = !renderChestStealerItems;
+	//			}
 
-				RenderItems(renderChestStealerItems);
-			}
-			ImGui::EndChild();
-			ImGui::Spacing();
-		}
-	}
-	ImGui::EndChild();
+	//			RenderItems(renderChestStealerItems);
+	//		}
+	//		ImGui::EndChild();
+	//		ImGui::Spacing();
+	//	}
+	//}
+	//ImGui::EndChild();
 
-	ImGui::PopStyleVar();
-	ImGui::PopStyleColor();
+	//ImGui::PopStyleVar();
+	//ImGui::PopStyleColor();
 
-	ImGui::EndGroup();
+	//ImGui::EndGroup();
 }
 
 void ChestStealer::ResetSteal()

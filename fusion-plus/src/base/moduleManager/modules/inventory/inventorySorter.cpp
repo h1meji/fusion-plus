@@ -651,55 +651,55 @@ void InventorySorter::RenderOverlay()
 
 void InventorySorter::RenderMenu()
 {
-	static bool renderSettings = false;
+	//static bool renderSettings = false;
 
-	ImGui::BeginGroup();
+	//ImGui::BeginGroup();
 
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
+	//ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+	//ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
+	//ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("is_header", ImVec2(425.f, renderSettings ? 130.f : 35.f), false))
-	{
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-		ImGui::BeginGroup();
-		Menu::ToggleButton(76, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::IS_Enabled);
-		ImGui::EndGroup();
-		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-		{
-			renderSettings = !renderSettings;
-		}
+	//if (ImGui::BeginChild("is_header", ImVec2(425.f, renderSettings ? 130.f : 35.f), false))
+	//{
+	//	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
+	//	ImGui::BeginGroup();
+	//	Menu::ToggleButton(76, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::IS_Enabled);
+	//	ImGui::EndGroup();
+	//	if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+	//	{
+	//		renderSettings = !renderSettings;
+	//	}
 
-		ImGui::PopStyleColor();
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
+	//	ImGui::PopStyleColor();
+	//	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
 
-		if (renderSettings)
-		{
-			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-			ImGui::Separator();
-			if (ImGui::BeginChild("is_settings", ImVec2(425, 85), false))
-			{
-				Menu::Slider(77, "Delay (ms)", ImVec2(225, 0), &settings::IS_Delay, 0, 1000);
-				Menu::KeybindButton(78, "Keybind", ImVec2(297, 0), settings::IS_Key);
+	//	if (renderSettings)
+	//	{
+	//		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+	//		ImGui::Separator();
+	//		if (ImGui::BeginChild("is_settings", ImVec2(425, 85), false))
+	//		{
+	//			Menu::Slider(77, "Delay (ms)", ImVec2(225, 0), &settings::IS_Delay, 0, 1000);
+	//			Menu::KeybindButton(78, "Keybind", ImVec2(297, 0), settings::IS_Key);
 
-				static bool renderInventoryEditor = false;
-				if (Menu::Button(79, "Open Inventory Editor", ImVec2(384, 0)))
-				{
-					renderInventoryEditor = !renderInventoryEditor;
-				}
+	//			static bool renderInventoryEditor = false;
+	//			if (Menu::Button(79, "Open Inventory Editor", ImVec2(384, 0)))
+	//			{
+	//				renderInventoryEditor = !renderInventoryEditor;
+	//			}
 
-				RenderInventoryEditor(renderInventoryEditor);
-			}
-			ImGui::EndChild();
-			ImGui::Spacing();
-		}
-	}
-	ImGui::EndChild();
+	//			RenderInventoryEditor(renderInventoryEditor);
+	//		}
+	//		ImGui::EndChild();
+	//		ImGui::Spacing();
+	//	}
+	//}
+	//ImGui::EndChild();
 
-	ImGui::PopStyleVar();
-	ImGui::PopStyleColor();
+	//ImGui::PopStyleVar();
+	//ImGui::PopStyleColor();
 
-	ImGui::EndGroup();
+	//ImGui::EndGroup();
 }
 
 static std::string toLower(const std::string& str) {

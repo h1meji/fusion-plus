@@ -178,51 +178,51 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 
 void BridgeAssist::RenderMenu()
 {
-	static bool renderSettings = false;
+	//static bool renderSettings = false;
 
-	ImGui::BeginGroup();
+	//ImGui::BeginGroup();
 
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
+	//ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+	//ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
+	//ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("ba_header", ImVec2(425.f, renderSettings ? 146.f : 35.f), false))
-	{
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-		ImGui::BeginGroup();
-		Menu::ToggleButton(64, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::BA_Enabled);
-		ImGui::EndGroup();
-		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-		{
-			renderSettings = !renderSettings;
-		}
+	//if (ImGui::BeginChild("ba_header", ImVec2(425.f, renderSettings ? 146.f : 35.f), false))
+	//{
+	//	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
+	//	ImGui::BeginGroup();
+	//	Menu::ToggleButton(64, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::BA_Enabled);
+	//	ImGui::EndGroup();
+	//	if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+	//	{
+	//		renderSettings = !renderSettings;
+	//	}
 
-		ImGui::PopStyleColor();
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
+	//	ImGui::PopStyleColor();
+	//	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
 
-		if (renderSettings)
-		{
-			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-			ImGui::Separator();
-			if (ImGui::BeginChild("ba_settings", ImVec2(425, 101), false))
-			{
-				Menu::KeybindButton(169, "Keybind", ImVec2(297, 0), settings::BA_Key);
-				Menu::Slider(65, "Block Check", ImVec2(225, 0), &settings::BA_BlockCheck, 1, 10);
-				Menu::Slider(66, "Pitch Check", ImVec2(225, 0), &settings::BA_PitchCheck, 0.0f, 90.0f);
-				Menu::ToggleButton(67, "Only on Shift", ImVec2(368, 0), &settings::BA_OnlyOnShift);
-				Menu::ToggleButton(6801, "Ignore Forwards Movement", ImVec2(368, 0), &settings::BA_IgnoreForwardsMovement);
-				Menu::ToggleButton(6802, "Auto Swap", ImVec2(368, 0), &settings::BA_AutoSwap);
-			}
-			ImGui::EndChild();
-			ImGui::Spacing();
-		}
-	}
-	ImGui::EndChild();
+	//	if (renderSettings)
+	//	{
+	//		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+	//		ImGui::Separator();
+	//		if (ImGui::BeginChild("ba_settings", ImVec2(425, 101), false))
+	//		{
+	//			Menu::KeybindButton(169, "Keybind", ImVec2(297, 0), settings::BA_Key);
+	//			Menu::Slider(65, "Block Check", ImVec2(225, 0), &settings::BA_BlockCheck, 1, 10);
+	//			Menu::Slider(66, "Pitch Check", ImVec2(225, 0), &settings::BA_PitchCheck, 0.0f, 90.0f);
+	//			Menu::ToggleButton(67, "Only on Shift", ImVec2(368, 0), &settings::BA_OnlyOnShift);
+	//			Menu::ToggleButton(6801, "Ignore Forwards Movement", ImVec2(368, 0), &settings::BA_IgnoreForwardsMovement);
+	//			Menu::ToggleButton(6802, "Auto Swap", ImVec2(368, 0), &settings::BA_AutoSwap);
+	//		}
+	//		ImGui::EndChild();
+	//		ImGui::Spacing();
+	//	}
+	//}
+	//ImGui::EndChild();
 
-	ImGui::PopStyleVar();
-	ImGui::PopStyleColor();
+	//ImGui::PopStyleVar();
+	//ImGui::PopStyleColor();
 
-	ImGui::EndGroup();
+	//ImGui::EndGroup();
 }
 
 void BridgeAssist::Sneak()

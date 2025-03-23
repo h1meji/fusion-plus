@@ -270,71 +270,71 @@ void Nametag::RenderOverlay()
 
 void Nametag::RenderMenu()
 {
-	static bool renderSettings = false;
+	//static bool renderSettings = false;
 
-	ImGui::BeginGroup();
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
+	//ImGui::BeginGroup();
+	//ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+	//ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
+	//ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("nt_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
-	{
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-		ImGui::BeginGroup();
-		Menu::ToggleButton(151, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::NT_Enabled);
-		ImGui::EndGroup();
-		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-		{
-			renderSettings = !renderSettings;
-		}
+	//if (ImGui::BeginChild("nt_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
+	//{
+	//	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
+	//	ImGui::BeginGroup();
+	//	Menu::ToggleButton(151, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::NT_Enabled);
+	//	ImGui::EndGroup();
+	//	if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+	//	{
+	//		renderSettings = !renderSettings;
+	//	}
 
-		ImGui::PopStyleColor();
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
+	//	ImGui::PopStyleColor();
+	//	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
 
-		if (renderSettings)
-		{
-			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-			ImGui::Separator();
-			if (ImGui::BeginChild("nt_settings", ImVec2(425, 215), false))
-			{
-				Menu::KeybindButton(179, "Keybind", ImVec2(297, 0), settings::NT_Key);
-				Menu::Slider(152, "Text Size", ImVec2(225, 0), &settings::NT_TextSize, 1.0f, 50.0f);
-				Menu::ColorPicker(153, "Text Color", ImVec2(374, 0), settings::NT_TextColor);
+	//	if (renderSettings)
+	//	{
+	//		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+	//		ImGui::Separator();
+	//		if (ImGui::BeginChild("nt_settings", ImVec2(425, 215), false))
+	//		{
+	//			Menu::KeybindButton(179, "Keybind", ImVec2(297, 0), settings::NT_Key);
+	//			Menu::Slider(152, "Text Size", ImVec2(225, 0), &settings::NT_TextSize, 1.0f, 50.0f);
+	//			Menu::ColorPicker(153, "Text Color", ImVec2(374, 0), settings::NT_TextColor);
 
-				Menu::ToggleButton(154, "Text Outline", ImVec2(368, 0), &settings::NT_TextOutline);
-				if (settings::NT_TextOutline)
-				{
-					Menu::ColorPicker(155, "Text Outline Color", ImVec2(374, 0), settings::NT_TextOutlineColor);
-				}
+	//			Menu::ToggleButton(154, "Text Outline", ImVec2(368, 0), &settings::NT_TextOutline);
+	//			if (settings::NT_TextOutline)
+	//			{
+	//				Menu::ColorPicker(155, "Text Outline Color", ImVec2(374, 0), settings::NT_TextOutlineColor);
+	//			}
 
-				Menu::ToggleButton(158, "Background", ImVec2(368, 0), &settings::NT_Background);
-				if (settings::NT_Background)
-				{
-					Menu::ColorPicker(159, "Background Color", ImVec2(374, 0), settings::NT_BackgroundColor);
-				}
+	//			Menu::ToggleButton(158, "Background", ImVec2(368, 0), &settings::NT_Background);
+	//			if (settings::NT_Background)
+	//			{
+	//				Menu::ColorPicker(159, "Background Color", ImVec2(374, 0), settings::NT_BackgroundColor);
+	//			}
 
-				Menu::ToggleButton(164, "Background Outline", ImVec2(368, 0), &settings::NT_BackgroundOutline);
-				if (settings::NT_BackgroundOutline)
-				{
-					Menu::ColorPicker(165, "Background Outline Color", ImVec2(374, 0), settings::NT_BackgroundOutlineColor);
-				}
+	//			Menu::ToggleButton(164, "Background Outline", ImVec2(368, 0), &settings::NT_BackgroundOutline);
+	//			if (settings::NT_BackgroundOutline)
+	//			{
+	//				Menu::ColorPicker(165, "Background Outline Color", ImVec2(374, 0), settings::NT_BackgroundOutlineColor);
+	//			}
 
-				Menu::Slider(156, "Unrender Distance", ImVec2(225, 0), &settings::NT_TextUnrenderDistance, 0.0f, 300.0f);
-				Menu::Slider(157, "Fade Distance", ImVec2(225, 0), &settings::NT_FadeDistance, 0.0f, 300.0f);
+	//			Menu::Slider(156, "Unrender Distance", ImVec2(225, 0), &settings::NT_TextUnrenderDistance, 0.0f, 300.0f);
+	//			Menu::Slider(157, "Fade Distance", ImVec2(225, 0), &settings::NT_FadeDistance, 0.0f, 300.0f);
 
-				Menu::ToggleButton(207, "Multi Line", ImVec2(368, 0), &settings::NT_MultiLine);
-				Menu::ToggleButton(160, "Display Health", ImVec2(368, 0), &settings::NT_DisplayHealth);
-				Menu::ToggleButton(161, "Display Distance", ImVec2(368, 0), &settings::NT_DisplayDistance);
-				Menu::ToggleButton(162, "Display Invisible", ImVec2(368, 0), &settings::NT_DisplayInvisible);
-				Menu::ToggleButton(163, "Ignore Friends", ImVec2(368, 0), &settings::NT_IgnoreFriends);
-			}
-			ImGui::EndChild();
-			ImGui::Spacing();
-		}
-	}
-	ImGui::EndChild();
+	//			Menu::ToggleButton(207, "Multi Line", ImVec2(368, 0), &settings::NT_MultiLine);
+	//			Menu::ToggleButton(160, "Display Health", ImVec2(368, 0), &settings::NT_DisplayHealth);
+	//			Menu::ToggleButton(161, "Display Distance", ImVec2(368, 0), &settings::NT_DisplayDistance);
+	//			Menu::ToggleButton(162, "Display Invisible", ImVec2(368, 0), &settings::NT_DisplayInvisible);
+	//			Menu::ToggleButton(163, "Ignore Friends", ImVec2(368, 0), &settings::NT_IgnoreFriends);
+	//		}
+	//		ImGui::EndChild();
+	//		ImGui::Spacing();
+	//	}
+	//}
+	//ImGui::EndChild();
 
-	ImGui::PopStyleVar();
-	ImGui::PopStyleColor();
-	ImGui::EndGroup();
+	//ImGui::PopStyleVar();
+	//ImGui::PopStyleColor();
+	//ImGui::EndGroup();
 }

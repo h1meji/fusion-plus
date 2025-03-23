@@ -92,6 +92,7 @@ bool __stdcall hook_wglSwapBuffers(_In_ HDC hdc)
 		}
 	}
 
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
 	ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 	ImGui::Begin("Overlay", nullptr,
@@ -109,6 +110,7 @@ bool __stdcall hook_wglSwapBuffers(_In_ HDC hdc)
 
 	ImGui::PopFont();
 	ImGui::End();
+	ImGui::PopStyleVar();
 
 	ImGui::EndFrame();
 	ImGui::Render();
@@ -188,12 +190,27 @@ void Menu::SetupImgui()
 	colors[ImGuiCol_ButtonHovered] = ImVec4(ImClamp<float>(settings::Menu_PrimaryColor[0] * 0.8f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[1] * 0.8f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[2] * 0.8f, 0.0f, 1.0f), settings::Menu_PrimaryColor[3]);
 	colors[ImGuiCol_ButtonActive] = ImVec4(ImClamp<float>(settings::Menu_PrimaryColor[0] * 0.6f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[1] * 0.6f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[2] * 0.6f, 0.0f, 1.0f), settings::Menu_PrimaryColor[3]);
 
+	colors[ImGuiCol_FrameBg] = ImVec4(settings::Menu_PrimaryColor[0], settings::Menu_PrimaryColor[1], settings::Menu_PrimaryColor[2], settings::Menu_PrimaryColor[3]);
+	colors[ImGuiCol_FrameBgHovered] = ImVec4(ImClamp<float>(settings::Menu_PrimaryColor[0] * 0.8f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[1] * 0.8f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[2] * 0.8f, 0.0f, 1.0f), settings::Menu_PrimaryColor[3]);
+	colors[ImGuiCol_FrameBgActive] = ImVec4(ImClamp<float>(settings::Menu_PrimaryColor[0] * 0.6f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[1] * 0.6f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[2] * 0.6f, 0.0f, 1.0f), settings::Menu_PrimaryColor[3]);
+
+	colors[ImGuiCol_SliderGrab] = ImVec4(settings::Menu_SecondaryColor[0], settings::Menu_SecondaryColor[1], settings::Menu_SecondaryColor[2], settings::Menu_SecondaryColor[3]);
+	colors[ImGuiCol_SliderGrabActive] = ImVec4(settings::Menu_SecondaryColor[0], settings::Menu_SecondaryColor[1], settings::Menu_SecondaryColor[2], settings::Menu_SecondaryColor[3]);
+
+	colors[ImGuiCol_CheckMark] = ImVec4(settings::Menu_SecondaryColor[0], settings::Menu_SecondaryColor[1], settings::Menu_SecondaryColor[2], settings::Menu_SecondaryColor[3]);
+
+	colors[ImGuiCol_ScrollbarGrab] = ImVec4(settings::Menu_PrimaryColor[0], settings::Menu_PrimaryColor[1], settings::Menu_PrimaryColor[2], settings::Menu_PrimaryColor[3]);
+	colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(ImClamp<float>(settings::Menu_PrimaryColor[0] * 0.8f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[1] * 0.8f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[2] * 0.8f, 0.0f, 1.0f), settings::Menu_PrimaryColor[3]);
+	colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(ImClamp<float>(settings::Menu_PrimaryColor[0] * 0.6f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[1] * 0.6f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[2] * 0.6f, 0.0f, 1.0f), settings::Menu_PrimaryColor[3]);
+
 	ImGuiStyle& style = ImGui::GetStyle();
 	style.WindowRounding = settings::Menu_WindowRounding;
 	style.ChildRounding = settings::Menu_WindowRounding;
 	style.FrameRounding = settings::Menu_ComponentsRounding;
 
 	style.WindowPadding = ImVec2(10.f, 10.f);
+	style.ItemSpacing.y = 10.f;
+	style.FramePadding.y += 4.f;
 
 	ImGui_ImplWin32_Init(Menu::HandleWindow);
 	ImGui_ImplOpenGL2_Init();

@@ -9,7 +9,7 @@ struct settings {
 	// Menu
 	inline static float Menu_TextColor[4]{ 1.0f, 1.0f, 1.0f, 1.0f };
 	inline static float Menu_SeperatorColor[4]{ 1.0f, 1.0f, 1.0f, 1.0f };
-	inline static float Menu_PrimaryColor[4]{ 0.49f, 0.23f, 0.85f, 1.0f };
+	inline static float Menu_PrimaryColor[4]{ 0, 0.4f, 0.4f, 1.0f };
 	inline static float Menu_SecondaryColor[4]{ 1.0f, 1.0f, 1.0f, 0.5f };
 	inline static float Menu_BackgroundColor[4]{ 0.0f, 0.0f, 0.0f, 0.8f };
 	inline static float Menu_ChildBackgroundColor[4]{ 0.0f, 0.0f, 0.0f, 0.5f };

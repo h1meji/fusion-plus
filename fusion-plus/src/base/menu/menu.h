@@ -56,32 +56,39 @@ struct Menu
 	static void RenderMenu();
 	static void RenderHudEditor();
 
-	static bool TabButton(const char* format, ImVec4 color);
-
-	static void Slider(int id, const char* text, ImVec2 size, float* value, float min, float max, const char* format = "%.2f");
-	static void Slider(int id, const char* text, ImVec2 size, int* value, int min, int max, const char* format = "%d");
-	static void ToggleButton(int id, const char* text, ImVec2 size, bool* value);
-	static void ColorPicker(int id, const char* text, ImVec2 size, float* color);
-	static void ComboBox(int id, const char* text, ImVec2 size, int* value, const char* items[], int listSize);
-	static void KeybindButton(int id, const char* text, ImVec2 size, int& keybind);
-	static bool Button(int id, const char* text, ImVec2 size);
-	static void Text(int id, const char* text, ImVec2 size, bool center = false);
-	static void TextColored(int id, const char* text, ImVec2 size, ImVec4 color, bool center = false);
-	static bool TextInput(int id, const char* text, ImVec2 size, char* buf, size_t bufSize, ImGuiInputTextFlags flags = 0);
-	static bool TextInputButton(int id, const char* text, ImVec2 size, char* buf, size_t bufSize, ImGuiInputTextFlags flags = 0, const char* buttonText = "Save");
-	static void GlitchText(const char* text, ImVec2 pos, int size);
+	//static bool TabButton(const char* format, ImVec4 color);
+	//static void Slider(int id, const char* text, ImVec2 size, float* value, float min, float max, const char* format = "%.2f");
+	//static void Slider(int id, const char* text, ImVec2 size, int* value, int min, int max, const char* format = "%d");
+	//static void ToggleButton(int id, const char* text, ImVec2 size, bool* value);
+	//static void ColorPicker(int id, const char* text, ImVec2 size, float* color);
+	//static void ComboBox(int id, const char* text, ImVec2 size, int* value, const char* items[], int listSize);
+	//static void KeybindButton(int id, const char* text, ImVec2 size, int& keybind);
+	//static bool Button(int id, const char* text, ImVec2 size);
+	//static void Text(int id, const char* text, ImVec2 size, bool center = false);
+	//static void TextColored(int id, const char* text, ImVec2 size, ImVec4 color, bool center = false);
+	//static bool TextInput(int id, const char* text, ImVec2 size, char* buf, size_t bufSize, ImGuiInputTextFlags flags = 0);
+	//static bool TextInputButton(int id, const char* text, ImVec2 size, char* buf, size_t bufSize, ImGuiInputTextFlags flags = 0, const char* buttonText = "Save");
+	//static void GlitchText(const char* text, ImVec2 pos, int size);
 
 
 	static void Text(const char* text, FontSize size);
 	static void BoldText(const char* text, FontSize size);
 	static void GlitchText(const char* text, FontSize size);
 
-	static void VerticalSeparator(const char* str_id, float size, float thickness = 1.f);
-	static void HorizontalSeparator(const char* str_id, float size, float thickness = 1.);
+	static void VerticalSeparator(const char* str_id, float size = 0, float thickness = 1.f);
+	static void HorizontalSeparator(const char* str_id, float size = 0, float thickness = 1.);
 
 	static bool TransparentButton(const char* text, ImVec2 btn_size, FontSize font_size);
 	static bool MenuButton(const char* text, ImVec2 btn_size, FontSize font_size);
 	static bool DetachButton(const char* text, ImVec2 btn_size, FontSize font_size);
+
+	static void ToggleWithKeybind(bool* enabled, int& keybind, ImVec2 size = ImVec2(0, 0));
+
+	static bool Slider(const char* label, int* value, int min, int max, ImVec2 size = ImVec2(0, 0), const char* format = "%d", ImGuiSliderFlags flags = 0);
+	static bool Slider(const char* label, float* value, float min, float max, ImVec2 size = ImVec2(0, 0), const char* format = "%.2f", ImGuiSliderFlags flags = 0);
+
+	static bool CheckboxBehavior(const char* label, bool* v);
+	static bool Checkbox(const char* label, bool* v, ImVec2 size = ImVec2(0, 0));
 
 	static void MoveCursorToCenter(bool checkInGame);
 

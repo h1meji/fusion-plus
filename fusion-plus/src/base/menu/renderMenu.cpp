@@ -33,7 +33,6 @@ void Menu::RenderMenu()
 	ImGui::SetNextWindowSize(ImVec2(1000.f, 650.f));
 	ImGui::Begin("Fusion+", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 	{
-
 		ImVec2 titleSize = Menu::FontBold->CalcTextSizeA(24, FLT_MAX, 0.0f, ("FUSION+" + std::string(Base::version)).c_str());
 		float leftWidth = titleSize.x += 40.f;
 		float topHeight = titleSize.y + 20.f;
@@ -52,7 +51,6 @@ void Menu::RenderMenu()
 		ImGui::EndChild();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f)); // Need to manually set padding for this child so the "selected" line is rendered correctly
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 6.f);
 		ImGui::BeginChild("##ModulesList", ImVec2(leftWidth, ImGui::GetWindowHeight() - topHeight - 185.f), true, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 		{
 			if (selectedCategory >= 0)
@@ -147,7 +145,6 @@ void Menu::RenderMenu()
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 6.f);
 		ImVec2 currentPos = ImGui::GetCursorScreenPos();
 		if (Menu::MenuButton("Configs", ImVec2(leftWidth, 35.f), BUTTON_FONT_SIZE))
 		{
@@ -165,7 +162,6 @@ void Menu::RenderMenu()
 			ImGui::GetWindowDrawList()->AddRectFilled(currentPos, ImVec2(currentPos.x + leftWidth - 40.f, currentPos.y + 1), color);
 		}
 
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 6.f);
 		currentPos = ImGui::GetCursorScreenPos();
 		if (Menu::MenuButton("Settings", ImVec2(leftWidth, 35.f), BUTTON_FONT_SIZE))
 		{
@@ -183,7 +179,6 @@ void Menu::RenderMenu()
 			ImGui::GetWindowDrawList()->AddRectFilled(currentPos, ImVec2(currentPos.x + leftWidth - 40.f, currentPos.y + 1), color);
 		}
 
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 6.f);
 		if (Menu::DetachButton("Detach", ImVec2(leftWidth, 35.f), BUTTON_FONT_SIZE))
 		{
 			Base::Running = false;
@@ -195,13 +190,13 @@ void Menu::RenderMenu()
 
 		ImGui::BeginGroup(); // Group for the right part
 
-		static float occupiedSpace = std::accumulate(categories.begin(), categories.end(), 0.f, [](float acc, const std::string& str) { return acc + ceil(Menu::Font->CalcTextSizeA(CATEGORY_FONT_SIZE_INT, FLT_MAX, 0.0f, str.c_str()).x) + 8; }) + (categories.size() - 1);
-		static float availableSpace = ceil(ImGui::GetWindowSize().x - leftWidth - 50.f);
-		static float spaceBetween = ceil(max(10.f, (availableSpace - occupiedSpace) / (categories.size() * 2)) - 8.f);
+		static float occupiedSpace = std::accumulate(categories.begin(), categories.end(), 0.f, [](float acc, const std::string& str) { return acc + Menu::Font->CalcTextSizeA(CATEGORY_FONT_SIZE_INT, FLT_MAX, 0.0f, str.c_str()).x + 8; }) + (categories.size() - 1);
+		static float availableSpace = ImGui::GetWindowSize().x - leftWidth - 50.f;
+		static float spaceBetween = max(10.f, (availableSpace - occupiedSpace) / (categories.size() * 2)) - 9.f;
 
 		ImGui::BeginChild("##CategoriesBar", ImVec2(ImGui::GetWindowSize().x - leftWidth - 50.f, topHeight), true, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 		{
-			ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() - 2.f, ImGui::GetCursorPosY() - 1.f));
+			ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() - 2.f, ImGui::GetCursorPosY() - 6.f));
 
 			for (int i = 0; i < categories.size(); i++)
 			{
@@ -213,7 +208,7 @@ void Menu::RenderMenu()
 					ImVec2 currentPos = ImGui::GetCursorScreenPos();
 					ImVec2 textSize = Menu::Font->CalcTextSizeA(CATEGORY_FONT_SIZE_INT, FLT_MAX, 0.0f, categories[i].c_str());
 
-					currentPos.y += 33.f;
+					currentPos.y += 38.f;
 
 					ImColor color = ImColor(settings::Menu_PrimaryColor[0], settings::Menu_PrimaryColor[1], settings::Menu_PrimaryColor[2], settings::Menu_PrimaryColor[3]);
 					ImGui::GetWindowDrawList()->AddRectFilled(currentPos, ImVec2(currentPos.x + textSize.x + 8, currentPos.y + 1), color);
@@ -228,7 +223,7 @@ void Menu::RenderMenu()
 
 				if (i != categories.size() - 1)
 				{
-					ImGui::SetCursorPosX(ImGui::GetCursorPosX() + spaceBetween);
+					ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() + spaceBetween, ImGui::GetCursorPosY() + 5));
 					Menu::VerticalSeparator(("CatSep" + std::to_string(i)).c_str(), ImGui::GetWindowSize().y - 20.f);
 					ImGui::SameLine();
 				}
@@ -236,16 +231,41 @@ void Menu::RenderMenu()
 		}
 		ImGui::EndChild();
 
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 6.f);
-		ImGui::BeginChild("##ModuleSettings", ImVec2(ImGui::GetWindowSize().x - leftWidth - 50.f, ImGui::GetWindowHeight() - topHeight - 50.f), true, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+		ImGui::BeginChild("##ModuleSettings", ImVec2(ImGui::GetWindowSize().x - leftWidth - 50.f, ImGui::GetWindowHeight() - topHeight - 50.f), true);
 		{
+			if (selectedCategory >= 0)
+			{
+				if (selectedCategory >= categories.size())
+					selectedCategory = 0;
 
+				if (selectedModule >= modules.size() || selectedModule < 0)
+					selectedModule = g_ModuleManager->GetFirstModuleIndexByCategory(categories[selectedCategory]);
+
+				modules[selectedModule]->RenderMenu();
+
+				
+			}
+			else if (selectedCategory == -1) // Configs
+			{
+
+			}
+			else if (selectedCategory == -2) // Settings
+			{
+
+			}
+
+			else
+			{
+				selectedCategory = 0;
+			}
 		}
 		ImGui::EndChild();
 
 		ImGui::EndGroup();
 	}
 	ImGui::End();
+
+	ImGui::ShowDemoWindow();
 }
 
 void Menu::RenderHudEditor()
