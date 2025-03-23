@@ -23,6 +23,7 @@ const int MODULE_FONT_SIZE_INT = 18;
 const FontSize MODULE_FONT_SIZE = FontSize::SIZE_18;
 const FontSize BUTTON_FONT_SIZE = FontSize::SIZE_18;
 
+std::unique_ptr<std::once_flag> setConfigName = std::make_unique<std::once_flag>();
 void Menu::RenderMenu()
 {
 	static int selectedCategory = 0;
@@ -249,7 +250,88 @@ void Menu::RenderMenu()
 			{
 				if (selectedModule == 0) // Local Configs
 				{
+					static std::vector<std::string> configFiles = ConfigManager::GetConfigList();
+					static int selectedConfig = 0;
+					std::string selectedConfigName = configFiles.size() > 0 ? configFiles[selectedConfig] : "null";
 
+					ImGui::BeginChild("###ConfigLits", ImVec2(0, 446.f));
+					{
+						for (int i = 0; i < configFiles.size(); ++i)
+						{
+							if (ImGui::Selectable(configFiles[i].c_str()))
+							{
+								selectedConfig = i;
+								setConfigName = std::make_unique<std::once_flag>();
+							}
+						}
+					}
+					ImGui::EndChild();
+
+					ImVec2 openButtonSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Open Folder");
+					openButtonSize.x += ImGui::GetStyle().FramePadding.x * 8;
+					ImVec2 refreshButtonSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Refresh");
+					refreshButtonSize.x += ImGui::GetStyle().FramePadding.x * 8;
+
+					if (Menu::Button(("Load \"" + selectedConfigName + "\"").c_str(), ImVec2(ImGui::GetWindowSize().x - openButtonSize.x - refreshButtonSize.x - 46.f, 30.f)))
+					{
+						if (configFiles.size() > 0)
+						{
+							if (ConfigManager::LoadConfig(selectedConfigName.c_str()))
+							{
+								NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been loaded.", selectedConfigName.c_str());
+								Menu::ResetSetupFlags();
+							}
+							else
+							{
+								NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" could not be loaded.", selectedConfigName.c_str());
+							}
+						}
+					}
+
+					ImGui::SameLine();
+
+					if (Menu::Button("Open Folder", ImVec2(openButtonSize.x, 30.f)))
+					{
+						ShellExecuteA(NULL, "open", ConfigManager::GetConfigPath().c_str(), NULL, NULL, SW_SHOWNORMAL);
+					}
+
+					ImGui::SameLine();
+
+					if (Menu::Button("Refresh", ImVec2(refreshButtonSize.x, 30.f)))
+					{
+						configFiles = ConfigManager::GetConfigList();
+						NotificationManager::Send("Fusion+ :: Config", "Config list has been refreshed.");
+					}
+
+					ImVec2 saveButtonSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Save");
+					saveButtonSize.x += ImGui::GetStyle().FramePadding.x * 8;
+					saveButtonSize.y += ImGui::GetStyle().FramePadding.y * 2;
+
+					static char saveConfigName[128] = "";
+					std::call_once(*setConfigName, []() {
+						const char* selectedConfigNameC = configFiles.size() > 0 ? configFiles[selectedConfig].c_str() : "";
+						strcpy_s(saveConfigName, selectedConfigNameC);
+						});
+
+					ImGui::SetNextItemWidth(ImGui::GetWindowSize().x + 200.f - saveButtonSize.x);
+					ImGui::InputText("##saveConfigName", saveConfigName, IM_ARRAYSIZE(saveConfigName));
+
+					ImGui::SameLine();
+
+					if (Menu::Button("Save", ImVec2(saveButtonSize.x, 30.f)))
+					{
+						int result = ConfigManager::SaveConfig(saveConfigName);
+						if (result != -1)
+						{
+							configFiles = ConfigManager::GetConfigList();
+							selectedConfig = result;
+							NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been saved.", saveConfigName);
+						}
+						else
+						{
+							NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" could not be saved.", saveConfigName);
+						}
+					}
 				}
 
 				else

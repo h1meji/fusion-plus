@@ -97,7 +97,6 @@ struct Menu
 
 	static bool Dropdown(const char* label, const char* items[], int* item_current, int items_count, ImVec2 size = ImVec2(0, 0));
 
-
 	static void MoveCursorToCenter(bool checkInGame);
 
 	static inline HWND HandleWindow;
