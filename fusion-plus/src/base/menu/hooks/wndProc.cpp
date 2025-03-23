@@ -4,6 +4,12 @@
 #include "imgui/imgui_impl_win32.h"
 
 #include "configManager/settings.h"
+#include "util/keys.h"
+
+static bool MouseButtonUp(UINT msg)
+{
+	return msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP;
+}
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -11,26 +17,35 @@ typedef LRESULT(CALLBACK* template_WndProc) (HWND, UINT, WPARAM, LPARAM);
 template_WndProc original_wndProc;
 LRESULT CALLBACK hook_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == WM_KEYDOWN)
+	static bool listenForKeys = true;
+	if (Menu::IsBindingKey) listenForKeys = false;
+
+	if (msg == WM_KEYDOWN && listenForKeys)
 	{
-		if (wParam == Menu::Keybind)
+		if (wParam == settings::Menu_Keybind)
 		{
 			if (Menu::Open || Menu::OpenHudEditor) Menu::MoveCursorToCenter(true);
 			Menu::Open = !Menu::Open;
 			Menu::OpenHudEditor = false;
 		}
 
-		//if (wParam == VK_ESCAPE && (Menu::Open || Menu::OpenHudEditor))
-		//{
-		//	Menu::MoveCursorToCenter(false);
-		//	Menu::Open = false;
-		//	Menu::OpenHudEditor = false;
-		//}
+		if (wParam == VK_ESCAPE && (Menu::Open || Menu::OpenHudEditor))
+		{
+			Menu::MoveCursorToCenter(true);
+			Menu::Open = false;
+			Menu::OpenHudEditor = false;
+		}
 
-		if (wParam == VK_END)
+		if (wParam == settings::Menu_DetachKey)
 		{
 			Base::Running = false;
+			Menu::MoveCursorToCenter(true);
 		}
+	}
+
+	if ((msg == WM_KEYUP || MouseButtonUp(msg)) && !Menu::IsBindingKey)
+	{
+		listenForKeys = true;
 	}
 
 	if ((Menu::Open || Menu::OpenHudEditor) && Menu::Initialized)

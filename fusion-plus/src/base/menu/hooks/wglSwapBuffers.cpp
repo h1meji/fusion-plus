@@ -203,6 +203,10 @@ void Menu::SetupImgui()
 	colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(ImClamp<float>(settings::Menu_PrimaryColor[0] * 0.8f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[1] * 0.8f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[2] * 0.8f, 0.0f, 1.0f), settings::Menu_PrimaryColor[3]);
 	colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(ImClamp<float>(settings::Menu_PrimaryColor[0] * 0.6f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[1] * 0.6f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[2] * 0.6f, 0.0f, 1.0f), settings::Menu_PrimaryColor[3]);
 
+	colors[ImGuiCol_Header] = ImVec4(settings::Menu_PrimaryColor[0], settings::Menu_PrimaryColor[1], settings::Menu_PrimaryColor[2], ImClamp<float>(settings::Menu_PrimaryColor[3] * 0.31f, 0.0f, 1.0f));
+	colors[ImGuiCol_HeaderHovered] = ImVec4(ImClamp<float>(settings::Menu_PrimaryColor[0] * 0.8f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[1] * 0.8f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[2] * 0.8f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[3] * 0.8f, 0.0f, 1.0f));
+	colors[ImGuiCol_HeaderActive] = ImVec4(ImClamp<float>(settings::Menu_PrimaryColor[0] * 0.6f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[1] * 0.6f, 0.0f, 1.0f), ImClamp<float>(settings::Menu_PrimaryColor[2] * 0.6f, 0.0f, 1.0f), settings::Menu_PrimaryColor[3]);
+
 	ImGuiStyle& style = ImGui::GetStyle();
 	style.WindowRounding = settings::Menu_WindowRounding;
 	style.ChildRounding = settings::Menu_WindowRounding;
@@ -211,6 +215,8 @@ void Menu::SetupImgui()
 	style.WindowPadding = ImVec2(10.f, 10.f);
 	style.ItemSpacing.y = 10.f;
 	style.FramePadding.y += 4.f;
+
+	style.PopupRounding = settings::Menu_ComponentsRounding;
 
 	ImGui_ImplWin32_Init(Menu::HandleWindow);
 	ImGui_ImplOpenGL2_Init();

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <Windows.h>
 
 struct settings {
 	inline static std::vector<std::string> friends;
@@ -18,6 +19,9 @@ struct settings {
 
 	inline static float Menu_WindowRounding = 10.0f;
 	inline static float Menu_ComponentsRounding = 5.0f;
+
+	inline static int Menu_Keybind = VK_INSERT;
+	inline static int Menu_DetachKey = VK_END;
 
 	inline static bool Menu_GUIMovement = false;
 	inline static bool Menu_ShowHiddenCategories = false;

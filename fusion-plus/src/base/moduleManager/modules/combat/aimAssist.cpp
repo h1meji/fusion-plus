@@ -264,178 +264,71 @@ void AimAssist::RenderOverlay()
 void AimAssist::RenderMenu()
 {
 	ImVec2 windowSize = ImGui::GetWindowSize();
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f); // Manual window padding
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::ToggleWithKeybind(&settings::AA_Enabled, settings::AA_Key);
 
-	ImGui::SetCursorPosX(20.f);
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 	Menu::HorizontalSeparator("AA_Sep1");
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Slider("Smoothness", &settings::AA_smooth, 1.0f, 90.0f);
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Slider("FOV", &settings::AA_fov, 5.0f, 180.f);
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Slider("Lock Distance", &settings::AA_aimDistance, 1.0f, 10.0f);
 
-	ImGui::SetCursorPosX(20.f);
+	Menu::Dropdown("Target Priority", settings::AA_targetPriorityList, &settings::AA_targetPriority, 3);
+
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 	Menu::HorizontalSeparator("AA_Sep2");
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Slider("Yaw Randomness", &settings::AA_randomYaw, 0.0f, 10.0f);
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Slider("Pitch Randomness", &settings::AA_randomPitch, 0.0f, 1.0f);
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Checkbox("Adapt to strafing", &settings::AA_adaptive);
 
 	if (settings::AA_adaptive)
 	{
-		ImGui::SetCursorPosX(20.f);
 		Menu::Slider("Adaptive Strafing Offset", &settings::AA_adaptiveOffset, 0.0f, 15.f);
 	}
 
-	ImGui::SetCursorPosX(20.f);
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 	Menu::HorizontalSeparator("AA_Sep3");
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Checkbox("Weapon Only", &settings::AA_weaponOnly);
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Checkbox("Ignore Friends", &settings::AA_ignoreFriends);
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Checkbox("Visiblity Check", &settings::AA_visibilityCheck);
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Checkbox("Ignore Invisible", &settings::AA_invisibleCheck);
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Checkbox("Allow Block Breaking", &settings::AA_blockBreakCheck);
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Checkbox("Sprinting Only", &settings::AA_sprintCheck);
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Checkbox("Mouse Press Check", &settings::AA_mousePressCheck);
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Checkbox("Mouse Move Check", &settings::AA_mouseMoveCheck);
 
-	ImGui::SetCursorPosX(20.f);
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 	Menu::HorizontalSeparator("AA_Sep3");
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Checkbox("FOV Circle", &settings::AA_fovCircle);
 
 	if (settings::AA_fovCircle)
 	{
-		ImGui::SetCursorPosX(20.f);
 		Menu::ColorEdit("FOV Circle Color", settings::AA_fovCircleColor);
 	}
 
-	ImGui::SetCursorPosX(20.f);
 	Menu::Checkbox("Feedback Line", &settings::AA_aimAssistFeedback);
 
 	if (settings::AA_aimAssistFeedback)
 	{
-		ImGui::SetCursorPosX(20.f);
 		Menu::ColorEdit("Feedback Line Color", settings::AA_aimAssistFeedbackColor);
 	}
-
-	//static bool renderSettings = false;
-
-	//ImGui::BeginGroup();
-
-	//ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	//ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-	//ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
-
-	//if (ImGui::BeginChild("aa_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
-	//{
-	//	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-	//	ImGui::BeginGroup();
-	//	Menu::ToggleButton(1, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::AA_Enabled);
-	//	ImGui::EndGroup();
-	//	if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-	//	{
-	//		renderSettings = !renderSettings;
-	//	}
-
-	//	ImGui::PopStyleColor();
-	//	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
-
-	//	if (renderSettings)
-	//	{
-	//		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	//		ImGui::Separator();
-	//		if (ImGui::BeginChild("aa_settings", ImVec2(425, 215), false))
-	//		{
-	//			Menu::KeybindButton(165, "Keybind", ImVec2(297, 0), settings::AA_Key);
-	//			Menu::Slider(1, "FOV", ImVec2(225, 0), &settings::AA_fov, 5.0f, 180.0f);
-	//			Menu::Slider(2, "Lock Distance", ImVec2(225, 0), &settings::AA_aimDistance, 1.0f, 8.0f);
-	//			Menu::Slider(3, "Smoothness", ImVec2(225, 0), &settings::AA_smooth, 1.0f, 90.0f);
-
-	//			Menu::ComboBox(6, "Target Priority", ImVec2(270, 0), &settings::AA_targetPriority, settings::AA_targetPriorityList, 3);
-
-	//			ImGui::Separator();
-
-	//			Menu::ToggleButton(4, "Visibility Check", ImVec2(368, 0), &settings::AA_visibilityCheck);
-	//			Menu::ToggleButton(5, "Sprint Check", ImVec2(368, 0), &settings::AA_sprintCheck);
-	//			Menu::ToggleButton(127, "Invisible Check", ImVec2(368, 0), &settings::AA_invisibleCheck);
-	//			Menu::ToggleButton(128, "Block Break Check", ImVec2(368, 0), &settings::AA_blockBreakCheck);
-	//			Menu::ToggleButton(129, "Weapon Only", ImVec2(368, 0), &settings::AA_weaponOnly);
-	//			Menu::ToggleButton(130, "Mouse Move Check", ImVec2(368, 0), &settings::AA_mouseMoveCheck);
-	//			Menu::ToggleButton(131, "Mouse Press Check", ImVec2(368, 0), &settings::AA_mousePressCheck);
-
-	//			ImGui::Separator();
-
-	//			Menu::ToggleButton(7, "Adapt to strafing", ImVec2(368, 0), &settings::AA_adaptive);
-	//			Menu::Slider(8, "Adaptive strafing offset", ImVec2(225, 0), &settings::AA_adaptiveOffset, 0.1f, 15.f);
-	//			ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
-
-	//			ImGui::Separator();
-
-	//			Menu::Slider(9, "Yaw Randomness", ImVec2(225, 0), &settings::AA_randomYaw, 0.0f, 10.0f);
-	//			Menu::Slider(10, "Pitch Randomness", ImVec2(225, 0), &settings::AA_randomPitch, 0.0f, 1);
-	//			ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
-
-	//			ImGui::Separator();
-
-	//			Menu::ToggleButton(11, "FOV Circle", ImVec2(368, 0), &settings::AA_fovCircle);
-	//			if (settings::AA_fovCircle)
-	//			{
-	//				Menu::ColorPicker(12, "FOV Circle Color", ImVec2(374, 0), settings::AA_fovCircleColor);
-	//			}
-
-	//			Menu::ToggleButton(13, "Feedback Line", ImVec2(368, 0), &settings::AA_aimAssistFeedback);
-	//			if (settings::AA_aimAssistFeedback)
-	//			{
-	//				Menu::ColorPicker(14, "Feedback Line Color", ImVec2(374, 0), settings::AA_aimAssistFeedbackColor);
-	//			}
-
-	//			Menu::ToggleButton(15, "Ignore Friends", ImVec2(368, 0), &settings::AA_ignoreFriends);
-	//		}
-	//		ImGui::EndChild();
-	//		ImGui::Spacing();
-	//	}
-	//}
-	//ImGui::EndChild();
-
-	//ImGui::PopStyleVar();
-	//ImGui::PopStyleColor();
-
-	//ImGui::EndGroup();
 }

@@ -15,7 +15,6 @@ void Menu::Init()
 	Menu::Initialized = false;
 	Menu::Open = false;
 	Menu::OpenHudEditor = false;
-	Menu::Keybind = VK_INSERT;
 
 	Menu::PlaceHooks();
 	Logger::Log("Menu initialized");
@@ -463,6 +462,92 @@ void Menu::HorizontalSeparator(const char* str_id, float size, float thickness)
 	ImGui::InvisibleButton(("###HorizontalSeparator_" + std::string(str_id)).c_str(), ImVec2(size, thickness));
 }
 
+bool Menu::Button(const char* label, ImVec2 size, FontSize font_size)
+{
+	if (size.x == 0)
+	{
+		size.x = ImGui::GetWindowSize().x - 40.f;
+	}
+
+	if (font_size == FontSize::SIZE_28) ImGui::PushFont(Menu::Font28);
+	else if (font_size == FontSize::SIZE_26) ImGui::PushFont(Menu::Font26);
+	else if (font_size == FontSize::SIZE_24) ImGui::PushFont(Menu::Font24);
+	else if (font_size == FontSize::SIZE_22) ImGui::PushFont(Menu::Font22);
+	else if (font_size == FontSize::SIZE_20) ImGui::PushFont(Menu::Font20);
+	else if (font_size == FontSize::SIZE_18) ImGui::PushFont(Menu::Font18);
+	else if (font_size == FontSize::SIZE_16) ImGui::PushFont(Menu::Font16);
+	else if (font_size == FontSize::SIZE_14) ImGui::PushFont(Menu::Font14);
+
+	bool result = ImGui::Button(label, size);
+	if (ImGui::IsItemHovered())
+	{
+		ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+	}
+
+	ImGui::PopFont();
+
+	return result;
+}
+
+static bool IsMouseButton(int button)
+{
+	return button == 1 || button == 2 || button == 4 || button == 5 || button == 6;
+}
+
+static bool IsKeyboardKey(int key)
+{
+	return !IsMouseButton(key);
+}
+
+void Menu::KeybindButton(const char* text, int& keybind, bool allowMouse, bool allowKeyboard, ImVec2 size, FontSize font_size)
+{
+	if (size.x == 0)
+	{
+		size.x = ImGui::GetWindowSize().x - 40.f;
+	}
+
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5.f);
+	Menu::Text(text, font_size);
+	ImGui::SameLine();
+
+	const float w = 120.f; // Width of checkbox and keybind button
+	const float space = size.x - Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, text).x - w;
+
+	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + space - 10);
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5.f);
+
+	int keys_size = IM_ARRAYSIZE(keys);
+	char name[18];
+	strncpy_s(name, keys[std::clamp(keybind, 0, keys_size)], 18);
+	static std::map<const char*, bool> bindings;
+	if (bindings[text])
+	{
+		ImGui::Button("[...]", ImVec2(120, 0));
+
+		for (int i = 0; i < keys_size; i++)
+		{
+			int key = i;
+			if (!Keys::IsKeyPressed(i) || (!allowMouse && IsMouseButton(i)) || (!allowKeyboard && IsKeyboardKey(i))) continue;
+
+			if (i == VK_ESCAPE) keybind = 0;
+			else keybind = i;
+
+			strncpy_s(name, keys[std::clamp(keybind, 0, keys_size)], 18);
+			bindings[text] = false;
+			IsBindingKey = false;
+			break;
+		}
+	}
+	else
+	{
+		if (ImGui::Button(Keys::GetKeyName(keybind), ImVec2(120, 0)))
+		{
+			bindings[text] = true;
+			IsBindingKey = true;
+		}
+	}
+}
+
 bool Menu::TransparentButton(const char* text, ImVec2 btn_size, FontSize font_size)
 {
 	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
@@ -593,6 +678,7 @@ void Menu::ToggleWithKeybind(bool* enabled, int& keybind, ImVec2 size)
 
 			strncpy_s(name, keys[std::clamp(keybind, 0, keys_size)], 18);
 			binding = false;
+			IsBindingKey = false;
 			break;
 		}
 	}
@@ -601,13 +687,12 @@ void Menu::ToggleWithKeybind(bool* enabled, int& keybind, ImVec2 size)
 		if (ImGui::Button(Keys::GetKeyName(keybind), ImVec2(120, 0)))
 		{
 			binding = true;
+			IsBindingKey = true;
 		}
 	}
 }
 
-//
 // Copied from ImGui::SliderScalar and modified it.
-//
 bool Menu::Slider(const char* label, int* value, int min, int max, ImVec2 size, const char* format, ImGuiSliderFlags flags)
 {
 	if (size.x == 0)
@@ -921,6 +1006,25 @@ bool Menu::ColorEdit(const char* label, float* col, ImVec2 size, ImGuiColorEditF
 	return ImGui::ColorEdit4(("##" + std::string(label)).c_str(), col, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | flags);
 }
 
+bool Menu::Dropdown(const char* label, const char* items[], int* item_current, int items_count, ImVec2 size)
+{
+	if (size.x == 0)
+	{
+		size.x = ImGui::GetWindowSize().x - 40.f;
+	}
+
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5.f);
+	Menu::Text(label, FontSize::SIZE_18);
+	ImGui::SameLine();
+
+	const float w = 358.f; // Width of dropdown
+	const float space = size.x - Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, label).x - w;
+
+	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + space - 10);
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5.f);
+
+	return ImGui::Combo(("##" + std::string(label)).c_str(), item_current, items, items_count);
+}
 
 void Menu::MoveCursorToCenter(bool checkInGame)
 {

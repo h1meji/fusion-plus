@@ -233,6 +233,8 @@ void Menu::RenderMenu()
 
 		ImGui::BeginChild("##ModuleSettings", ImVec2(ImGui::GetWindowSize().x - leftWidth - 50.f, ImGui::GetWindowHeight() - topHeight - 50.f), true);
 		{
+			ImGui::SetCursorPos(ImVec2(20.f, 20.f)); // Manual padding
+			ImGui::BeginGroup();
 			if (selectedCategory >= 0)
 			{
 				if (selectedCategory >= categories.size())
@@ -242,22 +244,42 @@ void Menu::RenderMenu()
 					selectedModule = g_ModuleManager->GetFirstModuleIndexByCategory(categories[selectedCategory]);
 
 				modules[selectedModule]->RenderMenu();
-
-				
 			}
 			else if (selectedCategory == -1) // Configs
 			{
+				if (selectedModule == 0) // Local Configs
+				{
 
+				}
+
+				else
+				{
+					selectedModule = 0;
+				}
 			}
 			else if (selectedCategory == -2) // Settings
 			{
+				if (selectedModule == 0) // General
+				{
+					Menu::KeybindButton("Menu", settings::Menu_Keybind, false);
+					Menu::KeybindButton("Detach", settings::Menu_DetachKey, false);
+				}
+				else if (selectedModule == 1) // Friends
+				{
 
+				}
+
+				else
+				{
+					selectedModule = 0;
+				}
 			}
 
 			else
 			{
 				selectedCategory = 0;
 			}
+			ImGui::EndGroup();
 		}
 		ImGui::EndChild();
 

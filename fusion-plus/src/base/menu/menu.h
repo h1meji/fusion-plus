@@ -28,10 +28,11 @@ struct Menu
 	static inline std::string Title;
 	static inline bool Open;
 	static inline bool OpenHudEditor;
-	static inline int Keybind;
 	static inline ImFont* Font;
 	static inline ImFont* FontBold;
 	static inline bool Initialized;
+
+	static inline bool IsBindingKey;
 
 	// Fonts
 	static inline ImFont* Font28;
@@ -78,6 +79,8 @@ struct Menu
 	static void VerticalSeparator(const char* str_id, float size = 0, float thickness = 1.f);
 	static void HorizontalSeparator(const char* str_id, float size = 0, float thickness = 1.);
 
+	static bool Button(const char* label, ImVec2 size = ImVec2(0, 0), FontSize font_size = SIZE_18);
+	static void KeybindButton(const char* text, int& keybind, bool allowMouse = true, bool allowKeyboard = true, ImVec2 size = ImVec2(0, 0), FontSize font_size = SIZE_18);
 	static bool TransparentButton(const char* text, ImVec2 btn_size, FontSize font_size);
 	static bool MenuButton(const char* text, ImVec2 btn_size, FontSize font_size);
 	static bool DetachButton(const char* text, ImVec2 btn_size, FontSize font_size);
@@ -91,6 +94,9 @@ struct Menu
 	static bool Checkbox(const char* label, bool* v, ImVec2 size = ImVec2(0, 0));
 
 	static bool ColorEdit(const char* label, float* col, ImVec2 size = ImVec2(0, 0), ImGuiColorEditFlags flags = 0);
+
+	static bool Dropdown(const char* label, const char* items[], int* item_current, int items_count, ImVec2 size = ImVec2(0, 0));
+
 
 	static void MoveCursorToCenter(bool checkInGame);
 
