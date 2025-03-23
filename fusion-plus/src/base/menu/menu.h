@@ -90,6 +90,8 @@ struct Menu
 	static bool CheckboxBehavior(const char* label, bool* v);
 	static bool Checkbox(const char* label, bool* v, ImVec2 size = ImVec2(0, 0));
 
+	static bool ColorEdit(const char* label, float* col, ImVec2 size = ImVec2(0, 0), ImGuiColorEditFlags flags = 0);
+
 	static void MoveCursorToCenter(bool checkInGame);
 
 	static inline HWND HandleWindow;

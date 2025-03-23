@@ -901,6 +901,26 @@ bool Menu::Checkbox(const char* label, bool* v, ImVec2 size)
 	return CheckboxBehavior(("##" + std::string(label)).c_str(), v);
 }
 
+bool Menu::ColorEdit(const char* label, float* col, ImVec2 size, ImGuiColorEditFlags flags)
+{
+	if (size.x == 0)
+	{
+		size.x = ImGui::GetWindowSize().x - 40.f;
+	}
+
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5.f);
+	Menu::Text(label, FontSize::SIZE_18);
+	ImGui::SameLine();
+
+	const float w = 30.f; // Width of preview
+	const float space = size.x - Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, label).x - w;
+
+	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + space - 10);
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5.f);
+
+	return ImGui::ColorEdit4(("##" + std::string(label)).c_str(), col, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | flags);
+}
+
 
 void Menu::MoveCursorToCenter(bool checkInGame)
 {

@@ -342,8 +342,8 @@ void AimAssist::RenderMenu()
 
 	if (settings::AA_fovCircle)
 	{
-		// ImGui::SetCursorPosX(20.f);
-		// Color Picker
+		ImGui::SetCursorPosX(20.f);
+		Menu::ColorEdit("FOV Circle Color", settings::AA_fovCircleColor);
 	}
 
 	ImGui::SetCursorPosX(20.f);
@@ -351,8 +351,8 @@ void AimAssist::RenderMenu()
 
 	if (settings::AA_aimAssistFeedback)
 	{
-		// ImGui::SetCursorPosX(20.f);
-		// Color Picker
+		ImGui::SetCursorPosX(20.f);
+		Menu::ColorEdit("Feedback Line Color", settings::AA_aimAssistFeedbackColor);
 	}
 
 	//static bool renderSettings = false;
