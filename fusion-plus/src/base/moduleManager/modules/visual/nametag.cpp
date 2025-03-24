@@ -270,71 +270,44 @@ void Nametag::RenderOverlay()
 
 void Nametag::RenderMenu()
 {
-	//static bool renderSettings = false;
+	Menu::ToggleWithKeybind(&settings::NT_Enabled, settings::NT_Key);
 
-	//ImGui::BeginGroup();
-	//ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	//ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-	//ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep1");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-	//if (ImGui::BeginChild("nt_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
-	//{
-	//	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-	//	ImGui::BeginGroup();
-	//	Menu::ToggleButton(151, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::NT_Enabled);
-	//	ImGui::EndGroup();
-	//	if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-	//	{
-	//		renderSettings = !renderSettings;
-	//	}
+	Menu::Checkbox("Display Health", &settings::NT_DisplayHealth);
+	Menu::Checkbox("Display Distance", &settings::NT_DisplayDistance);
+	Menu::Checkbox("Display Invisible", &settings::NT_DisplayInvisible);
+	Menu::Checkbox("Ignore Friends", &settings::NT_IgnoreFriends);
 
-	//	ImGui::PopStyleColor();
-	//	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep2");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-	//	if (renderSettings)
-	//	{
-	//		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	//		ImGui::Separator();
-	//		if (ImGui::BeginChild("nt_settings", ImVec2(425, 215), false))
-	//		{
-	//			Menu::KeybindButton(179, "Keybind", ImVec2(297, 0), settings::NT_Key);
-	//			Menu::Slider(152, "Text Size", ImVec2(225, 0), &settings::NT_TextSize, 1.0f, 50.0f);
-	//			Menu::ColorPicker(153, "Text Color", ImVec2(374, 0), settings::NT_TextColor);
+	Menu::Slider("Text Size", &settings::NT_TextSize, 1.0f, 50.0f);
+	Menu::Slider("Unrender Distance", &settings::NT_TextUnrenderDistance, 0.0f, 300.0f);
+	Menu::Slider("Fade Distance", &settings::NT_FadeDistance, 0.0f, 300.0f);
 
-	//			Menu::ToggleButton(154, "Text Outline", ImVec2(368, 0), &settings::NT_TextOutline);
-	//			if (settings::NT_TextOutline)
-	//			{
-	//				Menu::ColorPicker(155, "Text Outline Color", ImVec2(374, 0), settings::NT_TextOutlineColor);
-	//			}
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep3");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-	//			Menu::ToggleButton(158, "Background", ImVec2(368, 0), &settings::NT_Background);
-	//			if (settings::NT_Background)
-	//			{
-	//				Menu::ColorPicker(159, "Background Color", ImVec2(374, 0), settings::NT_BackgroundColor);
-	//			}
-
-	//			Menu::ToggleButton(164, "Background Outline", ImVec2(368, 0), &settings::NT_BackgroundOutline);
-	//			if (settings::NT_BackgroundOutline)
-	//			{
-	//				Menu::ColorPicker(165, "Background Outline Color", ImVec2(374, 0), settings::NT_BackgroundOutlineColor);
-	//			}
-
-	//			Menu::Slider(156, "Unrender Distance", ImVec2(225, 0), &settings::NT_TextUnrenderDistance, 0.0f, 300.0f);
-	//			Menu::Slider(157, "Fade Distance", ImVec2(225, 0), &settings::NT_FadeDistance, 0.0f, 300.0f);
-
-	//			Menu::ToggleButton(207, "Multi Line", ImVec2(368, 0), &settings::NT_MultiLine);
-	//			Menu::ToggleButton(160, "Display Health", ImVec2(368, 0), &settings::NT_DisplayHealth);
-	//			Menu::ToggleButton(161, "Display Distance", ImVec2(368, 0), &settings::NT_DisplayDistance);
-	//			Menu::ToggleButton(162, "Display Invisible", ImVec2(368, 0), &settings::NT_DisplayInvisible);
-	//			Menu::ToggleButton(163, "Ignore Friends", ImVec2(368, 0), &settings::NT_IgnoreFriends);
-	//		}
-	//		ImGui::EndChild();
-	//		ImGui::Spacing();
-	//	}
-	//}
-	//ImGui::EndChild();
-
-	//ImGui::PopStyleVar();
-	//ImGui::PopStyleColor();
-	//ImGui::EndGroup();
+	Menu::Checkbox("Multi Line", &settings::NT_MultiLine);
+	Menu::ColorEdit("Text Color", settings::NT_TextColor);
+	Menu::Checkbox("Text Outline", &settings::NT_TextOutline);
+	if (settings::NT_TextOutline)
+	{
+		Menu::ColorEdit("Text Outline Color", settings::NT_TextOutlineColor);
+	}
+	Menu::Checkbox("Background", &settings::NT_Background);
+	if (settings::NT_Background)
+	{
+		Menu::ColorEdit("Background Color", settings::NT_BackgroundColor);
+	}
+	Menu::Checkbox("Background Outline", &settings::NT_BackgroundOutline);
+	if (settings::NT_BackgroundOutline)
+	{
+		Menu::ColorEdit("Background Outline Color", settings::NT_BackgroundOutlineColor);
+	}
 }

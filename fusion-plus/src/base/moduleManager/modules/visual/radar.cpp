@@ -171,58 +171,27 @@ void Radar::RenderHud()
 
 void Radar::RenderMenu()
 {
-	//static bool renderSettings = false;
+	Menu::ToggleWithKeybind(&settings::Radar_Enabled, settings::Radar_Key);
 
-	//ImGui::BeginGroup();
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep1");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-	//ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	//ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-	//ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
+	Menu::Slider("Radius", &settings::Radar_Radius, 0.f, 300.f);
+	Menu::Checkbox("Rotate with Player", &settings::Radar_RotateWithPlayer);
+	Menu::Checkbox("Show Names", &settings::Radar_ShowNames);
 
-	//if (ImGui::BeginChild("radar_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
-	//{
-	//	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-	//	ImGui::BeginGroup();
-	//	Menu::ToggleButton(52, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::Radar_Enabled);
-	//	ImGui::EndGroup();
-	//	if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-	//	{
-	//		renderSettings = !renderSettings;
-	//	}
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep2");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-	//	ImGui::PopStyleColor();
-	//	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
+	Menu::Slider("Size", &settings::Radar_Size, 100.f, 1000.f);
+	Menu::Slider("Roundness", &settings::Radar_SquareRoundness, 0.f, 100.f);
+	Menu::Slider("Position X", &settings::Radar_Position[0], 0.f, 1920.f);
+	Menu::Slider("Position Y", &settings::Radar_Position[1], 0.f, 1080.f);
 
-	//	if (renderSettings)
-	//	{
-	//		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	//		ImGui::Separator();
-	//		if (ImGui::BeginChild("radar_settings", ImVec2(425, 215), false))
-	//		{
-	//			Menu::KeybindButton(180, "Keybind", ImVec2(297, 0), settings::Radar_Key);
-	//			Menu::Slider(53, "Radius", ImVec2(225, 0), &settings::Radar_Radius, 0.0f, 300.0f);
-	//			Menu::ToggleButton(54, "Rotate with Player", ImVec2(368, 0), &settings::Radar_RotateWithPlayer);
-	//			Menu::ToggleButton(55, "Show Names", ImVec2(368, 0), &settings::Radar_ShowNames);
-
-	//			ImGui::SeparatorText("UI Settings");
-
-	//			Menu::Slider(56, "Size", ImVec2(225, 0), &settings::Radar_Size, 100.0f, 1000.0f);
-	//			Menu::Slider(57, "Square Roundness", ImVec2(225, 0), &settings::Radar_SquareRoundness, 0.0f, 100.0f);
-	//			Menu::Slider(58, "Position X", ImVec2(225, 0), &settings::Radar_Position[0], 0.0f, 1920.0f);
-	//			Menu::Slider(59, "Position Y", ImVec2(225, 0), &settings::Radar_Position[1], 0.0f, 1080.0f);
-	//			Menu::ColorPicker(60, "Local Player Color", ImVec2(374, 0), settings::Radar_LocalPlayerColor);
-	//			Menu::ColorPicker(61, "Player Color", ImVec2(374, 0), settings::Radar_PlayerColor);
-	//			Menu::ColorPicker(62, "Friend Color", ImVec2(374, 0), settings::Radar_FriendColor);
-	//			Menu::ColorPicker(63, "Background Color", ImVec2(374, 0), settings::Radar_BackgroundColor);
-	//		}
-	//		ImGui::EndChild();
-	//		ImGui::Spacing();
-	//	}
-	//}
-	//ImGui::EndChild();
-
-	//ImGui::PopStyleVar();
-	//ImGui::PopStyleColor();
-
-	//ImGui::EndGroup();
+	Menu::ColorEdit("Local Player Color", settings::Radar_LocalPlayerColor);
+	Menu::ColorEdit("Player Color", settings::Radar_PlayerColor);
+	Menu::ColorEdit("Friend Color", settings::Radar_FriendColor);
+	Menu::ColorEdit("Background Color", settings::Radar_BackgroundColor);
 }

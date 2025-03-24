@@ -78,7 +78,7 @@ void RenderUtils::RenderTopLeft(const std::vector<std::string>& modules, float t
                                   TimeManager::GetTime() * rgbSpeed + (i * 0.1f),
                                   (sinf(TimeManager::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
                                   TimeManager::GetTime()) :
-            ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+            ImVec4(settings::AL_textColor[0], settings::AL_textColor[1], settings::AL_textColor[2], settings::AL_textColor[3]);
 
         ImGui::GetWindowDrawList()->AddText(font, textHeight,
             ImVec2(padding, currentY + padding),
@@ -145,7 +145,7 @@ void RenderUtils::RenderTopRight(const std::vector<std::string>& modules, float 
                                   TimeManager::GetTime() * rgbSpeed + (i * 0.1f),
                                   (sinf(TimeManager::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
                                   TimeManager::GetTime()) :
-            ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+            ImVec4(settings::AL_textColor[0], settings::AL_textColor[1], settings::AL_textColor[2], settings::AL_textColor[3]);
 
         ImGui::GetWindowDrawList()->AddText(font, textHeight,
             ImVec2(windowWidth - textSize.x - padding, currentY + padding),
@@ -217,7 +217,7 @@ void RenderUtils::RenderBottomLeft(const std::vector<std::string>& modules, floa
                                   TimeManager::GetTime() * rgbSpeed + (i * 0.1f),
                                   (sinf(TimeManager::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
                                   TimeManager::GetTime()) :
-            ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+            ImVec4(settings::AL_textColor[0], settings::AL_textColor[1], settings::AL_textColor[2], settings::AL_textColor[3]);
 
         ImGui::GetWindowDrawList()->AddText(font, textHeight,
             ImVec2(padding, currentY + padding),
@@ -290,7 +290,7 @@ void RenderUtils::RenderBottomRight(const std::vector<std::string>& modules, flo
                                   TimeManager::GetTime() * rgbSpeed + (i * 0.1f),
                                   (sinf(TimeManager::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
                                   TimeManager::GetTime()) :
-            ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+            ImVec4(settings::AL_textColor[0], settings::AL_textColor[1], settings::AL_textColor[2], settings::AL_textColor[3]);
 
         ImGui::GetWindowDrawList()->AddText(font, textHeight,
             ImVec2(windowWidth - textSize.x - padding, currentY + padding),

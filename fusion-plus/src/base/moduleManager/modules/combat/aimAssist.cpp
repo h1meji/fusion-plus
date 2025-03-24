@@ -266,65 +266,49 @@ void AimAssist::RenderMenu()
 	Menu::ToggleWithKeybind(&settings::AA_Enabled, settings::AA_Key);
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-	Menu::HorizontalSeparator("AA_Sep1");
+	Menu::HorizontalSeparator("Sep1");
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
 	Menu::Slider("Smoothness", &settings::AA_smooth, 1.0f, 90.0f);
-
 	Menu::Slider("FOV", &settings::AA_fov, 5.0f, 180.f);
-
 	Menu::Slider("Lock Distance", &settings::AA_aimDistance, 1.0f, 10.0f);
-
 	Menu::Dropdown("Target Priority", settings::AA_targetPriorityList, &settings::AA_targetPriority, 3);
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-	Menu::HorizontalSeparator("AA_Sep2");
+	Menu::HorizontalSeparator("Sep2");
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
 	Menu::Slider("Yaw Randomness", &settings::AA_randomYaw, 0.0f, 10.0f);
-
 	Menu::Slider("Pitch Randomness", &settings::AA_randomPitch, 0.0f, 1.0f);
-
 	Menu::Checkbox("Adapt to strafing", &settings::AA_adaptive);
-
 	if (settings::AA_adaptive)
 	{
 		Menu::Slider("Adaptive Strafing Offset", &settings::AA_adaptiveOffset, 0.0f, 15.f);
 	}
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-	Menu::HorizontalSeparator("AA_Sep3");
+	Menu::HorizontalSeparator("Sep3");
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
 	Menu::Checkbox("Weapon Only", &settings::AA_weaponOnly);
-
 	Menu::Checkbox("Ignore Friends", &settings::AA_ignoreFriends);
-
 	Menu::Checkbox("Visiblity Check", &settings::AA_visibilityCheck);
-
 	Menu::Checkbox("Ignore Invisible", &settings::AA_invisibleCheck);
-
 	Menu::Checkbox("Allow Block Breaking", &settings::AA_blockBreakCheck);
-
 	Menu::Checkbox("Sprinting Only", &settings::AA_sprintCheck);
-
 	Menu::Checkbox("Mouse Press Check", &settings::AA_mousePressCheck);
-
 	Menu::Checkbox("Mouse Move Check", &settings::AA_mouseMoveCheck);
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-	Menu::HorizontalSeparator("AA_Sep3");
+	Menu::HorizontalSeparator("Sep3");
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
 	Menu::Checkbox("FOV Circle", &settings::AA_fovCircle);
-
 	if (settings::AA_fovCircle)
 	{
 		Menu::ColorEdit("FOV Circle Color", settings::AA_fovCircleColor);
 	}
-
 	Menu::Checkbox("Feedback Line", &settings::AA_aimAssistFeedback);
-
 	if (settings::AA_aimAssistFeedback)
 	{
 		Menu::ColorEdit("Feedback Line Color", settings::AA_aimAssistFeedbackColor);

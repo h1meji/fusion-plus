@@ -308,6 +308,59 @@ void Esp::RenderOverlay()
 
 void Esp::RenderMenu()
 {
+	Menu::ToggleWithKeybind(&settings::ESP_Enabled, settings::ESP_Key);
+
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep1");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+
+	Menu::Slider("Fade Distance", &settings::ESP_FadeDistance, 0.0f, 10.0f);
+	Menu::Checkbox("Show Healthbar", &settings::ESP_HealthBar);
+	Menu::Checkbox("Highlight Friends", &settings::ESP_HighlightFriends);
+
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep2");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+
+	Menu::Checkbox("Filled Box", &settings::ESP_FilledBox);
+	if (settings::ESP_FilledBox)
+	{
+		Menu::ColorEdit("Filled Box Color", settings::ESP_FilledBoxColor);
+		if (settings::ESP_BoxType == 0)
+			Menu::ColorEdit("Second Filled Box Color", settings::ESP_SecondFilledBoxColor);
+		if (settings::ESP_HighlightFriends)
+		{
+			Menu::ColorEdit("Friend Filled Box Color", settings::ESP_FriendFilledBoxColor);
+			if (settings::ESP_BoxType == 0)
+				Menu::ColorEdit("Friend Second Filled Box Color", settings::ESP_FriendSecondFilledBoxColor);
+		}
+	}
+	Menu::Checkbox("Outline", &settings::ESP_Outline);
+	if (settings::ESP_Outline)
+	{
+		Menu::ColorEdit("Outline Color", settings::ESP_OutlineColor);
+		if (settings::ESP_HighlightFriends)
+		{
+			Menu::ColorEdit("Friend Outline Color", settings::ESP_FriendOutlineColor);
+		}
+	}
+	Menu::Dropdown("Box Type", settings::ESP_BoxTypeList, &settings::ESP_BoxType, 2);
+	if (settings::ESP_BoxType == 0)
+	{
+		Menu::Checkbox("Box", &settings::ESP_Box);
+		if (settings::ESP_Box)
+		{
+			Menu::ColorEdit("Box Color", settings::ESP_BoxColor);
+			if (settings::ESP_HighlightFriends)
+			{
+				Menu::ColorEdit("Friend Box Color", settings::ESP_FriendBoxColor);
+			}
+		}
+	}
+	else if (settings::ESP_BoxType == 1)
+	{
+		Menu::Slider("Box Thickness", &settings::ESP_3DBoxThickness, 0.5f, 5.0f);
+	}
 	//static bool renderSettings = false;
 
 	//ImGui::BeginGroup();

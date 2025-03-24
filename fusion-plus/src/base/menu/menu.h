@@ -53,6 +53,7 @@ struct Menu
 	static inline ImFont* BoldFont14;
 
 	static void SetupImgui();
+	static void SetupStyle();
 
 	static void RenderMenu();
 	static void RenderHudEditor();

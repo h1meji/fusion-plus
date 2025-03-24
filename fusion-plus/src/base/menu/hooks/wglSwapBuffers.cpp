@@ -173,6 +173,16 @@ void Menu::SetupImgui()
 	Menu::BoldFont16 = io.Fonts->AddFontFromMemoryTTF(inter_bold, sizeof(inter_bold), 16);
 	Menu::BoldFont14 = io.Fonts->AddFontFromMemoryTTF(inter_bold, sizeof(inter_bold), 14);
 
+	SetupStyle();
+
+	ImGui_ImplWin32_Init(Menu::HandleWindow);
+	ImGui_ImplOpenGL2_Init();
+
+	Menu::Initialized = true;
+}
+
+void Menu::SetupStyle()
+{
 	ImVec4* colors = ImGui::GetStyle().Colors;
 	colors[ImGuiCol_Text] = ImVec4(settings::Menu_TextColor[0], settings::Menu_TextColor[1], settings::Menu_TextColor[2], settings::Menu_TextColor[3]);
 	colors[ImGuiCol_WindowBg] = ImVec4(settings::Menu_BackgroundColor[0], settings::Menu_BackgroundColor[1], settings::Menu_BackgroundColor[2], settings::Menu_BackgroundColor[3]);
@@ -207,12 +217,7 @@ void Menu::SetupImgui()
 
 	style.WindowPadding = ImVec2(10.f, 10.f);
 	style.ItemSpacing.y = 10.f;
-	style.FramePadding.y += 4.f;
+	style.FramePadding.y = 7.f;
 
 	style.PopupRounding = settings::Menu_ComponentsRounding;
-
-	ImGui_ImplWin32_Init(Menu::HandleWindow);
-	ImGui_ImplOpenGL2_Init();
-
-	Menu::Initialized = true;
 }

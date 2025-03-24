@@ -49,7 +49,7 @@ void Reach::RenderMenu()
 	Menu::ToggleWithKeybind(&settings::Reach_Enabled, settings::Reach_Key);
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-	Menu::HorizontalSeparator("Reach_Sep1");
+	Menu::HorizontalSeparator("Sep1");
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
 	Menu::Slider("Reach Distance", &settings::Reach_ReachDistance, 0.1f, 5.0f);

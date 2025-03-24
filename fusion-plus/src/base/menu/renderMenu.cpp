@@ -372,32 +372,51 @@ void Menu::RenderMenu()
 					Menu::KeybindButton("Detach", settings::Menu_DetachKey, false);
 
 					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-					Menu::HorizontalSeparator("AA_Sep3");
+					Menu::HorizontalSeparator("Sep1");
 					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
 					Menu::Checkbox("GUI Movement", &settings::Menu_GUIMovement);
+
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+					Menu::HorizontalSeparator("Sep2");
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+
+					// Temp Customization place
+					if (Menu::ColorEdit("Primary Color", settings::Menu_PrimaryColor)) Menu::SetupStyle();
+					if (Menu::ColorEdit("Secondary Color", settings::Menu_SecondaryColor)) Menu::SetupStyle();
+					if (Menu::ColorEdit("Background Color", settings::Menu_BackgroundColor)) Menu::SetupStyle();
+					if (Menu::ColorEdit("Child Background Color", settings::Menu_ChildBackgroundColor)) Menu::SetupStyle();
+					if (Menu::ColorEdit("Outline Color", settings::Menu_OutlineColor)) Menu::SetupStyle();
+					if (Menu::ColorEdit("Text Color", settings::Menu_TextColor)) Menu::SetupStyle();
+					if (Menu::ColorEdit("Seperator Color", settings::Menu_SeperatorColor)) Menu::SetupStyle();
+					if (Menu::ColorEdit("Detach Button Color", settings::Menu_DetachButtonColor)) Menu::SetupStyle();
+
+					if (Menu::Slider("Window Rounding", &settings::Menu_WindowRounding, 0.f, 12.f)) Menu::SetupStyle();
+					if (Menu::Slider("Item Rounding", &settings::Menu_ComponentsRounding, 0.f, 12.f)) Menu::SetupStyle();
 				}
 				else if (selectedModule == 1) // Friends
 				{
+					std::vector<std::string> friends = settings::friends;
+
 					ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.f, 0.f, 0.f, 0.f));
 					ImGui::BeginChild("###FriendsLits", ImVec2(0, 476.f));
 					{
 						bool hasScrollbar = ImGui::GetCurrentWindow()->ScrollMax.y > 0.0f;
 
-						for (int i = 0; i < settings::friends.size(); ++i)
+						for (int i = 0; i < friends.size(); ++i)
 						{
 							bool deleted = false;
-							Menu::ConfigItem(settings::friends[i].c_str(), &deleted, hasScrollbar);
+							Menu::ConfigItem(friends[i].c_str(), &deleted, hasScrollbar);
 
 							if (deleted)
 							{
-								if (ConfigManager::RemoveFriend(settings::friends[i].c_str()))
+								if (ConfigManager::RemoveFriend(friends[i].c_str()))
 								{
-									NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" has been removed.", settings::friends[i].c_str());
+									NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" has been removed.", friends[i].c_str());
 								}
 								else
 								{
-									NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" could not be removed.", settings::friends[i].c_str());
+									NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" could not be removed.", friends[i].c_str());
 								}
 							}
 						}

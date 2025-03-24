@@ -69,46 +69,12 @@ void SprintReset::Update()
 
 void SprintReset::RenderMenu()
 {
-	//static bool renderSettings = false;
+	Menu::ToggleWithKeybind(&settings::SR_Enabled, settings::SR_Key);
 
-	//ImGui::BeginGroup();
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep1");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-	//ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	//ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-	//ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
-
-	//if (ImGui::BeginChild("sr_header", ImVec2(425.f, renderSettings ? 99.f : 35.f), false))
-	//{
-	//	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-	//	ImGui::BeginGroup();
-	//	Menu::ToggleButton(18, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::SR_Enabled);
-	//	ImGui::EndGroup();
-	//	if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-	//	{
-	//		renderSettings = !renderSettings;
-	//	}
-
-	//	ImGui::PopStyleColor();
-	//	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
-
-	//	if (renderSettings)
-	//	{
-	//		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	//		ImGui::Separator();
-	//		if (ImGui::BeginChild("sr_settings", ImVec2(425, 54), false))
-	//		{
-	//			Menu::KeybindButton(171, "Keybind", ImVec2(297, 0), settings::SR_Key);
-	//			Menu::Slider(19, "Delay Between S-Taps", ImVec2(225, 0), &settings::SR_DelayBetween, 0.1f, 3.f, "%.2f");
-	//			Menu::Slider(20, "Let Go Delay", ImVec2(225, 0), &settings::SR_LetGoDelay, .01f, .3f, "%.3f");
-	//		}
-	//		ImGui::EndChild();
-	//		ImGui::Spacing();
-	//	}
-	//}
-	//ImGui::EndChild();
-
-	//ImGui::PopStyleVar();
-	//ImGui::PopStyleColor();
-
-	//ImGui::EndGroup();
+	Menu::Slider("Delay Between S-Taps", &settings::SR_DelayBetween, 0.1f, 3.f);
+	Menu::Slider("Let Go Delay", &settings::SR_LetGoDelay, .01f, .3f, ImVec2(0,0), "%.3f");
 }
