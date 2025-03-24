@@ -198,9 +198,6 @@
     <ClInclude Include="src\base\sdk\strayCache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ext\fonts\jetbrainsmono.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\base\moduleManager\modules\combat\leftAutoClicker.h">
       <Filter>Header Files</Filter>
     </ClInclude>

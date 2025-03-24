@@ -12,7 +12,6 @@
 #include "util/trimmer.h"
 #include "configManager/settings.h"
 
-#include "fonts/jetbrainsmono.h"
 #include "fonts/inter.h"
 
 #include "base.h"
@@ -153,14 +152,8 @@ void Menu::SetupImgui()
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontDefault();
 
-	//Menu::Font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\segoeui.ttf", 16);
-	//Menu::FontBold = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\segoeuib.ttf", 24);
-
 	Menu::Font = io.Fonts->AddFontFromMemoryTTF(inter_regular, sizeof(inter_regular), 16);
 	Menu::FontBold = io.Fonts->AddFontFromMemoryTTF(inter_bold, sizeof(inter_bold), 24);
-
-	//Menu::Font = io.Fonts->AddFontFromMemoryTTF(jetbrains_regular, sizeof(jetbrains_regular), 16);
-	//Menu::FontBold = io.Fonts->AddFontFromMemoryTTF(jetbrains_bold, sizeof(jetbrains_bold), 24);
 
 	Menu::Font28 = io.Fonts->AddFontFromMemoryTTF(inter_regular, sizeof(inter_regular), 28);
 	Menu::Font26 = io.Fonts->AddFontFromMemoryTTF(inter_regular, sizeof(inter_regular), 26);
@@ -220,7 +213,6 @@ void Menu::SetupImgui()
 
 	ImGui_ImplWin32_Init(Menu::HandleWindow);
 	ImGui_ImplOpenGL2_Init();
-
 
 	Menu::Initialized = true;
 }

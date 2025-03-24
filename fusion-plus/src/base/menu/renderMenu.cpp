@@ -72,7 +72,7 @@ void Menu::RenderMenu()
 					if (i == selectedModule)
 					{
 						ImVec2 currentPos = ImGui::GetCursorScreenPos();
-						currentPos.x += 155.f;
+						currentPos.x += leftWidth - 13.f;
 						currentPos.y -= 3.f;
 
 						ImColor color = ImColor(settings::Menu_PrimaryColor[0], settings::Menu_PrimaryColor[1], settings::Menu_PrimaryColor[2], settings::Menu_PrimaryColor[3]);
@@ -98,7 +98,7 @@ void Menu::RenderMenu()
 					if (i == selectedModule)
 					{
 						ImVec2 currentPos = ImGui::GetCursorScreenPos();
-						currentPos.x += 155.f;
+						currentPos.x += leftWidth - 13.f;
 						currentPos.y -= 3.f;
 
 						ImColor color = ImColor(settings::Menu_PrimaryColor[0], settings::Menu_PrimaryColor[1], settings::Menu_PrimaryColor[2], settings::Menu_PrimaryColor[3]);
@@ -124,7 +124,7 @@ void Menu::RenderMenu()
 					if (i == selectedModule)
 					{
 						ImVec2 currentPos = ImGui::GetCursorScreenPos();
-						currentPos.x += 155.f;
+						currentPos.x += leftWidth - 13.f;
 						currentPos.y -= 3.f;
 
 						ImColor color = ImColor(settings::Menu_PrimaryColor[0], settings::Menu_PrimaryColor[1], settings::Menu_PrimaryColor[2], settings::Menu_PrimaryColor[3]);
