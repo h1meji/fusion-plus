@@ -57,20 +57,7 @@ struct Menu
 	static void RenderMenu();
 	static void RenderHudEditor();
 
-	//static bool TabButton(const char* format, ImVec4 color);
-	//static void Slider(int id, const char* text, ImVec2 size, float* value, float min, float max, const char* format = "%.2f");
-	//static void Slider(int id, const char* text, ImVec2 size, int* value, int min, int max, const char* format = "%d");
-	//static void ToggleButton(int id, const char* text, ImVec2 size, bool* value);
-	//static void ColorPicker(int id, const char* text, ImVec2 size, float* color);
-	//static void ComboBox(int id, const char* text, ImVec2 size, int* value, const char* items[], int listSize);
-	//static void KeybindButton(int id, const char* text, ImVec2 size, int& keybind);
-	//static bool Button(int id, const char* text, ImVec2 size);
-	//static void Text(int id, const char* text, ImVec2 size, bool center = false);
-	//static void TextColored(int id, const char* text, ImVec2 size, ImVec4 color, bool center = false);
-	//static bool TextInput(int id, const char* text, ImVec2 size, char* buf, size_t bufSize, ImGuiInputTextFlags flags = 0);
-	//static bool TextInputButton(int id, const char* text, ImVec2 size, char* buf, size_t bufSize, ImGuiInputTextFlags flags = 0, const char* buttonText = "Save");
-	//static void GlitchText(const char* text, ImVec2 pos, int size);
-
+	static bool ConfigItem(const char* name, bool* deleted, bool scrollbar);
 
 	static void Text(const char* text, FontSize size);
 	static void BoldText(const char* text, FontSize size);

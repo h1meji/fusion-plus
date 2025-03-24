@@ -352,6 +352,24 @@ void Menu::Init()
 //	ImGui::GetWindowDrawList()->AddText(Menu::FontBold, size, pos, ImColor(255, 255, 255), text);
 //}
 
+bool Menu::ConfigItem(const char* name, bool* deleted, bool scrollbar)
+{
+	// button with name, and delete button besides it.
+	ImVec2 size = ImGui::GetWindowSize();
+	ImVec2 deleteBtnSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Delete");
+	deleteBtnSize.x += ImGui::GetStyle().FramePadding.x * 8;
+
+	bool selected = ImGui::Button(name, ImVec2(size.x - deleteBtnSize.x - 18.f - (scrollbar ? ImGui::GetStyle().ScrollbarSize : 0.f), 0));
+
+	ImGui::SameLine();
+
+	if (ImGui::Button(("Delete###" + std::string(name)).c_str(), ImVec2(deleteBtnSize.x, 0.f)))
+	{
+		*deleted = true;
+	}
+
+	return selected;
+}
 
 void Menu::Text(const char* text, FontSize size)
 {

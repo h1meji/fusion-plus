@@ -252,27 +252,52 @@ void Menu::RenderMenu()
 				{
 					static std::vector<std::string> configFiles = ConfigManager::GetConfigList();
 					static int selectedConfig = 0;
-					std::string selectedConfigName = configFiles.size() > 0 ? configFiles[selectedConfig] : "null";
+					std::string selectedConfigName = configFiles.size() > 0 && configFiles.size() > selectedConfig ? configFiles[selectedConfig] : "null";
 
-					ImGui::BeginChild("###ConfigLits", ImVec2(0, 446.f));
+					ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.f, 0.f, 0.f, 0.f));
+					ImGui::BeginChild("###ConfigLits", ImVec2(0, 436.f));
 					{
+						bool hasScrollbar = ImGui::GetCurrentWindow()->ScrollMax.y > 0.0f;
+
 						for (int i = 0; i < configFiles.size(); ++i)
 						{
-							if (ImGui::Selectable(configFiles[i].c_str()))
+							bool deleted = false;
+							if (Menu::ConfigItem(configFiles[i].c_str(), &deleted, hasScrollbar))
 							{
 								selectedConfig = i;
 								setConfigName = std::make_unique<std::once_flag>();
 							}
+
+							if (deleted)
+							{
+								if (ConfigManager::RemoveConfig(configFiles[i].c_str()))
+								{
+									NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been removed.", configFiles[i].c_str());
+								}
+								else
+								{
+									NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" could not be removed.", configFiles[i].c_str());
+								}
+
+								configFiles = ConfigManager::GetConfigList();
+								
+								if (selectedConfig == i)
+								{
+									selectedConfig = 0;
+									setConfigName = std::make_unique<std::once_flag>();
+								}
+							}
 						}
 					}
 					ImGui::EndChild();
+					ImGui::PopStyleColor();
 
 					ImVec2 openButtonSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Open Folder");
 					openButtonSize.x += ImGui::GetStyle().FramePadding.x * 8;
 					ImVec2 refreshButtonSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Refresh");
 					refreshButtonSize.x += ImGui::GetStyle().FramePadding.x * 8;
 
-					if (Menu::Button(("Load \"" + selectedConfigName + "\"").c_str(), ImVec2(ImGui::GetWindowSize().x - openButtonSize.x - refreshButtonSize.x - 46.f, 30.f)))
+					if (Menu::Button(("Load \"" + selectedConfigName + "\"").c_str(), ImVec2(ImGui::GetWindowSize().x - openButtonSize.x - refreshButtonSize.x - 56.f, 30.f)))
 					{
 						if (configFiles.size() > 0)
 						{
@@ -313,7 +338,7 @@ void Menu::RenderMenu()
 						strcpy_s(saveConfigName, selectedConfigNameC);
 						});
 
-					ImGui::SetNextItemWidth(ImGui::GetWindowSize().x + 200.f - saveButtonSize.x);
+					ImGui::SetNextItemWidth(ImGui::GetWindowSize().x + 190.f - saveButtonSize.x);
 					ImGui::InputText("##saveConfigName", saveConfigName, IM_ARRAYSIZE(saveConfigName));
 
 					ImGui::SameLine();
@@ -354,7 +379,53 @@ void Menu::RenderMenu()
 				}
 				else if (selectedModule == 1) // Friends
 				{
+					ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.f, 0.f, 0.f, 0.f));
+					ImGui::BeginChild("###FriendsLits", ImVec2(0, 476.f));
+					{
+						bool hasScrollbar = ImGui::GetCurrentWindow()->ScrollMax.y > 0.0f;
 
+						for (int i = 0; i < settings::friends.size(); ++i)
+						{
+							bool deleted = false;
+							Menu::ConfigItem(settings::friends[i].c_str(), &deleted, hasScrollbar);
+
+							if (deleted)
+							{
+								if (ConfigManager::RemoveFriend(settings::friends[i].c_str()))
+								{
+									NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" has been removed.", settings::friends[i].c_str());
+								}
+								else
+								{
+									NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" could not be removed.", settings::friends[i].c_str());
+								}
+							}
+						}
+					}
+					ImGui::EndChild();
+					ImGui::PopStyleColor();
+
+					ImVec2 addFriendButtonSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Add");
+					addFriendButtonSize.x += ImGui::GetStyle().FramePadding.x * 8;
+					addFriendButtonSize.y += ImGui::GetStyle().FramePadding.y * 2;
+
+					static char newFriendName[128] = "";
+					ImGui::SetNextItemWidth(ImGui::GetWindowSize().x + 190.f - addFriendButtonSize.x);
+					ImGui::InputText("##addFriendName", newFriendName, IM_ARRAYSIZE(newFriendName));
+
+					ImGui::SameLine();
+
+					if (Menu::Button("Add", ImVec2(addFriendButtonSize.x, 30.f)))
+					{
+						if (ConfigManager::AddFriend(newFriendName))
+						{
+							NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" has been added.", newFriendName);
+						}
+						else
+						{
+							NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" could not be added.", newFriendName);
+						}
+					}
 				}
 
 				else

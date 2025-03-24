@@ -45,6 +45,11 @@ int ConfigManager::SaveConfig(const char* name)
 	return -1;
 }
 
+bool ConfigManager::RemoveConfig(const char* name)
+{
+	return std::filesystem::remove(ConfigManager::GetConfigPath() + name + FILE_SUFFIX);
+}
+
 std::vector<std::string> ConfigManager::GetConfigList()
 {
 	std::vector<std::string> configs;
