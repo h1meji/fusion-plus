@@ -70,6 +70,38 @@ void Menu::BoldText(const char* text, FontSize size)
 	ImGui::PopFont();
 }
 
+void Menu::TextColored(const char* text, ImVec4 color, FontSize size)
+{
+	if (size == FontSize::SIZE_28) ImGui::PushFont(Menu::Font28);
+	else if (size == FontSize::SIZE_26) ImGui::PushFont(Menu::Font26);
+	else if (size == FontSize::SIZE_24) ImGui::PushFont(Menu::Font24);
+	else if (size == FontSize::SIZE_22) ImGui::PushFont(Menu::Font22);
+	else if (size == FontSize::SIZE_20) ImGui::PushFont(Menu::Font20);
+	else if (size == FontSize::SIZE_18) ImGui::PushFont(Menu::Font18);
+	else if (size == FontSize::SIZE_16) ImGui::PushFont(Menu::Font16);
+	else if (size == FontSize::SIZE_14) ImGui::PushFont(Menu::Font14);
+
+	ImGui::TextColored(color, text);
+
+	ImGui::PopFont();
+}
+
+void Menu::BoldTextColored(const char* text, ImVec4 color, FontSize size)
+{
+	if (size == FontSize::SIZE_28) ImGui::PushFont(Menu::BoldFont28);
+	else if (size == FontSize::SIZE_26) ImGui::PushFont(Menu::BoldFont26);
+	else if (size == FontSize::SIZE_24) ImGui::PushFont(Menu::BoldFont24);
+	else if (size == FontSize::SIZE_22) ImGui::PushFont(Menu::BoldFont22);
+	else if (size == FontSize::SIZE_20) ImGui::PushFont(Menu::BoldFont20);
+	else if (size == FontSize::SIZE_18) ImGui::PushFont(Menu::BoldFont18);
+	else if (size == FontSize::SIZE_16) ImGui::PushFont(Menu::BoldFont16);
+	else if (size == FontSize::SIZE_14) ImGui::PushFont(Menu::BoldFont14);
+
+	ImGui::TextColored(color, text);
+
+	ImGui::PopFont();
+}
+
 void Menu::GlitchText(const char* text, FontSize size)
 {
 	ImVec2 cursorPos = ImGui::GetCursorPos();  // Get the current cursor position in screen space

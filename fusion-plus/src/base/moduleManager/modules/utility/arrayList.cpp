@@ -91,10 +91,7 @@ void ArrayList::RenderHud() {
 
 void ArrayList::RenderMenu()
 {
-    ImGui::PushFont(Menu::Font16);
-    ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.0f, 1.0f), "This module is currently in development and may cause instability or crashes. Use with caution.");
-	ImGui::PopFont();
-    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::TextColored("This module is currently in development and may cause instability or crashes. Use with caution.", ImVec4(1.0f, 0.8f, 0.0f, 1.0f), FontSize::SIZE_16);
 
     Menu::ToggleWithKeybind(&settings::AL_Enabled, settings::AL_Key);
 

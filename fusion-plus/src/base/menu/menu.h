@@ -62,6 +62,8 @@ struct Menu
 
 	static void Text(const char* text, FontSize size);
 	static void BoldText(const char* text, FontSize size);
+	static void TextColored(const char* text, ImVec4 color, FontSize size);
+	static void BoldTextColored(const char* text, ImVec4 color, FontSize size);
 	static void GlitchText(const char* text, FontSize size);
 	static void GlitchText(const char* text, ImVec2 pos, int size);
 
