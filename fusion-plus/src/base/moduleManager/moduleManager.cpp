@@ -136,19 +136,15 @@ void ModuleManager::RenderHud()
 
 		if (ImGui::Begin("Keybinds", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize | windowFlags))
 		{
-			settings::Hud_KeybindsPosition[0] = ImGui::GetWindowPos().x;
-			settings::Hud_KeybindsPosition[1] = ImGui::GetWindowPos().y;
-
-			ImGui::PushFont(Menu::FontBold);
-			ImGui::Text("Keybinds");
-			ImGui::PopFont();
+			Menu::BoldText("Keybinds", FontSize::SIZE_18);
+			Menu::HorizontalSeparator("KeybindsSeparator");
 
 			for (auto& module : modules)
 			{
 				int key = module->GetKey();
 				if (key != 0)
 				{
-					ImGui::Text("%s: %s", module->GetName().c_str(), Keys::GetKeyName(key));
+					Menu::Text((module->GetName() + " : " + Keys::GetKeyName(key)).c_str(), FontSize::SIZE_16);
 				}
 			}
 		}
