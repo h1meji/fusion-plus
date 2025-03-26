@@ -63,6 +63,7 @@ struct Menu
 	static void Text(const char* text, FontSize size);
 	static void BoldText(const char* text, FontSize size);
 	static void GlitchText(const char* text, FontSize size);
+	static void GlitchText(const char* text, ImVec2 pos, int size);
 
 	static void VerticalSeparator(const char* str_id, float size = 0, float thickness = 1.f);
 	static void HorizontalSeparator(const char* str_id, float size = 0, float thickness = 1.);
