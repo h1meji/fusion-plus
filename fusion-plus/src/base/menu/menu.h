@@ -56,7 +56,6 @@ struct Menu
 	static void SetupStyle();
 
 	static void RenderMenu();
-	static void RenderHudEditor();
 
 	static bool ConfigItem(const char* name, bool* deleted, bool scrollbar);
 

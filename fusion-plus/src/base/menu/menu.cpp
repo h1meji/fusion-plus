@@ -9,6 +9,18 @@
 
 #include "util/keys.h"
 
+static const char* extractBeforeDoubleHash(const char* label) {
+	const char* pos = strstr(label, "##"); // Find occurrence of ##
+	if (pos) {
+		size_t len = pos - label; // Length before ##
+		char* newLabel = new char[len + 1]; // Allocate new string
+		strncpy_s(newLabel, len + 1, label, len); // Copy up to ##
+		newLabel[len] = '\0'; // Null-terminate
+		return newLabel; // Return new string
+	}
+	return label; // No ## found, return original
+}
+
 void Menu::Init()
 {
 	Menu::Title = "fusion+";
@@ -463,10 +475,10 @@ bool Menu::Slider(const char* label, int* value, int min, int max, ImVec2 size, 
 	}
 
 	const float w = ImGui::CalcItemWidth() - 150; // Width of the slider
-	const float space = size.x - Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, label).x - w;
+	const float space = size.x - Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, extractBeforeDoubleHash(label)).x - w;
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5.f);
-	Menu::Text(label, FontSize::SIZE_18);
+	Menu::Text(extractBeforeDoubleHash(label), FontSize::SIZE_18);
 	ImGui::SameLine();
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5.f);
@@ -568,10 +580,10 @@ bool Menu::Slider(const char* label, float* value, float min, float max, ImVec2 
 	}
 
 	const float w = ImGui::CalcItemWidth() - 150; // Width of the slider
-	const float space = size.x - Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, label).x - w;
+	const float space = size.x - Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, extractBeforeDoubleHash(label)).x - w;
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5.f);
-	Menu::Text(label, FontSize::SIZE_18);
+	Menu::Text(extractBeforeDoubleHash(label), FontSize::SIZE_18);
 	ImGui::SameLine();
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5.f);

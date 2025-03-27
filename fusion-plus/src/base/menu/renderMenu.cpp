@@ -473,23 +473,24 @@ void Menu::RenderMenu()
 					Menu::Checkbox("Direction", &settings::Hud_WatermarkDirection);
 					Menu::Checkbox("Time", &settings::Hud_WatermarkTime);
 
-					if (Menu::Slider("X Position", &settings::Hud_WatermarkPosition[0], 0.f, 1920.f)) Menu::ResetSetupFlags();
-					if (Menu::Slider("Y Position", &settings::Hud_WatermarkPosition[1], 0.f, 1080.f)) Menu::ResetSetupFlags();
+					if (Menu::Slider("X Position##Watermark", &settings::Hud_WatermarkPosition[0], 0.f, 1920.f)) Menu::ResetSetupFlags();
+					if (Menu::Slider("Y Position##Watermark", &settings::Hud_WatermarkPosition[1], 0.f, 1080.f)) Menu::ResetSetupFlags();
+
 
 					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 					Menu::HorizontalSeparatorText("Keybinds", FontSize::SIZE_18);
 					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
 					Menu::Checkbox("Show Keybinds", &settings::Hud_ShowKeybinds);
-					if (Menu::Slider("X Position", &settings::Hud_KeybindsPosition[0], 0.f, 1920.f)) Menu::ResetSetupFlags();
-					if (Menu::Slider("Y Position", &settings::Hud_KeybindsPosition[1], 0.f, 1080.f)) Menu::ResetSetupFlags();
+					if (Menu::Slider("X Position##Keybinds", &settings::Hud_KeybindsPosition[0], 0.f, 1920.f)) Menu::ResetSetupFlags();
+					if (Menu::Slider("Y Position##Keybinds", &settings::Hud_KeybindsPosition[1], 0.f, 1080.f)) Menu::ResetSetupFlags();
 
 					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 					Menu::HorizontalSeparatorText("Radar", FontSize::SIZE_18);
 					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-					if (Menu::Slider("X Position", &settings::Radar_Position[0], 0.f, 1920.f)) Menu::ResetSetupFlags();
-					if (Menu::Slider("Y Position", &settings::Radar_Position[1], 0.f, 1080.f)) Menu::ResetSetupFlags();
+					if (Menu::Slider("X Position##Radar", &settings::Radar_Position[0], 0.f, 1920.f)) Menu::ResetSetupFlags();
+					if (Menu::Slider("Y Position##Radar", &settings::Radar_Position[1], 0.f, 1080.f)) Menu::ResetSetupFlags();
 					if (Menu::Slider("Size", &settings::Radar_Size, 0.f, 500.f)) Menu::ResetSetupFlags();
 					Menu::Slider("Rounding", &settings::Radar_SquareRoundness, 0.f, 100.f);
 				}
@@ -507,108 +508,6 @@ void Menu::RenderMenu()
 			ImGui::EndGroup();
 		}
 		ImGui::EndChild();
-
-		ImGui::EndGroup();
-	}
-	ImGui::End();
-
-	ImGui::ShowDemoWindow();
-}
-
-void Menu::RenderHudEditor()
-{
-	ImGui::SetNextWindowSize(ImVec2(500.f, 650.f));
-	ImGui::Begin("Hud Editor", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
-	{
-		ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() + 10.f, ImGui::GetCursorPosY() + 10.f)); // Change padding from 10 to 20
-		ImGui::BeginGroup();
-
-		Menu::BoldText("Fusion+ :: Hud Editor", FontSize::SIZE_24);
-
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-		Menu::HorizontalSeparator("HE_Sep1");
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-
-		Menu::Checkbox("Disable all Hud/Overlay rendering", &settings::Hud_DisableAllRendering);
-		Menu::Checkbox("Show Keybinds", &settings::Hud_ShowKeybinds);
-
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-		Menu::HorizontalSeparator("HE_Sep2");
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-
-		Menu::Checkbox("Show Watermark", &settings::Hud_Watermark);
-		Menu::Checkbox("Version", &settings::Hud_WatermarkVersion);
-		Menu::Checkbox("FPS", &settings::Hud_WatermarkFps);
-		Menu::Checkbox("Ping", &settings::Hud_WatermarkPing);
-		Menu::Checkbox("Coordinates", &settings::Hud_WatermarkCoords);
-		Menu::Checkbox("Direction", &settings::Hud_WatermarkDirection);
-		Menu::Checkbox("Time", &settings::Hud_WatermarkTime);
-
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-		Menu::HorizontalSeparator("HE_Sep3");
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-
-		if (Menu::ColorEdit("Primary Color", settings::Menu_PrimaryColor)) Menu::SetupStyle();
-		if (Menu::ColorEdit("Secondary Color", settings::Menu_SecondaryColor)) Menu::SetupStyle();
-		if (Menu::ColorEdit("Background Color", settings::Menu_BackgroundColor)) Menu::SetupStyle();
-		if (Menu::ColorEdit("Child Background Color", settings::Menu_ChildBackgroundColor)) Menu::SetupStyle();
-		if (Menu::ColorEdit("Outline Color", settings::Menu_OutlineColor)) Menu::SetupStyle();
-		if (Menu::ColorEdit("Text Color", settings::Menu_TextColor)) Menu::SetupStyle();
-		if (Menu::ColorEdit("Seperator Color", settings::Menu_SeperatorColor)) Menu::SetupStyle();
-		if (Menu::ColorEdit("Detach Button Color", settings::Menu_DetachButtonColor)) Menu::SetupStyle();
-
-		if (Menu::Slider("Window Rounding", &settings::Menu_WindowRounding, 0.f, 12.f)) Menu::SetupStyle();
-		if (Menu::Slider("Item Rounding", &settings::Menu_ComponentsRounding, 0.f, 12.f)) Menu::SetupStyle();
-
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-		Menu::HorizontalSeparator("HE_Sep3");
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-
-		// Tree for hud element positions (watermark, keybinds, radar, etc.)
-		ImGui::PushFont(Menu::Font18);
-		if (ImGui::TreeNode("Elements"))
-		{
-			// Watermark
-			if (ImGui::TreeNode("Watermark"))
-			{
-				if (Menu::Slider("X Position", &settings::Hud_WatermarkPosition[0], 0.f, 1920.f, ImGui::GetContentRegionAvail())) Menu::ResetSetupFlags();
-				if (Menu::Slider("Y Position", &settings::Hud_WatermarkPosition[1], 0.f, 1080.f, ImGui::GetContentRegionAvail())) Menu::ResetSetupFlags();
-
-				ImGui::TreePop();
-			}
-
-			// Keybinds
-			if (ImGui::TreeNode("Keybinds"))
-			{
-				if (Menu::Slider("X Position", &settings::Hud_KeybindsPosition[0], 0.f, 1920.f, ImGui::GetContentRegionAvail())) Menu::ResetSetupFlags();
-				if (Menu::Slider("Y Position", &settings::Hud_KeybindsPosition[1], 0.f, 1080.f, ImGui::GetContentRegionAvail())) Menu::ResetSetupFlags();
-
-				ImGui::TreePop();
-			}
-
-			// Radar
-			if (ImGui::TreeNode("Radar"))
-			{
-				if (Menu::Slider("X Position", &settings::Radar_Position[0], 0.f, 1920.f, ImGui::GetContentRegionAvail())) Menu::ResetSetupFlags();
-				if (Menu::Slider("Y Position", &settings::Radar_Position[1], 0.f, 1080.f, ImGui::GetContentRegionAvail())) Menu::ResetSetupFlags();
-				if (Menu::Slider("Size", &settings::Radar_Size, 0.f, 500.f, ImGui::GetContentRegionAvail())) Menu::ResetSetupFlags();
-
-				ImGui::TreePop();
-			}
-
-			ImGui::TreePop();
-		}
-		ImGui::PopFont();
-
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-		Menu::HorizontalSeparator("HE_Sep4");
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
-
-		if (Menu::Button("Close Hud Editor"))
-		{
-			Menu::OpenHudEditor = false;
-			Menu::Open = true;
-		}
 
 		ImGui::EndGroup();
 	}

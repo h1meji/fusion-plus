@@ -136,6 +136,9 @@ void ModuleManager::RenderHud()
 
 		if (ImGui::Begin("Keybinds", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize | windowFlags))
 		{
+			settings::Hud_KeybindsPosition[0] = ImGui::GetWindowPos().x;
+			settings::Hud_KeybindsPosition[1] = ImGui::GetWindowPos().y;
+
 			Menu::BoldText("Keybinds", FontSize::SIZE_18);
 			Menu::HorizontalSeparator("KeybindsSeparator");
 
