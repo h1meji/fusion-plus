@@ -88,7 +88,7 @@ void ModuleManager::UpdateModules()
 	for (auto& module : modules)
 	{
 		// Keybinds
-		if (module->GetKey() != 0 && Keys::IsKeyPressed(module->GetKey()) && (!Menu::Open || !Menu::OpenHudEditor))
+		if (module->GetKey() != 0 && Keys::IsKeyPressed(module->GetKey()) && !Menu::Open)
 		{
 			module->Toggle();
 		}

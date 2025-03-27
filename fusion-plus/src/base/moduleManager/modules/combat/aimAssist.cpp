@@ -50,7 +50,7 @@ Suggested settings:
 void AimAssist::Update()
 {
 	if (!settings::AA_Enabled) return;
-	if (Menu::Open || Menu::OpenHudEditor) return;
+	if (Menu::Open) return;
 	if (!CommonData::SanityCheck()) return;
 	if (SDK::Minecraft->IsInGuiState()) return;
 

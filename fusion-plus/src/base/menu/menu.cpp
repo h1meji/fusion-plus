@@ -193,6 +193,37 @@ void Menu::HorizontalSeparator(const char* str_id, float size, float thickness)
 	ImGui::InvisibleButton(("###HorizontalSeparator_" + std::string(str_id)).c_str(), ImVec2(size, thickness));
 }
 
+void Menu::HorizontalSeparatorText(const char* text, FontSize font_size, float size)
+{
+	if (size == 0)
+	{
+		size = ImGui::GetWindowSize().x - 40.f;
+	}
+
+	if (font_size == FontSize::SIZE_28) ImGui::PushFont(Menu::Font28);
+	else if (font_size == FontSize::SIZE_26) ImGui::PushFont(Menu::Font26);
+	else if (font_size == FontSize::SIZE_24) ImGui::PushFont(Menu::Font24);
+	else if (font_size == FontSize::SIZE_22) ImGui::PushFont(Menu::Font22);
+	else if (font_size == FontSize::SIZE_20) ImGui::PushFont(Menu::Font20);
+	else if (font_size == FontSize::SIZE_18) ImGui::PushFont(Menu::Font18);
+	else if (font_size == FontSize::SIZE_16) ImGui::PushFont(Menu::Font16);
+	else if (font_size == FontSize::SIZE_14) ImGui::PushFont(Menu::Font14);
+
+	ImVec2 textSize = ImGui::CalcTextSize(text);
+	float textWidth = textSize.x;
+
+	float separatorWidth = (size - textWidth - 20.f) / 2;
+
+	Menu::HorizontalSeparator(("1TextSeparator_" + std::string(text)).c_str(), separatorWidth);
+	ImGui::SameLine();
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - (textSize.y / 2));
+	ImGui::Text(text);
+	ImGui::SameLine();
+	Menu::HorizontalSeparator(("2TextSeparator_" + std::string(text)).c_str(), separatorWidth);
+
+	ImGui::PopFont();
+}
+
 bool Menu::Button(const char* label, ImVec2 size, FontSize font_size)
 {
 	if (size.x == 0)

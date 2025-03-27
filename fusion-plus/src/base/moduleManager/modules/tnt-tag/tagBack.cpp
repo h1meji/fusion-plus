@@ -15,7 +15,7 @@ void TagBack::Update()
 	if (!settings::TB_Enabled) return;
 	if (!CommonData::SanityCheck()) return;
 	if (SDK::Minecraft->IsInGuiState()) return;
-	if (Menu::Open || Menu::OpenHudEditor) return;
+	if (Menu::Open) return;
 
 	CEntityPlayerSP* thePlayer = SDK::Minecraft->thePlayer;
 

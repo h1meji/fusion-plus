@@ -69,6 +69,7 @@ struct Menu
 
 	static void VerticalSeparator(const char* str_id, float size = 0, float thickness = 1.f);
 	static void HorizontalSeparator(const char* str_id, float size = 0, float thickness = 1.);
+	static void HorizontalSeparatorText(const char* text, FontSize font_size, float size = 0);
 
 	static bool Button(const char* label, ImVec2 size = ImVec2(0, 0), FontSize font_size = SIZE_18);
 	static void KeybindButton(const char* text, int& keybind, bool allowMouse = true, bool allowKeyboard = true, ImVec2 size = ImVec2(0, 0), FontSize font_size = SIZE_18);

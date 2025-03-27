@@ -24,12 +24,12 @@ LRESULT CALLBACK hook_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		if (wParam == settings::Menu_Keybind)
 		{
-			if (Menu::Open || Menu::OpenHudEditor) Menu::MoveCursorToCenter(true);
+			if (Menu::Open) Menu::MoveCursorToCenter(true);
 			Menu::Open = !Menu::Open;
 			Menu::OpenHudEditor = false;
 		}
 
-		if (wParam == VK_ESCAPE && (Menu::Open || Menu::OpenHudEditor))
+		if (wParam == VK_ESCAPE && Menu::Open)
 		{
 			Menu::MoveCursorToCenter(true);
 			Menu::Open = false;
@@ -48,7 +48,7 @@ LRESULT CALLBACK hook_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		listenForKeys = true;
 	}
 
-	if ((Menu::Open || Menu::OpenHudEditor) && Menu::Initialized)
+	if (Menu::Open && Menu::Initialized)
 	{
 		if (settings::Menu_GUIMovement)
 		{

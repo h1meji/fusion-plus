@@ -73,13 +73,12 @@ bool __stdcall hook_wglSwapBuffers(_In_ HDC hdc)
 
 	ImGui::PushFont(Menu::Font);
 
-	if (Menu::Open || Menu::OpenHudEditor)
+	if (Menu::Open)
 	{
 		if (clipCursor.test_and_set()) GetClipCursor(&originalClip);
 
 		ClipCursor(NULL);
-		if (Menu::Open) Menu::RenderMenu();
-		else if (Menu::OpenHudEditor) Menu::RenderHudEditor();
+		Menu::RenderMenu();
 	}
 	else
 	{
