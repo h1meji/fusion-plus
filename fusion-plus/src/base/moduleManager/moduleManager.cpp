@@ -44,7 +44,7 @@ void ModuleManager::Init()
 	modules.push_back(std::make_unique<SprintReset>());
 	modules.push_back(std::make_unique<Sprint>());
 	modules.push_back(std::make_unique<ChestStealer>());
-	modules.push_back(std::make_unique<InventorySorter>());
+	//modules.push_back(std::make_unique<InventorySorter>());
 	modules.push_back(std::make_unique<ArrayList>());
 	modules.push_back(std::make_unique<ClientBrandChanger>());
 	modules.push_back(std::make_unique<Weapon>());

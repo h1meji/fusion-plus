@@ -4,6 +4,8 @@
 #include <vector>
 #include <chrono>
 
+#include "imgui/imgui.h"
+
 #include "moduleManager/moduleBase.h"
 
 class ChestStealer : public ModuleBase
@@ -32,7 +34,7 @@ private:
 
 	void ResetSteal();
 
-	void RenderItems(bool& isOpen);
+	void RenderItems(ImVec2 pos);
 
 private:
 	std::string Name = "Chest Stealer";
