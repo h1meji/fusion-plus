@@ -50,7 +50,7 @@ Suggested settings:
 void AimAssist::Update()
 {
 	if (!settings::AA_Enabled) return;
-	if (Menu::Open || Menu::OpenHudEditor) return;
+	if (Menu::Open) return;
 	if (!CommonData::SanityCheck()) return;
 	if (SDK::Minecraft->IsInGuiState()) return;
 
@@ -263,87 +263,54 @@ void AimAssist::RenderOverlay()
 
 void AimAssist::RenderMenu()
 {
-	static bool renderSettings = false;
+	Menu::ToggleWithKeybind(&settings::AA_Enabled, settings::AA_Key);
 
-	ImGui::BeginGroup();
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep1");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
+	Menu::Slider("Smoothness", &settings::AA_smooth, 1.0f, 90.0f);
+	Menu::Slider("FOV", &settings::AA_fov, 5.0f, 180.f);
+	Menu::Slider("Lock Distance", &settings::AA_aimDistance, 1.0f, 10.0f);
+	Menu::Dropdown("Target Priority", settings::AA_targetPriorityList, &settings::AA_targetPriority, 3);
 
-	if (ImGui::BeginChild("aa_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep2");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+
+	Menu::Slider("Yaw Randomness", &settings::AA_randomYaw, 0.0f, 10.0f);
+	Menu::Slider("Pitch Randomness", &settings::AA_randomPitch, 0.0f, 1.0f);
+	Menu::Checkbox("Adapt to strafing", &settings::AA_adaptive);
+	if (settings::AA_adaptive)
 	{
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-		ImGui::BeginGroup();
-		Menu::ToggleButton(1, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::AA_Enabled);
-		ImGui::EndGroup();
-		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-		{
-			renderSettings = !renderSettings;
-		}
-
-		ImGui::PopStyleColor();
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
-
-		if (renderSettings)
-		{
-			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-			ImGui::Separator();
-			if (ImGui::BeginChild("aa_settings", ImVec2(425, 215), false))
-			{
-				Menu::KeybindButton(165, "Keybind", ImVec2(297, 0), settings::AA_Key);
-				Menu::Slider(1, "FOV", ImVec2(225, 0), &settings::AA_fov, 5.0f, 180.0f);
-				Menu::Slider(2, "Lock Distance", ImVec2(225, 0), &settings::AA_aimDistance, 1.0f, 8.0f);
-				Menu::Slider(3, "Smoothness", ImVec2(225, 0), &settings::AA_smooth, 1.0f, 90.0f);
-
-				Menu::ComboBox(6, "Target Priority", ImVec2(270, 0), &settings::AA_targetPriority, settings::AA_targetPriorityList, 3);
-
-				ImGui::Separator();
-
-				Menu::ToggleButton(4, "Visibility Check", ImVec2(368, 0), &settings::AA_visibilityCheck);
-				Menu::ToggleButton(5, "Sprint Check", ImVec2(368, 0), &settings::AA_sprintCheck);
-				Menu::ToggleButton(127, "Invisible Check", ImVec2(368, 0), &settings::AA_invisibleCheck);
-				Menu::ToggleButton(128, "Block Break Check", ImVec2(368, 0), &settings::AA_blockBreakCheck);
-				Menu::ToggleButton(129, "Weapon Only", ImVec2(368, 0), &settings::AA_weaponOnly);
-				Menu::ToggleButton(130, "Mouse Move Check", ImVec2(368, 0), &settings::AA_mouseMoveCheck);
-				Menu::ToggleButton(131, "Mouse Press Check", ImVec2(368, 0), &settings::AA_mousePressCheck);
-
-				ImGui::Separator();
-
-				Menu::ToggleButton(7, "Adapt to strafing", ImVec2(368, 0), &settings::AA_adaptive);
-				Menu::Slider(8, "Adaptive strafing offset", ImVec2(225, 0), &settings::AA_adaptiveOffset, 0.1f, 15.f);
-				ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
-
-				ImGui::Separator();
-
-				Menu::Slider(9, "Yaw Randomness", ImVec2(225, 0), &settings::AA_randomYaw, 0.0f, 10.0f);
-				Menu::Slider(10, "Pitch Randomness", ImVec2(225, 0), &settings::AA_randomPitch, 0.0f, 1);
-				ImGui::SetCursorPos(ImVec2(20, ImGui::GetCursorPosY() + 5));
-
-				ImGui::Separator();
-
-				Menu::ToggleButton(11, "FOV Circle", ImVec2(368, 0), &settings::AA_fovCircle);
-				if (settings::AA_fovCircle)
-				{
-					Menu::ColorPicker(12, "FOV Circle Color", ImVec2(374, 0), settings::AA_fovCircleColor);
-				}
-
-				Menu::ToggleButton(13, "Feedback Line", ImVec2(368, 0), &settings::AA_aimAssistFeedback);
-				if (settings::AA_aimAssistFeedback)
-				{
-					Menu::ColorPicker(14, "Feedback Line Color", ImVec2(374, 0), settings::AA_aimAssistFeedbackColor);
-				}
-
-				Menu::ToggleButton(15, "Ignore Friends", ImVec2(368, 0), &settings::AA_ignoreFriends);
-			}
-			ImGui::EndChild();
-			ImGui::Spacing();
-		}
+		Menu::Slider("Adaptive Strafing Offset", &settings::AA_adaptiveOffset, 0.0f, 15.f);
 	}
-	ImGui::EndChild();
 
-	ImGui::PopStyleVar();
-	ImGui::PopStyleColor();
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep3");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-	ImGui::EndGroup();
+	Menu::Checkbox("Weapon Only", &settings::AA_weaponOnly);
+	Menu::Checkbox("Ignore Friends", &settings::AA_ignoreFriends);
+	Menu::Checkbox("Visiblity Check", &settings::AA_visibilityCheck);
+	Menu::Checkbox("Ignore Invisible", &settings::AA_invisibleCheck);
+	Menu::Checkbox("Allow Block Breaking", &settings::AA_blockBreakCheck);
+	Menu::Checkbox("Sprinting Only", &settings::AA_sprintCheck);
+	Menu::Checkbox("Mouse Press Check", &settings::AA_mousePressCheck);
+	Menu::Checkbox("Mouse Move Check", &settings::AA_mouseMoveCheck);
+
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep3");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+
+	Menu::Checkbox("FOV Circle", &settings::AA_fovCircle);
+	if (settings::AA_fovCircle)
+	{
+		Menu::ColorEdit("FOV Circle Color", settings::AA_fovCircleColor);
+	}
+	Menu::Checkbox("Feedback Line", &settings::AA_aimAssistFeedback);
+	if (settings::AA_aimAssistFeedback)
+	{
+		Menu::ColorEdit("Feedback Line Color", settings::AA_aimAssistFeedbackColor);
+	}
 }

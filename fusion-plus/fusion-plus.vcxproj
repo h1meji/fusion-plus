@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ext\fonts\inter.h" />
     <ClInclude Include="ext\nlohmann\json.hpp" />
     <ClInclude Include="ext\nlohmann\json_fwd.hpp" />
     <ClInclude Include="src\base\moduleManager\modules\movement\sprint.h" />
@@ -193,7 +194,6 @@
     <ClInclude Include="src\base\sdk\net\minecraft\item\ItemStack.h" />
     <ClInclude Include="src\base\moduleManager\modules\combat\rightAutoClicker.h" />
     <ClInclude Include="src\base\moduleManager\modules\combat\leftAutoClicker.h" />
-    <ClInclude Include="ext\fonts\jetbrainsmono.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\entity\player\InventoryPlayer.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\util\BlockPos.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\util\MovingObjectPosition.h" />

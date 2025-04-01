@@ -17,332 +17,499 @@
 
 #include "notificationManager/notificationManager.h"
 
-int currentTab = -1;
+const int CATEGORY_FONT_SIZE_INT = 22;
+const FontSize CATEGORY_FONT_SIZE = FontSize::SIZE_22;
+const int MODULE_FONT_SIZE_INT = 18;
+const FontSize MODULE_FONT_SIZE = FontSize::SIZE_18;
+const FontSize BUTTON_FONT_SIZE = FontSize::SIZE_18;
+
 std::unique_ptr<std::once_flag> setConfigName = std::make_unique<std::once_flag>();
-
-static void RenderConfigMenu()
-{
-	ImGui::Spacing();
-
-	// list of the config files that are selectable
-	static std::vector<std::string> configFiles = ConfigManager::GetConfigList();
-	static int selectedConfig = 0;
-
-	if (ImGui::BeginChild("##configList", ImVec2(450, 232), false))
-	{
-		for (int i = 0; i < configFiles.size(); ++i)
-		{
-			if (ImGui::Selectable(configFiles[i].c_str()))
-			{
-				selectedConfig = i;
-				setConfigName = std::make_unique<std::once_flag>();
-			}
-		}
-	}
-	ImGui::EndChild();
-
-	std::string selectedConfigName = configFiles.size() > 0 ? configFiles[selectedConfig] : "null";
-
-	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20.f, 5.f));
-	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.f);
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 0.5f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3f, 0.3f, 0.3f, 1.f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4f, 0.4f, 0.4f, 1.f));
-	// buttons to load config
-	if (ImGui::Button(("Load \"" + selectedConfigName + "\"").c_str(), ImVec2(247, 26)))
-	{
-		if (configFiles.size() > 0)
-		{
-			if (ConfigManager::LoadConfig(selectedConfigName.c_str()))
-			{
-				NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been loaded.", selectedConfigName.c_str());
-				Menu::ResetSetupFlags();
-			}
-			else
-			{
-				NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" could not be loaded.", selectedConfigName.c_str());
-			}
-		}
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Open Folder"))
-	{
-		ShellExecuteA(NULL, "open", ConfigManager::GetConfigPath().c_str(), NULL, NULL, SW_SHOWNORMAL);
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Refresh"))
-	{
-		configFiles = ConfigManager::GetConfigList();
-		NotificationManager::Send("Fusion+ :: Config", "Config list has been refreshed.");
-	}
-	ImGui::PopStyleColor();
-	ImGui::PopStyleColor();
-	ImGui::PopStyleColor();
-	ImGui::PopStyleVar();
-	ImGui::PopStyleVar();
-
-	ImGui::Separator();
-
-	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
-
-	// input box to save config
-	static char saveConfigName[128] = "";
-	std::call_once(*setConfigName, []() {
-		const char* selectedConfigNameC = configFiles.size() > 0 ? configFiles[selectedConfig].c_str() : "";
-		strcpy_s(saveConfigName, selectedConfigNameC);
-		});
-
-	// set width of input box
-	ImGui::SetNextItemWidth(614);
-	// set input box height
-	ImGui::InputText("##saveConfigName", saveConfigName, IM_ARRAYSIZE(saveConfigName));
-
-	ImGui::SameLine();
-
-	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20.f, 4.f));
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 0.5f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3f, 0.3f, 0.3f, 1.f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4f, 0.4f, 0.4f, 1.f));
-	if (ImGui::Button("Save", ImVec2(65.f, 22.f)) && saveConfigName != "")
-	{
-		int result = ConfigManager::SaveConfig(saveConfigName);
-		if (result != -1)
-		{
-			configFiles = ConfigManager::GetConfigList();
-			selectedConfig = result;
-			NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been saved.", saveConfigName);
-		}
-		else
-		{
-			NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" could not be saved.", saveConfigName);
-		}
-	}
-	ImGui::PopStyleColor();
-	ImGui::PopStyleColor();
-	ImGui::PopStyleColor();
-	ImGui::PopStyleVar();
-	ImGui::PopStyleVar();
-}
-
-static void RenderSettingsMenu()
-{
-	ImGui::Spacing();
-
-	ImGui::SeparatorText("Friends List");
-
-	int height = 6;
-	static int friendIndex = -1;
-	if (ImGui::BeginChild("##friendslist", ImVec2(450.f, ImGui::GetTextLineHeightWithSpacing() * height), false))
-	{
-		for (int i = 0; i < settings::friends.size(); ++i)
-		{
-			ImGui::Selectable(settings::friends[i].c_str());
-			// if right clicked on a friend, show popup to remove friend
-			if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-			{
-				friendIndex = i;
-				ImGui::OpenPopup("##removeFriend");
-			}
-		}
-	}
-	if (ImGui::BeginPopup("##removeFriend"))
-	{
-		if (ImGui::Button(("Remove \"" + settings::friends[friendIndex] + "\"").c_str()))
-		{
-			const char* friendName = settings::friends[friendIndex].c_str();
-			if (ConfigManager::RemoveFriend(settings::friends[friendIndex]))
-			{
-				friendIndex = -1;
-				ImGui::CloseCurrentPopup();
-				NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" has been removed from your friends list.", friendName);
-			}
-		}
-		ImGui::EndPopup();
-	}
-	ImGui::EndChild();
-
-	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.f);
-
-	// input box to save config
-	static char friendName[128] = "";
-	// set width of input box
-	ImGui::SetNextItemWidth(614.f);
-	// set input box height
-	ImGui::InputText("##addFriend", friendName, IM_ARRAYSIZE(friendName));
-
-	ImGui::SameLine();
-
-	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20.f, 4.f));
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 0.5f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3f, 0.3f, 0.3f, 1.f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4f, 0.4f, 0.4f, 1.f));
-	if (ImGui::Button("Add", ImVec2(65, 22)) && friendName != "")
-	{
-		ConfigManager::AddFriend(friendName);
-		NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" has been added to your friends list.", std::string(friendName).c_str());
-
-		friendName[0] = '\0';
-	}
-	ImGui::PopStyleColor();
-	ImGui::PopStyleColor();
-	ImGui::PopStyleColor();
-	ImGui::PopStyleVar();
-	ImGui::PopStyleVar();
-
-	ImGui::Separator();
-
-	Menu::ColorPicker(1001, "Menu Accent Color", ImVec2(374.f, 0.f), settings::Menu_AccentColor);
-	Menu::ToggleButton(1002, "GUI Movement", ImVec2(368.f, 0.f), &settings::Menu_GUIMovement);
-	Menu::ToggleButton(1003, "Show Hidden Categories", ImVec2(368.f, 0.f), &settings::Menu_ShowHiddenCategories);
-
-	if (Menu::Button(1004, "Open Hud Editor", ImVec2(384.f, 0.f)))
-	{
-		Menu::OpenHudEditor = true;
-		Menu::Open = false;
-	}
-}
-
 void Menu::RenderMenu()
 {
-	ImGui::SetNextWindowSize(ImVec2(575.f, 300.f));
-	ImGui::Begin(Menu::Title.c_str(), nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
-	ImVec2 idk = ImGui::GetWindowSize();
+	static int selectedCategory = 0;
+	static std::vector<std::string> categories = g_ModuleManager->GetCategories();
+	static int selectedModule = 0;
+	static std::vector<std::unique_ptr<ModuleBase>>& modules = g_ModuleManager->GetModules();
 
-	int buttonAmount = 6;
-	int buttonHeight = 20;
-	ImGui::Columns(2, "stuff");
-	float columnWidth = 110;
-	ImGui::SetColumnWidth(0, columnWidth);
-	//ImGui::GetWindowDrawList()->AddText(Menu::Font, distTextSize, ImVec2(posX, posY), ImColor();
-	ImVec2 windowPos = ImGui::GetWindowPos();
-	ImVec2 textSize = Menu::FontBold->CalcTextSizeA(28, FLT_MAX, 0.0f, "FUSION+");
-	float posX = windowPos.x + (columnWidth / 2) - (textSize.x / 2);
-	float posY = windowPos.y + 15;
-
-	Menu::GlitchText("FUSION+", ImVec2(posX, posY), 28);
-	ImGui::SetCursorPosY(textSize.y + 30.f);
-
-	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3);
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3f, 0.3f, 0.3f, 1.f));
-	if (ImGui::BeginChild("child_1", { 0.f, 140.f }, false, ImGuiWindowFlags_NoScrollbar)) {
-		std::vector<std::string> categories = g_ModuleManager->GetCategories();
-		for (int i = 0; i < categories.size(); i++)
-		{
-			if (std::find(settings::Menu_HiddenCategoriesList.begin(), settings::Menu_HiddenCategoriesList.end(), categories[i]) != settings::Menu_HiddenCategoriesList.end() && !settings::Menu_ShowHiddenCategories)
-					continue;
-
-			ImGui::PushStyleColor(ImGuiCol_Button, currentTab == i ? ImVec4(0.4f, 0.4f, 0.4f, 1.f) : ImVec4(0.2f, 0.2f, 0.2f, 0.5f));
-			if (ImGui::Button((categories[i]).c_str(), ImVec2(94.f, 35.f)))
-			{
-				currentTab = i;
-			}
-			ImGui::PopStyleColor();
-		}
-	}
-	ImGui::EndChild();
-	ImGui::PopStyleColor();
-	ImGui::PopStyleVar();
-
-	ImGui::BeginChild("seperatorchild", { 0.f, 1.f }, false);
-	ImGui::Separator();
-	ImGui::EndChild();
-
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 1);
-
-	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20.f, 5.f));
-	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.f);
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 0.5f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3f, 0.3f, 0.3f, 1.f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4f, 0.4f, 0.4f, 1.f));
-
-	ImGui::PushStyleColor(ImGuiCol_Button, currentTab == -3 ? ImVec4(0.4f, 0.4f, 0.4f, 1.f) : ImVec4(0.2f, 0.2f, 0.2f, 0.5f));
-	if (ImGui::Button("Settings", ImVec2(94.f, 0.f)))
+	// Hud Boolean
+	if (!Menu::OpenHudEditor && selectedCategory == -2 && selectedModule == 3)
 	{
-		currentTab = -3;
+		Menu::OpenHudEditor = true;
 	}
-	ImGui::PopStyleColor();
-
-	ImGui::PushStyleColor(ImGuiCol_Button, currentTab == -2 ? ImVec4(0.4f, 0.4f, 0.4f, 1.f) : ImVec4(0.2f, 0.2f, 0.2f, 0.5f));
-	if (ImGui::Button("Config", ImVec2(94.f, 0.f)))
-	{
-		currentTab = -2;
-	}
-	ImGui::PopStyleColor();
-
-	ImGui::PopStyleColor();
-	ImGui::PopStyleColor();
-	ImGui::PopStyleColor();
-
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.64f, 0.2f, 0.2f, 0.5f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.74, 0.4f, 0.4f, 1.f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.f, 0.4f, 0.4f, 1.f));
-
-	if (ImGui::Button("Detach", ImVec2(94.f, 0.f)))
-	{
-		Menu::MoveCursorToCenter(true);
-		Base::Running = false;
-	}
-
-	ImGui::PopStyleColor();
-	ImGui::PopStyleColor();
-	ImGui::PopStyleColor();
-	ImGui::PopStyleVar();
-	ImGui::PopStyleVar();
-
-	ImGui::InvisibleButton("##", ImVec2(1, idk.y));
-	ImGui::NextColumn();
-
-	if (ImGui::BeginChild("child_2", { 0, 0 }, false)) {
-		g_ModuleManager->RenderMenu(currentTab);
-
-		if (currentTab == -2)
-		{
-			RenderConfigMenu();
-		}
-
-		if (currentTab == -3)
-		{
-			RenderSettingsMenu();
-		}
-
-		ImGui::Spacing();
-	}
-	ImGui::EndChild();
-
-	ImGui::End();
-}
-
-void Menu::RenderHudEditor()
-{
-	ImGui::SetNextWindowSize(ImVec2(424.f, 325.f));
-	ImGui::Begin("Hud Editor", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
-	
-	Menu::Text(1011, "Hud Editor", ImVec2(384.f, 0.f), true);
-
-	ImGui::Separator();
-
-	Menu::ToggleButton(1005, "Disable all Hud/Overlay rendering", ImVec2(368.f, 0.f), &settings::Hud_DisableAllRendering);
-
-	ImGui::SeparatorText("Watermark");
-	Menu::ToggleButton(1006, "Show Watermark", ImVec2(368.f, 0.f), &settings::Hud_Watermark);
-	Menu::ToggleButton(1007, "Version", ImVec2(368.f, 0.f), &settings::Hud_WatermarkVersion);
-	Menu::ToggleButton(1008, "FPS", ImVec2(368.f, 0.f), &settings::Hud_WatermarkFps);
-	Menu::ToggleButton(1009, "Ping", ImVec2(368.f, 0.f), &settings::Hud_WatermarkPing);
-	Menu::ToggleButton(1010, "Coordinates", ImVec2(368.f, 0.f), &settings::Hud_WatermarkCoords);
-	Menu::ToggleButton(1011, "Direction", ImVec2(368.f, 0.f), &settings::Hud_WatermarkDirection);
-	Menu::ToggleButton(1012, "Time", ImVec2(368.f, 0.f), &settings::Hud_WatermarkTime);
-
-	ImGui::Separator();
-
-	Menu::ToggleButton(1013, "Show Keybinds", ImVec2(368.f, 0.f), &settings::Hud_ShowKeybinds);
-
-	ImGui::Separator();
-
-	if (Menu::Button(1100, "Close Hud Editor", ImVec2(384.f, 0.f)))
+	else if (Menu::OpenHudEditor && (selectedCategory != -2 || selectedModule != 3))
 	{
 		Menu::OpenHudEditor = false;
-		Menu::Open = true;
 	}
 
+	ImGui::SetNextWindowSize(ImVec2(1000.f, 650.f));
+	ImGui::Begin("Fusion+", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+	{
+		ImVec2 titleSize = Menu::FontBold->CalcTextSizeA(24, FLT_MAX, 0.0f, ("FUSION+" + std::string(Base::version)).c_str());
+		float leftWidth = titleSize.x += 40.f;
+		float topHeight = titleSize.y + 20.f;
+
+		ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() + 10.f, ImGui::GetCursorPosY() + 10.f)); // Change padding from 10 to 20
+		ImGui::BeginGroup(); // Group for the bottom left part
+
+		ImGui::BeginChild("##LogoVersion", ImVec2(leftWidth, topHeight), true, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+		{
+			Menu::GlitchText("FUSION+", FontSize::SIZE_24);
+			ImGui::SameLine();
+			Menu::VerticalSeparator("LogoSep", ImGui::GetWindowSize().y - 20.f);
+			ImGui::SameLine();
+			Menu::BoldText(Base::version, FontSize::SIZE_24);
+		}
+		ImGui::EndChild();
+
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f)); // Need to manually set padding for this child so the "selected" line is rendered correctly
+		ImGui::BeginChild("##ModulesList", ImVec2(leftWidth, ImGui::GetWindowHeight() - topHeight - 185.f), true, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+		{
+			if (selectedCategory >= 0)
+			{
+				if (selectedCategory >= categories.size())
+					selectedCategory = 0;
+
+				ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f); // Manual padding
+				for (int i = 0; i < modules.size(); i++)
+				{
+					// Category Check
+					if (modules[i]->GetCategory() != categories[selectedCategory])
+						continue;
+
+					ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.f); // Manual padding
+
+					// Render "selected" line
+					if (i == selectedModule)
+					{
+						ImVec2 currentPos = ImGui::GetCursorScreenPos();
+						currentPos.x += leftWidth - 13.f;
+						currentPos.y -= 3.f;
+
+						ImColor color = ImColor(settings::Menu_PrimaryColor[0], settings::Menu_PrimaryColor[1], settings::Menu_PrimaryColor[2], settings::Menu_PrimaryColor[3]);
+						ImGui::GetWindowDrawList()->AddRectFilled(currentPos, ImVec2(currentPos.x + 1.f, currentPos.y + 36.f), color);
+					}
+
+					if (Menu::TransparentButton(modules[i]->GetName().c_str(), ImVec2(leftWidth - 20.f, 30.f), MODULE_FONT_SIZE))
+					{
+						selectedModule = i;
+					}
+				}
+			}
+			else if (selectedCategory == -1) // Configs
+			{
+				static std::vector<std::string> configTabs = { "Local Configs" };
+
+				ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f); // Manual padding
+				for (int i = 0; i < configTabs.size(); i++)
+				{
+					ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.f); // Manual padding
+
+					// Render "selected" line
+					if (i == selectedModule)
+					{
+						ImVec2 currentPos = ImGui::GetCursorScreenPos();
+						currentPos.x += leftWidth - 13.f;
+						currentPos.y -= 3.f;
+
+						ImColor color = ImColor(settings::Menu_PrimaryColor[0], settings::Menu_PrimaryColor[1], settings::Menu_PrimaryColor[2], settings::Menu_PrimaryColor[3]);
+						ImGui::GetWindowDrawList()->AddRectFilled(currentPos, ImVec2(currentPos.x + 1.f, currentPos.y + 36.f), color);
+					}
+
+					if (Menu::TransparentButton(configTabs[i].c_str(), ImVec2(leftWidth - 20.f, 30.f), MODULE_FONT_SIZE))
+					{
+						selectedModule = i;
+					}
+				}
+			}
+			else if (selectedCategory == -2) // Settings
+			{
+				static std::vector<std::string> settingTabs = { "General", "Friends", "Style", "HUD" };
+
+				ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f); // Manual padding
+				for (int i = 0; i < settingTabs.size(); i++)
+				{
+					ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10.f); // Manual padding
+
+					// Render "selected" line
+					if (i == selectedModule)
+					{
+						ImVec2 currentPos = ImGui::GetCursorScreenPos();
+						currentPos.x += leftWidth - 13.f;
+						currentPos.y -= 3.f;
+
+						ImColor color = ImColor(settings::Menu_PrimaryColor[0], settings::Menu_PrimaryColor[1], settings::Menu_PrimaryColor[2], settings::Menu_PrimaryColor[3]);
+						ImGui::GetWindowDrawList()->AddRectFilled(currentPos, ImVec2(currentPos.x + 1.f, currentPos.y + 36.f), color);
+					}
+
+					if (Menu::TransparentButton(settingTabs[i].c_str(), ImVec2(leftWidth - 20.f, 30.f), MODULE_FONT_SIZE))
+					{
+						selectedModule = i;
+					}
+				}
+			}
+
+			else
+			{
+				selectedCategory = 0;
+			}
+		}
+		ImGui::EndChild();
+		ImGui::PopStyleVar();
+
+		ImVec2 currentPos = ImGui::GetCursorScreenPos();
+		if (Menu::MenuButton("Configs", ImVec2(leftWidth, 35.f), BUTTON_FONT_SIZE))
+		{
+			selectedCategory = -1;
+			selectedModule = 0;
+		}
+		if (selectedCategory == -1)
+		{
+			ImVec2 textSize = Menu::Font->CalcTextSizeA(CATEGORY_FONT_SIZE_INT, FLT_MAX, 0.0f, "Configs");
+
+			currentPos.y += 33.f;
+			currentPos.x += 20.f;
+
+			ImColor color = ImColor(settings::Menu_PrimaryColor[0], settings::Menu_PrimaryColor[1], settings::Menu_PrimaryColor[2], settings::Menu_PrimaryColor[3]);
+			ImGui::GetWindowDrawList()->AddRectFilled(currentPos, ImVec2(currentPos.x + leftWidth - 40.f, currentPos.y + 1), color);
+		}
+
+		currentPos = ImGui::GetCursorScreenPos();
+		if (Menu::MenuButton("Settings", ImVec2(leftWidth, 35.f), BUTTON_FONT_SIZE))
+		{
+			selectedCategory = -2;
+			selectedModule = 0;
+		}
+		if (selectedCategory == -2)
+		{
+			ImVec2 textSize = Menu::Font->CalcTextSizeA(CATEGORY_FONT_SIZE_INT, FLT_MAX, 0.0f, "Settings");
+
+			currentPos.y += 33.f;
+			currentPos.x += 20.f;
+
+			ImColor color = ImColor(settings::Menu_PrimaryColor[0], settings::Menu_PrimaryColor[1], settings::Menu_PrimaryColor[2], settings::Menu_PrimaryColor[3]);
+			ImGui::GetWindowDrawList()->AddRectFilled(currentPos, ImVec2(currentPos.x + leftWidth - 40.f, currentPos.y + 1), color);
+		}
+
+		if (Menu::DetachButton("Detach", ImVec2(leftWidth, 35.f), BUTTON_FONT_SIZE))
+		{
+			Base::Running = false;
+		}
+
+		ImGui::EndGroup();
+
+		ImGui::SameLine();
+
+		ImGui::BeginGroup(); // Group for the right part
+
+		static float occupiedSpace = std::accumulate(categories.begin(), categories.end(), 0.f, [](float acc, const std::string& str) { return acc + Menu::Font->CalcTextSizeA(CATEGORY_FONT_SIZE_INT, FLT_MAX, 0.0f, str.c_str()).x + 8; }) + (categories.size() - 1);
+		static float availableSpace = ImGui::GetWindowSize().x - leftWidth - 50.f;
+		static float spaceBetween = max(10.f, (availableSpace - occupiedSpace) / (categories.size() * 2)) - 9.f;
+
+		ImGui::BeginChild("##CategoriesBar", ImVec2(ImGui::GetWindowSize().x - leftWidth - 50.f, topHeight), true, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+		{
+			ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() - 2.f, ImGui::GetCursorPosY() - 6.f));
+
+			for (int i = 0; i < categories.size(); i++)
+			{
+				ImGui::SetCursorPosX(ImGui::GetCursorPosX() + spaceBetween);
+
+				// Render "selected" line
+				if (i == selectedCategory)
+				{
+					ImVec2 currentPos = ImGui::GetCursorScreenPos();
+					ImVec2 textSize = Menu::Font->CalcTextSizeA(CATEGORY_FONT_SIZE_INT, FLT_MAX, 0.0f, categories[i].c_str());
+
+					currentPos.y += 38.f;
+
+					ImColor color = ImColor(settings::Menu_PrimaryColor[0], settings::Menu_PrimaryColor[1], settings::Menu_PrimaryColor[2], settings::Menu_PrimaryColor[3]);
+					ImGui::GetWindowDrawList()->AddRectFilled(currentPos, ImVec2(currentPos.x + textSize.x + 8, currentPos.y + 1), color);
+				}
+
+				if (Menu::TransparentButton(categories[i].c_str(), ImVec2(0.f, 0.f), CATEGORY_FONT_SIZE))
+				{
+					selectedCategory = i;
+					selectedModule = g_ModuleManager->GetFirstModuleIndexByCategory(categories[i]);
+				}
+				ImGui::SameLine();
+
+				if (i != categories.size() - 1)
+				{
+					ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() + spaceBetween, ImGui::GetCursorPosY() + 5));
+					Menu::VerticalSeparator(("CatSep" + std::to_string(i)).c_str(), ImGui::GetWindowSize().y - 20.f);
+					ImGui::SameLine();
+				}
+			}
+		}
+		ImGui::EndChild();
+
+		ImGui::BeginChild("##ModuleSettings", ImVec2(ImGui::GetWindowSize().x - leftWidth - 50.f, ImGui::GetWindowHeight() - topHeight - 50.f), true);
+		{
+			ImGui::SetCursorPos(ImVec2(20.f, 20.f)); // Manual padding
+			ImGui::BeginGroup();
+			if (selectedCategory >= 0)
+			{
+				if (selectedCategory >= categories.size())
+					selectedCategory = 0;
+
+				if (selectedModule >= modules.size() || selectedModule < 0)
+					selectedModule = g_ModuleManager->GetFirstModuleIndexByCategory(categories[selectedCategory]);
+
+				modules[selectedModule]->RenderMenu();
+			}
+			else if (selectedCategory == -1) // Configs
+			{
+				if (selectedModule == 0) // Local Configs
+				{
+					static std::vector<std::string> configFiles = ConfigManager::GetConfigList();
+					static int selectedConfig = 0;
+					std::string selectedConfigName = configFiles.size() > 0 && configFiles.size() > selectedConfig ? configFiles[selectedConfig] : "null";
+
+					ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.f, 0.f, 0.f, 0.f));
+					ImGui::BeginChild("###ConfigLits", ImVec2(0, 436.f));
+					{
+						bool hasScrollbar = ImGui::GetCurrentWindow()->ScrollMax.y > 0.0f;
+
+						for (int i = 0; i < configFiles.size(); ++i)
+						{
+							bool deleted = false;
+							if (Menu::ConfigItem(configFiles[i].c_str(), &deleted, hasScrollbar))
+							{
+								selectedConfig = i;
+								setConfigName = std::make_unique<std::once_flag>();
+							}
+
+							if (deleted)
+							{
+								if (ConfigManager::RemoveConfig(configFiles[i].c_str()))
+								{
+									NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been removed.", configFiles[i].c_str());
+								}
+								else
+								{
+									NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" could not be removed.", configFiles[i].c_str());
+								}
+
+								configFiles = ConfigManager::GetConfigList();
+								
+								if (selectedConfig == i)
+								{
+									selectedConfig = 0;
+									setConfigName = std::make_unique<std::once_flag>();
+								}
+							}
+						}
+					}
+					ImGui::EndChild();
+					ImGui::PopStyleColor();
+
+					ImVec2 openButtonSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Open Folder");
+					openButtonSize.x += ImGui::GetStyle().FramePadding.x * 8;
+					ImVec2 refreshButtonSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Refresh");
+					refreshButtonSize.x += ImGui::GetStyle().FramePadding.x * 8;
+
+					if (Menu::Button(("Load \"" + selectedConfigName + "\"").c_str(), ImVec2(ImGui::GetWindowSize().x - openButtonSize.x - refreshButtonSize.x - 56.f, 30.f)))
+					{
+						if (configFiles.size() > 0)
+						{
+							if (ConfigManager::LoadConfig(selectedConfigName.c_str()))
+							{
+								NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been loaded.", selectedConfigName.c_str());
+								Menu::ResetSetupFlags();
+							}
+							else
+							{
+								NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" could not be loaded.", selectedConfigName.c_str());
+							}
+						}
+					}
+
+					ImGui::SameLine();
+
+					if (Menu::Button("Open Folder", ImVec2(openButtonSize.x, 30.f)))
+					{
+						ShellExecuteA(NULL, "open", ConfigManager::GetConfigPath().c_str(), NULL, NULL, SW_SHOWNORMAL);
+					}
+
+					ImGui::SameLine();
+
+					if (Menu::Button("Refresh", ImVec2(refreshButtonSize.x, 30.f)))
+					{
+						configFiles = ConfigManager::GetConfigList();
+						NotificationManager::Send("Fusion+ :: Config", "Config list has been refreshed.");
+					}
+
+					ImVec2 saveButtonSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Save");
+					saveButtonSize.x += ImGui::GetStyle().FramePadding.x * 8;
+					saveButtonSize.y += ImGui::GetStyle().FramePadding.y * 2;
+
+					static char saveConfigName[128] = "";
+					std::call_once(*setConfigName, []() {
+						const char* selectedConfigNameC = configFiles.size() > 0 ? configFiles[selectedConfig].c_str() : "";
+						strcpy_s(saveConfigName, selectedConfigNameC);
+						});
+
+					ImGui::SetNextItemWidth(ImGui::GetWindowSize().x + 190.f - saveButtonSize.x);
+					ImGui::InputText("##saveConfigName", saveConfigName, IM_ARRAYSIZE(saveConfigName));
+
+					ImGui::SameLine();
+
+					if (Menu::Button("Save", ImVec2(saveButtonSize.x, 30.f)))
+					{
+						int result = ConfigManager::SaveConfig(saveConfigName);
+						if (result != -1)
+						{
+							configFiles = ConfigManager::GetConfigList();
+							selectedConfig = result;
+							NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been saved.", saveConfigName);
+						}
+						else
+						{
+							NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" could not be saved.", saveConfigName);
+						}
+					}
+				}
+
+				else
+				{
+					selectedModule = 0;
+				}
+			}
+			else if (selectedCategory == -2) // Settings
+			{
+				if (selectedModule == 0) // General
+				{
+					Menu::KeybindButton("Menu", settings::Menu_Keybind, false);
+					Menu::KeybindButton("Detach", settings::Menu_DetachKey, false);
+
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+					Menu::HorizontalSeparator("Sep1");
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+
+					Menu::Checkbox("GUI Movement", &settings::Menu_GUIMovement);
+
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+					Menu::HorizontalSeparator("Sep2");
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+				}
+				else if (selectedModule == 1) // Friends
+				{
+					std::vector<std::string> friends = settings::friends;
+
+					ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.f, 0.f, 0.f, 0.f));
+					ImGui::BeginChild("###FriendsLits", ImVec2(0, 476.f));
+					{
+						bool hasScrollbar = ImGui::GetCurrentWindow()->ScrollMax.y > 0.0f;
+
+						for (int i = 0; i < friends.size(); ++i)
+						{
+							bool deleted = false;
+							Menu::ConfigItem(friends[i].c_str(), &deleted, hasScrollbar);
+
+							if (deleted)
+							{
+								if (ConfigManager::RemoveFriend(friends[i].c_str()))
+								{
+									NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" has been removed.", friends[i].c_str());
+								}
+								else
+								{
+									NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" could not be removed.", friends[i].c_str());
+								}
+							}
+						}
+					}
+					ImGui::EndChild();
+					ImGui::PopStyleColor();
+
+					ImVec2 addFriendButtonSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Add");
+					addFriendButtonSize.x += ImGui::GetStyle().FramePadding.x * 8;
+					addFriendButtonSize.y += ImGui::GetStyle().FramePadding.y * 2;
+
+					static char newFriendName[128] = "";
+					ImGui::SetNextItemWidth(ImGui::GetWindowSize().x + 190.f - addFriendButtonSize.x);
+					ImGui::InputText("##addFriendName", newFriendName, IM_ARRAYSIZE(newFriendName));
+
+					ImGui::SameLine();
+
+					if (Menu::Button("Add", ImVec2(addFriendButtonSize.x, 30.f)))
+					{
+						if (ConfigManager::AddFriend(newFriendName))
+						{
+							NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" has been added.", newFriendName);
+						}
+						else
+						{
+							NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" could not be added.", newFriendName);
+						}
+					}
+				}
+				else if (selectedModule == 2) // Style
+				{
+					if (Menu::ColorEdit("Primary Color", settings::Menu_PrimaryColor)) Menu::SetupStyle();
+					if (Menu::ColorEdit("Secondary Color", settings::Menu_SecondaryColor)) Menu::SetupStyle();
+					if (Menu::ColorEdit("Background Color", settings::Menu_BackgroundColor)) Menu::SetupStyle();
+					if (Menu::ColorEdit("Child Background Color", settings::Menu_ChildBackgroundColor)) Menu::SetupStyle();
+					if (Menu::ColorEdit("Outline Color", settings::Menu_OutlineColor)) Menu::SetupStyle();
+					if (Menu::ColorEdit("Text Color", settings::Menu_TextColor)) Menu::SetupStyle();
+					if (Menu::ColorEdit("Seperator Color", settings::Menu_SeperatorColor)) Menu::SetupStyle();
+					if (Menu::ColorEdit("Detach Button Color", settings::Menu_DetachButtonColor)) Menu::SetupStyle();
+
+					if (Menu::Slider("Window Rounding", &settings::Menu_WindowRounding, 0.f, 12.f)) Menu::SetupStyle();
+					if (Menu::Slider("Item Rounding", &settings::Menu_ComponentsRounding, 0.f, 12.f)) Menu::SetupStyle();
+				}
+				else if (selectedModule == 3) // HUD
+				{
+					Menu::Checkbox("Disable all Hud/Overlay rendering", &settings::Hud_DisableAllRendering);
+
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+					Menu::HorizontalSeparatorText("Watermark", FontSize::SIZE_18);
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+
+					Menu::Checkbox("Show Watermark", &settings::Hud_Watermark);
+					Menu::Checkbox("Version", &settings::Hud_WatermarkVersion);
+					Menu::Checkbox("FPS", &settings::Hud_WatermarkFps);
+					Menu::Checkbox("Ping", &settings::Hud_WatermarkPing);
+					Menu::Checkbox("Coordinates", &settings::Hud_WatermarkCoords);
+					Menu::Checkbox("Direction", &settings::Hud_WatermarkDirection);
+					Menu::Checkbox("Time", &settings::Hud_WatermarkTime);
+
+					if (Menu::Slider("X Position##Watermark", &settings::Hud_WatermarkPosition[0], 0.f, 1920.f)) Menu::ResetSetupFlags();
+					if (Menu::Slider("Y Position##Watermark", &settings::Hud_WatermarkPosition[1], 0.f, 1080.f)) Menu::ResetSetupFlags();
+
+
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+					Menu::HorizontalSeparatorText("Keybinds", FontSize::SIZE_18);
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+
+					Menu::Checkbox("Show Keybinds", &settings::Hud_ShowKeybinds);
+					if (Menu::Slider("X Position##Keybinds", &settings::Hud_KeybindsPosition[0], 0.f, 1920.f)) Menu::ResetSetupFlags();
+					if (Menu::Slider("Y Position##Keybinds", &settings::Hud_KeybindsPosition[1], 0.f, 1080.f)) Menu::ResetSetupFlags();
+
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+					Menu::HorizontalSeparatorText("Radar", FontSize::SIZE_18);
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+
+					if (Menu::Slider("X Position##Radar", &settings::Radar_Position[0], 0.f, 1920.f)) Menu::ResetSetupFlags();
+					if (Menu::Slider("Y Position##Radar", &settings::Radar_Position[1], 0.f, 1080.f)) Menu::ResetSetupFlags();
+					if (Menu::Slider("Size", &settings::Radar_Size, 0.f, 500.f)) Menu::ResetSetupFlags();
+					Menu::Slider("Rounding", &settings::Radar_SquareRoundness, 0.f, 100.f);
+				}
+
+				else
+				{
+					selectedModule = 0;
+				}
+			}
+
+			else
+			{
+				selectedCategory = 0;
+			}
+			ImGui::EndGroup();
+		}
+		ImGui::EndChild();
+
+		ImGui::EndGroup();
+	}
 	ImGui::End();
 }

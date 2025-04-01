@@ -18,6 +18,7 @@ public:
 
 	std::vector<std::string> GetCategories();
 	std::vector<std::unique_ptr<ModuleBase>>& GetModules() { return modules; }
+	int GetFirstModuleIndexByCategory(const std::string& category);
 
 private:
 	std::vector<std::unique_ptr<ModuleBase>> modules;

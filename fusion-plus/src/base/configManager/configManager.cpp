@@ -45,6 +45,11 @@ int ConfigManager::SaveConfig(const char* name)
 	return -1;
 }
 
+bool ConfigManager::RemoveConfig(const char* name)
+{
+	return std::filesystem::remove(ConfigManager::GetConfigPath() + name + FILE_SUFFIX);
+}
+
 std::vector<std::string> ConfigManager::GetConfigList()
 {
 	std::vector<std::string> configs;
@@ -65,7 +70,6 @@ std::vector<std::string> ConfigManager::GetConfigList()
 bool ConfigManager::SettingsToJson(json& j)
 {
 	// Menu
-	j["Menu_AccentColor"] = settings::Menu_AccentColor;
 	j["Menu_GUIMovement"] = settings::Menu_GUIMovement;
 	j["Menu_ShowHiddenCategories"] = settings::Menu_ShowHiddenCategories;
 
@@ -301,7 +305,6 @@ bool ConfigManager::SettingsToJson(json& j)
 bool ConfigManager::JsonToSettings(const json& j)
 {
 	// Menu
-	ConfigManager::GetJsonValue(j, settings::Menu_AccentColor, "Menu_AccentColor");
 	ConfigManager::GetJsonValue(j, settings::Menu_GUIMovement, "Menu_GUIMovement");
 	ConfigManager::GetJsonValue(j, settings::Menu_ShowHiddenCategories, "Menu_ShowHiddenCategories");
 

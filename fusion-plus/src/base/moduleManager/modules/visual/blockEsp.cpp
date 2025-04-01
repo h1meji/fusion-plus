@@ -76,46 +76,46 @@ void BlockEsp::RenderOverlay()
 
 void BlockEsp::RenderMenu()
 {
-	return;
-	static bool renderSettings = false;
+	//return;
+	//static bool renderSettings = false;
 
-	ImGui::BeginGroup();
+	//ImGui::BeginGroup();
 
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
+	//ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+	//ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
+	//ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
 
-	if (ImGui::BeginChild("besp_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
-	{
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-		ImGui::BeginGroup();
-		Menu::ToggleButton(28374, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::BlockESP_Enabled);
-		ImGui::EndGroup();
-		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-		{
-			renderSettings = !renderSettings;
-		}
+	//if (ImGui::BeginChild("besp_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
+	//{
+	//	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
+	//	ImGui::BeginGroup();
+	//	Menu::ToggleButton(28374, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::BlockESP_Enabled);
+	//	ImGui::EndGroup();
+	//	if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+	//	{
+	//		renderSettings = !renderSettings;
+	//	}
 
-		ImGui::PopStyleColor();
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
+	//	ImGui::PopStyleColor();
+	//	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
 
-		if (renderSettings)
-		{
-			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-			ImGui::Separator();
-			if (ImGui::BeginChild("besp_settings", ImVec2(425, 215), false))
-			{
-				Menu::KeybindButton(178, "Keybind", ImVec2(297, 0), settings::BlockESP_Key);
-				Menu::Slider(45363, "Target ID", ImVec2(225, 0), &settings::BlockESP_TargetID, 1, 1000);
-			}
-			ImGui::EndChild();
-			ImGui::Spacing();
-		}
-	}
-	ImGui::EndChild();
+	//	if (renderSettings)
+	//	{
+	//		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
+	//		ImGui::Separator();
+	//		if (ImGui::BeginChild("besp_settings", ImVec2(425, 215), false))
+	//		{
+	//			Menu::KeybindButton(178, "Keybind", ImVec2(297, 0), settings::BlockESP_Key);
+	//			Menu::Slider(45363, "Target ID", ImVec2(225, 0), &settings::BlockESP_TargetID, 1, 1000);
+	//		}
+	//		ImGui::EndChild();
+	//		ImGui::Spacing();
+	//	}
+	//}
+	//ImGui::EndChild();
 
-	ImGui::PopStyleVar();
-	ImGui::PopStyleColor();
+	//ImGui::PopStyleVar();
+	//ImGui::PopStyleColor();
 
-	ImGui::EndGroup();
+	//ImGui::EndGroup();
 }

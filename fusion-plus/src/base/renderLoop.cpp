@@ -65,7 +65,7 @@ void Base::RenderLoop() // Runs every frame
 		std::strftime(buffer, sizeof(buffer), "%H:%M:%S", &localTime);
 
 		const char* watermark = "Fusion+";
-		std::string version = "v0.5";
+		std::string version = Base::version;
 		std::string fps = std::to_string(CommonData::fps) + " FPS";
 		std::string ping = std::to_string(CommonData::ping) + "ms";
 		std::string coords = "X: " + floatToString(CommonData::playerPos.x, 1) + " Y: " + floatToString(CommonData::playerPos.y, 1) + " Z: " + floatToString(CommonData::playerPos.z, 1);
@@ -84,38 +84,38 @@ void Base::RenderLoop() // Runs every frame
 		ImVec2 pingSize = Menu::FontBold->CalcTextSizeA(statsSize, FLT_MAX, 0, ping.c_str());
 		ImVec2 coordsSize = Menu::FontBold->CalcTextSizeA(statsSize, FLT_MAX, 0, coords.c_str());
 		ImVec2 directionSize = Menu::FontBold->CalcTextSizeA(statsSize, FLT_MAX, 0, direction.c_str());
-		ImVec2 timeSize = Menu::FontBold->CalcTextSizeA(statsSize, FLT_MAX, 0, time.c_str());
+		ImVec2 timeSize = Menu::FontBold->CalcTextSizeA(statsSize, FLT_MAX, 0, "00:00:00"); // Use a fixed size for time, so the text doesn't jump around
 
 		int totalTextWidth = textSize.x;
 		if (settings::Hud_WatermarkVersion)
 		{
-			totalTextWidth += 4; // line width
-			totalTextWidth += versionSize.x + padding * 2;
+			totalTextWidth += padding * 2;
+			totalTextWidth += versionSize.x;
 		}
 		if (settings::Hud_WatermarkFps)
 		{
-			totalTextWidth += 4; // line width
-			totalTextWidth += fpsSize.x + padding * 2;
+			totalTextWidth += padding * 2;
+			totalTextWidth += fpsSize.x;
 		}
 		if (settings::Hud_WatermarkPing)
 		{
-			totalTextWidth += 4; // line width
-			totalTextWidth += pingSize.x + padding * 2;
+			totalTextWidth += padding * 2;
+			totalTextWidth += pingSize.x;
 		}
 		if (settings::Hud_WatermarkCoords)
 		{
-			totalTextWidth += 4; // line width
-			totalTextWidth += coordsSize.x + padding * 2;
+			totalTextWidth += padding * 2;
+			totalTextWidth += coordsSize.x;
 		}
 		if (settings::Hud_WatermarkDirection)
 		{
-			totalTextWidth += 4; // line width
-			totalTextWidth += directionSize.x + padding * 2;
+			totalTextWidth += padding * 2;
+			totalTextWidth += directionSize.x;
 		}
 		if (settings::Hud_WatermarkTime)
 		{
-			totalTextWidth += 4; // line width
-			totalTextWidth += timeSize.x + padding * 2;
+			totalTextWidth += padding * 2;
+			totalTextWidth += timeSize.x;
 		}
 
 		ImVec2 rectSize = ImVec2(totalTextWidth + padding * 2, textSize.y + padding * 2);

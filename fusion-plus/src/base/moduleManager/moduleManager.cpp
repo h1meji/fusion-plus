@@ -17,8 +17,8 @@
 #include "modules/utility/arrayList.h"
 #include "modules/utility/clientBrandChanger.h"
 #include "modules/utility/weapon.h"
-#include "modules/tnt-tag/tagBack.h"
-#include "modules/tnt-tag/ITEsp.h"
+//#include "modules/tnt-tag/tagBack.h"
+//#include "modules/tnt-tag/ITEsp.h"
 #include "commonData.h"
 
 #include <configManager/configManager.h>
@@ -38,19 +38,19 @@ void ModuleManager::Init()
 	modules.push_back(std::make_unique<Esp>());
 	modules.push_back(std::make_unique<Radar>());
 	modules.push_back(std::make_unique<Nametag>());
-	modules.push_back(std::make_unique<BlockEsp>());
+	//modules.push_back(std::make_unique<BlockEsp>());
 	modules.push_back(std::make_unique<BridgeAssist>());
 	modules.push_back(std::make_unique<Velocity>());
 	modules.push_back(std::make_unique<SprintReset>());
 	modules.push_back(std::make_unique<Sprint>());
 	modules.push_back(std::make_unique<ChestStealer>());
-	modules.push_back(std::make_unique<InventorySorter>());
+	//modules.push_back(std::make_unique<InventorySorter>());
 	modules.push_back(std::make_unique<ArrayList>());
 	modules.push_back(std::make_unique<ClientBrandChanger>());
 	modules.push_back(std::make_unique<Weapon>());
 
-	modules.push_back(std::make_unique<TagBack>());
-	modules.push_back(std::make_unique<ITEsp>());
+	//modules.push_back(std::make_unique<TagBack>());
+	//modules.push_back(std::make_unique<ITEsp>());
 	Logger::Log("Modules initialized");
 
 	// load friends
@@ -88,7 +88,7 @@ void ModuleManager::UpdateModules()
 	for (auto& module : modules)
 	{
 		// Keybinds
-		if (module->GetKey() != 0 && Keys::IsKeyPressed(module->GetKey()))
+		if (module->GetKey() != 0 && Keys::IsKeyPressed(module->GetKey()) && !Menu::Open)
 		{
 			module->Toggle();
 		}
@@ -139,16 +139,15 @@ void ModuleManager::RenderHud()
 			settings::Hud_KeybindsPosition[0] = ImGui::GetWindowPos().x;
 			settings::Hud_KeybindsPosition[1] = ImGui::GetWindowPos().y;
 
-			ImGui::PushFont(Menu::FontBold);
-			ImGui::Text("Keybinds");
-			ImGui::PopFont();
+			Menu::BoldText("Keybinds", FontSize::SIZE_18);
+			Menu::HorizontalSeparator("KeybindsSeparator");
 
 			for (auto& module : modules)
 			{
 				int key = module->GetKey();
 				if (key != 0)
 				{
-					ImGui::Text("%s: %s", module->GetName().c_str(), Keys::GetKeyName(key));
+					Menu::Text((module->GetName() + " : " + Keys::GetKeyName(key)).c_str(), FontSize::SIZE_16);
 				}
 			}
 		}
@@ -184,4 +183,15 @@ std::vector<std::string> ModuleManager::GetCategories()
 	}
 
 	return categories;
+}
+
+int ModuleManager::GetFirstModuleIndexByCategory(const std::string& category)
+{
+	for (int i = 0; i < modules.size(); i++)
+	{
+		if (modules[i]->GetCategory() == category)
+			return i;
+	}
+
+	return -1;
 }

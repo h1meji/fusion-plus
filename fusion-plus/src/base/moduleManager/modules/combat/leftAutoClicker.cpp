@@ -19,7 +19,7 @@ void LeftAutoClicker::Update()
 {
 	static bool fix = false;
 	if (!settings::LAC_Enabled) return;
-	if (Menu::Open || Menu::OpenHudEditor) return;
+	if (Menu::Open) return;
 	if (SDK::Minecraft->IsInGuiState() && !(settings::LAC_allowInventory && SDK::Minecraft->IsInInventory())) return;
 	if (settings::LAC_weaponOnly && !MinecraftUtils::IsWeapon(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem())) return;
 	if (settings::LAC_ignoreBlocks && SDK::Minecraft->GetMouseOver().IsTypeOfBlock())
@@ -149,88 +149,46 @@ void LeftAutoClicker::Update()
 
 void LeftAutoClicker::RenderMenu()
 {
-	static bool renderSettings = false;
+	Menu::ToggleWithKeybind(&settings::LAC_Enabled, settings::LAC_Key);
 
-	ImGui::BeginGroup();
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep1");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
+	Menu::Slider("Min CPS", &settings::LAC_leftMinCps, 1, settings::LAC_leftMaxCps);
+	Menu::Slider("Max CPS", &settings::LAC_leftMaxCps, settings::LAC_leftMinCps, 25);
 
-	float childHeight = 35;
-	if (renderSettings) {
-		childHeight += 153;
-		if (settings::LAC_advancedMode) {
-			childHeight += 110;
-		}
-	}
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep2");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-	if (ImGui::BeginChild("lac_header", ImVec2(425, childHeight), false))
+	Menu::Checkbox("Ignore Blocks", &settings::LAC_ignoreBlocks);
+	Menu::Checkbox("Weapon Only", &settings::LAC_weaponOnly);
+	Menu::Checkbox("Allow in Inventory", &settings::LAC_allowInventory);
+	if (settings::LAC_allowInventory)
 	{
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-		ImGui::BeginGroup();
-		Menu::ToggleButton(21, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::LAC_Enabled);
-		ImGui::EndGroup();
-		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+		Menu::Slider("Inventory Multiplier", &settings::LAC_inventoryMultiplier, 1.f, 10.f);
+	}
+	Menu::Checkbox("Sword Block", &settings::LAC_swordBlock);
+
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("LAC_Sep3");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+
+	Menu::Checkbox("Advanced Randomization Mode", &settings::LAC_advancedMode);
+	if (settings::LAC_advancedMode)
+	{
+		Menu::Slider("Drop Chance", &settings::LAC_dropChance, 0.f, 20.f);
+		Menu::Slider("Spike Chance", &settings::LAC_spikeChance, 0.f, 30.f);
+		if (settings::LAC_spikeChance > 0.0f)
 		{
-			renderSettings = !renderSettings;
+			Menu::Slider("Spike Multiplier", &settings::LAC_spikeMultiplier, 0.f, 3.f);
 		}
-
-		ImGui::PopStyleColor();
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
-
-		if (renderSettings)
+		Menu::Slider("Kurtosis", &settings::LAC_kurtosis, 0.f, 5.f);
+		Menu::Checkbox("Burst Pattern", &settings::LAC_burstEnabled);
+		if (settings::LAC_burstEnabled)
 		{
-			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-			ImGui::Separator();
-			if (ImGui::BeginChild("lac_settings", ImVec2(425, childHeight - 40), false))
-			{
-				Menu::KeybindButton(166, "Keybind", ImVec2(297, 0), settings::LAC_Key);
-				Menu::Slider(22, "Min CPS", ImVec2(225, 0), &settings::LAC_leftMinCps, 1, settings::LAC_leftMaxCps);
-				Menu::Slider(23, "Max CPS", ImVec2(225, 0), &settings::LAC_leftMaxCps, settings::LAC_leftMinCps, 25);
-				Menu::ToggleButton(24, "Ignore Blocks", ImVec2(368, 0), &settings::LAC_ignoreBlocks);
-				Menu::ToggleButton(132, "Sword Block", ImVec2(368, 0), &settings::LAC_swordBlock);
-				Menu::ToggleButton(133, "Weapon Only", ImVec2(368, 0), &settings::LAC_weaponOnly);
-				Menu::ToggleButton(134, "Allow in Inventory", ImVec2(368, 0), &settings::LAC_allowInventory);
-				if (settings::LAC_allowInventory)
-				{
-					Menu::Slider(147, "Inventory Multiplier", ImVec2(225, 0), &settings::LAC_inventoryMultiplier, 0.1f, 5.0f);
-				}
-
-				Menu::ToggleButton(200, "Advanced Randomization Mode", ImVec2(368, 0), &settings::LAC_advancedMode);
-
-				if (settings::LAC_advancedMode)
-				{
-					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-					ImGui::Separator();
-					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-					ImGui::Text("Advanced Randomization Mode");
-
-					Menu::Slider(201, "Drop Chance", ImVec2(225, 0), &settings::LAC_dropChance, 0.0f, 20.0f);
-
-					Menu::Slider(202, "Spike Chance", ImVec2(225, 0), &settings::LAC_spikeChance, 0.0f, 30.0f);
-					if (settings::LAC_spikeChance > 0.0f)
-					{
-						Menu::Slider(203, "Spike Multiplier", ImVec2(225, 0), &settings::LAC_spikeMultiplier, 0.0f, 3.0f);
-					}
-
-					Menu::Slider(204, "Kurtosis", ImVec2(225, 0), &settings::LAC_kurtosis, 0.0f, 5.0f);
-
-					Menu::ToggleButton(205, "Burst Pattern", ImVec2(368, 0), &settings::LAC_burstEnabled);
-					if (settings::LAC_burstEnabled)
-					{
-						Menu::Slider(206, "Burst Chance", ImVec2(225, 0), &settings::LAC_burstChance, 5.0f, 40.0f);
-					}
-				}
-			}
-			ImGui::EndChild();
-			ImGui::Spacing();
+			Menu::Slider("Burst Chance", &settings::LAC_burstChance, 5.f, 40.f);
 		}
 	}
-	ImGui::EndChild();
-
-	ImGui::PopStyleVar();
-	ImGui::PopStyleColor();
-
-	ImGui::EndGroup();
 }

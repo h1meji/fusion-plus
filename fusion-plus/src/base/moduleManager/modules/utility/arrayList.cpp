@@ -38,9 +38,8 @@ ImVec4 LerpColors(const ImVec4& a, const ImVec4& b, float t) {
 
 // Get color for module based on selected mode and index
 ImVec4 GetColorForModule(int index, float rawTime) {
-    if (!settings::AL_rgbEnabled)
-        return ImVec4(settings::AL_textColor[0], settings::AL_textColor[1], 
-                     settings::AL_textColor[2], settings::AL_textColor[3]);
+    if (settings::AL_colorMode == 0)
+        return ImVec4(settings::AL_textColor[0], settings::AL_textColor[1], settings::AL_textColor[2], settings::AL_textColor[3]);
         
     float time = TimeManager::GetTime();
     float t = fmodf(time * settings::AL_rgbSpeed + (index * 0.1f), 2.0f * M_PI);
@@ -84,7 +83,7 @@ void ArrayList::RenderHud() {
         settings::AL_backgroundPadding,
         bgColor,
         Menu::Font,
-        settings::AL_rgbEnabled,
+        settings::AL_colorMode != 0,
         settings::AL_colorMode,
         settings::AL_rgbSpeed
     );
@@ -92,94 +91,32 @@ void ArrayList::RenderHud() {
 
 void ArrayList::RenderMenu()
 {
-    static bool renderSettings = false;
+	Menu::TextColored("This module is currently in development and may cause instability or crashes. Use with caution.", ImVec4(1.0f, 0.8f, 0.0f, 1.0f), FontSize::SIZE_16);
 
-    ImGui::BeginGroup();
+    Menu::ToggleWithKeybind(&settings::AL_Enabled, settings::AL_Key);
 
-    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-    ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-    ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
+    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+    Menu::HorizontalSeparator("Sep1");
+    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-    if (ImGui::BeginChild("al_header", ImVec2(425.f, renderSettings ? 185.f : 35.f), false))
+	Menu::Dropdown("Position", settings::AL_renderPositionList, &settings::AL_renderPosition, 4);
+	Menu::Slider("Text Size", &settings::AL_textSize, 1, 50);
+
+    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+    Menu::HorizontalSeparator("Sep2");
+    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+
+	Menu::Dropdown("Color Mode", settings::AL_colorModeList, &settings::AL_colorMode, 12);
+	if (settings::AL_colorMode == 0)
+	{
+		Menu::ColorEdit("Color", settings::AL_textColor);
+	}
+    else
     {
-        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-        ImGui::BeginGroup();
-
-        // Title in normal position
-        Menu::ToggleButton(80, ("Toggle " + this->GetName()).c_str(), ImVec2(367, 0), &settings::AL_Enabled);
-        
-        // Modern warning symbol with tooltip
-        ImGui::SameLine(350);
-        ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.0f, 1.0f), "( ? )");
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 10));
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 6.0f);
-            ImGui::PushStyleVar(ImGuiStyleVar_PopupBorderSize, 0.0f);
-            ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(0.15f, 0.15f, 0.15f, 0.98f));
-            
-            ImGui::BeginTooltip();
-            
-            // Warning title
-            ImGui::PushFont(Menu::Font); // Assuming you have a font system
-            ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.0f, 1.0f), "Warning");
-            ImGui::PopFont();
-            
-            ImGui::Separator();
-            ImGui::Spacing();
-            
-            // Warning content
-            ImGui::PushTextWrapPos(450.0f);
-            ImGui::TextColored(ImVec4(0.9f, 0.9f, 0.9f, 1.0f), 
-                "This module is currently in development and may cause instability or crashes.\n\n"
-                "Use with caution.");
-            ImGui::PopTextWrapPos();
-            
-            ImGui::EndTooltip();
-            
-            ImGui::PopStyleColor();
-            ImGui::PopStyleVar(3);
-        }
-
-        ImGui::EndGroup();
-        
-        if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-        {
-            renderSettings = !renderSettings;
-        }
-
-        ImGui::PopStyleColor();
-        ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
-
-        if (renderSettings)
-        {
-            ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-            ImGui::Separator();
-            if (ImGui::BeginChild("al_settings", ImVec2(425, 140), false))
-            {
-                Menu::KeybindButton(176, "Keybind", ImVec2(297, 0), settings::AL_Key);
-                Menu::ComboBox(81, "Position", ImVec2(270, 0), &settings::AL_renderPosition, settings::AL_renderPositionList, 4);
-                Menu::ToggleButton(148, "RGB Effect", ImVec2(368, 0), &settings::AL_rgbEnabled);
-                if (settings::AL_rgbEnabled)
-                {
-                    Menu::ComboBox(149, "Color Mode", ImVec2(270, 0), &settings::AL_colorMode, settings::AL_colorModeList, 12);
-                    Menu::Slider(150, "RGB Speed", ImVec2(225, 0), &settings::AL_rgbSpeed, 0.1f, 5.0f, "%.1f");
-                }
-                Menu::Slider(82, "Text Size", ImVec2(225, 0), &settings::AL_textSize, 1, 50);
-                Menu::ColorPicker(83, "Text Color", ImVec2(374, 0), settings::AL_textColor);
-                Menu::Slider(84, "Background Padding", ImVec2(225, 0), &settings::AL_backgroundPadding, 0, 20);
-                Menu::ColorPicker(85, "Background Color", ImVec2(374, 0), settings::AL_backgroundColor);
-            }
-            ImGui::EndChild();
-            ImGui::Spacing();
-        }
+		Menu::Slider("RGB Speed", &settings::AL_rgbSpeed, 0.1f, 5.0f, ImVec2(0,0), "%.1f");
     }
-    ImGui::EndChild();
-
-    ImGui::PopStyleVar();
-    ImGui::PopStyleColor();
-
-    ImGui::EndGroup();
+	Menu::Slider("Background Padding", &settings::AL_backgroundPadding, 0, 20);
+	Menu::ColorEdit("Background Color", settings::AL_backgroundColor);
 }
 
 // Enhanced function for calculating Bézier curve points

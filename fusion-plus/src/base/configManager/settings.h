@@ -2,12 +2,27 @@
 
 #include <string>
 #include <vector>
+#include <Windows.h>
 
 struct settings {
 	inline static std::vector<std::string> friends;
 
 	// Menu
-	inline static float Menu_AccentColor[4]{ 0, 0.4f, 0.4f, 1.0f };
+	inline static float Menu_TextColor[4]{ 1.0f, 1.0f, 1.0f, 1.0f };
+	inline static float Menu_SeperatorColor[4]{ 1.0f, 1.0f, 1.0f, 1.0f };
+	inline static float Menu_PrimaryColor[4]{ 0, 0.4f, 0.4f, 1.0f };
+	inline static float Menu_SecondaryColor[4]{ 1.0f, 1.0f, 1.0f, 0.5f };
+	inline static float Menu_BackgroundColor[4]{ 0.0f, 0.0f, 0.0f, 0.8f };
+	inline static float Menu_ChildBackgroundColor[4]{ 0.0f, 0.0f, 0.0f, 0.5f };
+	inline static float Menu_OutlineColor[4]{ 0.18f, 0.18f, 0.18f, 1.0f };
+	inline static float Menu_DetachButtonColor[4]{ 1.0f, 0.0f, 0.0f, 0.5f };
+
+	inline static float Menu_WindowRounding = 10.0f;
+	inline static float Menu_ComponentsRounding = 5.0f;
+
+	inline static int Menu_Keybind = VK_INSERT;
+	inline static int Menu_DetachKey = VK_END;
+
 	inline static bool Menu_GUIMovement = false;
 	inline static bool Menu_ShowHiddenCategories = false;
 	inline static std::vector<std::string> Menu_HiddenCategoriesList{ "TnT Tag" };
@@ -77,7 +92,6 @@ struct settings {
 	inline static float AL_backgroundPadding = 5;
 	inline static float AL_backgroundColor[4]{ 0.f, 0.f, 0.f, 0.8f };
 	inline static float AL_backgroundRoundness = 5.f;
-    inline static bool AL_rgbEnabled = false;
     inline static int AL_colorMode = 0;
     inline static const char* AL_colorModeList[16]{ 
 	    "Static", "RGB Wave", "Purple Rain", "Golden Luxury", "Red Flow", "Neon Pulse",

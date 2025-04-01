@@ -19,6 +19,7 @@ namespace ConfigManager
 
 	bool LoadConfig(const char* name);
 	int SaveConfig(const char* name);
+	bool RemoveConfig(const char* name);
 
 	std::vector<std::string> GetConfigList();
 

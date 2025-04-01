@@ -13,7 +13,7 @@ int rightNextCps = 10;
 void RightAutoClicker::Update()
 {
 	if (!settings::RAC_Enabled) return;
-	if (Menu::Open || Menu::OpenHudEditor) return;
+	if (Menu::Open) return;
 	if (SDK::Minecraft->IsInGuiState()) return;
 
 	jclass blockClass;
@@ -43,47 +43,18 @@ void RightAutoClicker::Update()
 
 void RightAutoClicker::RenderMenu()
 {
-	static bool renderSettings = false;
+	Menu::ToggleWithKeybind(&settings::RAC_Enabled, settings::RAC_Key);
 
-	ImGui::BeginGroup();
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep1");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-	ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
+	Menu::Slider("Min CPS", &settings::RAC_rightMinCps, 1, settings::RAC_rightMaxCps);
+	Menu::Slider("Max CPS", &settings::RAC_rightMaxCps, settings::RAC_rightMinCps, 25);
 
-	if (ImGui::BeginChild("rac_header", ImVec2(425, renderSettings ? 120 : 35), false))
-	{
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-		ImGui::BeginGroup();
-		Menu::ToggleButton(25, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::RAC_Enabled);
-		ImGui::EndGroup();
-		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-		{
-			renderSettings = !renderSettings;
-		}
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
+	Menu::HorizontalSeparator("Sep2");
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
-		ImGui::PopStyleColor();
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
-
-		if (renderSettings)
-		{
-			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-			ImGui::Separator();
-			if (ImGui::BeginChild("rac_settings", ImVec2(425, 75), false))
-			{
-				Menu::KeybindButton(168, "Keybind", ImVec2(297, 0), settings::RAC_Key);
-				Menu::Slider(26, "Min CPS", ImVec2(225, 0), &settings::RAC_rightMinCps, 1, settings::RAC_rightMaxCps);
-				Menu::Slider(27, "Max CPS", ImVec2(225, 0), &settings::RAC_rightMaxCps, settings::RAC_rightMinCps, 20);
-				Menu::ToggleButton(28, "Blocks Only", ImVec2(368, 0), &settings::RAC_blocksOnly);
-			}
-			ImGui::EndChild();
-			ImGui::Spacing();
-		}
-	}
-	ImGui::EndChild();
-
-	ImGui::PopStyleVar();
-	ImGui::PopStyleColor();
-
-	ImGui::EndGroup();
+	Menu::Checkbox("Blocks Only", &settings::RAC_blocksOnly);
 }

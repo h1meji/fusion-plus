@@ -19,7 +19,7 @@ bool isHoldingCtrl = false;
 
 void Sprint::Update()
 {
-    if (!settings::S_Enabled || !CommonData::SanityCheck() || SDK::Minecraft->IsInGuiState() || Menu::Open || Menu::OpenHudEditor)
+    if (!settings::S_Enabled || !CommonData::SanityCheck() || SDK::Minecraft->IsInGuiState() || Menu::Open)
     {
         if (isHoldingCtrl)
         {
@@ -45,44 +45,5 @@ void Sprint::Update()
 
 void Sprint::RenderMenu()
 {
-    static bool renderSettings = false;
-
-    ImGui::BeginGroup();
-
-    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-    ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-    ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
-
-    if (ImGui::BeginChild("s_header", ImVec2(425.f, renderSettings ? 99.f : 35.f), false))
-    {
-        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-        ImGui::BeginGroup();
-        Menu::ToggleButton(140, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::S_Enabled);
-        ImGui::EndGroup();
-        if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-        {
-            renderSettings = !renderSettings;
-        }
-
-        ImGui::PopStyleColor();
-        ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
-
-        if (renderSettings)
-        {
-            ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-            ImGui::Separator();
-            if (ImGui::BeginChild("s_settings", ImVec2(425, 54), false))
-            {
-                Menu::KeybindButton(170, "Keybind", ImVec2(297, 0), settings::S_Key);
-            }
-            ImGui::EndChild();
-            ImGui::Spacing();
-        }
-    }
-    ImGui::EndChild();
-
-    ImGui::PopStyleVar();
-    ImGui::PopStyleColor();
-
-    ImGui::EndGroup();
+    Menu::ToggleWithKeybind(&settings::S_Enabled, settings::S_Key);
 }
