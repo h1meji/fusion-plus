@@ -327,6 +327,12 @@
     <ClInclude Include="ext\fonts\inter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\base\sdk\java\util\Map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\sdk\java\util\Array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -570,6 +576,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\util\window\windowHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\sdk\java\util\Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\sdk\java\util\Array.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

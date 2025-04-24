@@ -6,6 +6,7 @@
 struct FloatBuffer : IClass
 {
 	FloatBuffer(jobject obj);
+	~FloatBuffer();
 
 	jclass GetClass();
 	jobject GetInstance();

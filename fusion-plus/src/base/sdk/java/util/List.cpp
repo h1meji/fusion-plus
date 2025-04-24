@@ -10,6 +10,11 @@ List::List(jobject jlist)
 	toArrayId = Java::env->GetMethodID(this->clazz, "toArray", "()[Ljava/lang/Object;");
 }
 
+List::~List()
+{
+	Java::env->DeleteLocalRef(this->clazz);
+}
+
 jclass List::GetClass()
 {
 	return this->clazz;

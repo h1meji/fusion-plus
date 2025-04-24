@@ -5,6 +5,7 @@
 struct String : IClass
 {
 	String(jobject instance);
+	~String();
 
 	String(std::string text);
 

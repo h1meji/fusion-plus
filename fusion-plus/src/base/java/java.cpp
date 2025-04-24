@@ -289,3 +289,30 @@ void Java::GetMinecraftVersion()
     
     Java::version = MinecraftVersion::UNKNOWN;
 }
+
+template<>
+std::string Java::Convert<std::string>(jobject obj)
+{
+    const char* str = Java::env->GetStringUTFChars((jstring)obj, nullptr);
+    std::string result(str);
+    Java::env->ReleaseStringUTFChars((jstring)obj, str);
+    return result;
+}
+
+template<>
+int Java::Convert<int>(jobject obj)
+{
+    jclass cls = Java::env->GetObjectClass(obj);
+    jmethodID mid = Java::env->GetMethodID(cls, "intValue", "()I");
+    Java::env->DeleteLocalRef(cls);
+    return Java::env->CallIntMethod(obj, mid);
+}
+
+template<>
+float Java::Convert<float>(jobject obj)
+{
+    jclass cls = Java::env->GetObjectClass(obj);
+    jmethodID mid = Java::env->GetMethodID(cls, "floatValue", "()F");
+    Java::env->DeleteLocalRef(cls);
+    return Java::env->CallFloatMethod(obj, mid);
+}

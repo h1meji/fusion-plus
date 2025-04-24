@@ -12,6 +12,11 @@ FloatBuffer::FloatBuffer(jobject obj)
 	getId = Java::env->GetMethodID(this->clazz, "get", "(I)F");
 }
 
+FloatBuffer::~FloatBuffer()
+{
+	Java::env->DeleteLocalRef(this->clazz);
+}
+
 Matrix FloatBuffer::GetMatrix()
 {
 	std::vector<float> arr;

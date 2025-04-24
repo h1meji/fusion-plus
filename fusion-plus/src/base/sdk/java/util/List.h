@@ -5,6 +5,7 @@
 struct List : IClass
 {
 	List(jobject jlist);
+	~List();
 
 	jclass GetClass();
 	jobject GetInstance();

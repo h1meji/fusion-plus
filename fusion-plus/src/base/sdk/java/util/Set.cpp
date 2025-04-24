@@ -10,6 +10,11 @@ Set::Set(jobject jset)
 	toArrayId = Java::env->GetMethodID(this->clazz, "toArray", "()[Ljava/util/Object;");
 }
 
+Set::~Set()
+{
+	Java::env->DeleteLocalRef(this->clazz);
+}
+
 jclass Set::GetClass()
 {
 	return this->clazz;

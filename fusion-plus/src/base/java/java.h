@@ -27,9 +27,11 @@ struct Java
 
 	static void GetMinecraftVersion();
 
+	template<typename T>
+	static T Convert(jobject obj);
+
 	static inline JNIEnv* env;
 	static inline jvmtiEnv* tiEnv;
 	static inline bool initialized;
 	static inline MinecraftVersion version;
 };
-

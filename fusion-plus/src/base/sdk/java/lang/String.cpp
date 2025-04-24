@@ -8,6 +8,11 @@ String::String(jobject instance)
 	this->instance = instance;
 }
 
+String::~String()
+{
+	Java::env->DeleteLocalRef(this->clazz);
+}
+
 String::String(std::string text)
 {
 	this->clazz = Java::env->FindClass("java/lang/String");
