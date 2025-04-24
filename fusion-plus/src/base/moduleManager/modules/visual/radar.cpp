@@ -27,13 +27,14 @@ void Radar::Update()
 	}
 
 	Vector3 pos = CommonData::playerPos;
+	std::string name = CommonData::playerName;
 	m_playerYaw = CommonData::playerYaw;
 
 	std::vector<Data> newData;
 
 	for (CommonData::PlayerData entity : playerList)
 	{
-		bool isLocalPlayer = entity.pos == pos;
+		bool isLocalPlayer = entity.name == name;
 
 		Vector3 diff = pos - entity.pos;
 		float dist = sqrt(pow(diff.x, 2.f) + pow(diff.y, 2.f) + pow(diff.z, 2.f)); // Sqrt((x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2)

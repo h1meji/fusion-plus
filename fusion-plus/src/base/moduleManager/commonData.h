@@ -22,13 +22,14 @@ struct CommonData
 
 	inline static int fps;
 	inline static int ping;
+	inline static std::string playerName;
 	inline static Vector3 playerPos;
 	inline static Vector3 playerLastPos;
 	inline static Vector3 playerEyePos;
 	inline static Vector2 playerAngles;
 	inline static float playerYaw;
 	inline static float playerPitch;
-	
+
 	struct PlayerData
 	{
 		CEntityPlayer obj = nullptr;
@@ -89,6 +90,7 @@ struct CommonData
 
 		fps = SDK::minecraft->GetFps();
 		ping = SDK::minecraft->thePlayer->GetPing();
+		playerName = SDK::minecraft->thePlayer->GetName();
 		playerPos = SDK::minecraft->thePlayer->GetPos();
 		playerLastPos = SDK::minecraft->thePlayer->GetLastTickPos();
 		playerEyePos = SDK::minecraft->thePlayer->GetEyePos();
@@ -111,6 +113,7 @@ struct CommonData
 			fps = -1;
 			ping = -1;
 			playerPos = Vector3();
+			playerLastPos = Vector3();
 			playerEyePos = Vector3();
 			playerAngles = Vector2();
 			playerYaw = 0.f;
