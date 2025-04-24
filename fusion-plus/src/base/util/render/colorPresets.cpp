@@ -1,9 +1,11 @@
 #include "colorPresets.h"
-#include <cmath>
+
 #include "util/time/timeManager.h"
 
-ImVec4 ColorPresets::GetPreset(int preset, float t, float smoothT, float time) {
-    switch (preset) {
+ImVec4 ColorPresets::GetPreset(int preset, float t, float smoothT, float time)
+{
+    switch (preset)
+    {
         case 1: return RGBWave(smoothT);
         case 2: return PurpleRain(t);
         case 3: return GoldenLuxury(smoothT);
@@ -22,13 +24,15 @@ ImVec4 ColorPresets::GetPreset(int preset, float t, float smoothT, float time) {
     }
 }
 
-ImVec4 ColorPresets::RGBWave(float smoothT) {
+ImVec4 ColorPresets::RGBWave(float smoothT)
+{
     float r, g, b;
     ImGui::ColorConvertHSVtoRGB(smoothT, 1.0f, 1.0f, r, g, b);
     return ImVec4(r, g, b, 1.0f);
 }
 
-ImVec4 ColorPresets::PurpleRain(float t) {
+ImVec4 ColorPresets::PurpleRain(float t)
+{
     float r, g, b;
     float hue = 0.75f + sinf(t) * 0.08f;
     float sat = 0.8f + sinf(t * 1.5f) * 0.2f;
@@ -37,7 +41,8 @@ ImVec4 ColorPresets::PurpleRain(float t) {
     return ImVec4(r, g, b, 1.0f);
 }
 
-ImVec4 ColorPresets::GoldenLuxury(float smoothT) {
+ImVec4 ColorPresets::GoldenLuxury(float smoothT)
+{
     ImVec4 gold1(1.0f, 0.84f, 0.0f, 1.0f);    // Bright gold
     ImVec4 gold2(0.83f, 0.68f, 0.21f, 1.0f);  // Antique gold
     ImVec4 gold3(0.91f, 0.75f, 0.1f, 1.0f);   // Shining gold
@@ -50,7 +55,8 @@ ImVec4 ColorPresets::GoldenLuxury(float smoothT) {
     return LerpColors(gold3, gold1, (t1 - 0.66f) * 3.0f);
 }
 
-ImVec4 ColorPresets::RedFlow(float t) {
+ImVec4 ColorPresets::RedFlow(float t)
+{
     ImVec4 red1(1.0f, 0.0f, 0.0f, 1.0f);      // Pure red
     ImVec4 red2(0.8f, 0.0f, 0.0f, 1.0f);      // Dark red
     ImVec4 red3(1.0f, 0.2f, 0.2f, 1.0f);      // Light red
@@ -61,7 +67,8 @@ ImVec4 ColorPresets::RedFlow(float t) {
     );
 }
 
-ImVec4 ColorPresets::NeonPulse(float smoothT) {
+ImVec4 ColorPresets::NeonPulse(float smoothT)
+{
     ImVec4 neon1(1.0f, 0.0f, 0.89f, 1.0f);    // Neon pink
     ImVec4 neon2(0.0f, 1.0f, 0.89f, 1.0f);    // Neon cyan
     ImVec4 neon3(0.89f, 1.0f, 0.0f, 1.0f);    // Neon yellow
@@ -74,7 +81,8 @@ ImVec4 ColorPresets::NeonPulse(float smoothT) {
     return LerpColors(neon3, neon1, (t1 - 0.66f) * 3.0f);
 }
 
-ImVec4 ColorPresets::OceanDepths(float t) {
+ImVec4 ColorPresets::OceanDepths(float t)
+{
     ImVec4 water1(0.0f, 0.47f, 0.95f, 1.0f);   // Light blue
     ImVec4 water2(0.0f, 0.32f, 0.65f, 1.0f);   // Medium blue
     ImVec4 water3(0.0f, 0.18f, 0.38f, 1.0f);   // Deep blue
@@ -87,7 +95,8 @@ ImVec4 ColorPresets::OceanDepths(float t) {
     );
 }
 
-ImVec4 ColorPresets::ForestMystical(float smoothT) {
+ImVec4 ColorPresets::ForestMystical(float smoothT)
+{
     ImVec4 forest1(0.0f, 0.5f, 0.0f, 1.0f);    // Forest green
     ImVec4 forest2(0.13f, 0.55f, 0.13f, 1.0f); // Grass green
     ImVec4 forest3(0.0f, 0.39f, 0.0f, 1.0f);   // Dark green
@@ -103,7 +112,8 @@ ImVec4 ColorPresets::ForestMystical(float smoothT) {
     return LerpColors(forest4, forest1, (t1 - 0.75f) * 4.0f);
 }
 
-ImVec4 ColorPresets::SunsetDreams(float smoothT) {
+ImVec4 ColorPresets::SunsetDreams(float smoothT)
+{
     ImVec4 sunset1(1.0f, 0.6f, 0.0f, 1.0f);    // Orange
     ImVec4 sunset2(1.0f, 0.4f, 0.4f, 1.0f);    // Soft pink
     ImVec4 sunset3(0.6f, 0.0f, 0.4f, 1.0f);    // Purple
@@ -116,7 +126,8 @@ ImVec4 ColorPresets::SunsetDreams(float smoothT) {
     return LerpColors(sunset3, sunset1, (t1 - 0.66f) * 3.0f);
 }
 
-ImVec4 ColorPresets::CottonCandy(float smoothT) {
+ImVec4 ColorPresets::CottonCandy(float smoothT)
+{
     ImVec4 candy1(1.0f, 0.7f, 0.75f, 1.0f);    // Pastel pink
     ImVec4 candy2(0.7f, 0.85f, 1.0f, 1.0f);    // Pastel blue
     ImVec4 candy3(0.85f, 0.7f, 1.0f, 1.0f);    // Pastel lilac
@@ -129,7 +140,8 @@ ImVec4 ColorPresets::CottonCandy(float smoothT) {
     return LerpColors(candy3, candy1, (t1 - 0.66f) * 3.0f);
 }
 
-ImVec4 ColorPresets::MagmaFlow(float smoothT) {
+ImVec4 ColorPresets::MagmaFlow(float smoothT)
+{
     ImVec4 magma1(1.0f, 0.0f, 0.0f, 1.0f);     // Lava red
     ImVec4 magma2(1.0f, 0.4f, 0.0f, 1.0f);     // Fire orange
     ImVec4 magma3(1.0f, 0.6f, 0.0f, 1.0f);     // Fire yellow
@@ -145,7 +157,8 @@ ImVec4 ColorPresets::MagmaFlow(float smoothT) {
     return LerpColors(magma4, magma1, (t1 - 0.75f) * 4.0f);
 }
 
-ImVec4 ColorPresets::AquaBreeze(float smoothT) {
+ImVec4 ColorPresets::AquaBreeze(float smoothT)
+{
     ImVec4 aqua1(0.0f, 0.75f, 0.8f, 1.0f);     // Light aqua
     ImVec4 aqua2(0.0f, 0.6f, 0.7f, 1.0f);      // Medium aqua
     ImVec4 aqua3(0.2f, 0.8f, 0.8f, 1.0f);      // Turquoise
@@ -161,7 +174,8 @@ ImVec4 ColorPresets::AquaBreeze(float smoothT) {
     return LerpColors(aqua4, aqua1, (t1 - 0.75f) * 4.0f);
 }
 
-ImVec4 ColorPresets::CosmicWave(float t) {
+ImVec4 ColorPresets::CosmicWave(float t)
+{
     ImVec4 space1(0.5f, 0.0f, 1.0f, 1.0f);     // Space purple
     ImVec4 space2(0.2f, 0.0f, 0.4f, 1.0f);     // Dark purple
     ImVec4 space3(0.8f, 0.0f, 0.8f, 1.0f);     // Bright magenta
@@ -174,7 +188,8 @@ ImVec4 ColorPresets::CosmicWave(float t) {
     return LerpColors(color1, color2, (sinf(t) + 1.0f) * 0.5f);
 }
 
-ImVec4 ColorPresets::CherryBlossom(float t, float smoothT) {
+ImVec4 ColorPresets::CherryBlossom(float t, float smoothT)
+{
     ImVec4 cherry1(1.0f, 0.7f, 0.8f, 1.0f);    // Soft pink
     ImVec4 cherry2(1.0f, 0.9f, 0.9f, 1.0f);    // Pinkish white
     ImVec4 cherry3(0.9f, 0.6f, 0.7f, 1.0f);    // Medium pink
@@ -187,7 +202,8 @@ ImVec4 ColorPresets::CherryBlossom(float t, float smoothT) {
     return LerpColors(blend1, blend2, smoothT);
 }
 
-ImVec4 ColorPresets::Cyberpunk(float time) {
+ImVec4 ColorPresets::Cyberpunk(float time)
+{
     ImVec4 cyber1(1.0f, 0.0f, 0.7f, 1.0f);     // Neon pink
     ImVec4 cyber2(0.0f, 1.0f, 0.7f, 1.0f);     // Neon green
     ImVec4 cyber3(0.0f, 0.7f, 1.0f, 1.0f);     // Neon blue
@@ -203,7 +219,8 @@ ImVec4 ColorPresets::Cyberpunk(float time) {
     return LerpColors(cyber4, cyber1, t1 - 3.0f);
 }
 
-ImVec4 ColorPresets::LerpColors(const ImVec4& a, const ImVec4& b, float t) {
+ImVec4 ColorPresets::LerpColors(const ImVec4& a, const ImVec4& b, float t)
+{
     return ImVec4(
         a.x + (b.x - a.x) * t,
         a.y + (b.y - a.y) * t,

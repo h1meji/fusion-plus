@@ -1,7 +1,7 @@
 #pragma once
 
-#include "sdk/net/minecraft/entity/EntityLivingBase.h"
 #include "InventoryPlayer.h"
+#include "sdk/net/minecraft/entity/EntityLivingBase.h"
 
 struct CEntityPlayer : CEntityLivingBase
 {

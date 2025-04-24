@@ -1,25 +1,26 @@
 #include "List.h"
+
 #include "java/java.h"
 
 List::List(jobject jlist)
 {
-	this->Instance = jlist;
+	this->instance = jlist;
 
-	this->Class = Java::Env->FindClass("java/util/List");
-	this->MethodIDs["toArray"] = Java::Env->GetMethodID(this->Class, "toArray", "()[Ljava/lang/Object;");
+	this->clazz = Java::env->FindClass("java/util/List");
+	toArrayId = Java::env->GetMethodID(this->clazz, "toArray", "()[Ljava/lang/Object;");
 }
 
 jclass List::GetClass()
 {
-	return this->Class;
+	return this->clazz;
 }
 
 jobject List::GetInstance()
 {
-	return this->Instance;
+	return this->instance;
 }
 
 jobjectArray List::toArray()
 {
-	return (jobjectArray) Java::Env->CallObjectMethod(this->GetInstance(), this->MethodIDs["toArray"]);
+	return (jobjectArray) Java::env->CallObjectMethod(this->GetInstance(), toArrayId);
 }

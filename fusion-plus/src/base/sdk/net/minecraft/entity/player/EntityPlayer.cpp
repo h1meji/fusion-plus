@@ -7,69 +7,68 @@
 
 CEntityPlayer::CEntityPlayer()
 {
-	this->Class = StrayCache::entityPlayer_class;
-	this->FieldIDs["inventory"] = StrayCache::entityPlayer_inventory;
+	this->clazz = StrayCache::entityPlayer_class;
 }
 
 CEntityPlayer::CEntityPlayer(jobject instance) : CEntityPlayer()
 {
-	this->Instance = instance;
+	this->instance = instance;
 }
 
 
 jclass CEntityPlayer::GetClass()
 {
-	return this->Class;
+	return this->clazz;
 }
 
 jobject CEntityPlayer::GetInstance()
 {
-	return this->Instance;
+	return this->instance;
 }
 
 CInventoryPlayer CEntityPlayer::GetInventory()
 {
-	return CInventoryPlayer(Java::Env->GetObjectField(this->GetInstance(), this->FieldIDs["inventory"]));
+	return CInventoryPlayer(Java::env->GetObjectField(this->GetInstance(), StrayCache::entityPlayer_inventory));
 }
 
 int CEntityPlayer::GetPing()
 {
-	jobject netHandlerPlayClient = Java::Env->CallObjectMethod(SDK::Minecraft->GetInstance(), StrayCache::minecraft_getNetHandler);
+	jobject netHandlerPlayClient = Java::env->CallObjectMethod(SDK::minecraft->GetInstance(), StrayCache::minecraft_getNetHandler);
 	if (netHandlerPlayClient == nullptr) return -1;
 
-	if (Java::Version == MinecraftVersion::LUNAR_1_8_9 || Java::Version == MinecraftVersion::VANILLA_1_8_9 || Java::Version == MinecraftVersion::FORGE_1_8_9)
+	if (Java::version == MinecraftVersion::LUNAR_1_8_9 || Java::version == MinecraftVersion::VANILLA_1_8_9 || Java::version == MinecraftVersion::FORGE_1_8_9)
 	{
 		// Get player info
-		jstring playerName = Java::Env->NewStringUTF(this->GetName().c_str());
-		jobject networkPlayerInfo = Java::Env->CallObjectMethod(netHandlerPlayClient, StrayCache::netHandlerPlayClient_getPlayerInfo, playerName);
+		jstring playerName = Java::env->NewStringUTF(this->GetName().c_str());
+		jobject networkPlayerInfo = Java::env->CallObjectMethod(netHandlerPlayClient, StrayCache::netHandlerPlayClient_getPlayerInfo, playerName);
 
 		if (networkPlayerInfo != nullptr)
 		{
 			// Get "responseTime"
-			int ping = Java::Env->CallIntMethod(networkPlayerInfo, StrayCache::networkPlayerInfo_getResponseTime);
+			int ping = Java::env->CallIntMethod(networkPlayerInfo, StrayCache::networkPlayerInfo_getResponseTime);
 			return ping;
 		}
 	}
 	else
 	{
 		// Get player info list
-		jobject playerInfoList = Java::Env->GetObjectField(netHandlerPlayClient, StrayCache::netHandlerPlayClient_playerInfoList);
+		jobject playerInfoList = Java::env->GetObjectField(netHandlerPlayClient, StrayCache::netHandlerPlayClient_playerInfoList);
 		jobjectArray playerInfoVector = List(jobject(playerInfoList)).toArray();
 
 		// Loop through player info list
-		for (int i = 0; i < Java::Env->GetArrayLength(playerInfoVector); i++)
+		for (int i = 0; i < Java::env->GetArrayLength(playerInfoVector); i++)
 		{
-			jobject guiPlayerInfo = Java::Env->GetObjectArrayElement(playerInfoVector, i);
+			jobject guiPlayerInfo = Java::env->GetObjectArrayElement(playerInfoVector, i);
 
 			// Get player name
-			jobject playerNameObj = Java::Env->GetObjectField(guiPlayerInfo, StrayCache::guiPlayerInfo_name);
+			jobject playerNameObj = Java::env->GetObjectField(guiPlayerInfo, StrayCache::guiPlayerInfo_name);
 			std::string playerName = String(playerNameObj).ToString();
 
 			// Check if player name matches
 			if (playerName == this->GetName())
 			{
 				// Get "responseTime"
-				int ping = Java::Env->GetIntField(guiPlayerInfo, StrayCache::guiPlayerInfo_responseTime);
+				int ping = Java::env->GetIntField(guiPlayerInfo, StrayCache::guiPlayerInfo_responseTime);
 				return ping;
 			}
 		}

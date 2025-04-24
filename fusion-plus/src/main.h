@@ -1,14 +1,13 @@
 #pragma once
 
 #include <Windows.h>
-#include "base/base.h"
 
 class Main
 {
 public:
 	static void Init();
-	static void Kill();
+	static void Shutdown();
 
-	static inline HMODULE HModule;
+	static inline HMODULE hModule;
 };
 

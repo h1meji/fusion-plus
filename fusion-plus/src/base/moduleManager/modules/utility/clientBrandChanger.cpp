@@ -1,12 +1,9 @@
 #include "clientBrandChanger.h"
-#include <java/javahook.h>
-#include <sdk/sdk.h>
-#include <imgui/imgui.h>
 
+#include "java/javahook.h"
 #include "menu/menu.h"
-#include <sdk/net/minecraft/client/ClientBrandRetriever.h>
+#include "sdk/net/minecraft/client/ClientBrandRetriever.h"
 
-std::once_flag setOriginalClientBrandFlag;
 void ClientBrandChanger::RenderMenu()
 {
 	Menu::ToggleWithKeybind(&settings::CBC_Enabled, settings::CBC_Key);
@@ -16,10 +13,10 @@ void ClientBrandChanger::RenderMenu()
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.f);
 
 	static char clientBrand[128] = "";
-	std::call_once(setOriginalClientBrandFlag, []() {
+	std::call_once(m_setOriginalClientBrandFlag, []() {
 		if (settings::CBC_ClientBrand.empty())
 		{
-			settings::CBC_ClientBrand = SDK::Minecraft->OriginalClientBrand;
+			settings::CBC_ClientBrand = SDK::minecraft->originalClientBrand;
 			strcpy_s(clientBrand, settings::CBC_ClientBrand.c_str());
 		}
 		else
@@ -36,7 +33,7 @@ void ClientBrandChanger::RenderMenu()
 
 	if (Menu::Button("Reset"))
 	{
-		settings::CBC_ClientBrand = SDK::Minecraft->OriginalClientBrand;
+		settings::CBC_ClientBrand = SDK::minecraft->originalClientBrand;
 		strcpy_s(clientBrand, settings::CBC_ClientBrand.c_str());
 	}
 	if (Menu::Button("Vanilla"))
@@ -46,47 +43,59 @@ void ClientBrandChanger::RenderMenu()
 	}
 }
 
-void ClientBrandChanger::onGetClientModName(JNIEnv* env, bool* cancel)
+void ClientBrandChanger::OnGetClientModName(JNIEnv* env, bool* cancel)
 {
-    try {
-        if (!env || !cancel || !SDK::Minecraft) {
+    try
+    {
+        if (!env || !cancel || !SDK::minecraft)
+        {
             *cancel = false;
             return;
         }
 
         std::string brandToUse;
-        if (settings::CBC_Enabled && !settings::CBC_ClientBrand.empty()) {
+        if (settings::CBC_Enabled && !settings::CBC_ClientBrand.empty())
+        {
             brandToUse = settings::CBC_ClientBrand;
-        } else {
-			brandToUse = SDK::Minecraft->OriginalClientBrand;
+        } 
+        else
+        {
+			brandToUse = SDK::minecraft->originalClientBrand;
         }
 
         jstring new_name = env->NewStringUTF(brandToUse.c_str());
-        if (new_name) {
-            JavaHook::set_return_value<void*>(cancel, *(void**)new_name);
+        if (new_name)
+        {
+            JavaHook::SetReturnValue<void*>(cancel, *(void**)new_name);
             *cancel = true;
         } else {
             *cancel = false;
         }
-    } catch (...) {
+    }
+    catch (...)
+    {
         *cancel = false;
     }
 }
 
-void ClientBrandChanger::getClientModName_callback(HotSpot::frame* frame, HotSpot::Thread* thread, bool* cancel)
+void ClientBrandChanger::GetClientModName_callback(HotSpot::frame* frame, HotSpot::Thread* thread, bool* cancel)
 {
-    try {
+    try
+    {
         if (!thread || !cancel) return;
         
-        JNIEnv* env = thread->get_env();
-        if (!env) {
+        JNIEnv* env = thread->GetEnv();
+        if (!env)
+        {
             *cancel = false;
             return;
         }
 
         JavaHook::JNIFrame jniFrame(env);
-        onGetClientModName(env, cancel);
-    } catch (...) {
+        OnGetClientModName(env, cancel);
+    } 
+    catch (...)
+    {
         if (cancel) *cancel = false;
     }
 }

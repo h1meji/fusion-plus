@@ -1,15 +1,15 @@
 #include "FloatBuffer.h"
 
+#include <vector>
+
 #include "java/java.h"
 #include "util/logger/logger.h"
 
-#include <vector>
-
 FloatBuffer::FloatBuffer(jobject obj)
 {
-	this->Instance = obj;
-	this->Class = Java::Env->FindClass("java/nio/FloatBuffer");
-	this->MethodIDs["get"] = Java::Env->GetMethodID(this->Class, "get", "(I)F");
+	this->instance = obj;
+	this->clazz = Java::env->FindClass("java/nio/FloatBuffer");
+	getId = Java::env->GetMethodID(this->clazz, "get", "(I)F");
 }
 
 Matrix FloatBuffer::GetMatrix()
@@ -17,10 +17,10 @@ Matrix FloatBuffer::GetMatrix()
 	std::vector<float> arr;
 	for (int i = 0; i < 16; i++)
 	{
-		arr.push_back(Java::Env->CallFloatMethod(this->GetInstance(), this->MethodIDs["get"], i));
+		arr.push_back(Java::env->CallFloatMethod(this->GetInstance(), getId, i));
 	}
 
-	Matrix m;
+	Matrix m{};
 
 	m.m00 = arr[0];
 	m.m01 = arr[1];
@@ -45,10 +45,10 @@ Matrix FloatBuffer::GetMatrix()
 
 jclass FloatBuffer::GetClass()
 {
-	return this->Class;
+	return this->clazz;
 }
 
 jobject FloatBuffer::GetInstance()
 {
-	return this->Instance;
+	return this->instance;
 }

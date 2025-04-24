@@ -1,13 +1,10 @@
 #include "menu.h"
+
+#include <imgui/imgui_internal.h>
+
 #include "util/logger/logger.h"
-#include "imgui/imgui.h"
-#include "imgui/imgui_internal.h"
-#include "imgui/imgui_impl_win32.h"
-#include "imgui/imgui_impl_opengl2.h"
-
-#include "configManager/settings.h"
-
 #include "util/keys.h"
+#include "configManager/settings.h"
 
 static const char* extractBeforeDoubleHash(const char* label) {
 	const char* pos = strstr(label, "##"); // Find occurrence of ##
@@ -23,19 +20,19 @@ static const char* extractBeforeDoubleHash(const char* label) {
 
 void Menu::Init()
 {
-	Menu::Title = "fusion+";
-	Menu::Initialized = false;
-	Menu::Open = false;
-	Menu::OpenHudEditor = false;
+	Menu::title = "fusion+";
+	Menu::initialized = false;
+	Menu::open = false;
+	Menu::openHudEditor = false;
 
 	Menu::PlaceHooks();
-	Logger::Log("Menu initialized");
+	LOG_INFO("Menu initialized");
 }
 
 bool Menu::ConfigItem(const char* name, bool* deleted, bool scrollbar)
 {
 	ImVec2 size = ImGui::GetWindowSize();
-	ImVec2 deleteBtnSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Delete");
+	ImVec2 deleteBtnSize = Menu::font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Delete");
 	deleteBtnSize.x += ImGui::GetStyle().FramePadding.x * 8;
 
 	bool selected = ImGui::Button(name, ImVec2(size.x - deleteBtnSize.x - 18.f - (scrollbar ? ImGui::GetStyle().ScrollbarSize : 0.f), 0));
@@ -52,14 +49,14 @@ bool Menu::ConfigItem(const char* name, bool* deleted, bool scrollbar)
 
 void Menu::Text(const char* text, FontSize size)
 {
-	if (size == FontSize::SIZE_28) ImGui::PushFont(Menu::Font28);
-	else if (size == FontSize::SIZE_26) ImGui::PushFont(Menu::Font26);
-	else if (size == FontSize::SIZE_24) ImGui::PushFont(Menu::Font24);
-	else if (size == FontSize::SIZE_22) ImGui::PushFont(Menu::Font22);
-	else if (size == FontSize::SIZE_20) ImGui::PushFont(Menu::Font20);
-	else if (size == FontSize::SIZE_18) ImGui::PushFont(Menu::Font18);
-	else if (size == FontSize::SIZE_16) ImGui::PushFont(Menu::Font16);
-	else if (size == FontSize::SIZE_14) ImGui::PushFont(Menu::Font14);
+	if (size == FontSize::SIZE_28) ImGui::PushFont(Menu::font28);
+	else if (size == FontSize::SIZE_26) ImGui::PushFont(Menu::font26);
+	else if (size == FontSize::SIZE_24) ImGui::PushFont(Menu::font24);
+	else if (size == FontSize::SIZE_22) ImGui::PushFont(Menu::font22);
+	else if (size == FontSize::SIZE_20) ImGui::PushFont(Menu::font20);
+	else if (size == FontSize::SIZE_18) ImGui::PushFont(Menu::font18);
+	else if (size == FontSize::SIZE_16) ImGui::PushFont(Menu::font16);
+	else if (size == FontSize::SIZE_14) ImGui::PushFont(Menu::font14);
 
 	ImGui::Text(text);
 
@@ -68,14 +65,14 @@ void Menu::Text(const char* text, FontSize size)
 
 void Menu::BoldText(const char* text, FontSize size)
 {
-	if (size == FontSize::SIZE_28) ImGui::PushFont(Menu::BoldFont28);
-	else if (size == FontSize::SIZE_26) ImGui::PushFont(Menu::BoldFont26);
-	else if (size == FontSize::SIZE_24) ImGui::PushFont(Menu::BoldFont24);
-	else if (size == FontSize::SIZE_22) ImGui::PushFont(Menu::BoldFont22);
-	else if (size == FontSize::SIZE_20) ImGui::PushFont(Menu::BoldFont20);
-	else if (size == FontSize::SIZE_18) ImGui::PushFont(Menu::BoldFont18);
-	else if (size == FontSize::SIZE_16) ImGui::PushFont(Menu::BoldFont16);
-	else if (size == FontSize::SIZE_14) ImGui::PushFont(Menu::BoldFont14);
+	if (size == FontSize::SIZE_28) ImGui::PushFont(Menu::boldFont28);
+	else if (size == FontSize::SIZE_26) ImGui::PushFont(Menu::boldFont26);
+	else if (size == FontSize::SIZE_24) ImGui::PushFont(Menu::boldFont24);
+	else if (size == FontSize::SIZE_22) ImGui::PushFont(Menu::boldFont22);
+	else if (size == FontSize::SIZE_20) ImGui::PushFont(Menu::boldFont20);
+	else if (size == FontSize::SIZE_18) ImGui::PushFont(Menu::boldFont18);
+	else if (size == FontSize::SIZE_16) ImGui::PushFont(Menu::boldFont16);
+	else if (size == FontSize::SIZE_14) ImGui::PushFont(Menu::boldFont14);
 
 	ImGui::Text(text);
 
@@ -84,14 +81,14 @@ void Menu::BoldText(const char* text, FontSize size)
 
 void Menu::TextColored(const char* text, ImVec4 color, FontSize size)
 {
-	if (size == FontSize::SIZE_28) ImGui::PushFont(Menu::Font28);
-	else if (size == FontSize::SIZE_26) ImGui::PushFont(Menu::Font26);
-	else if (size == FontSize::SIZE_24) ImGui::PushFont(Menu::Font24);
-	else if (size == FontSize::SIZE_22) ImGui::PushFont(Menu::Font22);
-	else if (size == FontSize::SIZE_20) ImGui::PushFont(Menu::Font20);
-	else if (size == FontSize::SIZE_18) ImGui::PushFont(Menu::Font18);
-	else if (size == FontSize::SIZE_16) ImGui::PushFont(Menu::Font16);
-	else if (size == FontSize::SIZE_14) ImGui::PushFont(Menu::Font14);
+	if (size == FontSize::SIZE_28) ImGui::PushFont(Menu::font28);
+	else if (size == FontSize::SIZE_26) ImGui::PushFont(Menu::font26);
+	else if (size == FontSize::SIZE_24) ImGui::PushFont(Menu::font24);
+	else if (size == FontSize::SIZE_22) ImGui::PushFont(Menu::font22);
+	else if (size == FontSize::SIZE_20) ImGui::PushFont(Menu::font20);
+	else if (size == FontSize::SIZE_18) ImGui::PushFont(Menu::font18);
+	else if (size == FontSize::SIZE_16) ImGui::PushFont(Menu::font16);
+	else if (size == FontSize::SIZE_14) ImGui::PushFont(Menu::font14);
 
 	ImGui::TextColored(color, text);
 
@@ -100,14 +97,14 @@ void Menu::TextColored(const char* text, ImVec4 color, FontSize size)
 
 void Menu::BoldTextColored(const char* text, ImVec4 color, FontSize size)
 {
-	if (size == FontSize::SIZE_28) ImGui::PushFont(Menu::BoldFont28);
-	else if (size == FontSize::SIZE_26) ImGui::PushFont(Menu::BoldFont26);
-	else if (size == FontSize::SIZE_24) ImGui::PushFont(Menu::BoldFont24);
-	else if (size == FontSize::SIZE_22) ImGui::PushFont(Menu::BoldFont22);
-	else if (size == FontSize::SIZE_20) ImGui::PushFont(Menu::BoldFont20);
-	else if (size == FontSize::SIZE_18) ImGui::PushFont(Menu::BoldFont18);
-	else if (size == FontSize::SIZE_16) ImGui::PushFont(Menu::BoldFont16);
-	else if (size == FontSize::SIZE_14) ImGui::PushFont(Menu::BoldFont14);
+	if (size == FontSize::SIZE_28) ImGui::PushFont(Menu::boldFont28);
+	else if (size == FontSize::SIZE_26) ImGui::PushFont(Menu::boldFont26);
+	else if (size == FontSize::SIZE_24) ImGui::PushFont(Menu::boldFont24);
+	else if (size == FontSize::SIZE_22) ImGui::PushFont(Menu::boldFont22);
+	else if (size == FontSize::SIZE_20) ImGui::PushFont(Menu::boldFont20);
+	else if (size == FontSize::SIZE_18) ImGui::PushFont(Menu::boldFont18);
+	else if (size == FontSize::SIZE_16) ImGui::PushFont(Menu::boldFont16);
+	else if (size == FontSize::SIZE_14) ImGui::PushFont(Menu::boldFont14);
 
 	ImGui::TextColored(color, text);
 
@@ -120,14 +117,14 @@ void Menu::GlitchText(const char* text, FontSize size)
 	ImDrawList* drawList = ImGui::GetWindowDrawList();
 
 	// Push the custom font with the given size
-	if (size == FontSize::SIZE_28) ImGui::PushFont(Menu::BoldFont28);
-	else if (size == FontSize::SIZE_26) ImGui::PushFont(Menu::BoldFont26);
-	else if (size == FontSize::SIZE_24) ImGui::PushFont(Menu::BoldFont24);
-	else if (size == FontSize::SIZE_22) ImGui::PushFont(Menu::BoldFont22);
-	else if (size == FontSize::SIZE_20) ImGui::PushFont(Menu::BoldFont20);
-	else if (size == FontSize::SIZE_18) ImGui::PushFont(Menu::BoldFont18);
-	else if (size == FontSize::SIZE_16) ImGui::PushFont(Menu::BoldFont16);
-	else if (size == FontSize::SIZE_14) ImGui::PushFont(Menu::BoldFont14);
+	if (size == FontSize::SIZE_28) ImGui::PushFont(Menu::boldFont28);
+	else if (size == FontSize::SIZE_26) ImGui::PushFont(Menu::boldFont26);
+	else if (size == FontSize::SIZE_24) ImGui::PushFont(Menu::boldFont24);
+	else if (size == FontSize::SIZE_22) ImGui::PushFont(Menu::boldFont22);
+	else if (size == FontSize::SIZE_20) ImGui::PushFont(Menu::boldFont20);
+	else if (size == FontSize::SIZE_18) ImGui::PushFont(Menu::boldFont18);
+	else if (size == FontSize::SIZE_16) ImGui::PushFont(Menu::boldFont16);
+	else if (size == FontSize::SIZE_14) ImGui::PushFont(Menu::boldFont14);
 
 	// Red Glitch Offset (slightly displaced)
 	ImVec2 pos_red = ImVec2(cursorPos.x - (1 + (rand() % 3)), cursorPos.y - (rand() % 2));
@@ -151,14 +148,14 @@ void Menu::GlitchText(const char* text, ImVec2 pos, int size)
 {
 	// Red Text
 	ImVec2 pos_one = ImVec2(pos.x - (1 + (rand() % 3)), pos.y - (rand() % 2));
-	ImGui::GetWindowDrawList()->AddText(Menu::FontBold, size, pos_one, ImColor(235, 5, 90, 100 + (rand() % 60)), text);
+	ImGui::GetWindowDrawList()->AddText(Menu::fontBold, size, pos_one, ImColor(235, 5, 90, 100 + (rand() % 60)), text);
 
 	// Cyan Text;
 	ImVec2 pos_two = ImVec2(pos.x + (1 + (rand() % 3)), pos.y + (rand() % 2));
-	ImGui::GetWindowDrawList()->AddText(Menu::FontBold, size, pos_two, ImColor(32, 217, 217, 100 + (rand() % 60)), text);
+	ImGui::GetWindowDrawList()->AddText(Menu::fontBold, size, pos_two, ImColor(32, 217, 217, 100 + (rand() % 60)), text);
 
 	// Real Text
-	ImGui::GetWindowDrawList()->AddText(Menu::FontBold, size, pos, ImColor(255, 255, 255), text);
+	ImGui::GetWindowDrawList()->AddText(Menu::fontBold, size, pos, ImColor(255, 255, 255), text);
 }
 
 void Menu::VerticalSeparator(const char* str_id, float size, float thickness)
@@ -212,14 +209,14 @@ void Menu::HorizontalSeparatorText(const char* text, FontSize font_size, float s
 		size = ImGui::GetWindowSize().x - 40.f;
 	}
 
-	if (font_size == FontSize::SIZE_28) ImGui::PushFont(Menu::Font28);
-	else if (font_size == FontSize::SIZE_26) ImGui::PushFont(Menu::Font26);
-	else if (font_size == FontSize::SIZE_24) ImGui::PushFont(Menu::Font24);
-	else if (font_size == FontSize::SIZE_22) ImGui::PushFont(Menu::Font22);
-	else if (font_size == FontSize::SIZE_20) ImGui::PushFont(Menu::Font20);
-	else if (font_size == FontSize::SIZE_18) ImGui::PushFont(Menu::Font18);
-	else if (font_size == FontSize::SIZE_16) ImGui::PushFont(Menu::Font16);
-	else if (font_size == FontSize::SIZE_14) ImGui::PushFont(Menu::Font14);
+	if (font_size == FontSize::SIZE_28) ImGui::PushFont(Menu::font28);
+	else if (font_size == FontSize::SIZE_26) ImGui::PushFont(Menu::font26);
+	else if (font_size == FontSize::SIZE_24) ImGui::PushFont(Menu::font24);
+	else if (font_size == FontSize::SIZE_22) ImGui::PushFont(Menu::font22);
+	else if (font_size == FontSize::SIZE_20) ImGui::PushFont(Menu::font20);
+	else if (font_size == FontSize::SIZE_18) ImGui::PushFont(Menu::font18);
+	else if (font_size == FontSize::SIZE_16) ImGui::PushFont(Menu::font16);
+	else if (font_size == FontSize::SIZE_14) ImGui::PushFont(Menu::font14);
 
 	ImVec2 textSize = ImGui::CalcTextSize(text);
 	float textWidth = textSize.x;
@@ -243,14 +240,14 @@ bool Menu::Button(const char* label, ImVec2 size, FontSize font_size)
 		size.x = ImGui::GetWindowSize().x - 40.f;
 	}
 
-	if (font_size == FontSize::SIZE_28) ImGui::PushFont(Menu::Font28);
-	else if (font_size == FontSize::SIZE_26) ImGui::PushFont(Menu::Font26);
-	else if (font_size == FontSize::SIZE_24) ImGui::PushFont(Menu::Font24);
-	else if (font_size == FontSize::SIZE_22) ImGui::PushFont(Menu::Font22);
-	else if (font_size == FontSize::SIZE_20) ImGui::PushFont(Menu::Font20);
-	else if (font_size == FontSize::SIZE_18) ImGui::PushFont(Menu::Font18);
-	else if (font_size == FontSize::SIZE_16) ImGui::PushFont(Menu::Font16);
-	else if (font_size == FontSize::SIZE_14) ImGui::PushFont(Menu::Font14);
+	if (font_size == FontSize::SIZE_28) ImGui::PushFont(Menu::font28);
+	else if (font_size == FontSize::SIZE_26) ImGui::PushFont(Menu::font26);
+	else if (font_size == FontSize::SIZE_24) ImGui::PushFont(Menu::font24);
+	else if (font_size == FontSize::SIZE_22) ImGui::PushFont(Menu::font22);
+	else if (font_size == FontSize::SIZE_20) ImGui::PushFont(Menu::font20);
+	else if (font_size == FontSize::SIZE_18) ImGui::PushFont(Menu::font18);
+	else if (font_size == FontSize::SIZE_16) ImGui::PushFont(Menu::font16);
+	else if (font_size == FontSize::SIZE_14) ImGui::PushFont(Menu::font14);
 
 	bool result = ImGui::Button(label, size);
 	if (ImGui::IsItemHovered())
@@ -285,7 +282,7 @@ void Menu::KeybindButton(const char* text, int& keybind, bool allowMouse, bool a
 	ImGui::SameLine();
 
 	const float w = 120.f; // Width of checkbox and keybind button
-	const float space = size.x - Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, text).x - w;
+	const float space = size.x - font18->CalcTextSizeA(18, FLT_MAX, 0.0f, text).x - w;
 
 	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + space - 10);
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5.f);
@@ -301,14 +298,14 @@ void Menu::KeybindButton(const char* text, int& keybind, bool allowMouse, bool a
 		for (int i = 0; i < keys_size; i++)
 		{
 			int key = i;
-			if (!Keys::IsKeyPressed(i) || (!allowMouse && IsMouseButton(i)) || (!allowKeyboard && IsKeyboardKey(i))) continue;
+			if (!Keys::IsKeyPressedOnce(i) || (!allowMouse && IsMouseButton(i)) || (!allowKeyboard && IsKeyboardKey(i))) continue;
 
 			if (i == VK_ESCAPE) keybind = 0;
 			else keybind = i;
 
 			strncpy_s(name, keys[std::clamp(keybind, 0, keys_size)], 18);
 			bindings[text] = false;
-			IsBindingKey = false;
+			isBindingKey = false;
 			break;
 		}
 	}
@@ -317,7 +314,7 @@ void Menu::KeybindButton(const char* text, int& keybind, bool allowMouse, bool a
 		if (ImGui::Button(Keys::GetKeyName(keybind), ImVec2(120, 0)))
 		{
 			bindings[text] = true;
-			IsBindingKey = true;
+			isBindingKey = true;
 		}
 	}
 }
@@ -328,14 +325,14 @@ bool Menu::TransparentButton(const char* text, ImVec2 btn_size, FontSize font_si
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0));
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0, 0, 0));
 	
-	if (font_size == FontSize::SIZE_28) ImGui::PushFont(Menu::Font28);
-	else if (font_size == FontSize::SIZE_26) ImGui::PushFont(Menu::Font26);
-	else if (font_size == FontSize::SIZE_24) ImGui::PushFont(Menu::Font24);
-	else if (font_size == FontSize::SIZE_22) ImGui::PushFont(Menu::Font22);
-	else if (font_size == FontSize::SIZE_20) ImGui::PushFont(Menu::Font20);
-	else if (font_size == FontSize::SIZE_18) ImGui::PushFont(Menu::Font18);
-	else if (font_size == FontSize::SIZE_16) ImGui::PushFont(Menu::Font16);
-	else if (font_size == FontSize::SIZE_14) ImGui::PushFont(Menu::Font14);
+	if (font_size == FontSize::SIZE_28) ImGui::PushFont(Menu::font28);
+	else if (font_size == FontSize::SIZE_26) ImGui::PushFont(Menu::font26);
+	else if (font_size == FontSize::SIZE_24) ImGui::PushFont(Menu::font24);
+	else if (font_size == FontSize::SIZE_22) ImGui::PushFont(Menu::font22);
+	else if (font_size == FontSize::SIZE_20) ImGui::PushFont(Menu::font20);
+	else if (font_size == FontSize::SIZE_18) ImGui::PushFont(Menu::font18);
+	else if (font_size == FontSize::SIZE_16) ImGui::PushFont(Menu::font16);
+	else if (font_size == FontSize::SIZE_14) ImGui::PushFont(Menu::font14);
 
 	bool result = ImGui::Button(text, btn_size);
 	if (ImGui::IsItemHovered())
@@ -359,14 +356,14 @@ bool Menu::MenuButton(const char* text, ImVec2 btn_size, FontSize font_size)
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, settings::Menu_WindowRounding);
 
-	if (font_size == FontSize::SIZE_28) ImGui::PushFont(Menu::Font28);
-	else if (font_size == FontSize::SIZE_26) ImGui::PushFont(Menu::Font26);
-	else if (font_size == FontSize::SIZE_24) ImGui::PushFont(Menu::Font24);
-	else if (font_size == FontSize::SIZE_22) ImGui::PushFont(Menu::Font22);
-	else if (font_size == FontSize::SIZE_20) ImGui::PushFont(Menu::Font20);
-	else if (font_size == FontSize::SIZE_18) ImGui::PushFont(Menu::Font18);
-	else if (font_size == FontSize::SIZE_16) ImGui::PushFont(Menu::Font16);
-	else if (font_size == FontSize::SIZE_14) ImGui::PushFont(Menu::Font14);
+	if (font_size == FontSize::SIZE_28) ImGui::PushFont(Menu::font28);
+	else if (font_size == FontSize::SIZE_26) ImGui::PushFont(Menu::font26);
+	else if (font_size == FontSize::SIZE_24) ImGui::PushFont(Menu::font24);
+	else if (font_size == FontSize::SIZE_22) ImGui::PushFont(Menu::font22);
+	else if (font_size == FontSize::SIZE_20) ImGui::PushFont(Menu::font20);
+	else if (font_size == FontSize::SIZE_18) ImGui::PushFont(Menu::font18);
+	else if (font_size == FontSize::SIZE_16) ImGui::PushFont(Menu::font16);
+	else if (font_size == FontSize::SIZE_14) ImGui::PushFont(Menu::font14);
 
 	bool result = ImGui::Button(text, btn_size);
 	if (ImGui::IsItemHovered())
@@ -391,14 +388,14 @@ bool Menu::DetachButton(const char* text, ImVec2 btn_size, FontSize font_size)
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, settings::Menu_WindowRounding);
 
-	if (font_size == FontSize::SIZE_28) ImGui::PushFont(Menu::Font28);
-	else if (font_size == FontSize::SIZE_26) ImGui::PushFont(Menu::Font26);
-	else if (font_size == FontSize::SIZE_24) ImGui::PushFont(Menu::Font24);
-	else if (font_size == FontSize::SIZE_22) ImGui::PushFont(Menu::Font22);
-	else if (font_size == FontSize::SIZE_20) ImGui::PushFont(Menu::Font20);
-	else if (font_size == FontSize::SIZE_18) ImGui::PushFont(Menu::Font18);
-	else if (font_size == FontSize::SIZE_16) ImGui::PushFont(Menu::Font16);
-	else if (font_size == FontSize::SIZE_14) ImGui::PushFont(Menu::Font14);
+	if (font_size == FontSize::SIZE_28) ImGui::PushFont(Menu::font28);
+	else if (font_size == FontSize::SIZE_26) ImGui::PushFont(Menu::font26);
+	else if (font_size == FontSize::SIZE_24) ImGui::PushFont(Menu::font24);
+	else if (font_size == FontSize::SIZE_22) ImGui::PushFont(Menu::font22);
+	else if (font_size == FontSize::SIZE_20) ImGui::PushFont(Menu::font20);
+	else if (font_size == FontSize::SIZE_18) ImGui::PushFont(Menu::font18);
+	else if (font_size == FontSize::SIZE_16) ImGui::PushFont(Menu::font16);
+	else if (font_size == FontSize::SIZE_14) ImGui::PushFont(Menu::font14);
 
 	bool result = ImGui::Button(text, btn_size);
 	if (ImGui::IsItemHovered())
@@ -426,7 +423,7 @@ void Menu::ToggleWithKeybind(bool* enabled, int& keybind, ImVec2 size)
 	ImGui::SameLine();
 
 	const float w = 160.f; // Width of checkbox and keybind button
-	const float space = size.x - Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Enabled").x - w;
+	const float space = size.x - font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Enabled").x - w;
 
 	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + space - 10);
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5.f);
@@ -445,14 +442,14 @@ void Menu::ToggleWithKeybind(bool* enabled, int& keybind, ImVec2 size)
 
 		for (int i = 0; i < keys_size; i++)
 		{
-			if (!Keys::IsKeyPressed(i)) continue;
+			if (!Keys::IsKeyPressedOnce(i)) continue;
 
 			if (i == VK_ESCAPE) keybind = 0;
 			else keybind = i;
 
 			strncpy_s(name, keys[std::clamp(keybind, 0, keys_size)], 18);
 			binding = false;
-			IsBindingKey = false;
+			isBindingKey = false;
 			break;
 		}
 	}
@@ -461,7 +458,7 @@ void Menu::ToggleWithKeybind(bool* enabled, int& keybind, ImVec2 size)
 		if (ImGui::Button(Keys::GetKeyName(keybind), ImVec2(120, 0)))
 		{
 			binding = true;
-			IsBindingKey = true;
+			isBindingKey = true;
 		}
 	}
 }
@@ -475,7 +472,7 @@ bool Menu::Slider(const char* label, int* value, int min, int max, ImVec2 size, 
 	}
 
 	const float w = ImGui::CalcItemWidth() - 150; // Width of the slider
-	const float space = size.x - Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, extractBeforeDoubleHash(label)).x - w;
+	const float space = size.x - font18->CalcTextSizeA(18, FLT_MAX, 0.0f, extractBeforeDoubleHash(label)).x - w;
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5.f);
 	Menu::Text(extractBeforeDoubleHash(label), FontSize::SIZE_18);
@@ -580,7 +577,7 @@ bool Menu::Slider(const char* label, float* value, float min, float max, ImVec2 
 	}
 
 	const float w = ImGui::CalcItemWidth() - 150; // Width of the slider
-	const float space = size.x - Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, extractBeforeDoubleHash(label)).x - w;
+	const float space = size.x - font18->CalcTextSizeA(18, FLT_MAX, 0.0f, extractBeforeDoubleHash(label)).x - w;
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5.f);
 	Menu::Text(extractBeforeDoubleHash(label), FontSize::SIZE_18);
@@ -752,7 +749,7 @@ bool Menu::Checkbox(const char* label, bool* v, ImVec2 size)
 	ImGui::SameLine();
 
 	const float w = 30.f; // Width of checkbox
-	const float space = size.x - Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, label).x - w;
+	const float space = size.x - font18->CalcTextSizeA(18, FLT_MAX, 0.0f, label).x - w;
 
 	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + space - 10);
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5.f);
@@ -772,7 +769,7 @@ bool Menu::ColorEdit(const char* label, float* col, ImVec2 size, ImGuiColorEditF
 	ImGui::SameLine();
 
 	const float w = 30.f; // Width of preview
-	const float space = size.x - Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, label).x - w;
+	const float space = size.x - font18->CalcTextSizeA(18, FLT_MAX, 0.0f, label).x - w;
 
 	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + space - 10);
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5.f);
@@ -792,7 +789,7 @@ bool Menu::Dropdown(const char* label, const char* items[], int* item_current, i
 	ImGui::SameLine();
 
 	const float w = 358.f; // Width of dropdown
-	const float space = size.x - Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, label).x - w;
+	const float space = size.x - font18->CalcTextSizeA(18, FLT_MAX, 0.0f, label).x - w;
 
 	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + space - 10);
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5.f);
@@ -802,11 +799,11 @@ bool Menu::Dropdown(const char* label, const char* items[], int* item_current, i
 
 void Menu::MoveCursorToCenter(bool checkInGame)
 {
-	if (checkInGame && SDK::Minecraft->IsInGuiState())
+	if (checkInGame && SDK::minecraft->IsInGuiState())
 		return;
 
 	RECT clientRect;
-	if (GetClientRect(HandleWindow, &clientRect)) {
+	if (GetClientRect(handleWindow, &clientRect)) {
 		// Calculate the center of the client area
 		int clientCenterX = (clientRect.right - clientRect.left) / 2;
 		int clientCenterY = (clientRect.bottom - clientRect.top) / 2;
@@ -815,25 +812,26 @@ void Menu::MoveCursorToCenter(bool checkInGame)
 		POINT clientCenterPoint = { clientCenterX, clientCenterY };
 
 		// Convert client coordinates to screen coordinates
-		ClientToScreen(HandleWindow, &clientCenterPoint);
+		ClientToScreen(handleWindow, &clientCenterPoint);
 
 		// Move the cursor to the center of the client area
 		SetCursorPos(clientCenterPoint.x, clientCenterPoint.y);
 	}
 }
 
-void Menu::Kill()
+void Menu::Shutdown()
 {
-	Menu::Open = false;
-	Menu::OpenHudEditor = false;
+	Menu::open = false;
+	Menu::openHudEditor = false;
 	Menu::RemoveHooks();
-	wglMakeCurrent(Menu::HandleDeviceContext, Menu::OriginalGLContext);
-	wglDeleteContext(Menu::MenuGLContext);
+	wglMakeCurrent(Menu::handleDeviceContext, Menu::originalGLContext);
+	wglDeleteContext(Menu::menuGLContext);
 	//ImGui::DestroyContext(); // This is causing a crash
 }
 
 void Menu::PlaceHooks()
 {
+	LOG_DEBUG("PlaceHooks called.");
 	Menu::Hook_wglSwapBuffers();
 }
 

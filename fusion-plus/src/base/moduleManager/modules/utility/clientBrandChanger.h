@@ -1,33 +1,35 @@
 #pragma once
+
 #include <jni/jni.h>
 
 #include "moduleManager/moduleBase.h"
 #include "java/javahook.h"
 #include "sdk/strayCache.h"
-
 #include "util/logger/logger.h"
 
 class ClientBrandChanger : public ModuleBase
 {
 public:
 	void Update() override {};
+
 	void RenderOverlay() override {};
 	void RenderHud() override {};
-
 	void RenderMenu() override;
 
-	bool IsEnabled() override { return settings::CBC_Enabled; }
-	std::string GetName() override { return Name; }
-	std::string GetCategory() override { return Category; }
+	std::string GetName() override { return m_name; }
+	std::string GetCategory() override { return m_category; }
 	int GetKey() override { return settings::CBC_Key; }
 
+	bool IsEnabled() override { return settings::CBC_Enabled; }
 	void SetEnabled(bool enabled) override { settings::CBC_Enabled = enabled; }
 	void Toggle() override { settings::CBC_Enabled = !settings::CBC_Enabled; }
 
-	static void onGetClientModName(JNIEnv* env, bool* cancel);
-	static void getClientModName_callback(HotSpot::frame* frame, HotSpot::Thread* thread, bool* cancel);
+	static void OnGetClientModName(JNIEnv* env, bool* cancel);
+	static void GetClientModName_callback(HotSpot::frame* frame, HotSpot::Thread* thread, bool* cancel);
 
 private:
-	std::string Name = "Client Brand Changer";
-	std::string Category = "Utility";
+	std::string m_name = "Client Brand Changer";
+	std::string m_category = "Utility";
+
+	std::once_flag m_setOriginalClientBrandFlag;
 };

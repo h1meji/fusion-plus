@@ -1,14 +1,15 @@
 #pragma once
 
-#include <jni/jni.h>
 #include <cstdint>
+
 #include <string>
 
-// Source: https://github.com/Lefraudeur/RiptermsGhost/blob/master/HotSpot/HotSpot.hpp
+#include <jni/jni.h>
 
+// Source: https://github.com/Lefraudeur/RiptermsGhost/blob/master/HotSpot/HotSpot.hpp
 struct HotSpot
 {
-    static bool init();
+    static bool Init();
 
     enum JavaThreadState
     {
@@ -50,60 +51,60 @@ struct HotSpot
 
     struct ConstantPool
     {
-        void** get_base();
-        static int get_size();
-        int get_length();
+        void** GetBase();
+        static int GetSize();
+        int GetLength();
     };
 
     struct ConstMethod
     {
-        ConstantPool* get_constants();
-        void set_constants(ConstantPool* _constants);
-        unsigned short get_name_index();
-        unsigned short get_signature_index();
+        ConstantPool* GetConstants();
+        void SetConstants(ConstantPool* _constants);
+        unsigned short GetNameIndex();
+        unsigned short GetSignatureIndex();
     };
 
     struct AccessFlags
     {
         jint _flags;
-        bool is_static() const;
+        bool IsStatic() const;
     };
 
     struct Method
     {
-        ConstMethod* get_constMethod();
-        std::string get_signature();
-        std::string get_name();
-        int get_parameters_count();
-        AccessFlags* get_access_flags();
-        void* get_from_interpreted_entry();
-        void set_from_interpreted_entry(void* entry);
-        void* get_from_compiled_entry();
-        void set_from_compiled_entry(void* entry);
-        void* get_i2i_entry();
-        unsigned short* get_flags();
-        void set_dont_inline(bool enabled);
+        ConstMethod* GetConstMethod();
+        std::string GetSignature();
+        std::string GetName();
+        int GetParametersCount();
+        AccessFlags* GetAccessFlags();
+        void* GetFromInterpretedEntry();
+        void SetFromInterpretedEntry(void* entry);
+        void* GetFromCompiledEntry();
+        void SetFromCompiledEntry(void* entry);
+        void* GetI2iEntry();
+        unsigned short* GetFlags();
+        void SetDontInline(bool enabled);
     };
 
     struct frame
     {
-        inline static int locals_offset = -56;
-        void** get_locals();
-        Method* get_method();
+        inline static int localsOffset = -56;
+        void** GetLocals();
+        Method* GetMethod();
     };
 
     struct Thread
     {
-        JNIEnv* get_env();
-        uint32_t get_suspend_flags();
-        JavaThreadState get_thread_state();
-        void set_thread_state(JavaThreadState state);
-        static int get_thread_state_offset();
+        JNIEnv* GetEnv();
+        uint32_t GetSuspendFlags();
+        JavaThreadState GetThreadState();
+        void SetThreadState(JavaThreadState state);
+        static int GetThreadStateOffset();
     };
 
     struct Symbol
     {
-        std::string to_string();
+        std::string ToString();
     };
 
     enum

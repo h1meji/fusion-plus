@@ -2,9 +2,11 @@
 
 #include <string>
 #include <vector>
+
 #include <Windows.h>
 
-struct settings {
+struct settings
+{
 	inline static std::vector<std::string> friends;
 
 	// Menu

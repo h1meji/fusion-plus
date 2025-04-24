@@ -1,19 +1,22 @@
 #include "timeManager.h"
 
-float TimeManager::lastTime = 0.0f;
-float TimeManager::pausedTime = 0.0f;
-bool TimeManager::isPaused = false;
+float TimeManager::m_lastTime = 0.0f;
+float TimeManager::m_pausedTime = 0.0f;
+bool TimeManager::m_isPaused = false;
 
-float TimeManager::GetTime() {
-    if (IsIconic(Menu::HandleWindow)) {
-        if (!isPaused) {
-            isPaused = true;
-            pausedTime = lastTime;
+float TimeManager::GetTime()
+{
+    if (IsIconic(Menu::handleWindow))
+    {
+        if (!m_isPaused)
+        {
+            m_isPaused = true;
+            m_pausedTime = m_lastTime;
         }
-        return pausedTime;
+        return m_pausedTime;
     }
     
-    isPaused = false;
-    lastTime = ImGui::GetTime();
-    return lastTime;
+    m_isPaused = false;
+    m_lastTime = ImGui::GetTime();
+    return m_lastTime;
 }

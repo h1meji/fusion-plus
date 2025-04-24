@@ -1,12 +1,10 @@
 #include "menu/menu.h"
+
 #include "base.h"
-
-#include "imgui/imgui_impl_win32.h"
-
 #include "configManager/settings.h"
 #include "util/keys.h"
 
-static bool MouseButtonUp(UINT msg)
+static bool mouseButtonUp(UINT msg)
 {
 	return msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP;
 }
@@ -18,37 +16,37 @@ template_WndProc original_wndProc;
 LRESULT CALLBACK hook_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static bool listenForKeys = true;
-	if (Menu::IsBindingKey) listenForKeys = false;
+	if (Menu::isBindingKey) listenForKeys = false;
 
 	if (msg == WM_KEYDOWN && listenForKeys)
 	{
 		if (wParam == settings::Menu_Keybind)
 		{
-			if (Menu::Open) Menu::MoveCursorToCenter(true);
-			Menu::Open = !Menu::Open;
-			Menu::OpenHudEditor = false;
+			if (Menu::open) Menu::MoveCursorToCenter(true);
+			Menu::open = !Menu::open;
+			Menu::openHudEditor = false;
 		}
 
-		if (wParam == VK_ESCAPE && Menu::Open)
+		if (wParam == VK_ESCAPE && Menu::open)
 		{
 			Menu::MoveCursorToCenter(true);
-			Menu::Open = false;
-			Menu::OpenHudEditor = false;
+			Menu::open = false;
+			Menu::openHudEditor = false;
 		}
 
 		if (wParam == settings::Menu_DetachKey)
 		{
-			Base::Running = false;
+			Base::m_running = false;
 			Menu::MoveCursorToCenter(true);
 		}
 	}
 
-	if ((msg == WM_KEYUP || MouseButtonUp(msg)) && !Menu::IsBindingKey)
+	if ((msg == WM_KEYUP || mouseButtonUp(msg)) && !Menu::isBindingKey)
 	{
 		listenForKeys = true;
 	}
 
-	if (Menu::Open && Menu::Initialized)
+	if (Menu::open && Menu::initialized)
 	{
 		if (settings::Menu_GUIMovement)
 		{
@@ -82,16 +80,14 @@ LRESULT CALLBACK hook_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return CallWindowProc(original_wndProc, hwnd, msg, wParam, lParam);
 }
 
-
-
 void Menu::Hook_wndProc()
 {
-	original_wndProc = (template_WndProc)SetWindowLongPtr(Menu::HandleWindow, GWLP_WNDPROC, (LONG_PTR)hook_WndProc);
+	original_wndProc = (template_WndProc)SetWindowLongPtr(Menu::handleWindow, GWLP_WNDPROC, (LONG_PTR)hook_WndProc);
 }
 
 void Menu::Unhook_wndProc()
 {
-	SetWindowLongPtr(Menu::HandleWindow, GWLP_WNDPROC, (LONG_PTR)original_wndProc);
+	SetWindowLongPtr(Menu::handleWindow, GWLP_WNDPROC, (LONG_PTR)original_wndProc);
 }
 
 void Menu::ResetSetupFlags()

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "sdk/java/IClass.h"
 
 struct CGameSettings : IClass

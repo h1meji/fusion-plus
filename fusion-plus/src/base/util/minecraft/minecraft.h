@@ -3,8 +3,13 @@
 #include <unordered_map>
 #include <vector>
 
+#include "configManager/settings.h"
+#include "sdk/net/minecraft/item/ItemStack.h"
+#include "util/logger/logger.h"
+
 // Structure to hold ID and metadata
-struct BlockData {
+struct BlockData
+{
     int id;
     int metadata;
 };
@@ -628,26 +633,35 @@ struct MinecraftItems
     // Reverse mapping from BlockData to name (optional, for reverse lookup)
     static inline std::unordered_map<int, std::unordered_map<int, std::string>> blockToName;
 
-    static void Init() {
-        for (const auto& [name, data] : nameToBlock) {
+    static void Init()
+    {
+        for (const auto& [name, data] : nameToBlock)
+        {
             blockToName[data.id][data.metadata] = name;
         }
+        LOG_INFO("Loaded all Minecraft blocks");
     }
 
-    static BlockData GetBlockByName(const std::string& name) {
-        if (nameToBlock.find(name) != nameToBlock.end()) {
+    static BlockData GetBlockByName(const std::string& name)
+    {
+        if (nameToBlock.find(name) != nameToBlock.end())
+        {
             return nameToBlock[name];
         }
-        else {
+        else
+        {
             return { -1, -1 };
         }
     }
 
-    static std::string GetNameByData(int id, int metadata) {
-        if (blockToName.find(id) != blockToName.end() && blockToName[id].find(metadata) != blockToName[id].end()) {
+    static std::string GetNameByData(int id, int metadata)
+    {
+        if (blockToName.find(id) != blockToName.end() && blockToName[id].find(metadata) != blockToName[id].end())
+        {
             return blockToName[id][metadata];
         }
-        else {
+        else
+        {
 			return "Unknown";
         }
     }
@@ -671,9 +685,11 @@ struct MinecraftUtils
 
     static inline bool IsWeapon(CItemStack item)
     {
-        if (item.GetInstance() != nullptr) {
+        if (item.GetInstance() != nullptr)
+        {
             return IsWeapon(item.GetItem().GetID());
         }
+
         return settings::Weapon_Fist || false;
     }
 

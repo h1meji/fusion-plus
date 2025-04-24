@@ -5,21 +5,20 @@
 
 CTimer::CTimer()
 {
-	this->Class = StrayCache::timer_class;
-	this->FieldIDs["renderPartialTicks"] = StrayCache::timer_renderPartialTicks;
+	this->clazz = StrayCache::timer_class;
 }
 
 float CTimer::GetRenderPartialTicks()
 {
-	return Java::Env->GetFloatField(this->GetInstance(), this->FieldIDs["renderPartialTicks"]);
+	return Java::env->GetFloatField(this->GetInstance(), StrayCache::timer_renderPartialTicks);
 }
 
 jclass CTimer::GetClass()
 {
-	return this->Class;
+	return this->clazz;
 }
 
 jobject CTimer::GetInstance()
 {
-	return Java::Env->GetObjectField(SDK::Minecraft->GetInstance(), SDK::Minecraft->FieldIDs["timer"]);
+	return Java::env->GetObjectField(SDK::minecraft->GetInstance(), StrayCache::minecraft_timer);
 }

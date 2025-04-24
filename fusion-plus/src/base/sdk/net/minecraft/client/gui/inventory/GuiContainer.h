@@ -1,4 +1,5 @@
 #pragma once
+
 #include "sdk/net/minecraft/inventory/Container.h"
 
 struct CGuiContainer : IClass

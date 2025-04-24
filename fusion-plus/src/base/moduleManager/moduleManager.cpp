@@ -17,67 +17,64 @@
 #include "modules/utility/arrayList.h"
 #include "modules/utility/clientBrandChanger.h"
 #include "modules/utility/weapon.h"
-//#include "modules/tnt-tag/tagBack.h"
-//#include "modules/tnt-tag/ITEsp.h"
+
 #include "commonData.h"
-
-#include <configManager/configManager.h>
-#include <imgui/imgui.h>
-
+#include "configManager/configManager.h"
 #include "util/minecraft/inventory.h"
-#include <menu/menu.h>
-#include <util/keys.h>
+#include "util/keys.h"
+#include "menu/menu.h"
 
 
 void ModuleManager::Init()
 {
-	modules.push_back(std::make_unique<AimAssist>());
-	modules.push_back(std::make_unique<Reach>());
-	modules.push_back(std::make_unique<LeftAutoClicker>());
-	modules.push_back(std::make_unique<RightAutoClicker>());
-	modules.push_back(std::make_unique<Esp>());
-	modules.push_back(std::make_unique<Radar>());
-	modules.push_back(std::make_unique<Nametag>());
-	//modules.push_back(std::make_unique<BlockEsp>());
-	modules.push_back(std::make_unique<BridgeAssist>());
-	modules.push_back(std::make_unique<Velocity>());
-	modules.push_back(std::make_unique<SprintReset>());
-	modules.push_back(std::make_unique<Sprint>());
-	modules.push_back(std::make_unique<ChestStealer>());
-	//modules.push_back(std::make_unique<InventorySorter>());
-	modules.push_back(std::make_unique<ArrayList>());
-	modules.push_back(std::make_unique<ClientBrandChanger>());
-	modules.push_back(std::make_unique<Weapon>());
-
-	//modules.push_back(std::make_unique<TagBack>());
-	//modules.push_back(std::make_unique<ITEsp>());
-	Logger::Log("Modules initialized");
+	m_modules.push_back(std::make_unique<AimAssist>());
+	m_modules.push_back(std::make_unique<Reach>());
+	m_modules.push_back(std::make_unique<LeftAutoClicker>());
+	m_modules.push_back(std::make_unique<RightAutoClicker>());
+	m_modules.push_back(std::make_unique<Esp>());
+	m_modules.push_back(std::make_unique<Radar>());
+	m_modules.push_back(std::make_unique<Nametag>());
+	m_modules.push_back(std::make_unique<BridgeAssist>());
+	m_modules.push_back(std::make_unique<Velocity>());
+	m_modules.push_back(std::make_unique<SprintReset>());
+	m_modules.push_back(std::make_unique<Sprint>());
+	m_modules.push_back(std::make_unique<ChestStealer>());
+	m_modules.push_back(std::make_unique<ArrayList>());
+	m_modules.push_back(std::make_unique<ClientBrandChanger>());
+	m_modules.push_back(std::make_unique<Weapon>());
+	LOG_INFO("Modules initialized");
 
 	// load friends
-	ConfigManager::LoadFriends();
-	Logger::Log("Friends loaded");
+	configmanager::LoadFriends();
+	LOG_INFO("Friends loaded");
 
 	// load the first config
-	std::vector<std::string> configList = ConfigManager::GetConfigList();
+	std::vector<std::string> configList = configmanager::GetConfigList();
 	if (!configList.empty())
 	{
-		ConfigManager::LoadConfig(configList[0].c_str());
-		Logger::Log("Config loaded: %s", configList[0].c_str());
+		configmanager::LoadConfig(configList[0].c_str());
+		LOG_INFO("Config loaded: %s", configList[0].c_str());
 	}
 
 	// init inventory system
 	InventorySystem::Init();
 
 	// hook
-	try {
-		if (StrayCache::clientBrandRetriever_getClientModName != nullptr && ClientBrandChanger::getClientModName_callback != nullptr) {
-			bool hookResult = JavaHook::hook(StrayCache::clientBrandRetriever_getClientModName, ClientBrandChanger::getClientModName_callback);
-			Logger::Log(hookResult ? "Hooked ClientBrandRetriever.getClientModName" : "Failed to hook ClientBrandRetriever.getClientModName");
-		} else {
-			Logger::Log("Skipping ClientBrandRetriever hook - Invalid function pointers");
+	try
+	{
+		if (StrayCache::clientBrandRetriever_getClientModName != nullptr && ClientBrandChanger::GetClientModName_callback != nullptr)
+		{
+			bool hookResult = JavaHook::Hook(StrayCache::clientBrandRetriever_getClientModName, ClientBrandChanger::GetClientModName_callback);
+			LOG_INFO(hookResult ? "Hooked ClientBrandRetriever.getClientModName" : "Failed to hook ClientBrandRetriever.getClientModName");
+		} 
+		else
+		{
+			LOG_INFO("Skipping ClientBrandRetriever hook - Invalid function pointers");
 		}
-	} catch (const std::exception& e) {
-		Logger::Log("Error during hook initialization: %s", e.what());
+	}
+	catch (const std::exception& e)
+	{
+		LOG_INFO("Error during hook initialization: %s", e.what());
 	}
 }
 
@@ -85,41 +82,47 @@ void ModuleManager::UpdateModules()
 {
 	CommonData::UpdateData();
 
-	for (auto& module : modules)
+	for (auto& module : m_modules)
 	{
 		// Keybinds
-		if (module->GetKey() != 0 && Keys::IsKeyPressed(module->GetKey()) && !Menu::Open)
+		if (module->GetKey() != 0 && Keys::IsKeyPressedOnce(module->GetKey()) && !Menu::open)
 		{
 			module->Toggle();
 		}
 
 		if (module->IsEnabled())
+		{
 			module->Update();
+		}
 	}
 }
 
 void ModuleManager::RenderOverlay()
 {
-	for (auto& module : modules)
+	for (auto& module : m_modules)
 	{
 		if (module->IsEnabled())
+		{
 			module->RenderOverlay();
+		}
 	}
 }
 
 void ModuleManager::RenderHud()
 {
-	for (auto& module : modules)
+	for (auto& module : m_modules)
 	{
 		if (module->IsEnabled())
+		{
 			module->RenderHud();
+		}
 	}
 
 	// Render Keybinds Window
 	if (settings::Hud_ShowKeybinds)
 	{
 		ImGuiWindowFlags windowFlags;
-		if (!Menu::OpenHudEditor)
+		if (!Menu::openHudEditor)
 		{
 			windowFlags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMouseInputs;
 		}
@@ -142,7 +145,7 @@ void ModuleManager::RenderHud()
 			Menu::BoldText("Keybinds", FontSize::SIZE_18);
 			Menu::HorizontalSeparator("KeybindsSeparator");
 
-			for (auto& module : modules)
+			for (auto& module : m_modules)
 			{
 				int key = module->GetKey();
 				if (key != 0)
@@ -165,10 +168,12 @@ void ModuleManager::RenderMenu(int index)
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 15);
 
 	std::vector<std::string> categories = GetCategories();
-	for (auto& module : modules)
+	for (auto& module : m_modules)
 	{
 		if (module->GetCategory() == categories[index])
+		{
 			module->RenderMenu();
+		}
 	}
 }
 
@@ -176,10 +181,12 @@ std::vector<std::string> ModuleManager::GetCategories()
 {
 	std::vector<std::string> categories;
 
-	for (auto& module : modules)
+	for (auto& module : m_modules)
 	{
 		if (std::find(categories.begin(), categories.end(), module->GetCategory()) == categories.end())
+		{
 			categories.push_back(module->GetCategory());
+		}
 	}
 
 	return categories;
@@ -187,10 +194,12 @@ std::vector<std::string> ModuleManager::GetCategories()
 
 int ModuleManager::GetFirstModuleIndexByCategory(const std::string& category)
 {
-	for (int i = 0; i < modules.size(); i++)
+	for (int i = 0; i < m_modules.size(); i++)
 	{
-		if (modules[i]->GetCategory() == category)
+		if (m_modules[i]->GetCategory() == category)
+		{
 			return i;
+		}
 	}
 
 	return -1;

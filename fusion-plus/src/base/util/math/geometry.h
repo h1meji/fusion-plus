@@ -11,6 +11,7 @@ public:
 
 	Vector3() {};
 	Vector3(const float x, const float y, const float z) : x(x), y(y), z(z) {}
+
 	Vector3 operator + (const Vector3& rhs) const { return Vector3(x + rhs.x, y + rhs.y, z + rhs.z); }
 	Vector3 operator + (const float rhs) const { return Vector3(x + rhs, y + rhs, z + rhs); }
 	Vector3 operator - (const Vector3& rhs) const { return Vector3(x - rhs.x, y - rhs.y, z - rhs.z); }
@@ -23,6 +24,7 @@ public:
 	Vector3& operator -= (const Vector3& rhs) { return *this = *this - rhs; }
 	Vector3& operator *= (const float& rhs) { return *this = *this * rhs; }
 	Vector3& operator /= (const float& rhs) { return *this = *this / rhs; }
+
 	float Length() const { return sqrtf(x * x + y * y + z * z); }
 	Vector3 Normalize() const { return *this * (1 / Length()); }
 	Vector3 Invert() const { return Vector3{ -x, -y, -z }; }
@@ -31,10 +33,11 @@ public:
 
 struct Vector2
 {
-	Vector2 operator - (const Vector2& rhs) const { return Vector2(x - rhs.x, y - rhs.y); }
-	Vector2 Invert() const { return Vector2{ -x, -y }; }
 	float x{ NAN };
 	float y{ NAN };
+
+	Vector2 operator - (const Vector2& rhs) const { return Vector2(x - rhs.x, y - rhs.y); }
+	Vector2 Invert() const { return Vector2{ -x, -y }; }
 };
 
 struct Vector2i
@@ -61,7 +64,8 @@ struct Matrix
 	float m30, m31, m32, m33;
 
 	// Function to calculate the determinant of the 4x4 matrix
-	float determinant() const {
+	float Determinant() const
+	{
 		return
 			m00 * (m11 * (m22 * m33 - m23 * m32) - m12 * (m21 * m33 - m23 * m31) + m13 * (m21 * m32 - m22 * m31)) -
 			m01 * (m10 * (m22 * m33 - m23 * m32) - m12 * (m20 * m33 - m23 * m30) + m13 * (m20 * m32 - m22 * m30)) +
@@ -70,15 +74,17 @@ struct Matrix
 	}
 
 	// Function to calculate the inverse of the 4x4 matrix
-	Matrix inverse() const {
-		float det = determinant();
-		if (det == 0.0f) {
+	Matrix Inverse() const
+	{
+		float det = Determinant();
+		if (det == 0.0f)
+		{
 			return *this;
 		}
 
 		float invDet = 1.0f / det;
 
-		Matrix inv;
+		Matrix inv{};
 
 		inv.m00 = invDet * (m11 * (m22 * m33 - m23 * m32) - m12 * (m21 * m33 - m23 * m31) + m13 * (m21 * m32 - m22 * m31));
 		inv.m01 = invDet * -(m01 * (m22 * m33 - m23 * m32) - m02 * (m21 * m33 - m23 * m31) + m03 * (m21 * m32 - m22 * m31));
@@ -104,7 +110,8 @@ struct Matrix
 	}
 };
 
-struct BoundingBox {
+struct BoundingBox
+{
 	double minX;
 	double minY;
 	double minZ;

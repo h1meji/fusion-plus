@@ -11,5 +11,8 @@ struct FloatBuffer : IClass
 	jobject GetInstance();
 
 	Matrix GetMatrix();
+
+private:
+	jmethodID getId;
 };
 

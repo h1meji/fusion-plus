@@ -1,10 +1,11 @@
 #include "configManager.h"
-#include <util/logger/logger.h>
-#include <java/java.h>
 
-bool ConfigManager::LoadConfig(const char* name)
+#include "util/logger/logger.h"
+#include "java/java.h"
+
+bool configmanager::LoadConfig(const char* name)
 {
-	std::ifstream file(ConfigManager::GetConfigPath() + name + FILE_SUFFIX);
+	std::ifstream file(configmanager::GetConfigPath() + name + FILE_SUFFIX);
 
 	if (!file.is_open())
 		return false;
@@ -19,14 +20,14 @@ bool ConfigManager::LoadConfig(const char* name)
 	return true;
 }
 
-int ConfigManager::SaveConfig(const char* name)
+int configmanager::SaveConfig(const char* name)
 {
 	json j;
 
 	if (!SettingsToJson(j))
 		return -1;
 
-	std::ofstream file(ConfigManager::GetConfigPath() + name + FILE_SUFFIX);
+	std::ofstream file(configmanager::GetConfigPath() + name + FILE_SUFFIX);
 
 	if (!file.is_open())
 		return -1;
@@ -35,7 +36,7 @@ int ConfigManager::SaveConfig(const char* name)
 	file.close();
 
 	// Return the index of the saved config
-	std::vector<std::string> configs = ConfigManager::GetConfigList();
+	std::vector<std::string> configs = configmanager::GetConfigList();
 	for (size_t i = 0; i < configs.size(); ++i)
 	{
 		if (configs[i] == name)
@@ -45,20 +46,20 @@ int ConfigManager::SaveConfig(const char* name)
 	return -1;
 }
 
-bool ConfigManager::RemoveConfig(const char* name)
+bool configmanager::RemoveConfig(const char* name)
 {
-	return std::filesystem::remove(ConfigManager::GetConfigPath() + name + FILE_SUFFIX);
+	return std::filesystem::remove(configmanager::GetConfigPath() + name + FILE_SUFFIX);
 }
 
-std::vector<std::string> ConfigManager::GetConfigList()
+std::vector<std::string> configmanager::GetConfigList()
 {
 	std::vector<std::string> configs;
 
 	// check if the directory exists, if not create it
-	if (!std::filesystem::exists(ConfigManager::GetConfigPath()))
-		std::filesystem::create_directory(ConfigManager::GetConfigPath());
+	if (!std::filesystem::exists(configmanager::GetConfigPath()))
+		std::filesystem::create_directory(configmanager::GetConfigPath());
 
-	for (const auto& entry : std::filesystem::directory_iterator(ConfigManager::GetConfigPath()))
+	for (const auto& entry : std::filesystem::directory_iterator(configmanager::GetConfigPath()))
 	{
 		if (entry.path().extension() == FILE_SUFFIX/* || entry.path().extension() == ".json"*/)
 			configs.push_back(entry.path().filename().replace_extension("").string());
@@ -67,7 +68,7 @@ std::vector<std::string> ConfigManager::GetConfigList()
 	return configs;
 }
 
-bool ConfigManager::SettingsToJson(json& j)
+bool configmanager::SettingsToJson(json& j)
 {
 	// Menu
 	j["Menu_GUIMovement"] = settings::Menu_GUIMovement;
@@ -302,262 +303,264 @@ bool ConfigManager::SettingsToJson(json& j)
 	return true;
 }
 
-bool ConfigManager::JsonToSettings(const json& j)
+bool configmanager::JsonToSettings(const json& j)
 {
 	// Menu
-	ConfigManager::GetJsonValue(j, settings::Menu_GUIMovement, "Menu_GUIMovement");
-	ConfigManager::GetJsonValue(j, settings::Menu_ShowHiddenCategories, "Menu_ShowHiddenCategories");
+	configmanager::GetJsonValue(j, settings::Menu_GUIMovement, "Menu_GUIMovement");
+	configmanager::GetJsonValue(j, settings::Menu_ShowHiddenCategories, "Menu_ShowHiddenCategories");
 
 	// Hud
-	ConfigManager::GetJsonValue(j, settings::Hud_DisableAllRendering, "Hud_DisableAllRendering");
-	ConfigManager::GetJsonValue(j, settings::Hud_Watermark, "Hud_Watermark");
-	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkPosition, "Hud_WatermarkPosition");
-	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkVersion, "Hud_WatermarkVersion");
-	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkFps, "Hud_WatermarkFps");
-	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkPing, "Hud_WatermarkPing");
-	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkCoords, "Hud_WatermarkCoords");
-	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkDirection, "Hud_WatermarkDirection");
-	ConfigManager::GetJsonValue(j, settings::Hud_WatermarkTime, "Hud_WatermarkTime");
-	ConfigManager::GetJsonValue(j, settings::Hud_ShowKeybinds, "Hud_ShowKeybinds");
-	ConfigManager::GetJsonValue(j, settings::Hud_KeybindsPosition, "Hud_KeybindsPosition");
+	configmanager::GetJsonValue(j, settings::Hud_DisableAllRendering, "Hud_DisableAllRendering");
+	configmanager::GetJsonValue(j, settings::Hud_Watermark, "Hud_Watermark");
+	configmanager::GetJsonValue(j, settings::Hud_WatermarkPosition, "Hud_WatermarkPosition");
+	configmanager::GetJsonValue(j, settings::Hud_WatermarkVersion, "Hud_WatermarkVersion");
+	configmanager::GetJsonValue(j, settings::Hud_WatermarkFps, "Hud_WatermarkFps");
+	configmanager::GetJsonValue(j, settings::Hud_WatermarkPing, "Hud_WatermarkPing");
+	configmanager::GetJsonValue(j, settings::Hud_WatermarkCoords, "Hud_WatermarkCoords");
+	configmanager::GetJsonValue(j, settings::Hud_WatermarkDirection, "Hud_WatermarkDirection");
+	configmanager::GetJsonValue(j, settings::Hud_WatermarkTime, "Hud_WatermarkTime");
+	configmanager::GetJsonValue(j, settings::Hud_ShowKeybinds, "Hud_ShowKeybinds");
+	configmanager::GetJsonValue(j, settings::Hud_KeybindsPosition, "Hud_KeybindsPosition");
 
 	// ESP
-	ConfigManager::GetJsonValue(j, settings::ESP_Enabled, "ESP_Enabled");
-	ConfigManager::GetJsonValue(j, settings::ESP_Key, "ESP_Key");
-	ConfigManager::GetJsonValue(j, settings::ESP_FadeDistance, "ESP_FadeDistance");
-	ConfigManager::GetJsonValue(j, settings::ESP_HealthBar, "ESP_HealthBar");
-	ConfigManager::GetJsonValue(j, settings::ESP_BoxType, "ESP_BoxType");
-	ConfigManager::GetJsonValue(j, settings::ESP_3DBoxColor, "ESP_3DBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ESP_3DBoxThickness, "ESP_3DBoxThickness");
-	ConfigManager::GetJsonValue(j, settings::ESP_Box, "ESP_Box");
-	ConfigManager::GetJsonValue(j, settings::ESP_BoxColor, "ESP_BoxColor");
-	ConfigManager::GetJsonValue(j, settings::ESP_FilledBox, "ESP_FilledBox");
-	ConfigManager::GetJsonValue(j, settings::ESP_FilledBoxColor, "ESP_FilledBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ESP_SecondFilledBoxColor, "ESP_SecondFilledBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ESP_Outline, "ESP_Outline");
-	ConfigManager::GetJsonValue(j, settings::ESP_OutlineColor, "ESP_OutlineColor");
-	ConfigManager::GetJsonValue(j, settings::ESP_HighlightFriends, "ESP_HighlightFriends");
-	ConfigManager::GetJsonValue(j, settings::ESP_Friend3DBoxColor, "ESP_Friend3DBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ESP_FriendBoxColor, "ESP_FriendBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ESP_FriendFilledBoxColor, "ESP_FriendFilledBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ESP_FriendSecondFilledBoxColor, "ESP_FriendSecondFilledBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ESP_FriendOutlineColor, "ESP_FriendOutlineColor");
+	configmanager::GetJsonValue(j, settings::ESP_Enabled, "ESP_Enabled");
+	configmanager::GetJsonValue(j, settings::ESP_Key, "ESP_Key");
+	configmanager::GetJsonValue(j, settings::ESP_FadeDistance, "ESP_FadeDistance");
+	configmanager::GetJsonValue(j, settings::ESP_HealthBar, "ESP_HealthBar");
+	configmanager::GetJsonValue(j, settings::ESP_BoxType, "ESP_BoxType");
+	configmanager::GetJsonValue(j, settings::ESP_3DBoxColor, "ESP_3DBoxColor");
+	configmanager::GetJsonValue(j, settings::ESP_3DBoxThickness, "ESP_3DBoxThickness");
+	configmanager::GetJsonValue(j, settings::ESP_Box, "ESP_Box");
+	configmanager::GetJsonValue(j, settings::ESP_BoxColor, "ESP_BoxColor");
+	configmanager::GetJsonValue(j, settings::ESP_FilledBox, "ESP_FilledBox");
+	configmanager::GetJsonValue(j, settings::ESP_FilledBoxColor, "ESP_FilledBoxColor");
+	configmanager::GetJsonValue(j, settings::ESP_SecondFilledBoxColor, "ESP_SecondFilledBoxColor");
+	configmanager::GetJsonValue(j, settings::ESP_Outline, "ESP_Outline");
+	configmanager::GetJsonValue(j, settings::ESP_OutlineColor, "ESP_OutlineColor");
+	configmanager::GetJsonValue(j, settings::ESP_HighlightFriends, "ESP_HighlightFriends");
+	configmanager::GetJsonValue(j, settings::ESP_Friend3DBoxColor, "ESP_Friend3DBoxColor");
+	configmanager::GetJsonValue(j, settings::ESP_FriendBoxColor, "ESP_FriendBoxColor");
+	configmanager::GetJsonValue(j, settings::ESP_FriendFilledBoxColor, "ESP_FriendFilledBoxColor");
+	configmanager::GetJsonValue(j, settings::ESP_FriendSecondFilledBoxColor, "ESP_FriendSecondFilledBoxColor");
+	configmanager::GetJsonValue(j, settings::ESP_FriendOutlineColor, "ESP_FriendOutlineColor");
 
 	// Nametags
-	ConfigManager::GetJsonValue(j, settings::NT_Enabled, "NT_Enabled");
-	ConfigManager::GetJsonValue(j, settings::NT_Key, "NT_Key");
-	ConfigManager::GetJsonValue(j, settings::NT_TextSize, "NT_TextSize");
-	ConfigManager::GetJsonValue(j, settings::NT_TextColor, "NT_TextColor");
-	ConfigManager::GetJsonValue(j, settings::NT_TextOutline, "NT_TextOutline");
-	ConfigManager::GetJsonValue(j, settings::NT_TextOutlineColor, "NT_TextOutlineColor");
-	ConfigManager::GetJsonValue(j, settings::NT_TextUnrenderDistance, "NT_TextUnrenderDistance");
-	ConfigManager::GetJsonValue(j, settings::NT_FadeDistance, "NT_FadeDistance");
-	ConfigManager::GetJsonValue(j, settings::NT_Background, "NT_Background");
-	ConfigManager::GetJsonValue(j, settings::NT_BackgroundColor, "NT_BackgroundColor");
-	ConfigManager::GetJsonValue(j, settings::NT_BackgroundOutline, "NT_BackgroundOutline");
-	ConfigManager::GetJsonValue(j, settings::NT_BackgroundOutlineColor, "NT_BackgroundOutlineColor");
-	ConfigManager::GetJsonValue(j, settings::NT_MultiLine, "NT_MultiLine");
-	ConfigManager::GetJsonValue(j, settings::NT_DisplayHealth, "NT_DisplayHealth");
-	ConfigManager::GetJsonValue(j, settings::NT_DisplayDistance, "NT_DisplayDistance");
-	ConfigManager::GetJsonValue(j, settings::NT_DisplayInvisible, "NT_DisplayInvisible");
+	configmanager::GetJsonValue(j, settings::NT_Enabled, "NT_Enabled");
+	configmanager::GetJsonValue(j, settings::NT_Key, "NT_Key");
+	configmanager::GetJsonValue(j, settings::NT_TextSize, "NT_TextSize");
+	configmanager::GetJsonValue(j, settings::NT_TextColor, "NT_TextColor");
+	configmanager::GetJsonValue(j, settings::NT_TextOutline, "NT_TextOutline");
+	configmanager::GetJsonValue(j, settings::NT_TextOutlineColor, "NT_TextOutlineColor");
+	configmanager::GetJsonValue(j, settings::NT_TextUnrenderDistance, "NT_TextUnrenderDistance");
+	configmanager::GetJsonValue(j, settings::NT_FadeDistance, "NT_FadeDistance");
+	configmanager::GetJsonValue(j, settings::NT_Background, "NT_Background");
+	configmanager::GetJsonValue(j, settings::NT_BackgroundColor, "NT_BackgroundColor");
+	configmanager::GetJsonValue(j, settings::NT_BackgroundOutline, "NT_BackgroundOutline");
+	configmanager::GetJsonValue(j, settings::NT_BackgroundOutlineColor, "NT_BackgroundOutlineColor");
+	configmanager::GetJsonValue(j, settings::NT_MultiLine, "NT_MultiLine");
+	configmanager::GetJsonValue(j, settings::NT_DisplayHealth, "NT_DisplayHealth");
+	configmanager::GetJsonValue(j, settings::NT_DisplayDistance, "NT_DisplayDistance");
+	configmanager::GetJsonValue(j, settings::NT_DisplayInvisible, "NT_DisplayInvisible");
 
 	// Array List
-	ConfigManager::GetJsonValue(j, settings::AL_Enabled, "AL_Enabled");
-	ConfigManager::GetJsonValue(j, settings::AL_Key, "AL_Key");
-	ConfigManager::GetJsonValue(j, settings::AL_renderPosition, "AL_renderPosition");
-	ConfigManager::GetJsonValue(j, settings::AL_textSize, "AL_textSize");
-	ConfigManager::GetJsonValue(j, settings::AL_textColor, "AL_textColor");
-	ConfigManager::GetJsonValue(j, settings::AL_backgroundPadding, "AL_backgroundPadding");
-	ConfigManager::GetJsonValue(j, settings::AL_backgroundColor, "AL_backgroundColor");
+	configmanager::GetJsonValue(j, settings::AL_Enabled, "AL_Enabled");
+	configmanager::GetJsonValue(j, settings::AL_Key, "AL_Key");
+	configmanager::GetJsonValue(j, settings::AL_renderPosition, "AL_renderPosition");
+	configmanager::GetJsonValue(j, settings::AL_textSize, "AL_textSize");
+	configmanager::GetJsonValue(j, settings::AL_textColor, "AL_textColor");
+	configmanager::GetJsonValue(j, settings::AL_backgroundPadding, "AL_backgroundPadding");
+	configmanager::GetJsonValue(j, settings::AL_backgroundColor, "AL_backgroundColor");
 
 	// Radar
-	ConfigManager::GetJsonValue(j, settings::Radar_Enabled, "Radar_Enabled");
-	ConfigManager::GetJsonValue(j, settings::Radar_Key, "Radar_Key");
-	ConfigManager::GetJsonValue(j, settings::Radar_Radius, "Radar_Radius");
-	ConfigManager::GetJsonValue(j, settings::Radar_RotateWithPlayer, "Radar_RotateWithPlayer");
-	ConfigManager::GetJsonValue(j, settings::Radar_ShowNames, "Radar_ShowNames");
-	ConfigManager::GetJsonValue(j, settings::Radar_Size, "Radar_Size");
-	ConfigManager::GetJsonValue(j, settings::Radar_SquareRoundness, "Radar_SquareRoundness");
-	ConfigManager::GetJsonValue(j, settings::Radar_Position, "Radar_Position");
-	ConfigManager::GetJsonValue(j, settings::Radar_LocalPlayerColor, "Radar_LocalPlayerColor");
-	ConfigManager::GetJsonValue(j, settings::Radar_PlayerColor, "Radar_PlayerColor");
-	ConfigManager::GetJsonValue(j, settings::Radar_FriendColor, "Radar_FriendColor");
-	ConfigManager::GetJsonValue(j, settings::Radar_BackgroundColor, "Radar_BackgroundColor");
+	configmanager::GetJsonValue(j, settings::Radar_Enabled, "Radar_Enabled");
+	configmanager::GetJsonValue(j, settings::Radar_Key, "Radar_Key");
+	configmanager::GetJsonValue(j, settings::Radar_Radius, "Radar_Radius");
+	configmanager::GetJsonValue(j, settings::Radar_RotateWithPlayer, "Radar_RotateWithPlayer");
+	configmanager::GetJsonValue(j, settings::Radar_ShowNames, "Radar_ShowNames");
+	configmanager::GetJsonValue(j, settings::Radar_Size, "Radar_Size");
+	configmanager::GetJsonValue(j, settings::Radar_SquareRoundness, "Radar_SquareRoundness");
+	configmanager::GetJsonValue(j, settings::Radar_Position, "Radar_Position");
+	configmanager::GetJsonValue(j, settings::Radar_LocalPlayerColor, "Radar_LocalPlayerColor");
+	configmanager::GetJsonValue(j, settings::Radar_PlayerColor, "Radar_PlayerColor");
+	configmanager::GetJsonValue(j, settings::Radar_FriendColor, "Radar_FriendColor");
+	configmanager::GetJsonValue(j, settings::Radar_BackgroundColor, "Radar_BackgroundColor");
 
 	// Aim Assist
-	ConfigManager::GetJsonValue(j, settings::AA_Enabled, "AA_Enabled");
-	ConfigManager::GetJsonValue(j, settings::AA_Key, "AA_Key");
-	ConfigManager::GetJsonValue(j, settings::AA_visibilityCheck, "AA_visibilityCheck");
-	ConfigManager::GetJsonValue(j, settings::AA_sprintCheck, "AA_sprintCheck");
-	ConfigManager::GetJsonValue(j, settings::AA_blockBreakCheck, "AA_blockBreakCheck");
-	ConfigManager::GetJsonValue(j, settings::AA_weaponOnly, "AA_weaponOnly");
-	ConfigManager::GetJsonValue(j, settings::AA_invisibleCheck, "AA_invisibleCheck");
-	ConfigManager::GetJsonValue(j, settings::AA_mousePressCheck, "AA_mousePressCheck");
-	ConfigManager::GetJsonValue(j, settings::AA_mouseMoveCheck, "AA_mouseMoveCheck");
-	ConfigManager::GetJsonValue(j, settings::AA_aimAssistFeedback, "AA_aimAssistFeedback");
-	ConfigManager::GetJsonValue(j, settings::AA_aimAssistFeedbackColor, "AA_aimAssistFeedbackColor");
-	ConfigManager::GetJsonValue(j, settings::AA_fovCircle, "AA_fovCircle");
-	ConfigManager::GetJsonValue(j, settings::AA_fovCircleColor, "AA_fovCircleColor");
-	ConfigManager::GetJsonValue(j, settings::AA_adaptive, "AA_adaptive");
-	ConfigManager::GetJsonValue(j, settings::AA_adaptiveOffset, "AA_adaptiveOffset");
-	ConfigManager::GetJsonValue(j, settings::AA_fov, "AA_fov");
-	ConfigManager::GetJsonValue(j, settings::AA_smooth, "AA_smooth");
-	ConfigManager::GetJsonValue(j, settings::AA_aimDistance, "AA_aimDistance");
-	ConfigManager::GetJsonValue(j, settings::AA_randomYaw, "AA_randomYaw");
-	ConfigManager::GetJsonValue(j, settings::AA_randomPitch, "AA_randomPitch");
-	ConfigManager::GetJsonValue(j, settings::AA_targetPriority, "AA_targetPriority");
-	ConfigManager::GetJsonValue(j, settings::AA_ignoreFriends, "AA_ignoreFriends");
+	configmanager::GetJsonValue(j, settings::AA_Enabled, "AA_Enabled");
+	configmanager::GetJsonValue(j, settings::AA_Key, "AA_Key");
+	configmanager::GetJsonValue(j, settings::AA_visibilityCheck, "AA_visibilityCheck");
+	configmanager::GetJsonValue(j, settings::AA_sprintCheck, "AA_sprintCheck");
+	configmanager::GetJsonValue(j, settings::AA_blockBreakCheck, "AA_blockBreakCheck");
+	configmanager::GetJsonValue(j, settings::AA_weaponOnly, "AA_weaponOnly");
+	configmanager::GetJsonValue(j, settings::AA_invisibleCheck, "AA_invisibleCheck");
+	configmanager::GetJsonValue(j, settings::AA_mousePressCheck, "AA_mousePressCheck");
+	configmanager::GetJsonValue(j, settings::AA_mouseMoveCheck, "AA_mouseMoveCheck");
+	configmanager::GetJsonValue(j, settings::AA_aimAssistFeedback, "AA_aimAssistFeedback");
+	configmanager::GetJsonValue(j, settings::AA_aimAssistFeedbackColor, "AA_aimAssistFeedbackColor");
+	configmanager::GetJsonValue(j, settings::AA_fovCircle, "AA_fovCircle");
+	configmanager::GetJsonValue(j, settings::AA_fovCircleColor, "AA_fovCircleColor");
+	configmanager::GetJsonValue(j, settings::AA_adaptive, "AA_adaptive");
+	configmanager::GetJsonValue(j, settings::AA_adaptiveOffset, "AA_adaptiveOffset");
+	configmanager::GetJsonValue(j, settings::AA_fov, "AA_fov");
+	configmanager::GetJsonValue(j, settings::AA_smooth, "AA_smooth");
+	configmanager::GetJsonValue(j, settings::AA_aimDistance, "AA_aimDistance");
+	configmanager::GetJsonValue(j, settings::AA_randomYaw, "AA_randomYaw");
+	configmanager::GetJsonValue(j, settings::AA_randomPitch, "AA_randomPitch");
+	configmanager::GetJsonValue(j, settings::AA_targetPriority, "AA_targetPriority");
+	configmanager::GetJsonValue(j, settings::AA_ignoreFriends, "AA_ignoreFriends");
 
 	// Reach
-	ConfigManager::GetJsonValue(j, settings::Reach_Enabled, "Reach_Enabled");
-	ConfigManager::GetJsonValue(j, settings::Reach_Key, "Reach_Key");
-	ConfigManager::GetJsonValue(j, settings::Reach_ReachDistance, "Reach_ReachDistance");
+	configmanager::GetJsonValue(j, settings::Reach_Enabled, "Reach_Enabled");
+	configmanager::GetJsonValue(j, settings::Reach_Key, "Reach_Key");
+	configmanager::GetJsonValue(j, settings::Reach_ReachDistance, "Reach_ReachDistance");
 
 	// Sprint Reset
-	ConfigManager::GetJsonValue(j, settings::SR_Enabled, "SR_Enabled");
-	ConfigManager::GetJsonValue(j, settings::SR_Key, "SR_Key");
-	ConfigManager::GetJsonValue(j, settings::SR_DelayBetween, "SR_DelayBetween");
-	ConfigManager::GetJsonValue(j, settings::SR_LetGoDelay, "SR_LetGoDelay");
+	configmanager::GetJsonValue(j, settings::SR_Enabled, "SR_Enabled");
+	configmanager::GetJsonValue(j, settings::SR_Key, "SR_Key");
+	configmanager::GetJsonValue(j, settings::SR_DelayBetween, "SR_DelayBetween");
+	configmanager::GetJsonValue(j, settings::SR_LetGoDelay, "SR_LetGoDelay");
 
 	// Sprint
-	ConfigManager::GetJsonValue(j, settings::S_Enabled, "S_Enabled");
-	ConfigManager::GetJsonValue(j, settings::S_Key, "S_Key");
+	configmanager::GetJsonValue(j, settings::S_Enabled, "S_Enabled");
+	configmanager::GetJsonValue(j, settings::S_Key, "S_Key");
 
 	// Left Auto Clicker
-	ConfigManager::GetJsonValue(j, settings::LAC_Enabled, "LAC_Enabled");
-	ConfigManager::GetJsonValue(j, settings::LAC_Key, "LAC_Key");
-	ConfigManager::GetJsonValue(j, settings::LAC_leftMaxCps, "LAC_leftMaxCps");
-	ConfigManager::GetJsonValue(j, settings::LAC_leftMinCps, "LAC_leftMinCps");
-	ConfigManager::GetJsonValue(j, settings::LAC_ignoreBlocks, "LAC_ignoreBlocks");
-	ConfigManager::GetJsonValue(j, settings::LAC_swordBlock, "LAC_swordBlock");
-	ConfigManager::GetJsonValue(j, settings::LAC_weaponOnly, "LAC_weaponOnly");
-	ConfigManager::GetJsonValue(j, settings::LAC_allowInventory, "LAC_allowInventory");
-	ConfigManager::GetJsonValue(j, settings::LAC_inventoryMultiplier, "LAC_inventoryMultiplier");
-	ConfigManager::GetJsonValue(j, settings::LAC_advancedMode, "LAC_advancedMode");
-	ConfigManager::GetJsonValue(j, settings::LAC_dropChance, "LAC_dropChance");
-	ConfigManager::GetJsonValue(j, settings::LAC_spikeChance, "LAC_spikeChance");
-	ConfigManager::GetJsonValue(j, settings::LAC_spikeMultiplier, "LAC_spikeMultiplier");
-	ConfigManager::GetJsonValue(j, settings::LAC_kurtosis, "LAC_kurtosis");
-	ConfigManager::GetJsonValue(j, settings::LAC_burstEnabled, "LAC_burstEnabled");
-	ConfigManager::GetJsonValue(j, settings::LAC_burstChance, "LAC_burstChance");
+	configmanager::GetJsonValue(j, settings::LAC_Enabled, "LAC_Enabled");
+	configmanager::GetJsonValue(j, settings::LAC_Key, "LAC_Key");
+	configmanager::GetJsonValue(j, settings::LAC_leftMaxCps, "LAC_leftMaxCps");
+	configmanager::GetJsonValue(j, settings::LAC_leftMinCps, "LAC_leftMinCps");
+	configmanager::GetJsonValue(j, settings::LAC_ignoreBlocks, "LAC_ignoreBlocks");
+	configmanager::GetJsonValue(j, settings::LAC_swordBlock, "LAC_swordBlock");
+	configmanager::GetJsonValue(j, settings::LAC_weaponOnly, "LAC_weaponOnly");
+	configmanager::GetJsonValue(j, settings::LAC_allowInventory, "LAC_allowInventory");
+	configmanager::GetJsonValue(j, settings::LAC_inventoryMultiplier, "LAC_inventoryMultiplier");
+	configmanager::GetJsonValue(j, settings::LAC_advancedMode, "LAC_advancedMode");
+	configmanager::GetJsonValue(j, settings::LAC_dropChance, "LAC_dropChance");
+	configmanager::GetJsonValue(j, settings::LAC_spikeChance, "LAC_spikeChance");
+	configmanager::GetJsonValue(j, settings::LAC_spikeMultiplier, "LAC_spikeMultiplier");
+	configmanager::GetJsonValue(j, settings::LAC_kurtosis, "LAC_kurtosis");
+	configmanager::GetJsonValue(j, settings::LAC_burstEnabled, "LAC_burstEnabled");
+	configmanager::GetJsonValue(j, settings::LAC_burstChance, "LAC_burstChance");
 
 	// Right Auto Clicker
-	ConfigManager::GetJsonValue(j, settings::RAC_Enabled, "RAC_Enabled");
-	ConfigManager::GetJsonValue(j, settings::RAC_Key, "RAC_Key");
-	ConfigManager::GetJsonValue(j, settings::RAC_rightMaxCps, "RAC_rightMaxCps");
-	ConfigManager::GetJsonValue(j, settings::RAC_rightMinCps, "RAC_rightMinCps");
-	ConfigManager::GetJsonValue(j, settings::RAC_blocksOnly, "RAC_blocksOnly");
+	configmanager::GetJsonValue(j, settings::RAC_Enabled, "RAC_Enabled");
+	configmanager::GetJsonValue(j, settings::RAC_Key, "RAC_Key");
+	configmanager::GetJsonValue(j, settings::RAC_rightMaxCps, "RAC_rightMaxCps");
+	configmanager::GetJsonValue(j, settings::RAC_rightMinCps, "RAC_rightMinCps");
+	configmanager::GetJsonValue(j, settings::RAC_blocksOnly, "RAC_blocksOnly");
 
 	// Bridge Assist
-	ConfigManager::GetJsonValue(j, settings::BA_Enabled, "BA_Enabled");
-	ConfigManager::GetJsonValue(j, settings::BA_Key, "BA_Key");
-	ConfigManager::GetJsonValue(j, settings::BA_OnlyOnShift, "BA_OnlyOnShift");
-	ConfigManager::GetJsonValue(j, settings::BA_IgnoreForwardsMovement, "BA_IgnoreForwardsMovement");
-	ConfigManager::GetJsonValue(j, settings::BA_AutoSwap, "BA_AutoSwap");
-	ConfigManager::GetJsonValue(j, settings::BA_PitchCheck, "BA_PitchCheck");
-	ConfigManager::GetJsonValue(j, settings::BA_BlockCheck, "BA_BlockCheck");
+	configmanager::GetJsonValue(j, settings::BA_Enabled, "BA_Enabled");
+	configmanager::GetJsonValue(j, settings::BA_Key, "BA_Key");
+	configmanager::GetJsonValue(j, settings::BA_OnlyOnShift, "BA_OnlyOnShift");
+	configmanager::GetJsonValue(j, settings::BA_IgnoreForwardsMovement, "BA_IgnoreForwardsMovement");
+	configmanager::GetJsonValue(j, settings::BA_AutoSwap, "BA_AutoSwap");
+	configmanager::GetJsonValue(j, settings::BA_PitchCheck, "BA_PitchCheck");
+	configmanager::GetJsonValue(j, settings::BA_BlockCheck, "BA_BlockCheck");
 
 	// Velocity
-	ConfigManager::GetJsonValue(j, settings::Velocity_Enabled, "Velocity_Enabled");
-	ConfigManager::GetJsonValue(j, settings::Velocity_Key, "Velocity_Key");
-	ConfigManager::GetJsonValue(j, settings::Velocity_Mode, "Velocity_Mode");
-	ConfigManager::GetJsonValue(j, settings::Velocity_JRReactionTime, "Velocity_JRReactionTime");
-	ConfigManager::GetJsonValue(j, settings::Velocity_JRChange, "Velocity_JRChange");
+	configmanager::GetJsonValue(j, settings::Velocity_Enabled, "Velocity_Enabled");
+	configmanager::GetJsonValue(j, settings::Velocity_Key, "Velocity_Key");
+	configmanager::GetJsonValue(j, settings::Velocity_Mode, "Velocity_Mode");
+	configmanager::GetJsonValue(j, settings::Velocity_JRReactionTime, "Velocity_JRReactionTime");
+	configmanager::GetJsonValue(j, settings::Velocity_JRChange, "Velocity_JRChange");
 	
 	// Chest Stealer
-	ConfigManager::GetJsonValue(j, settings::CS_Enabled, "CS_Enabled");
-	ConfigManager::GetJsonValue(j, settings::CS_Delay, "CS_Delay");
-	ConfigManager::GetJsonValue(j, settings::CS_Key, "CS_Key");
-	ConfigManager::GetJsonValue(j, settings::CS_Items, "CS_Items");
+	configmanager::GetJsonValue(j, settings::CS_Enabled, "CS_Enabled");
+	configmanager::GetJsonValue(j, settings::CS_Delay, "CS_Delay");
+	configmanager::GetJsonValue(j, settings::CS_Key, "CS_Key");
+	configmanager::GetJsonValue(j, settings::CS_Items, "CS_Items");
 
 	// Client Brand Changer
-	ConfigManager::GetJsonValue(j, settings::CBC_Enabled, "CBC_Enabled");
-	ConfigManager::GetJsonValue(j, settings::CBC_Key, "CBC_Key");
-	ConfigManager::GetJsonValue(j, settings::CBC_ClientBrand, "CBC_ClientBrand");
+	configmanager::GetJsonValue(j, settings::CBC_Enabled, "CBC_Enabled");
+	configmanager::GetJsonValue(j, settings::CBC_Key, "CBC_Key");
+	configmanager::GetJsonValue(j, settings::CBC_ClientBrand, "CBC_ClientBrand");
 
 	// Block Reach
-	ConfigManager::GetJsonValue(j, settings::BR_Enabled, "BR_Enabled");
-	ConfigManager::GetJsonValue(j, settings::BR_Key, "BR_Key");
-	ConfigManager::GetJsonValue(j, settings::BR_ReachDistance, "BR_ReachDistance");
+	configmanager::GetJsonValue(j, settings::BR_Enabled, "BR_Enabled");
+	configmanager::GetJsonValue(j, settings::BR_Key, "BR_Key");
+	configmanager::GetJsonValue(j, settings::BR_ReachDistance, "BR_ReachDistance");
 
 	// Weapon
-	ConfigManager::GetJsonValue(j, settings::Weapon_Sword, "Weapon_Sword");
-	ConfigManager::GetJsonValue(j, settings::Weapon_Axe, "Weapon_Axe");
-	ConfigManager::GetJsonValue(j, settings::Weapon_Stick, "Weapon_Stick");
-	ConfigManager::GetJsonValue(j, settings::Weapon_Fist, "Weapon_Fist");
+	configmanager::GetJsonValue(j, settings::Weapon_Sword, "Weapon_Sword");
+	configmanager::GetJsonValue(j, settings::Weapon_Axe, "Weapon_Axe");
+	configmanager::GetJsonValue(j, settings::Weapon_Stick, "Weapon_Stick");
+	configmanager::GetJsonValue(j, settings::Weapon_Fist, "Weapon_Fist");
 
 	// Tag Back
-	ConfigManager::GetJsonValue(j, settings::TB_Enabled, "TB_Enabled");
-	ConfigManager::GetJsonValue(j, settings::TB_Key, "TB_Key");
-	ConfigManager::GetJsonValue(j, settings::TB_visibilityCheck, "TB_visibilityCheck");
-	ConfigManager::GetJsonValue(j, settings::TB_aimAssistFeedback, "TB_aimAssistFeedback");
-	ConfigManager::GetJsonValue(j, settings::TB_aimAssistFeedbackColor, "TB_aimAssistFeedbackColor");
-	ConfigManager::GetJsonValue(j, settings::TB_fovCircle, "TB_fovCircle");
-	ConfigManager::GetJsonValue(j, settings::TB_fovCircleColor, "TB_fovCircleColor");
-	ConfigManager::GetJsonValue(j, settings::TB_adaptive, "TB_adaptive");
-	ConfigManager::GetJsonValue(j, settings::TB_adaptiveOffset, "TB_adaptiveOffset");
-	ConfigManager::GetJsonValue(j, settings::TB_fov, "TB_fov");
-	ConfigManager::GetJsonValue(j, settings::TB_smooth, "TB_smooth");
-	ConfigManager::GetJsonValue(j, settings::TB_randomYaw, "TB_randomYaw");
-	ConfigManager::GetJsonValue(j, settings::TB_randomPitch, "TB_randomPitch");
-	ConfigManager::GetJsonValue(j, settings::TB_targetPriority, "TB_targetPriority");
-	ConfigManager::GetJsonValue(j, settings::TB_ignoreFriends, "TB_ignoreFriends");
-	ConfigManager::GetJsonValue(j, settings::TB_autoClick, "TB_autoClick");
-	ConfigManager::GetJsonValue(j, settings::TB_maxCps, "TB_maxCps");
-	ConfigManager::GetJsonValue(j, settings::TB_minCps, "TB_minCps");
+	configmanager::GetJsonValue(j, settings::TB_Enabled, "TB_Enabled");
+	configmanager::GetJsonValue(j, settings::TB_Key, "TB_Key");
+	configmanager::GetJsonValue(j, settings::TB_visibilityCheck, "TB_visibilityCheck");
+	configmanager::GetJsonValue(j, settings::TB_aimAssistFeedback, "TB_aimAssistFeedback");
+	configmanager::GetJsonValue(j, settings::TB_aimAssistFeedbackColor, "TB_aimAssistFeedbackColor");
+	configmanager::GetJsonValue(j, settings::TB_fovCircle, "TB_fovCircle");
+	configmanager::GetJsonValue(j, settings::TB_fovCircleColor, "TB_fovCircleColor");
+	configmanager::GetJsonValue(j, settings::TB_adaptive, "TB_adaptive");
+	configmanager::GetJsonValue(j, settings::TB_adaptiveOffset, "TB_adaptiveOffset");
+	configmanager::GetJsonValue(j, settings::TB_fov, "TB_fov");
+	configmanager::GetJsonValue(j, settings::TB_smooth, "TB_smooth");
+	configmanager::GetJsonValue(j, settings::TB_randomYaw, "TB_randomYaw");
+	configmanager::GetJsonValue(j, settings::TB_randomPitch, "TB_randomPitch");
+	configmanager::GetJsonValue(j, settings::TB_targetPriority, "TB_targetPriority");
+	configmanager::GetJsonValue(j, settings::TB_ignoreFriends, "TB_ignoreFriends");
+	configmanager::GetJsonValue(j, settings::TB_autoClick, "TB_autoClick");
+	configmanager::GetJsonValue(j, settings::TB_maxCps, "TB_maxCps");
+	configmanager::GetJsonValue(j, settings::TB_minCps, "TB_minCps");
 
 	// IT ESP
-	ConfigManager::GetJsonValue(j, settings::ITESP_Enabled, "ITESP_Enabled");
-	ConfigManager::GetJsonValue(j, settings::ITESP_Key, "ITESP_Key");
-	ConfigManager::GetJsonValue(j, settings::ITESP_Text, "ITESP_Text");
-	ConfigManager::GetJsonValue(j, settings::ITESP_TextSize, "ITESP_TextSize");
-	ConfigManager::GetJsonValue(j, settings::ITESP_TextColor, "ITESP_TextColor");
-	ConfigManager::GetJsonValue(j, settings::ITESP_TextOutline, "ITESP_TextOutline");
-	ConfigManager::GetJsonValue(j, settings::ITESP_TextOutlineColor, "ITESP_TextOutlineColor");
-	ConfigManager::GetJsonValue(j, settings::ITESP_TextUnrenderDistance, "ITESP_TextUnrenderDistance");
-	ConfigManager::GetJsonValue(j, settings::ITESP_FadeDistance, "ITESP_FadeDistance");
-	ConfigManager::GetJsonValue(j, settings::ITESP_HealthBar, "ITESP_HealthBar");
-	ConfigManager::GetJsonValue(j, settings::ITESP_BoxType, "ITESP_BoxType");
-	ConfigManager::GetJsonValue(j, settings::ITESP_3DBoxColor, "ITESP_3DBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ITESP_3DBoxThickness, "ITESP_3DBoxThickness");
-	ConfigManager::GetJsonValue(j, settings::ITESP_Box, "ITESP_Box");
-	ConfigManager::GetJsonValue(j, settings::ITESP_BoxColor, "ITESP_BoxColor");
-	ConfigManager::GetJsonValue(j, settings::ITESP_FilledBox, "ITESP_FilledBox");
-	ConfigManager::GetJsonValue(j, settings::ITESP_FilledBoxColor, "ITESP_FilledBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ITESP_SecondFilledBoxColor, "ITESP_SecondFilledBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ITESP_Outline, "ITESP_Outline");
-	ConfigManager::GetJsonValue(j, settings::ITESP_OutlineColor, "ITESP_OutlineColor");
-	ConfigManager::GetJsonValue(j, settings::ITESP_HighlightFriends, "ITESP_HighlightFriends");
-	ConfigManager::GetJsonValue(j, settings::ITESP_Friend3DBoxColor, "ITESP_Friend3DBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ITESP_FriendBoxColor, "ITESP_FriendBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ITESP_FriendFilledBoxColor, "ITESP_FriendFilledBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ITESP_FriendSecondFilledBoxColor, "ITESP_FriendSecondFilledBoxColor");
-	ConfigManager::GetJsonValue(j, settings::ITESP_FriendOutlineColor, "ITESP_FriendOutlineColor");
+	configmanager::GetJsonValue(j, settings::ITESP_Enabled, "ITESP_Enabled");
+	configmanager::GetJsonValue(j, settings::ITESP_Key, "ITESP_Key");
+	configmanager::GetJsonValue(j, settings::ITESP_Text, "ITESP_Text");
+	configmanager::GetJsonValue(j, settings::ITESP_TextSize, "ITESP_TextSize");
+	configmanager::GetJsonValue(j, settings::ITESP_TextColor, "ITESP_TextColor");
+	configmanager::GetJsonValue(j, settings::ITESP_TextOutline, "ITESP_TextOutline");
+	configmanager::GetJsonValue(j, settings::ITESP_TextOutlineColor, "ITESP_TextOutlineColor");
+	configmanager::GetJsonValue(j, settings::ITESP_TextUnrenderDistance, "ITESP_TextUnrenderDistance");
+	configmanager::GetJsonValue(j, settings::ITESP_FadeDistance, "ITESP_FadeDistance");
+	configmanager::GetJsonValue(j, settings::ITESP_HealthBar, "ITESP_HealthBar");
+	configmanager::GetJsonValue(j, settings::ITESP_BoxType, "ITESP_BoxType");
+	configmanager::GetJsonValue(j, settings::ITESP_3DBoxColor, "ITESP_3DBoxColor");
+	configmanager::GetJsonValue(j, settings::ITESP_3DBoxThickness, "ITESP_3DBoxThickness");
+	configmanager::GetJsonValue(j, settings::ITESP_Box, "ITESP_Box");
+	configmanager::GetJsonValue(j, settings::ITESP_BoxColor, "ITESP_BoxColor");
+	configmanager::GetJsonValue(j, settings::ITESP_FilledBox, "ITESP_FilledBox");
+	configmanager::GetJsonValue(j, settings::ITESP_FilledBoxColor, "ITESP_FilledBoxColor");
+	configmanager::GetJsonValue(j, settings::ITESP_SecondFilledBoxColor, "ITESP_SecondFilledBoxColor");
+	configmanager::GetJsonValue(j, settings::ITESP_Outline, "ITESP_Outline");
+	configmanager::GetJsonValue(j, settings::ITESP_OutlineColor, "ITESP_OutlineColor");
+	configmanager::GetJsonValue(j, settings::ITESP_HighlightFriends, "ITESP_HighlightFriends");
+	configmanager::GetJsonValue(j, settings::ITESP_Friend3DBoxColor, "ITESP_Friend3DBoxColor");
+	configmanager::GetJsonValue(j, settings::ITESP_FriendBoxColor, "ITESP_FriendBoxColor");
+	configmanager::GetJsonValue(j, settings::ITESP_FriendFilledBoxColor, "ITESP_FriendFilledBoxColor");
+	configmanager::GetJsonValue(j, settings::ITESP_FriendSecondFilledBoxColor, "ITESP_FriendSecondFilledBoxColor");
+	configmanager::GetJsonValue(j, settings::ITESP_FriendOutlineColor, "ITESP_FriendOutlineColor");
 
 	// Disable Chest Saler if the version is 1.8.9
-	if (Java::Version == MinecraftVersion::VANILLA_1_8_9)
+	if (Java::version == MinecraftVersion::VANILLA_1_8_9)
 		settings::CS_Enabled = false;
 
 	return true;
 }
 
-std::string ConfigManager::GetDocumentsPath()
+std::string configmanager::GetDocumentsPath()
 {
 	char path[MAX_PATH];
 
 	// Get the path to the Documents folder (CSIDL_PERSONAL refers to "My Documents")
-	if (SHGetFolderPathA(NULL, CSIDL_PERSONAL, NULL, 0, path) == S_OK) {
+	if (SHGetFolderPathA(NULL, CSIDL_PERSONAL, NULL, 0, path) == S_OK)
+	{
 		return std::string(path);
 	}
-	else {
+	else
+	{
 		std::cerr << "Failed to get Documents folder." << std::endl;
 		return "";
 	}
 }
 
-std::string ConfigManager::GetConfigPath()
+std::string configmanager::GetConfigPath()
 {
-	std::string path = ConfigManager::GetFusionPath() + "/configs/";
+	std::string path = configmanager::GetFusionPath() + "/configs/";
 
 	if (!std::filesystem::exists(path))
 		std::filesystem::create_directories(path);
@@ -565,9 +568,9 @@ std::string ConfigManager::GetConfigPath()
 	return path;
 }
 
-std::string ConfigManager::GetFusionPath()
+std::string configmanager::GetFusionPath()
 {
-	std::string path = ConfigManager::GetDocumentsPath() + "/Fusion+/";
+	std::string path = configmanager::GetDocumentsPath() + "/Fusion+/";
 
 	if (!std::filesystem::exists(path))
 		std::filesystem::create_directories(path);
@@ -575,9 +578,9 @@ std::string ConfigManager::GetFusionPath()
 	return path;
 }
 
-bool ConfigManager::LoadFriends()
+bool configmanager::LoadFriends()
 {
-	std::string filePath = ConfigManager::GetFusionPath() + "friends.json";
+	std::string filePath = configmanager::GetFusionPath() + "friends.json";
 
 	if (!std::filesystem::exists(filePath))
 		return false;
@@ -602,12 +605,12 @@ bool ConfigManager::LoadFriends()
 	return true;
 }
 
-bool ConfigManager::SaveFriends()
+bool configmanager::SaveFriends()
 {
-	std::string filePath = ConfigManager::GetFusionPath() + "friends.json";
+	std::string filePath = configmanager::GetFusionPath() + "friends.json";
 
 	// Ensure the directory exists before writing
-	std::string dirPath = ConfigManager::GetFusionPath();
+	std::string dirPath = configmanager::GetFusionPath();
 	if (!std::filesystem::exists(dirPath))
 		std::filesystem::create_directories(dirPath);
 
@@ -628,7 +631,7 @@ bool ConfigManager::SaveFriends()
 }
 
 
-bool ConfigManager::AddFriend(const std::string& name)
+bool configmanager::AddFriend(const std::string& name)
 {
 	if (IsFriend(name))
 		return false;
@@ -638,7 +641,7 @@ bool ConfigManager::AddFriend(const std::string& name)
 	return SaveFriends();
 }
 
-bool ConfigManager::RemoveFriend(const std::string& name)
+bool configmanager::RemoveFriend(const std::string& name)
 {
 	auto it = std::find(settings::friends.begin(), settings::friends.end(), name);
 
@@ -650,7 +653,7 @@ bool ConfigManager::RemoveFriend(const std::string& name)
 	return SaveFriends();
 }
 
-bool ConfigManager::IsFriend(const std::string& name)
+bool configmanager::IsFriend(const std::string& name)
 {
 	return std::find(settings::friends.begin(), settings::friends.end(), name) != settings::friends.end();
 }

@@ -1,19 +1,17 @@
 #include "aimAssist.h"
+
 #include "moduleManager/commonData.h"
-#include "sdk/sdk.h"
 #include "util/logger/logger.h"
-#include "imgui/imgui.h"
 #include "util/math/worldToScreen.h"
 #include "util/math/math.h"
+#include "util/minecraft/minecraft.h"
+#include "util/keys.h"
 #include "menu/menu.h"
+#include "sdk/sdk.h"
 #include "java/java.h"
+#include "configManager/configManager.h"
 
-#include <chrono>
-#include <random>
-#include <configManager/configManager.h>
-#include <util/minecraft/minecraft.h>
-
-static bool IsMouseMoving()
+static bool isMouseMoving()
 {
 	static POINT lastMousePos;
 	POINT currentMousePos;
@@ -50,39 +48,41 @@ Suggested settings:
 void AimAssist::Update()
 {
 	if (!settings::AA_Enabled) return;
-	if (Menu::Open) return;
+	if (Menu::open) return;
 	if (!CommonData::SanityCheck()) return;
-	if (SDK::Minecraft->IsInGuiState()) return;
+	if (SDK::minecraft->IsInGuiState()) return;
 
 	// Checks
-	if (settings::AA_sprintCheck && !SDK::Minecraft->thePlayer->IsSprinting()) {
-		AimAssist::data = Vector3();
+	if (settings::AA_sprintCheck && !SDK::minecraft->thePlayer->IsSprinting())
+	{
+		AimAssist::m_data = Vector3();
 		return;
 	}
-	if (settings::AA_blockBreakCheck && SDK::Minecraft->GetMouseOver().IsTypeOfBlock()) {
-		AimAssist::data = Vector3();
+	if (settings::AA_blockBreakCheck && SDK::minecraft->GetMouseOver().IsTypeOfBlock())
+	{
+		AimAssist::m_data = Vector3();
 		return;
 	}
-	if (settings::AA_weaponOnly && !MinecraftUtils::IsWeapon(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem())) {
-		AimAssist::data = Vector3();
-		return;
-	}
-
-	if ((settings::AA_mousePressCheck && (!GetAsyncKeyState(VK_LBUTTON) && 1))) {
-		AimAssist::data = Vector3();
-		return;
-	}
-
-	if (!IsMouseMoving() && settings::AA_mouseMoveCheck) {
-		AimAssist::data = Vector3();
+	if (settings::AA_weaponOnly && !MinecraftUtils::IsWeapon(SDK::minecraft->thePlayer->GetInventory().GetCurrentItem()))
+	{
+		AimAssist::m_data = Vector3();
 		return;
 	}
 
-	CEntityPlayerSP* thePlayer = SDK::Minecraft->thePlayer;
+	if (settings::AA_mousePressCheck && Keys::IsKeyReleased(VK_LBUTTON))
+	{
+		AimAssist::m_data = Vector3();
+		return;
+	}
 
-	Vector3 pos = thePlayer->GetPos();
-	Vector3 headPos = thePlayer->GetEyePos();
-	Vector2 currentLookAngles = thePlayer->GetAngles();
+	if (!isMouseMoving() && settings::AA_mouseMoveCheck) {
+		AimAssist::m_data = Vector3();
+		return;
+	}
+
+	Vector3 pos = SDK::minecraft->thePlayer->GetPos();
+	Vector3 headPos = SDK::minecraft->thePlayer->GetEyePos();
+	Vector2 currentLookAngles = SDK::minecraft->thePlayer->GetAngles();
 
 	std::vector<CommonData::PlayerData> playerList = CommonData::nativePlayerList;
 	if (playerList.empty()) return;
@@ -106,21 +106,21 @@ void AimAssist::Update()
 
 	for (CommonData::PlayerData player : playerList)
 	{
-		if (!Java::Env->IsSameObject(thePlayer->GetInstance(), player.obj.GetInstance()) && !(settings::AA_ignoreFriends && ConfigManager::IsFriend(player.name))) {
-			if (!thePlayer->CanEntityBeSeen(player.obj.GetInstance()) && settings::AA_visibilityCheck) continue;
-			if (player.obj.IsInvisibleToPlayer(thePlayer->GetInstance()) && settings::AA_invisibleCheck) continue;
+		if (!Java::env->IsSameObject(SDK::minecraft->thePlayer->GetInstance(), player.obj.GetInstance()) && !(settings::AA_ignoreFriends && configmanager::IsFriend(player.name))) {
+			if (!SDK::minecraft->thePlayer->CanEntityBeSeen(player.obj.GetInstance()) && settings::AA_visibilityCheck) continue;
+			if (player.obj.IsInvisibleToPlayer(SDK::minecraft->thePlayer->GetInstance()) && settings::AA_invisibleCheck) continue;
 
 			Vector3 playerPos = player.pos;
 			float playerHeight = target.height - 0.1f;
 			Vector3 playerHeadPos = playerPos + Vector3(0, playerHeight, 0);
 
-			Vector2 anglesFoot = Math::getAngles(headPos, playerPos);
-			Vector2 anglesHead = Math::getAngles(headPos, playerHeadPos);
+			Vector2 anglesFoot = Math::GetAngles(headPos, playerPos);
+			Vector2 anglesHead = Math::GetAngles(headPos, playerHeadPos);
 
-			Vector2 difference = Math::vec_wrapAngleTo180(currentLookAngles.Invert() - anglesHead.Invert());
+			Vector2 difference = Math::WrapAngleTo180(currentLookAngles.Invert() - anglesHead.Invert());
 			if (difference.x < 0) difference.x = -difference.x;
 			if (difference.y < 0) difference.y = -difference.y;
-			Vector2 differenceFoot = Math::vec_wrapAngleTo180(currentLookAngles.Invert() - anglesFoot.Invert());
+			Vector2 differenceFoot = Math::WrapAngleTo180(currentLookAngles.Invert() - anglesFoot.Invert());
 			if (differenceFoot.x < 0) differenceFoot.x = -differenceFoot.x;
 			if (differenceFoot.y < 0) differenceFoot.y = -differenceFoot.y;
 
@@ -160,9 +160,9 @@ void AimAssist::Update()
 		}
 	}
 
-	if (!target.obj.GetInstance()) {
-		Vector3 null;
-		data = null;
+	if (!target.obj.GetInstance())
+	{
+		m_data = Vector3();
 		return;
 	}
 
@@ -175,19 +175,22 @@ void AimAssist::Update()
 	Vector3 eLastHeadPos = eLastPos + Vector3(0, eHeight, 0);
 
 
-	Vector2 anglesFoot = Math::getAngles(headPos, ePos);
-	Vector2 anglesHead = Math::getAngles(headPos, eHeadPos);
+	Vector2 anglesFoot = Math::GetAngles(headPos, ePos);
+	Vector2 anglesHead = Math::GetAngles(headPos, eHeadPos);
 
-	Vector2 difference = Math::vec_wrapAngleTo180(currentLookAngles.Invert() - anglesHead.Invert());
-	Vector2 differenceFoot = Math::vec_wrapAngleTo180(currentLookAngles.Invert() - anglesFoot.Invert());
+	Vector2 difference = Math::WrapAngleTo180(currentLookAngles.Invert() - anglesHead.Invert());
+	Vector2 differenceFoot = Math::WrapAngleTo180(currentLookAngles.Invert() - anglesFoot.Invert());
 
 	float offset = randomFloat(-settings::AA_randomYaw, settings::AA_randomYaw);
-	if (settings::AA_adaptive) {
-		if ((GetAsyncKeyState('D') & 0x8000) && !(GetAsyncKeyState('A') & 0x8000)) {
+	if (settings::AA_adaptive)
+	{
+		if ((GetAsyncKeyState('D') & 0x8000) && !(GetAsyncKeyState('A') & 0x8000))
+		{
 			offset -= settings::AA_adaptiveOffset;
 		}
 
-		if ((GetAsyncKeyState('A') & 0x8000) && !(GetAsyncKeyState('D') & 0x8000)) {
+		if ((GetAsyncKeyState('A') & 0x8000) && !(GetAsyncKeyState('D') & 0x8000))
+		{
 			offset += settings::AA_adaptiveOffset;
 		}
 	}
@@ -197,7 +200,8 @@ void AimAssist::Update()
 	Vector3 renderPos = CommonData::renderPos;
 	float renderPartialTicks = CommonData::renderPartialTicks;
 
-	if (currentLookAngles.y > anglesFoot.y || currentLookAngles.y < anglesHead.y) {
+	if (currentLookAngles.y > anglesFoot.y || currentLookAngles.y < anglesHead.y)
+	{
 		float targetPitchFoot = currentLookAngles.y + (differenceFoot.y / settings::AA_smooth);
 		float targetPitchHead = currentLookAngles.y + (difference.y / settings::AA_smooth);
 
@@ -210,21 +214,22 @@ void AimAssist::Update()
 		if (diffFoot > diffHead) 
 		{
 			targetPitch = targetPitchHead;
-			data = renderPos - Vector3(0.f, 0.21f, 0.f) - eLastHeadPos + (eLastHeadPos - eHeadPos) * renderPartialTicks;
+			m_data = renderPos - Vector3(0.f, 0.21f, 0.f) - eLastHeadPos + (eLastHeadPos - eHeadPos) * renderPartialTicks;
 		}
 		else 
 		{
 			targetPitch = targetPitchFoot;
-			data = renderPos - Vector3(0.f, 0.23f, 0.f) - eLastPos + (eLastPos - ePos) * renderPartialTicks;
+			m_data = renderPos - Vector3(0.f, 0.23f, 0.f) - eLastPos + (eLastPos - ePos) * renderPartialTicks;
 		}
-		pitchInfluenced = true;
+		m_pitchInfluenced = true;
 		targetPitch += randomFloat(-settings::AA_randomPitch, settings::AA_randomPitch);
-		thePlayer->SetAngles(Vector2(targetYaw, targetPitch));
+		SDK::minecraft->thePlayer->SetAngles(Vector2(targetYaw, targetPitch));
 	}
-	else {
-		data = renderPos - eLastPos + (eLastPos - ePos) * renderPartialTicks;
-		pitchInfluenced = false;
-		thePlayer->SetAngles(Vector2(targetYaw, currentLookAngles.y + randomFloat(-settings::AA_randomPitch, settings::AA_randomPitch)));
+	else
+	{
+		m_data = renderPos - eLastPos + (eLastPos - ePos) * renderPartialTicks;
+		m_pitchInfluenced = false;
+		SDK::minecraft->thePlayer->SetAngles(Vector2(targetYaw, currentLookAngles.y + randomFloat(-settings::AA_randomPitch, settings::AA_randomPitch)));
 	}
 }
 
@@ -242,15 +247,15 @@ void AimAssist::RenderOverlay()
 	}
 
 	if (settings::AA_aimAssistFeedback) {
-		if (data.x == NAN) return;
+		if (m_data.x == NAN) return;
 		ImVec2 screenSize = ImGui::GetWindowSize();
 
 		Vector2 w2s;
-		if (CWorldToScreen::WorldToScreen(data, CommonData::modelView, CommonData::projection, screenSize.x, screenSize.y, w2s))
+		if (CWorldToScreen::WorldToScreen(m_data, CommonData::modelView, CommonData::projection, screenSize.x, screenSize.y, w2s))
 		{
 			if (w2s.x == NAN) return;
 
-			if (pitchInfluenced)
+			if (m_pitchInfluenced)
 			{
 				ImGui::GetWindowDrawList()->AddLine(ImVec2(screenSize.x / 2, screenSize.y / 2), ImVec2(w2s.x, w2s.y), ImColor(settings::AA_aimAssistFeedbackColor[0], settings::AA_aimAssistFeedbackColor[1], settings::AA_aimAssistFeedbackColor[2], settings::AA_aimAssistFeedbackColor[3]), 1.5);
 			}

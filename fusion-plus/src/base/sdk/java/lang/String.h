@@ -2,7 +2,6 @@
 
 #include "sdk/java/IClass.h"
 
-
 struct String : IClass
 {
 	String(jobject instance);
@@ -11,7 +10,6 @@ struct String : IClass
 
 	jclass GetClass();
 	jobject GetInstance();
-
 
 	std::string ToString();
 };

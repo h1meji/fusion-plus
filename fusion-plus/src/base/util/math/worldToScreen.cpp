@@ -1,11 +1,11 @@
 #include "worldToScreen.h"
+
 #include "base.h"
 #include "util/logger/logger.h"
 
-#include <limits>
 
 Vector3 CWorldToScreen::GetCameraPosition(const Matrix& modelView) {
-	Matrix inversed = modelView.inverse();
+	Matrix inversed = modelView.Inverse();
 
 	// Position is relative to the position of the player.
 	// inversed.m30 = x

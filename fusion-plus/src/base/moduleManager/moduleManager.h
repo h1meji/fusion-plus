@@ -17,11 +17,11 @@ public:
 	void RenderMenu(int index);
 
 	std::vector<std::string> GetCategories();
-	std::vector<std::unique_ptr<ModuleBase>>& GetModules() { return modules; }
+	std::vector<std::unique_ptr<ModuleBase>>& GetModules() { return m_modules; }
 	int GetFirstModuleIndexByCategory(const std::string& category);
 
 private:
-	std::vector<std::unique_ptr<ModuleBase>> modules;
+	std::vector<std::unique_ptr<ModuleBase>> m_modules;
 };
 
-inline std::unique_ptr<ModuleManager> g_ModuleManager;
+inline std::unique_ptr<ModuleManager> g_moduleManager;

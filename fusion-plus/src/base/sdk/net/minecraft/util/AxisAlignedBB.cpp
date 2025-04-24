@@ -6,45 +6,44 @@
 
 CAxisAlignedBB::CAxisAlignedBB()
 {
-	if (!StrayCache::initialized) StrayCache::Initialize();
-	this->Class = StrayCache::axisAlignedBB_class;
+	this->clazz = StrayCache::axisAlignedBB_class;
 }
 
 CAxisAlignedBB::CAxisAlignedBB(jobject instance) : CAxisAlignedBB()
 {
-	this->Instance = instance;
+	this->instance = instance;
 }
 
 jclass CAxisAlignedBB::GetClass()
 {
-	return this->Class;
+	return this->clazz;
 }
 
 jobject CAxisAlignedBB::GetInstance()
 {
-	return this->Instance;
+	return this->instance;
 }
 
 BoundingBox CAxisAlignedBB::GetNativeBoundingBox()
 {
 	return BoundingBox{
-		Java::Env->GetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_minX),
-		Java::Env->GetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_minY),
-		Java::Env->GetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_minZ),
+		Java::env->GetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_minX),
+		Java::env->GetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_minY),
+		Java::env->GetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_minZ),
 
-		Java::Env->GetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_maxX),
-		Java::Env->GetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_maxY),
-		Java::Env->GetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_maxZ),
+		Java::env->GetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_maxX),
+		Java::env->GetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_maxY),
+		Java::env->GetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_maxZ),
 	};
 }
 
 void CAxisAlignedBB::SetBoundingBox(BoundingBox newBoundingBox)
 {
-	Java::Env->SetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_minX, newBoundingBox.minX);
-	Java::Env->SetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_minY, newBoundingBox.minY);
-	Java::Env->SetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_minZ, newBoundingBox.minZ);
+	Java::env->SetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_minX, newBoundingBox.minX);
+	Java::env->SetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_minY, newBoundingBox.minY);
+	Java::env->SetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_minZ, newBoundingBox.minZ);
 
-	Java::Env->SetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_maxX, newBoundingBox.maxX);
-	Java::Env->SetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_maxY, newBoundingBox.maxY);
-	Java::Env->SetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_maxZ, newBoundingBox.maxZ);
+	Java::env->SetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_maxX, newBoundingBox.maxX);
+	Java::env->SetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_maxY, newBoundingBox.maxY);
+	Java::env->SetDoubleField(this->GetInstance(), StrayCache::axisAlignedBB_maxZ, newBoundingBox.maxZ);
 }

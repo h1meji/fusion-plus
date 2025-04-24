@@ -1,20 +1,13 @@
 #include "menu.h"
-#include "../../main.h"
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_internal.h"
-#include "imgui/imgui_impl_win32.h"
-#include "imgui/imgui_impl_opengl2.h"
+#include <imgui/imgui_internal.h>
 
-#include "util/window/borderless.h"
-
+#include "base/base.h"
 #include "moduleManager/moduleManager.h"
-
 #include "sdk/net/minecraft/client/Minecraft.h"
 #include "util/logger/logger.h"
-#include "menu/menu.h"
+#include "util/window/borderless.h"
 #include "configManager/configManager.h"
-
 #include "notificationManager/notificationManager.h"
 
 const int CATEGORY_FONT_SIZE_INT = 22;
@@ -27,24 +20,24 @@ std::unique_ptr<std::once_flag> setConfigName = std::make_unique<std::once_flag>
 void Menu::RenderMenu()
 {
 	static int selectedCategory = 0;
-	static std::vector<std::string> categories = g_ModuleManager->GetCategories();
+	static std::vector<std::string> categories = g_moduleManager->GetCategories();
 	static int selectedModule = 0;
-	static std::vector<std::unique_ptr<ModuleBase>>& modules = g_ModuleManager->GetModules();
+	static std::vector<std::unique_ptr<ModuleBase>>& modules = g_moduleManager->GetModules();
 
 	// Hud Boolean
-	if (!Menu::OpenHudEditor && selectedCategory == -2 && selectedModule == 3)
+	if (!Menu::openHudEditor && selectedCategory == -2 && selectedModule == 3)
 	{
-		Menu::OpenHudEditor = true;
+		Menu::openHudEditor = true;
 	}
-	else if (Menu::OpenHudEditor && (selectedCategory != -2 || selectedModule != 3))
+	else if (Menu::openHudEditor && (selectedCategory != -2 || selectedModule != 3))
 	{
-		Menu::OpenHudEditor = false;
+		Menu::openHudEditor = false;
 	}
 
 	ImGui::SetNextWindowSize(ImVec2(1000.f, 650.f));
 	ImGui::Begin("Fusion+", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 	{
-		ImVec2 titleSize = Menu::FontBold->CalcTextSizeA(24, FLT_MAX, 0.0f, ("FUSION+" + std::string(Base::version)).c_str());
+		ImVec2 titleSize = Menu::fontBold->CalcTextSizeA(24, FLT_MAX, 0.0f, ("FUSION+" + std::string(Base::m_version)).c_str());
 		float leftWidth = titleSize.x += 40.f;
 		float topHeight = titleSize.y + 20.f;
 
@@ -57,7 +50,7 @@ void Menu::RenderMenu()
 			ImGui::SameLine();
 			Menu::VerticalSeparator("LogoSep", ImGui::GetWindowSize().y - 20.f);
 			ImGui::SameLine();
-			Menu::BoldText(Base::version, FontSize::SIZE_24);
+			Menu::BoldText(Base::m_version, FontSize::SIZE_24);
 		}
 		ImGui::EndChild();
 
@@ -164,7 +157,7 @@ void Menu::RenderMenu()
 		}
 		if (selectedCategory == -1)
 		{
-			ImVec2 textSize = Menu::Font->CalcTextSizeA(CATEGORY_FONT_SIZE_INT, FLT_MAX, 0.0f, "Configs");
+			ImVec2 textSize = Menu::font->CalcTextSizeA(CATEGORY_FONT_SIZE_INT, FLT_MAX, 0.0f, "Configs");
 
 			currentPos.y += 33.f;
 			currentPos.x += 20.f;
@@ -181,7 +174,7 @@ void Menu::RenderMenu()
 		}
 		if (selectedCategory == -2)
 		{
-			ImVec2 textSize = Menu::Font->CalcTextSizeA(CATEGORY_FONT_SIZE_INT, FLT_MAX, 0.0f, "Settings");
+			ImVec2 textSize = Menu::font->CalcTextSizeA(CATEGORY_FONT_SIZE_INT, FLT_MAX, 0.0f, "Settings");
 
 			currentPos.y += 33.f;
 			currentPos.x += 20.f;
@@ -192,7 +185,7 @@ void Menu::RenderMenu()
 
 		if (Menu::DetachButton("Detach", ImVec2(leftWidth, 35.f), BUTTON_FONT_SIZE))
 		{
-			Base::Running = false;
+			Base::m_running = false;
 		}
 
 		ImGui::EndGroup();
@@ -201,7 +194,7 @@ void Menu::RenderMenu()
 
 		ImGui::BeginGroup(); // Group for the right part
 
-		static float occupiedSpace = std::accumulate(categories.begin(), categories.end(), 0.f, [](float acc, const std::string& str) { return acc + Menu::Font->CalcTextSizeA(CATEGORY_FONT_SIZE_INT, FLT_MAX, 0.0f, str.c_str()).x + 8; }) + (categories.size() - 1);
+		static float occupiedSpace = std::accumulate(categories.begin(), categories.end(), 0.f, [](float acc, const std::string& str) { return acc + Menu::font->CalcTextSizeA(CATEGORY_FONT_SIZE_INT, FLT_MAX, 0.0f, str.c_str()).x + 8; }) + (categories.size() - 1);
 		static float availableSpace = ImGui::GetWindowSize().x - leftWidth - 50.f;
 		static float spaceBetween = max(10.f, (availableSpace - occupiedSpace) / (categories.size() * 2)) - 9.f;
 
@@ -217,7 +210,7 @@ void Menu::RenderMenu()
 				if (i == selectedCategory)
 				{
 					ImVec2 currentPos = ImGui::GetCursorScreenPos();
-					ImVec2 textSize = Menu::Font->CalcTextSizeA(CATEGORY_FONT_SIZE_INT, FLT_MAX, 0.0f, categories[i].c_str());
+					ImVec2 textSize = Menu::font->CalcTextSizeA(CATEGORY_FONT_SIZE_INT, FLT_MAX, 0.0f, categories[i].c_str());
 
 					currentPos.y += 38.f;
 
@@ -228,7 +221,7 @@ void Menu::RenderMenu()
 				if (Menu::TransparentButton(categories[i].c_str(), ImVec2(0.f, 0.f), CATEGORY_FONT_SIZE))
 				{
 					selectedCategory = i;
-					selectedModule = g_ModuleManager->GetFirstModuleIndexByCategory(categories[i]);
+					selectedModule = g_moduleManager->GetFirstModuleIndexByCategory(categories[i]);
 				}
 				ImGui::SameLine();
 
@@ -252,7 +245,7 @@ void Menu::RenderMenu()
 					selectedCategory = 0;
 
 				if (selectedModule >= modules.size() || selectedModule < 0)
-					selectedModule = g_ModuleManager->GetFirstModuleIndexByCategory(categories[selectedCategory]);
+					selectedModule = g_moduleManager->GetFirstModuleIndexByCategory(categories[selectedCategory]);
 
 				modules[selectedModule]->RenderMenu();
 			}
@@ -260,7 +253,7 @@ void Menu::RenderMenu()
 			{
 				if (selectedModule == 0) // Local Configs
 				{
-					static std::vector<std::string> configFiles = ConfigManager::GetConfigList();
+					static std::vector<std::string> configFiles = configmanager::GetConfigList();
 					static int selectedConfig = 0;
 					std::string selectedConfigName = configFiles.size() > 0 && configFiles.size() > selectedConfig ? configFiles[selectedConfig] : "null";
 
@@ -280,7 +273,7 @@ void Menu::RenderMenu()
 
 							if (deleted)
 							{
-								if (ConfigManager::RemoveConfig(configFiles[i].c_str()))
+								if (configmanager::RemoveConfig(configFiles[i].c_str()))
 								{
 									NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been removed.", configFiles[i].c_str());
 								}
@@ -289,7 +282,7 @@ void Menu::RenderMenu()
 									NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" could not be removed.", configFiles[i].c_str());
 								}
 
-								configFiles = ConfigManager::GetConfigList();
+								configFiles = configmanager::GetConfigList();
 								
 								if (selectedConfig == i)
 								{
@@ -302,16 +295,16 @@ void Menu::RenderMenu()
 					ImGui::EndChild();
 					ImGui::PopStyleColor();
 
-					ImVec2 openButtonSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Open Folder");
+					ImVec2 openButtonSize = Menu::font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Open Folder");
 					openButtonSize.x += ImGui::GetStyle().FramePadding.x * 8;
-					ImVec2 refreshButtonSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Refresh");
+					ImVec2 refreshButtonSize = Menu::font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Refresh");
 					refreshButtonSize.x += ImGui::GetStyle().FramePadding.x * 8;
 
 					if (Menu::Button(("Load \"" + selectedConfigName + "\"").c_str(), ImVec2(ImGui::GetWindowSize().x - openButtonSize.x - refreshButtonSize.x - 56.f, 30.f)))
 					{
 						if (configFiles.size() > 0)
 						{
-							if (ConfigManager::LoadConfig(selectedConfigName.c_str()))
+							if (configmanager::LoadConfig(selectedConfigName.c_str()))
 							{
 								NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been loaded.", selectedConfigName.c_str());
 								Menu::ResetSetupFlags();
@@ -327,18 +320,18 @@ void Menu::RenderMenu()
 
 					if (Menu::Button("Open Folder", ImVec2(openButtonSize.x, 30.f)))
 					{
-						ShellExecuteA(NULL, "open", ConfigManager::GetConfigPath().c_str(), NULL, NULL, SW_SHOWNORMAL);
+						ShellExecuteA(NULL, "open", configmanager::GetConfigPath().c_str(), NULL, NULL, SW_SHOWNORMAL);
 					}
 
 					ImGui::SameLine();
 
 					if (Menu::Button("Refresh", ImVec2(refreshButtonSize.x, 30.f)))
 					{
-						configFiles = ConfigManager::GetConfigList();
+						configFiles = configmanager::GetConfigList();
 						NotificationManager::Send("Fusion+ :: Config", "Config list has been refreshed.");
 					}
 
-					ImVec2 saveButtonSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Save");
+					ImVec2 saveButtonSize = Menu::font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Save");
 					saveButtonSize.x += ImGui::GetStyle().FramePadding.x * 8;
 					saveButtonSize.y += ImGui::GetStyle().FramePadding.y * 2;
 
@@ -355,10 +348,10 @@ void Menu::RenderMenu()
 
 					if (Menu::Button("Save", ImVec2(saveButtonSize.x, 30.f)))
 					{
-						int result = ConfigManager::SaveConfig(saveConfigName);
+						int result = configmanager::SaveConfig(saveConfigName);
 						if (result != -1)
 						{
-							configFiles = ConfigManager::GetConfigList();
+							configFiles = configmanager::GetConfigList();
 							selectedConfig = result;
 							NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been saved.", saveConfigName);
 						}
@@ -407,7 +400,7 @@ void Menu::RenderMenu()
 
 							if (deleted)
 							{
-								if (ConfigManager::RemoveFriend(friends[i].c_str()))
+								if (configmanager::RemoveFriend(friends[i].c_str()))
 								{
 									NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" has been removed.", friends[i].c_str());
 								}
@@ -421,7 +414,7 @@ void Menu::RenderMenu()
 					ImGui::EndChild();
 					ImGui::PopStyleColor();
 
-					ImVec2 addFriendButtonSize = Menu::Font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Add");
+					ImVec2 addFriendButtonSize = Menu::font18->CalcTextSizeA(18, FLT_MAX, 0.0f, "Add");
 					addFriendButtonSize.x += ImGui::GetStyle().FramePadding.x * 8;
 					addFriendButtonSize.y += ImGui::GetStyle().FramePadding.y * 2;
 
@@ -433,7 +426,7 @@ void Menu::RenderMenu()
 
 					if (Menu::Button("Add", ImVec2(addFriendButtonSize.x, 30.f)))
 					{
-						if (ConfigManager::AddFriend(newFriendName))
+						if (configmanager::AddFriend(newFriendName))
 						{
 							NotificationManager::Send("Fusion+ :: Friends", "Friend \"%s\" has been added.", newFriendName);
 						}

@@ -1,9 +1,11 @@
 #include "javahook.h"
-#include <jni/jvmti.h>
-#include "java/java.h"
+
 #include <vector>
-#include <util/logger/logger.h>
+
 #include <Windows.h>
+
+#include "java/java.h"
+#include "util/logger/logger.h"
 
 // Source: https://github.com/Lefraudeur/RiptermsGhost/blob/master/Ripterms/Hook/JavaHook.cpp
 
@@ -22,7 +24,7 @@ struct HookedMethod
 };
 static std::vector<HookedMethod> hooked_methods{};
 
-static void* find_correct_hook_place(void* _i2i_entry)
+static void* findCorrectHookPlace(void* _i2i_entry)
 {
     uint8_t pattern[] =
     {
@@ -62,7 +64,7 @@ static void* find_correct_hook_place(void* _i2i_entry)
                         break;
                 }
                 if (matches2 == sizeof(pattern2))
-                    HotSpot::frame::locals_offset = *(char*)(curr2 + 3);
+                    HotSpot::frame::localsOffset = *(char*)(curr2 + 3);
 
             }
             return curr + sizeof(pattern) - 8;
@@ -75,21 +77,21 @@ static void* find_correct_hook_place(void* _i2i_entry)
     return nullptr;
 }
 
-static void common_detour(HotSpot::frame* frame, HotSpot::Thread* thread, bool* cancel)
+static void commonDetour(HotSpot::frame* frame, HotSpot::Thread* thread, bool* cancel)
 {
-    if (!(*(void**)thread->get_env()) || thread->get_thread_state() != HotSpot::_thread_in_Java || !Java::Env) return;
+    if (!(*(void**)thread->GetEnv()) || thread->GetThreadState() != HotSpot::_thread_in_Java || !Java::env) return;
     for (HookedMethod& hk : hooked_methods)
     {
-        if (hk.method == frame->get_method())
+        if (hk.method == frame->GetMethod())
         {
             hk.detour(frame, thread, cancel);
-            thread->set_thread_state(HotSpot::_thread_in_Java);
+            thread->SetThreadState(HotSpot::_thread_in_Java);
             return;
         }
     }
 }
 
-static uint8_t* allocate_nearby_memory(uint8_t* nearby_addr, int size, int access)
+static uint8_t* allocateNearbyMemory(uint8_t* nearby_addr, int size, int access)
 {
     for (int i = 65536;
         i < 0x7FFFFFFF;
@@ -105,7 +107,7 @@ static uint8_t* allocate_nearby_memory(uint8_t* nearby_addr, int size, int acces
     return nullptr;
 }
 
-void JavaHook::clean()
+void JavaHook::Shutdown()
 {
     for (i2iHookData& hk : hooked_i2i_entries)
     {
@@ -113,13 +115,13 @@ void JavaHook::clean()
     }
     for (HookedMethod& hm : hooked_methods)
     {
-        hm.method->set_dont_inline(false);
-        int* flags = (int*)hm.method->get_access_flags();
+        hm.method->SetDontInline(false);
+        int* flags = (int*)hm.method->GetAccessFlags();
         *flags &= ~(NO_COMPILE);
     }
 }
 
-bool JavaHook::hook(jmethodID methodID, i2i_detour_t detour)
+bool JavaHook::Hook(jmethodID methodID, i2i_detour_t detour)
 {
     static int runonce = []()->int
         {
@@ -138,26 +140,26 @@ bool JavaHook::hook(jmethodID methodID, i2i_detour_t detour)
     }
 
 
-    method->set_dont_inline(true);
-    int* flags = (int*)method->get_access_flags();
+    method->SetDontInline(true);
+    int* flags = (int*)method->GetAccessFlags();
     *flags |= (NO_COMPILE);
 
     jclass owner = nullptr;
     Java::tiEnv->GetMethodDeclaringClass(methodID, &owner);
     Java::tiEnv->RetransformClasses(1, &owner); //small trick to delete any already compiled / inlined code
-    Java::Env->DeleteLocalRef(owner);
+    Java::env->DeleteLocalRef(owner);
 
     method = *(HotSpot::Method**)methodID;
 
-    method->set_dont_inline(true);
-    flags = (int*)method->get_access_flags();
+    method->SetDontInline(true);
+    flags = (int*)method->GetAccessFlags();
     *flags |= (NO_COMPILE);
 
 
     hooked_methods.push_back({ method, detour });
 
     bool hook_new_i2i = true;
-    void* i2i = method->get_i2i_entry();
+    void* i2i = method->GetI2iEntry();
     for (i2iHookData& hk : hooked_i2i_entries)
     {
         if (hk._i2i_entry == i2i)
@@ -167,15 +169,15 @@ bool JavaHook::hook(jmethodID methodID, i2i_detour_t detour)
 
     if (!hook_new_i2i) return true;
 
-    uint8_t* target = (uint8_t*)find_correct_hook_place(i2i);
+    uint8_t* target = (uint8_t*)findCorrectHookPlace(i2i);
     if (!target)
     {
-        Logger::Err("Failed to find correct i2i hook location");
-        Logger::Err("Debug: i2ientry: %p", i2i);
+        LOG_ERROR("Failed to find correct i2i hook location");
+        LOG_ERROR("Debug: i2ientry: %p", i2i);
         return false;
     }
-    Logger::Log("placed i2i hook at: %p", (void*)target);
-    Midi2iHook* hook = new Midi2iHook(target, common_detour);
+    LOG_INFO("placed i2i hook at: %p", (void*)target);
+    Midi2iHook* hook = new Midi2iHook(target, commonDetour);
     if (!hook)
         return false;
 
@@ -184,7 +186,7 @@ bool JavaHook::hook(jmethodID methodID, i2i_detour_t detour)
 }
 
 JavaHook::Midi2iHook::Midi2iHook(uint8_t* target, i2i_detour_t detour) :
-    target(target)
+    m_target(target)
 {
     constexpr int HOOK_SIZE = 8;
     constexpr int JMP_SIZE = 5;
@@ -238,72 +240,72 @@ data:
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 //detour address
     };
 
-    allocated_assembly = allocate_nearby_memory(target, HOOK_SIZE + sizeof(assembly), PAGE_EXECUTE_READWRITE);
-    if (!allocated_assembly)
+    m_allocatedAssembly = allocateNearbyMemory(target, HOOK_SIZE + sizeof(assembly), PAGE_EXECUTE_READWRITE);
+    if (!m_allocatedAssembly)
     {
-        Logger::Err("Failed to allocate memory for i2i hook");
+        LOG_ERROR("Failed to allocate memory for i2i hook");
         return;
     }
-    int32_t jmp_back_delta = (int32_t)(target + HOOK_SIZE - (allocated_assembly + HOOK_SIZE + JE_OFFSET + JE_SIZE));
+    int32_t jmp_back_delta = (int32_t)(target + HOOK_SIZE - (m_allocatedAssembly + HOOK_SIZE + JE_OFFSET + JE_SIZE));
     *(int32_t*)(assembly + JE_OFFSET + 2) = jmp_back_delta;
 
     *(i2i_detour_t*)(assembly + DETOUR_ADDRESS_OFFSET) = detour;
 
-    memcpy(allocated_assembly, target, HOOK_SIZE);
-    memcpy(allocated_assembly + HOOK_SIZE, assembly, sizeof(assembly));
+    memcpy(m_allocatedAssembly, target, HOOK_SIZE);
+    memcpy(m_allocatedAssembly + HOOK_SIZE, assembly, sizeof(assembly));
 
     DWORD original_prot = 0;
-    VirtualProtect(allocated_assembly, HOOK_SIZE + sizeof(assembly), PAGE_EXECUTE_READ, &original_prot);
+    VirtualProtect(m_allocatedAssembly, HOOK_SIZE + sizeof(assembly), PAGE_EXECUTE_READ, &original_prot);
 
     VirtualProtect(target, JMP_SIZE, PAGE_EXECUTE_READWRITE, &original_prot);
     target[0] = 0xE9U;
-    int32_t jmp_detour_delta = (int32_t)(allocated_assembly - (target + JMP_SIZE));
+    int32_t jmp_detour_delta = (int32_t)(m_allocatedAssembly - (target + JMP_SIZE));
     *(int32_t*)(target + 1) = jmp_detour_delta;
     VirtualProtect(target, JMP_SIZE, original_prot, &original_prot);
 
-    is_error = false;
+    m_isError = false;
 }
 
 JavaHook::Midi2iHook::~Midi2iHook()
 {
-    if (is_error)
+    if (m_isError)
         return;
 
     DWORD original = 0;
-    if (target[0] == 0xE9U && VirtualProtect(target, 5, PAGE_EXECUTE_READWRITE, &original))
+    if (m_target[0] == 0xE9U && VirtualProtect(m_target, 5, PAGE_EXECUTE_READWRITE, &original))
     {
-        memcpy(target, allocated_assembly, 5);
-        VirtualProtect(target, 5, original, &original);
+        memcpy(m_target, m_allocatedAssembly, 5);
+        VirtualProtect(m_target, 5, original, &original);
     }
 
-    VirtualFree(allocated_assembly, 0, MEM_RELEASE);
+    VirtualFree(m_allocatedAssembly, 0, MEM_RELEASE);
 }
 
 
 
 JavaHook::JNIFrame::JNIFrame(JNIEnv* env, int ref_count) :
-    env(env),
-    is_success(false)
+    m_env(env),
+    m_isSuccess(false)
 {
-    is_success = env->PushLocalFrame(ref_count) == JNI_OK;
+    m_isSuccess = env->PushLocalFrame(ref_count) == JNI_OK;
 }
 
 JavaHook::JNIFrame::~JNIFrame()
 {
-    if (!is_success)
+    if (!m_isSuccess)
         return;
-    pop();
+    Pop();
 }
 
-void JavaHook::JNIFrame::pop()
+void JavaHook::JNIFrame::Pop()
 {
-    if (!is_success)
+    if (!m_isSuccess)
         return;
-    env->PopLocalFrame(nullptr);
-    is_success = false; //prevent multiple pops
+    m_env->PopLocalFrame(nullptr);
+    m_isSuccess = false; //prevent multiple pops
 }
 
 JavaHook::JNIFrame::operator bool()
 {
-    return is_success;
+    return m_isSuccess;
 }

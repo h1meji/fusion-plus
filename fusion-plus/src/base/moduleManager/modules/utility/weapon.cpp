@@ -1,6 +1,6 @@
 #include "weapon.h"
-#include <imgui/imgui.h>
-#include <menu/menu.h>
+
+#include "menu/menu.h"
 
 void Weapon::RenderMenu()
 {

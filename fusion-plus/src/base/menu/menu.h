@@ -1,10 +1,11 @@
 #pragma once
 
 #include <string>
-#include <Windows.h>
 #include <vector>
 
-#include "imgui/imgui.h"
+#include <Windows.h>
+
+#include <imgui/imgui.h>
 
 #include "sdk/sdk.h"
 
@@ -23,34 +24,34 @@ enum FontSize
 struct Menu
 {
 	static void Init();
-	static void Kill();
+	static void Shutdown();
 
-	static inline std::string Title;
-	static inline bool Open;
-	static inline bool OpenHudEditor;
-	static inline ImFont* Font;
-	static inline ImFont* FontBold;
-	static inline bool Initialized;
+	static inline std::string title;
+	static inline bool open;
+	static inline bool openHudEditor;
+	static inline ImFont* font;
+	static inline ImFont* fontBold;
+	static inline bool initialized;
 
-	static inline bool IsBindingKey;
+	static inline bool isBindingKey;
 
 	// Fonts
-	static inline ImFont* Font28;
-	static inline ImFont* Font26;
-	static inline ImFont* Font24;
-	static inline ImFont* Font22;
-	static inline ImFont* Font20;
-	static inline ImFont* Font18;
-	static inline ImFont* Font16;
-	static inline ImFont* Font14;
-	static inline ImFont* BoldFont28;
-	static inline ImFont* BoldFont26;
-	static inline ImFont* BoldFont24;
-	static inline ImFont* BoldFont22;
-	static inline ImFont* BoldFont20;
-	static inline ImFont* BoldFont18;
-	static inline ImFont* BoldFont16;
-	static inline ImFont* BoldFont14;
+	static inline ImFont* font28;
+	static inline ImFont* font26;
+	static inline ImFont* font24;
+	static inline ImFont* font22;
+	static inline ImFont* font20;
+	static inline ImFont* font18;
+	static inline ImFont* font16;
+	static inline ImFont* font14;
+	static inline ImFont* boldFont28;
+	static inline ImFont* boldFont26;
+	static inline ImFont* boldFont24;
+	static inline ImFont* boldFont22;
+	static inline ImFont* boldFont20;
+	static inline ImFont* boldFont18;
+	static inline ImFont* boldFont16;
+	static inline ImFont* boldFont14;
 
 	static void SetupImgui();
 	static void SetupStyle();
@@ -66,8 +67,8 @@ struct Menu
 	static void GlitchText(const char* text, FontSize size);
 	static void GlitchText(const char* text, ImVec2 pos, int size);
 
-	static void VerticalSeparator(const char* str_id, float size = 0, float thickness = 1.f);
-	static void HorizontalSeparator(const char* str_id, float size = 0, float thickness = 1.);
+	static void VerticalSeparator(const char* str_id, float size = 0.f, float thickness = 1.f);
+	static void HorizontalSeparator(const char* str_id, float size = 0.f, float thickness = 1.f);
 	static void HorizontalSeparatorText(const char* text, FontSize font_size, float size = 0);
 
 	static bool Button(const char* label, ImVec2 size = ImVec2(0, 0), FontSize font_size = SIZE_18);
@@ -90,13 +91,13 @@ struct Menu
 
 	static void MoveCursorToCenter(bool checkInGame);
 
-	static inline HWND HandleWindow;
-	static inline HDC HandleDeviceContext;
+	static inline HWND handleWindow;
+	static inline HDC handleDeviceContext;
 
-	static inline HGLRC OriginalGLContext;
-	static inline HGLRC MenuGLContext;
+	static inline HGLRC originalGLContext;
+	static inline HGLRC menuGLContext;
 
-	static inline ImGuiContext* CurrentImGuiContext;
+	static inline ImGuiContext* currentImGuiContext;
 
 	static void PlaceHooks();
 	static void RemoveHooks();

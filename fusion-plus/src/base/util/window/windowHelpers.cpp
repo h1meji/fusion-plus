@@ -1,8 +1,6 @@
 #include "windowHelpers.h"
-#include "util/logger/logger.h"
 
-#include "imgui/imgui.h"
-#include <imgui/imgui_internal.h>
+#include "util/logger/logger.h"
 
 void WindowHelpers::SetFixedAspectRatio(AspectRatioData* aspectData)
 {
@@ -14,7 +12,8 @@ void WindowHelpers::SetFixedAspectRatio(AspectRatioData* aspectData)
         {
             AspectRatioData* aspectData = (AspectRatioData*)callback_data->UserData;
 
-            if (aspectData->isFirstUpdate) {
+            if (aspectData->isFirstUpdate)
+            {
                 aspectData->lastStableSize = callback_data->CurrentSize;
                 aspectData->isFirstUpdate = false;
             }
@@ -23,10 +22,12 @@ void WindowHelpers::SetFixedAspectRatio(AspectRatioData* aspectData)
             float heightFromWidth = callback_data->DesiredSize.x / aspectData->ratio;
 
             if (widthFromHeight * callback_data->DesiredSize.y <=
-                callback_data->DesiredSize.x * heightFromWidth) {
+                callback_data->DesiredSize.x * heightFromWidth)
+            {
                 callback_data->DesiredSize.x = widthFromHeight;
             }
-            else {
+            else
+            {
                 callback_data->DesiredSize.y = heightFromWidth;
             }
 

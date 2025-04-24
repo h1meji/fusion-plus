@@ -1,9 +1,12 @@
 #pragma once
-#include <imgui/imgui.h>
+
 #include <vector>
 #include <string>
 
-class RenderUtils {
+#include <imgui/imgui.h>
+
+class RenderUtils
+{
 public:
     static void RenderModuleList(const std::vector<std::string>& modules, 
                                int position, float textSize, 

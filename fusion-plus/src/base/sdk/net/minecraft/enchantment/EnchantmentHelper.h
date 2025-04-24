@@ -4,9 +4,9 @@
 
 #include "sdk/net/minecraft/item/ItemStack.h"
 
-struct CEnchantMentHelper : IClass
+struct CEnchantmentHelper : IClass
 {
-	CEnchantMentHelper();
+	CEnchantmentHelper();
 
 	jclass GetClass();
 	jobject GetInstance();

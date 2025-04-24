@@ -1,12 +1,13 @@
 #include "borderless.h"
+
 #include "menu/menu.h"
 
 void Borderless::Enable(HWND hWindow)
 {
-	Borderless::Enabled = true;
-	Menu::Open = false;
-	Menu::OpenHudEditor = false;
-	Borderless::OriginalStyle = GetWindowLongPtr(hWindow, GWL_STYLE);
+	Borderless::enabled = true;
+	Menu::open = false;
+	Menu::openHudEditor = false;
+	Borderless::originalStyle = GetWindowLongPtr(hWindow, GWL_STYLE);
 
 	ShowWindow(hWindow, SW_MAXIMIZE);
 	LONG_PTR currentStyle = GetWindowLongPtr(hWindow, GWL_STYLE);
@@ -19,8 +20,8 @@ void Borderless::Enable(HWND hWindow)
 
 void Borderless::Restore(HWND hWindow)
 {
-	Borderless::Enabled = false;
-	SetWindowLongPtr(hWindow, GWL_STYLE, Borderless::OriginalStyle);
+	Borderless::enabled = false;
+	SetWindowLongPtr(hWindow, GWL_STYLE, Borderless::originalStyle);
 	ShowWindow(hWindow, SW_SHOWDEFAULT);
 	SetWindowPos(hWindow, hWindow, (GetSystemMetrics(SM_CXSCREEN) / 2) - 428, (GetSystemMetrics(SM_CYSCREEN) / 2) - 241, 856, 482, SWP_NOZORDER);
 }

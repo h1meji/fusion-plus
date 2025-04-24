@@ -1,12 +1,8 @@
 #include "notificationManager.h"
 
 #include <cstdarg>
-#include <chrono>
-
-#include "imgui/imgui.h"
 
 #include "menu/menu.h"
-
 #include "util/logger/logger.h"
 
 bool NotificationManager::Render()
@@ -29,8 +25,8 @@ bool NotificationManager::Render()
             notifications.erase(notifications.begin() + i);
         }
 
-        ImVec2 msgSize = Menu::Font->CalcTextSizeA(font_size - 8, FLT_MAX, 0.0f, notification.title.c_str());
-        ImVec2 titleSize = Menu::Font->CalcTextSizeA(font_size, FLT_MAX, 0.0f, notification.message.c_str());
+        ImVec2 msgSize = Menu::font->CalcTextSizeA(fontSize - 8, FLT_MAX, 0.0f, notification.title.c_str());
+        ImVec2 titleSize = Menu::font->CalcTextSizeA(fontSize, FLT_MAX, 0.0f, notification.message.c_str());
 
         int width = max(max(300, msgSize.x), titleSize.x);
         int height = margin * 2 + msgSize.y;
@@ -57,7 +53,7 @@ bool NotificationManager::RenderNotification(Notification notification, int x, i
 {
     ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x, y), ImVec2(x + width, y + height), ImColor(0.0f, 0.0f, 0.0f, 0.8f), 5.0f);
 
-    ImGui::GetWindowDrawList()->AddText(Menu::Font, font_size - 8, ImVec2(x + 10, y + 10), ImColor(1.0f, 1.0f, 1.0f), notification.message.c_str());
+    ImGui::GetWindowDrawList()->AddText(Menu::font, fontSize - 8, ImVec2(x + 10, y + 10), ImColor(1.0f, 1.0f, 1.0f), notification.message.c_str());
 
     return true;
 }
@@ -70,8 +66,8 @@ bool NotificationManager::Send(const char* title, const char* format, ...)
     std::vsnprintf(messageBuffer, sizeof(messageBuffer), format, args);
     va_end(args);
 
-    // check if the notifications len is larget than max_notifications, if so remove the first one
-    if (notifications.size() >= max_notifications)
+    // check if the notifications len is larget than maxNotifications, if so remove the first one
+    if (notifications.size() >= maxNotifications)
     {
         notifications.erase(notifications.begin());
     }

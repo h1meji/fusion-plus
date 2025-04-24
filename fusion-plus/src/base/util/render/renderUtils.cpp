@@ -1,8 +1,8 @@
 #include "renderUtils.h"
+
 #include "colorPresets.h"
 #include "util/time/timeManager.h"
-#include "configManager/settings.h" // Add this include
-#include <cmath>
+#include "configManager/settings.h"
 
 void RenderUtils::RenderModuleList(const std::vector<std::string>& modules, 
                                  int position, float textSize, 
@@ -14,7 +14,8 @@ void RenderUtils::RenderModuleList(const std::vector<std::string>& modules,
 
     float textHeight = font->CalcTextSizeA(textSize, FLT_MAX, 0.0f, modules[0].c_str()).y + (2 * padding);
 
-    switch (position) {
+    switch (position)
+    {
         case 0: RenderTopLeft(modules, textHeight, padding, bgColor, font, useRGB, colorMode, rgbSpeed); break;
         case 1: RenderTopRight(modules, textHeight, padding, bgColor, font, useRGB, colorMode, rgbSpeed); break;
         case 2: RenderBottomLeft(modules, textHeight, padding, bgColor, font, useRGB, colorMode, rgbSpeed); break;
@@ -29,7 +30,8 @@ void RenderUtils::RenderTopLeft(const std::vector<std::string>& modules, float t
     float currentY = 0;
     const float moduleSpacing = 0.5f;
     
-    for (int i = 0; i < modules.size(); i++) {
+    for (int i = 0; i < modules.size(); i++)
+    {
         const char* name = modules[i].c_str();
         ImVec2 textSize = font->CalcTextSizeA(textHeight, FLT_MAX, 0.0f, name);
 
@@ -40,7 +42,8 @@ void RenderUtils::RenderTopLeft(const std::vector<std::string>& modules, float t
         if (i < modules.size() - 1) cornerFlags |= ImDrawFlags_RoundCornersBottomRight;
         if (i == modules.size() - 1) cornerFlags |= ImDrawFlags_RoundCornersRight;
 
-        if (i > 0) {
+        if (i > 0)
+        {
             ImGui::GetWindowDrawList()->AddRectFilled(
                 ImVec2(pos_min.x, pos_min.y - 1),
                 ImVec2(pos_max.x, pos_min.y + 1),
@@ -49,7 +52,8 @@ void RenderUtils::RenderTopLeft(const std::vector<std::string>& modules, float t
         }
 
         // Draw outline if enabled
-        if (settings::AL_outlineEnabled) {
+        if (settings::AL_outlineEnabled)
+        {
             ImVec4 outlineColor = settings::AL_outlineRGB ? 
                 ColorPresets::GetPreset(colorMode, 
                                       TimeManager::GetTime() * rgbSpeed + (i * 0.1f),
@@ -96,7 +100,8 @@ void RenderUtils::RenderTopRight(const std::vector<std::string>& modules, float 
     float currentY = 0;
     const float moduleSpacing = 0.5f;
     
-    for (int i = 0; i < modules.size(); i++) {
+    for (int i = 0; i < modules.size(); i++)
+    {
         const char* name = modules[i].c_str();
         ImVec2 textSize = font->CalcTextSizeA(textHeight, FLT_MAX, 0.0f, name);
 
@@ -107,7 +112,8 @@ void RenderUtils::RenderTopRight(const std::vector<std::string>& modules, float 
         if (i < modules.size() - 1) cornerFlags |= ImDrawFlags_RoundCornersBottomLeft;
         if (i == modules.size() - 1) cornerFlags |= ImDrawFlags_RoundCornersLeft;
 
-        if (i > 0) {
+        if (i > 0)
+        {
             ImGui::GetWindowDrawList()->AddRectFilled(
                 ImVec2(pos_min.x, pos_min.y - 1),
                 ImVec2(pos_max.x, pos_min.y + 1),
@@ -116,7 +122,8 @@ void RenderUtils::RenderTopRight(const std::vector<std::string>& modules, float 
         }
 
         // Draw outline if enabled
-        if (settings::AL_outlineEnabled) {
+        if (settings::AL_outlineEnabled)
+        {
             ImVec4 outlineColor = settings::AL_outlineRGB ? 
                 ColorPresets::GetPreset(colorMode, 
                                       TimeManager::GetTime() * rgbSpeed + (i * 0.1f),
@@ -163,7 +170,8 @@ void RenderUtils::RenderBottomLeft(const std::vector<std::string>& modules, floa
     float totalHeight = 0;
     const float moduleSpacing = 0.5f;
 
-    for (int i = 0; i < modules.size(); i++) {
+    for (int i = 0; i < modules.size(); i++)
+    {
         const char* name = modules[i].c_str();
         ImVec2 textSize = font->CalcTextSizeA(textHeight, FLT_MAX, 0.0f, name);
         totalHeight += ceilf(textSize.y + (2 * padding)) - (i > 0 ? 1.0f : 0.0f);
@@ -172,7 +180,8 @@ void RenderUtils::RenderBottomLeft(const std::vector<std::string>& modules, floa
 
     float currentY = floorf(windowHeight - totalHeight);
 
-    for (int i = 0; i < modules.size(); i++) {
+    for (int i = 0; i < modules.size(); i++)
+    {
         const char* name = modules[i].c_str();
         ImVec2 textSize = font->CalcTextSizeA(textHeight, FLT_MAX, 0.0f, name);
 
@@ -188,7 +197,8 @@ void RenderUtils::RenderBottomLeft(const std::vector<std::string>& modules, floa
         if (i > 0) pos_min.y -= 1.0f;
 
         // Draw outline if enabled
-        if (settings::AL_outlineEnabled) {
+        if (settings::AL_outlineEnabled)
+        {
             ImVec4 outlineColor = settings::AL_outlineRGB ? 
                 ColorPresets::GetPreset(colorMode, 
                                       TimeManager::GetTime() * rgbSpeed + (i * 0.1f),
@@ -236,7 +246,8 @@ void RenderUtils::RenderBottomRight(const std::vector<std::string>& modules, flo
     float totalHeight = 0;
     const float moduleSpacing = 0.5f;
 
-    for (int i = 0; i < modules.size(); i++) {
+    for (int i = 0; i < modules.size(); i++)
+    {
         const char* name = modules[i].c_str();
         ImVec2 textSize = font->CalcTextSizeA(textHeight, FLT_MAX, 0.0f, name);
         totalHeight += ceilf(textSize.y + (2 * padding)) - (i > 0 ? 1.0f : 0.0f);
@@ -245,7 +256,8 @@ void RenderUtils::RenderBottomRight(const std::vector<std::string>& modules, flo
 
     float currentY = floorf(windowHeight - totalHeight);
 
-    for (int i = 0; i < modules.size(); i++) {
+    for (int i = 0; i < modules.size(); i++)
+    {
         const char* name = modules[i].c_str();
         ImVec2 textSize = font->CalcTextSizeA(textHeight, FLT_MAX, 0.0f, name);
 
@@ -261,7 +273,8 @@ void RenderUtils::RenderBottomRight(const std::vector<std::string>& modules, flo
         if (i > 0) pos_min.y -= 1.0f;
 
         // Draw outline if enabled
-        if (settings::AL_outlineEnabled) {
+        if (settings::AL_outlineEnabled)
+        {
             ImVec4 outlineColor = settings::AL_outlineRGB ? 
                 ColorPresets::GetPreset(colorMode, 
                                       TimeManager::GetTime() * rgbSpeed + (i * 0.1f),

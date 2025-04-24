@@ -1,79 +1,76 @@
 #include "EnchantmentHelper.h"
-#include <java/java.h>
-#include <sdk/strayCache.h>
 
-CEnchantMentHelper::CEnchantMentHelper()
+#include "java/java.h"
+#include "sdk/strayCache.h"
+
+CEnchantmentHelper::CEnchantmentHelper()
 {
-	this->Class = StrayCache::enchantmentHelper_class;
+	this->clazz = StrayCache::enchantmentHelper_class;
 }
 
-jclass CEnchantMentHelper::GetClass()
+jclass CEnchantmentHelper::GetClass()
 {
-	return this->Class;
+	return this->clazz;
 }
 
-jobject CEnchantMentHelper::GetInstance()
+jobject CEnchantmentHelper::GetInstance()
 {
 	return nullptr;
 }
 
-std::map<int, int> CEnchantMentHelper::GetEnchantments(CItemStack itemStack)
+std::map<int, int> CEnchantmentHelper::GetEnchantments(CItemStack itemStack)
 {
 	std::map<int, int> enchantments;
 
-	jclass enchantmentHelper_class;
-	Java::AssignClass("net.minecraft.enchantment.EnchantmentHelper", enchantmentHelper_class);
-	jmethodID enchantmentHelper_getEnchantments = Java::Env->GetStaticMethodID(enchantmentHelper_class, "getEnchantments", "(Lnet/minecraft/item/ItemStack;)Ljava/util/Map;");
-
-	jobject enchantmentsMap = Java::Env->CallStaticObjectMethod(enchantmentHelper_class, enchantmentHelper_getEnchantments, itemStack.GetInstance());
+	jobject enchantmentsMap = Java::env->CallStaticObjectMethod(this->GetClass(), StrayCache::enchantmentHelper_getEnchantments, itemStack.GetInstance());
 	if (enchantmentsMap == nullptr)
 	{
-		Logger::Err("Failed to get enchantments map");
+		LOG_ERROR("Failed to get enchantments map");
 		return enchantments;
 	}
 
-	jclass mapClass = Java::Env->FindClass("java/util/Map");
-	jclass setClass = Java::Env->FindClass("java/util/Set");
-	jclass iteratorClass = Java::Env->FindClass("java/util/Iterator");
-	jclass entryClass = Java::Env->FindClass("java/util/Map$Entry");
+	jclass mapClass = Java::env->FindClass("java/util/Map");
+	jclass setClass = Java::env->FindClass("java/util/Set");
+	jclass iteratorClass = Java::env->FindClass("java/util/Iterator");
+	jclass entryClass = Java::env->FindClass("java/util/Map$Entry");
 
 	if (!mapClass || !setClass || !iteratorClass || !entryClass)
 	{
-		Logger::Err("Failed to get enchantments map");
+		LOG_ERROR("Failed to get enchantments map");
 		return enchantments;
 	}
 
-	jmethodID entrySetMethod = Java::Env->GetMethodID(mapClass, "entrySet", "()Ljava/util/Set;");
-	jobject entrySet = Java::Env->CallObjectMethod(enchantmentsMap, entrySetMethod);
+	jmethodID entrySetMethod = Java::env->GetMethodID(mapClass, "entrySet", "()Ljava/util/Set;");
+	jobject entrySet = Java::env->CallObjectMethod(enchantmentsMap, entrySetMethod);
 
-	jmethodID iteratorMethod = Java::Env->GetMethodID(setClass, "iterator", "()Ljava/util/Iterator;");
-	jobject iterator = Java::Env->CallObjectMethod(entrySet, iteratorMethod);
+	jmethodID iteratorMethod = Java::env->GetMethodID(setClass, "iterator", "()Ljava/util/Iterator;");
+	jobject iterator = Java::env->CallObjectMethod(entrySet, iteratorMethod);
 
-	jmethodID hasNextMethod = Java::Env->GetMethodID(iteratorClass, "hasNext", "()Z");
-	jmethodID nextMethod = Java::Env->GetMethodID(iteratorClass, "next", "()Ljava/lang/Object;");
-	jmethodID getKeyMethod = Java::Env->GetMethodID(entryClass, "getKey", "()Ljava/lang/Object;");
-	jmethodID getValueMethod = Java::Env->GetMethodID(entryClass, "getValue", "()Ljava/lang/Object;");
+	jmethodID hasNextMethod = Java::env->GetMethodID(iteratorClass, "hasNext", "()Z");
+	jmethodID nextMethod = Java::env->GetMethodID(iteratorClass, "next", "()Ljava/lang/Object;");
+	jmethodID getKeyMethod = Java::env->GetMethodID(entryClass, "getKey", "()Ljava/lang/Object;");
+	jmethodID getValueMethod = Java::env->GetMethodID(entryClass, "getValue", "()Ljava/lang/Object;");
 
-	while (Java::Env->CallBooleanMethod(iterator, hasNextMethod)) {
-		jobject entry = Java::Env->CallObjectMethod(iterator, nextMethod);
+	while (Java::env->CallBooleanMethod(iterator, hasNextMethod)) {
+		jobject entry = Java::env->CallObjectMethod(iterator, nextMethod);
 
-		jobject keyObject = Java::Env->CallObjectMethod(entry, getKeyMethod);
-		jobject valueObject = Java::Env->CallObjectMethod(entry, getValueMethod);
+		jobject keyObject = Java::env->CallObjectMethod(entry, getKeyMethod);
+		jobject valueObject = Java::env->CallObjectMethod(entry, getValueMethod);
 
-		jint key = Java::Env->CallIntMethod(keyObject, Java::Env->GetMethodID(Java::Env->FindClass("java/lang/Integer"), "intValue", "()I"));
-		jint value = Java::Env->CallIntMethod(valueObject, Java::Env->GetMethodID(Java::Env->FindClass("java/lang/Integer"), "intValue", "()I"));
+		jint key = Java::env->CallIntMethod(keyObject, Java::env->GetMethodID(Java::env->FindClass("java/lang/Integer"), "intValue", "()I"));
+		jint value = Java::env->CallIntMethod(valueObject, Java::env->GetMethodID(Java::env->FindClass("java/lang/Integer"), "intValue", "()I"));
 
 		enchantments[key] = value;
 
-		Java::Env->DeleteLocalRef(entry);
-		Java::Env->DeleteLocalRef(keyObject);
-		Java::Env->DeleteLocalRef(valueObject);
+		Java::env->DeleteLocalRef(entry);
+		Java::env->DeleteLocalRef(keyObject);
+		Java::env->DeleteLocalRef(valueObject);
 	}
 
-	Java::Env->DeleteLocalRef(mapClass);
-	Java::Env->DeleteLocalRef(setClass);
-	Java::Env->DeleteLocalRef(iteratorClass);
-	Java::Env->DeleteLocalRef(entryClass);
+	Java::env->DeleteLocalRef(mapClass);
+	Java::env->DeleteLocalRef(setClass);
+	Java::env->DeleteLocalRef(iteratorClass);
+	Java::env->DeleteLocalRef(entryClass);
 
 	return enchantments;
 }

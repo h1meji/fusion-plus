@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_map>
 
-inline static const char* keys[] =
+static inline const char* keys[] =
 {
 	"[none]",
 	"[LMB]",
@@ -259,10 +259,25 @@ inline static const char* keys[] =
 
 struct Keys
 {
+	static inline std::unordered_map<int, bool> keyStates;
 	static bool IsKeyPressed(int key)
 	{
-		static std::unordered_map<int, bool> keyStates;
+		bool currentState = GetAsyncKeyState(key) & 0x8000;
+		keyStates[key] = currentState;
 
+		return currentState;
+	}
+
+	static bool IsKeyReleased(int key)
+	{
+		bool currentState = GetAsyncKeyState(key) & 0x8000;
+		keyStates[key] = currentState;
+
+		return !currentState;
+	}
+
+	static bool IsKeyPressedOnce(int key)
+	{
 		bool currentState = GetAsyncKeyState(key) & 0x8000;
 		bool prevState = keyStates[key];
 		keyStates[key] = currentState;
@@ -270,10 +285,8 @@ struct Keys
 		return currentState && !prevState;
 	}
 
-	static bool IsKeyReleased(int key)
+	static bool IsKeyReleasedOnce(int key)
 	{
-		static std::unordered_map<int, bool> keyStates;
-
 		bool currentState = GetAsyncKeyState(key) & 0x8000;
 		bool prevState = keyStates[key];
 		keyStates[key] = currentState;
@@ -283,8 +296,6 @@ struct Keys
 
 	static bool IsKeyHeld(int key)
 	{
-		static std::unordered_map<int, bool> keyStates;
-
 		bool currentState = GetAsyncKeyState(key) & 0x8000;
 		bool prevState = keyStates[key];
 		keyStates[key] = currentState;
@@ -294,8 +305,6 @@ struct Keys
 
 	static bool IsKeyNotHeld(int key)
 	{
-		static std::unordered_map<int, bool> keyStates;
-
 		bool currentState = GetAsyncKeyState(key) & 0x8000;
 		bool prevState = keyStates[key];
 		keyStates[key] = currentState;

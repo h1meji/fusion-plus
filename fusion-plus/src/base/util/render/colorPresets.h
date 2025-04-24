@@ -1,7 +1,9 @@
 #pragma once
+
 #include <imgui/imgui.h>
 
-class ColorPresets {
+class ColorPresets
+{
 public:
     static ImVec4 GetPreset(int preset, float t, float smoothT, float time);
     static ImVec4 LerpColors(const ImVec4& a, const ImVec4& b, float t);

@@ -1,9 +1,10 @@
 #pragma once
 
-#include "sdk/java/IClass.h"
+#include <memory>
 
+#include "sdk/java/IClass.h"
 #include "sdk/net/minecraft/item/ItemStack.h"
-#include "sdk/net/minecraft/entity/player/EntityPlayer.h"
+#include "sdk/net/minecraft/client/entity/EntityPlayerSP.h"
 
 struct CPlayerControllerMP : IClass
 {
@@ -13,5 +14,5 @@ struct CPlayerControllerMP : IClass
 	jclass GetClass();
 	jobject GetInstance();
 
-	CItemStack WindowClick(int windowId, int slotId, int mouseButton, int mode, CEntityPlayer* player);
+	CItemStack WindowClick(int windowId, int slotId, int mouseButton, int mode, std::unique_ptr<CEntityPlayerSP>& player);
 };

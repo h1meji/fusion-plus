@@ -2,26 +2,28 @@
 
 CContainer::CContainer(jobject instance)
 {
-	this->Instance = instance;
-	this->Class = Java::Env->GetObjectClass(instance);
+	this->instance = instance;
+	this->clazz = Java::env->GetObjectClass(instance);
 }
 
 jclass CContainer::GetClass()
 {
-	return this->Class;
+	return this->clazz;
 }
 
 jobject CContainer::GetInstance()
 {
-	return this->Instance;
+	return this->instance;
 }
 
 int CContainer::GetWindowId()
 {
-	jfieldID windowIdFieldID = Java::Env->GetFieldID(this->GetClass(), StrayCache::container_windowId_name, "I");
-	if (!windowIdFieldID) {
+	jfieldID windowIdFieldID = Java::env->GetFieldID(this->GetClass(), StrayCache::container_windowId_name, "I");
+
+	if (!windowIdFieldID)
+	{
 		return -1;
 	}
 
-	return Java::Env->GetIntField(this->GetInstance(), windowIdFieldID);
+	return Java::env->GetIntField(this->GetInstance(), windowIdFieldID);
 }

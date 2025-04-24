@@ -10,5 +10,8 @@ struct List : IClass
 	jobject GetInstance();
 
 	jobjectArray toArray();
+
+private:
+	jmethodID toArrayId;
 };
 

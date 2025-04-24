@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <chrono>
-#include <unordered_map>
 
 #include "moduleManager/moduleBase.h"
 
@@ -18,30 +17,33 @@ class InventorySorter : public ModuleBase
 {
 public:
 	void Update() override;
-	void RenderOverlay() override;
-	void RenderHud() override {};
 
+	void RenderOverlay() override {};
+	void RenderHud() override {};
 	void RenderMenu() override;
 
-	bool IsEnabled() override { return settings::IS_Enabled; }
-	std::string GetName() override { return Name; }
-	std::string GetCategory() override { return Category; }
+	std::string GetName() override { return m_name; }
+	std::string GetCategory() override { return m_category; }
 	int GetKey() override { return settings::IS_Key; }
 
+	bool IsEnabled() override { return settings::IS_Enabled; }
 	void SetEnabled(bool enabled) override { settings::IS_Enabled = enabled; }
 	void Toggle() override { settings::IS_Enabled = !settings::IS_Enabled; }
 
 private:
-	bool isSorting;
-	std::chrono::time_point<std::chrono::steady_clock> lastSortTime;
-	std::chrono::time_point<std::chrono::steady_clock> activated;
-	std::vector<PathNode> inventoryPath;
-	int pathIndex = 0;
+	std::string m_name = "Inventory Sorter";
+	std::string m_category = "Inventory";
 
-	bool isDroppingUselessItems;
-	bool isDoingArmor;
-	bool isDoingSwords;
-	bool isCombiningStacks;
+	bool m_isSorting;
+	std::chrono::time_point<std::chrono::steady_clock> m_lastSortTime;
+	std::chrono::time_point<std::chrono::steady_clock> m_activated;
+	std::vector<PathNode> m_inventoryPath;
+	int m_pathIndex = 0;
+
+	bool m_isDroppingUselessItems;
+	bool m_isDoingArmor;
+	bool m_isDoingSwords;
+	bool m_isCombiningStacks;
 
 	void DropUselessItems();
 	void DoArmor();
@@ -52,8 +54,4 @@ private:
 	void ResetSort(bool enabled);
 	void RenderInventoryEditor(bool& isOpen);
 	void RenderCreateCategory(bool& isOpen, int categoryIndex);
-
-private:
-	std::string Name = "Inventory Sorter";
-	std::string Category = "Inventory";
 };

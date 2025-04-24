@@ -1,4 +1,5 @@
 #pragma once
+
 #include <chrono>
 
 #include "moduleManager/moduleBase.h"
@@ -12,21 +13,21 @@ public:
 	void RenderHud() override {};
 	void RenderMenu() override;
 
-	bool IsEnabled() override { return settings::SR_Enabled; }
-	std::string GetName() override { return Name; }
-	std::string GetCategory() override { return Category; }
+	std::string GetName() override { return m_name; }
+	std::string GetCategory() override { return m_category; }
 	int GetKey() override { return settings::SR_Key; }
 
+	bool IsEnabled() override { return settings::SR_Enabled; }
 	void SetEnabled(bool enabled) override { settings::SR_Enabled = enabled; }
 	void Toggle() override { settings::SR_Enabled = !settings::SR_Enabled; }
 
 private:
-	std::string Name = "Sprint Reset";
-	std::string Category = "Movement";
+	std::string m_name = "Sprint Reset";
+	std::string m_category = "Movement";
 
-	bool sprintResetInAction = false;
-	bool can_sprint_reset = true;
+	bool m_sprintResetInAction = false;
+	bool m_canSprintReset = true;
 
-	std::chrono::time_point<std::chrono::steady_clock> startTime;
-	std::chrono::time_point<std::chrono::steady_clock> pauseTime;
+	std::chrono::time_point<std::chrono::steady_clock> m_startTime;
+	std::chrono::time_point<std::chrono::steady_clock> m_pauseTime;
 };

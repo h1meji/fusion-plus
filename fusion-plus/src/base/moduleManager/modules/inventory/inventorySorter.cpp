@@ -1,86 +1,19 @@
 #include "inventorySorter.h"
-#include <imgui/imgui.h>
-#include <menu/menu.h>
-#include <moduleManager/commonData.h>
-#include "util/minecraft/inventory.h"
-#include "util/keys.h"
-#include <util/minecraft/minecraft.h>
-#include <vector>
-#include <algorithm>
-#include <map>
+
 #include <functional>
 
-void InventorySorter::Update()
-{
-	if (!settings::IS_Enabled) { ResetSort(false); return; }
-	if (!CommonData::SanityCheck()) { ResetSort(false); return; }
+#include "menu/menu.h"
+#include "moduleManager/commonData.h"
+#include "util/minecraft/inventory.h"
+#include "util/keys.h"
+#include "util/minecraft/minecraft.h"
 
-	if (!SDK::Minecraft->IsInInventory()) { ResetSort(false); return; }
-
-	if (!isDroppingUselessItems && !isDoingArmor && !isDoingSwords && !isCombiningStacks && !isSorting)
-	{
-		Logger::Log("Started Sorting");
-		isDroppingUselessItems = true;
-		DropUselessItems();
-	}
-
-	if (isDroppingUselessItems || isDoingArmor || isDoingSwords || isCombiningStacks || isSorting)
-	{
-		if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - lastSortTime).count() < settings::IS_Delay) return;
-
-		if (pathIndex >= inventoryPath.size())
-		{
-			if (isDroppingUselessItems)
-			{
-				ResetSort(true);
-				isDoingArmor = true;
-				Logger::Log("Dropped Useless Items");
-				DoArmor();
-			}
-			else if (isDoingArmor)
-			{
-				ResetSort(true);
-				isCombiningStacks = true;
-				Logger::Log("Did Armor");
-				CombineStacks();
-			}
-			else if (isCombiningStacks)
-			{
-				ResetSort(true);
-				isDoingSwords = true;
-				Logger::Log("Combined Stacks");
-				DoSwords();
-			}
-			else if (isDoingSwords)
-			{
-				ResetSort(true);
-				isSorting = true;
-				Logger::Log("Did Swords");
-				GeneratePath();
-			}
-			else if (isSorting)
-			{
-				Logger::Log("Finished Sorting");
-				ResetSort(false);
-			}
-			return;
-		}
-
-		PathNode node = inventoryPath[pathIndex];
-		//Logger::Log("Slot: %d, Mode: %d, Button: %d", node.slotIndex, node.mode, node.button);
-		int windowId = SDK::Minecraft->GetGuiChest()->GetContainer()->GetWindowId();
-		SDK::Minecraft->playerController->WindowClick(windowId, node.slotIndex, node.button, node.mode, SDK::Minecraft->thePlayer);
-		pathIndex++;
-		lastSortTime = std::chrono::steady_clock::now();
-	}
-}
-
-static float CalculateBestArmorValue(CItemStack& armorPiece, InventorySystem::ArmorType armorType) {
+static float calculateBestArmorValue(CItemStack& armorPiece, InventorySystem::ArmorType armorType) {
 	if (armorPiece.GetInstance() == nullptr)
 		return 0;
 
 	InventorySystem::Material material = InventorySystem::GetMaterialFromName(armorPiece.GetItem().GetUnlocalizedName());
-	for (const auto& enchantment : SDK::Minecraft->enchantmentHelper->GetEnchantments(armorPiece)) {
+	for (const auto& enchantment : SDK::minecraft->enchantmentHelper->GetEnchantments(armorPiece)) {
 		if (enchantment.first == 0) { // Check if enchantment ID is 0
 			return InventorySystem::CalculateDamageReduction(material, armorType, enchantment.second);
 		}
@@ -88,13 +21,13 @@ static float CalculateBestArmorValue(CItemStack& armorPiece, InventorySystem::Ar
 	return InventorySystem::CalculateDamageReduction(material, armorType, 0);
 }
 
-static float CalculateSwordDamage(CItemStack& swordPiece)
+static float calculateSwordDamage(CItemStack& swordPiece)
 {
 	if (swordPiece.GetInstance() == nullptr)
 		return 0;
 
 	InventorySystem::Material material = InventorySystem::GetMaterialFromName(swordPiece.GetItem().GetUnlocalizedName());
-	for (const auto& enchantment : SDK::Minecraft->enchantmentHelper->GetEnchantments(swordPiece)) {
+	for (const auto& enchantment : SDK::minecraft->enchantmentHelper->GetEnchantments(swordPiece)) {
 		if (enchantment.first == 16) { // Check if enchantment ID is 16
 			return InventorySystem::CalculateDamage(material, enchantment.second);
 		}
@@ -102,15 +35,86 @@ static float CalculateSwordDamage(CItemStack& swordPiece)
 	return InventorySystem::CalculateDamage(material, 0);
 }
 
-static int MainInventoryToWindowClick(int index)
+static int mainInventoryToWindowClick(int index)
 {
 	if (index < 9) return index + 36;
 	return index;
 }
 
+static std::string toLower(const std::string& str) {
+	std::string lowerStr = str;
+	std::transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), ::tolower);
+	return lowerStr;
+}
+
+void InventorySorter::Update()
+{
+	if (!settings::IS_Enabled) { ResetSort(false); return; }
+	if (!CommonData::SanityCheck()) { ResetSort(false); return; }
+
+	if (!SDK::minecraft->IsInInventory()) { ResetSort(false); return; }
+
+	if (!m_isDroppingUselessItems && !m_isDoingArmor && !m_isDoingSwords && !m_isCombiningStacks && !m_isSorting)
+	{
+		LOG_INFO("Started Sorting");
+		m_isDroppingUselessItems = true;
+		DropUselessItems();
+	}
+
+	if (m_isDroppingUselessItems || m_isDoingArmor || m_isDoingSwords || m_isCombiningStacks || m_isSorting)
+	{
+		if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - m_lastSortTime).count() < settings::IS_Delay) return;
+
+		if (m_pathIndex >= m_inventoryPath.size())
+		{
+			if (m_isDroppingUselessItems)
+			{
+				ResetSort(true);
+				m_isDoingArmor = true;
+				LOG_INFO("Dropped Useless Items");
+				DoArmor();
+			}
+			else if (m_isDoingArmor)
+			{
+				ResetSort(true);
+				m_isCombiningStacks = true;
+				LOG_INFO("Did Armor");
+				CombineStacks();
+			}
+			else if (m_isCombiningStacks)
+			{
+				ResetSort(true);
+				m_isDoingSwords = true;
+				LOG_INFO("Combined Stacks");
+				DoSwords();
+			}
+			else if (m_isDoingSwords)
+			{
+				ResetSort(true);
+				m_isSorting = true;
+				LOG_INFO("Did Swords");
+				GeneratePath();
+			}
+			else if (m_isSorting)
+			{
+				LOG_INFO("Finished Sorting");
+				ResetSort(false);
+			}
+			return;
+		}
+
+		PathNode node = m_inventoryPath[m_pathIndex];
+		//LOG_INFO("Slot: %d, Mode: %d, Button: %d", node.slotIndex, node.mode, node.button);
+		int windowId = SDK::minecraft->GetGuiChest()->GetContainer()->GetWindowId();
+		SDK::minecraft->playerController->WindowClick(windowId, node.slotIndex, node.button, node.mode, SDK::minecraft->thePlayer);
+		m_pathIndex++;
+		m_lastSortTime = std::chrono::steady_clock::now();
+	}
+}
+
 void InventorySorter::DropUselessItems()
 {
-	CInventoryPlayer inventory = SDK::Minecraft->thePlayer->GetInventory();
+	CInventoryPlayer inventory = SDK::minecraft->thePlayer->GetInventory();
 	std::vector<CItemStack> mainInventory = inventory.GetMainInventory();
 	std::vector<InventorySystem::Slot> slotInfo = InventorySystem::GetInventorySlots();
 
@@ -206,14 +210,14 @@ void InventorySorter::DropUselessItems()
 
 		if (!isUseful)
 		{
-			inventoryPath.push_back({ MainInventoryToWindowClick(i), 4, 1 });
+			m_inventoryPath.push_back({ mainInventoryToWindowClick(i), 4, 1 });
 		}
 	}
 }
 
 void InventorySorter::DoArmor()
 {
-	CInventoryPlayer inventory = SDK::Minecraft->thePlayer->GetInventory();
+	CInventoryPlayer inventory = SDK::minecraft->thePlayer->GetInventory();
 	std::vector<CItemStack> mainInventory = inventory.GetMainInventory();
 	std::vector<CItemStack> armorInventory = inventory.GetArmorInventory();
 	std::vector<InventorySystem::Slot> slotInfo = InventorySystem::GetInventorySlots();
@@ -236,7 +240,7 @@ void InventorySorter::DoArmor()
 	for (auto& armor : armorTypes)
 	{
 		CItemStack currentArmor = armorInventory[armor.armorSlot];
-		armor.bestValue = CalculateBestArmorValue(currentArmor, armor.type);
+		armor.bestValue = calculateBestArmorValue(currentArmor, armor.type);
 	}
 
 	std::vector<int> dropSlots;
@@ -246,13 +250,13 @@ void InventorySorter::DoArmor()
 		if (itemStack.GetInstance() == nullptr || itemStack.GetItem().GetInstance() == nullptr)
 			continue;
 
-		std::map<int, int> enchantments = SDK::Minecraft->enchantmentHelper->GetEnchantments(itemStack);
+		std::map<int, int> enchantments = SDK::minecraft->enchantmentHelper->GetEnchantments(itemStack);
 
 		for (auto& armor : armorTypes)
 		{
 			if (itemStack.GetItem().GetUnlocalizedName().find(InventorySystem::ArmorTypeToString(armor.type)) != std::string::npos)
 			{
-				float itemValue = CalculateBestArmorValue(itemStack, armor.type);
+				float itemValue = calculateBestArmorValue(itemStack, armor.type);
 
 				if (itemValue > armor.bestValue)
 				{
@@ -276,14 +280,14 @@ void InventorySorter::DoArmor()
 	{
 		if (armor.bestSlot != -1)
 		{
-			inventoryPath.push_back({ armor.windowClickSlot, 4, 0 });
-			inventoryPath.push_back({ MainInventoryToWindowClick(armor.bestSlot), 1, 0 });
+			m_inventoryPath.push_back({ armor.windowClickSlot, 4, 0 });
+			m_inventoryPath.push_back({ mainInventoryToWindowClick(armor.bestSlot), 1, 0 });
 		}
 	}
 
 	for (int slot : dropSlots)
 	{
-		inventoryPath.push_back({ MainInventoryToWindowClick(slot), 4, 1 });
+		m_inventoryPath.push_back({ mainInventoryToWindowClick(slot), 4, 1 });
 	}
 }
 
@@ -298,7 +302,7 @@ void InventorySorter::CombineStacks()
 		int metadata;
 	};
 
-	CInventoryPlayer inventory = SDK::Minecraft->thePlayer->GetInventory();
+	CInventoryPlayer inventory = SDK::minecraft->thePlayer->GetInventory();
 	std::vector<CItemStack> mainInventory = inventory.GetMainInventory();
 	
 	const int slotOrder[36] = { 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 0, 1, 2, 3, 4, 5, 6, 7, 8 };
@@ -371,15 +375,15 @@ void InventorySorter::CombineStacks()
 
 	for (int i = 0; i < itemStacks.size(); i++)
 	{
-		inventoryPath.push_back({ MainInventoryToWindowClick(itemStacks[i].slot), 0, 0 });
-		inventoryPath.push_back({ MainInventoryToWindowClick(itemStacks[i].slot), 6, 0 });
-		inventoryPath.push_back({ MainInventoryToWindowClick(itemStacks[i].slot), 0, 0 });
+		m_inventoryPath.push_back({ mainInventoryToWindowClick(itemStacks[i].slot), 0, 0 });
+		m_inventoryPath.push_back({ mainInventoryToWindowClick(itemStacks[i].slot), 6, 0 });
+		m_inventoryPath.push_back({ mainInventoryToWindowClick(itemStacks[i].slot), 0, 0 });
 	}
 }
 
 void InventorySorter::DoSwords()
 {
-	CInventoryPlayer inventory = SDK::Minecraft->thePlayer->GetInventory();
+	CInventoryPlayer inventory = SDK::minecraft->thePlayer->GetInventory();
 	std::vector<CItemStack> mainInventory = inventory.GetMainInventory();
 	std::vector<InventorySystem::Slot> slotInfo = InventorySystem::GetInventorySlots();
 
@@ -396,7 +400,7 @@ void InventorySorter::DoSwords()
 			if (mainInventory[slotOrder[i]].GetInstance() == nullptr)
 				swordValues.push_back({ -1, 0 });
 			else
-				swordValues.push_back({ slotOrder[i], CalculateSwordDamage(mainInventory[slotOrder[i]]) });
+				swordValues.push_back({ slotOrder[i], calculateSwordDamage(mainInventory[slotOrder[i]]) });
 		}
 	}
 
@@ -407,7 +411,7 @@ void InventorySorter::DoSwords()
 		if (itemStack.GetInstance() == nullptr || itemStack.GetItem().GetInstance() == nullptr)
 			continue;
 
-		std::map<int, int> enchantments = SDK::Minecraft->enchantmentHelper->GetEnchantments(itemStack);
+		std::map<int, int> enchantments = SDK::minecraft->enchantmentHelper->GetEnchantments(itemStack);
 
 		if (itemStack.GetItem().GetUnlocalizedName().find("sword") != std::string::npos)
 		{
@@ -418,10 +422,10 @@ void InventorySorter::DoSwords()
 					break;
 				}
 
-				float itemValue = CalculateSwordDamage(itemStack);
+				float itemValue = calculateSwordDamage(itemStack);
 				if (swordValues[j].second < itemValue)
 				{
-					std::pair<int, int> swordValue = { slotOrder[i], CalculateSwordDamage(itemStack) };
+					std::pair<int, int> swordValue = { slotOrder[i], calculateSwordDamage(itemStack) };
 					swordValues.insert(swordValues.begin() + j, swordValue);
 					swordValues.pop_back();
 					break;
@@ -446,7 +450,7 @@ void InventorySorter::DoSwords()
 
 		if (!isUsed)
 		{
-			inventoryPath.push_back({ MainInventoryToWindowClick(slot), 4, 1 });
+			m_inventoryPath.push_back({ mainInventoryToWindowClick(slot), 4, 1 });
 		}
 	}
 
@@ -455,9 +459,9 @@ void InventorySorter::DoSwords()
 	{
 		if (swordValues[i].first != -1 && swordSlots[i] != swordValues[i].first)
 		{
-			inventoryPath.push_back({ MainInventoryToWindowClick(swordSlots[i]), 0, 0 }); // pickup the wrong item
-			inventoryPath.push_back({ MainInventoryToWindowClick(swordValues[i].first), 0, 0 }); // swap the items
-			inventoryPath.push_back({ MainInventoryToWindowClick(swordSlots[i]), 0, 0 }); // drop at the correct slot
+			m_inventoryPath.push_back({ mainInventoryToWindowClick(swordSlots[i]), 0, 0 }); // pickup the wrong item
+			m_inventoryPath.push_back({ mainInventoryToWindowClick(swordValues[i].first), 0, 0 }); // swap the items
+			m_inventoryPath.push_back({ mainInventoryToWindowClick(swordSlots[i]), 0, 0 }); // drop at the correct slot
 
 			for (int j = 0; j < swordSlots.size(); j++)
 			{
@@ -485,7 +489,7 @@ struct ItemStackInfo
 
 void InventorySorter::GeneratePath()
 {
-	CInventoryPlayer inventory = SDK::Minecraft->thePlayer->GetInventory();
+	CInventoryPlayer inventory = SDK::minecraft->thePlayer->GetInventory();
 	std::vector<CItemStack> mainInventory = inventory.GetMainInventory();
 	std::vector<InventorySystem::Slot> slotInfo = InventorySystem::GetInventorySlots();
 
@@ -496,7 +500,7 @@ void InventorySorter::GeneratePath()
 	// Recursive function to place an item and handle displacement
 	std::function<bool(CItemStack&, const int, int)> placeItem = [&](CItemStack& itemStack, const int sourceSlot, int depth) -> bool {
 		if (depth > 50) {  // Prevent excessive recursion
-			Logger::Log("Recursion depth exceeded for item placement.");
+			LOG_INFO("Recursion depth exceeded for item placement.");
 			return false;
 		}
 
@@ -511,7 +515,7 @@ void InventorySorter::GeneratePath()
 				if (itemStacks[slotOrder[j]].stackSize < itemStack.GetStackSize())
 				{
 					if (itemStacks[slotOrder[j]].sourceSlot != -1) {
-						Logger::Log("Slot %d is already occupied. Displacing item.", j);
+						LOG_INFO("Slot %d is already occupied. Displacing item.", j);
 						CItemStack displacedItem = mainInventory[itemStacks[slotOrder[j]].sourceSlot];
 						int displacedSourceSlot = itemStacks[slotOrder[j]].sourceSlot;
 
@@ -545,7 +549,7 @@ void InventorySorter::GeneratePath()
 					if (replace) {
 						// If there is already an item in this slot, try to move it elsewhere
 						if (itemStacks[slotOrder[j]].sourceSlot != -1) {
-							Logger::Log("Slot %d is already occupied. Displacing item.", j);
+							LOG_INFO("Slot %d is already occupied. Displacing item.", j);
 							CItemStack displacedItem = mainInventory[itemStacks[slotOrder[j]].sourceSlot];
 							int displacedSourceSlot = itemStacks[slotOrder[j]].sourceSlot;
 
@@ -602,7 +606,7 @@ void InventorySorter::GeneratePath()
 
 		if (!isUsed)
 		{
-			inventoryPath.push_back({ MainInventoryToWindowClick(slotOrder[i]), 4, 1 });
+			m_inventoryPath.push_back({ mainInventoryToWindowClick(slotOrder[i]), 4, 1 });
 		}
 	}
 
@@ -611,9 +615,9 @@ void InventorySorter::GeneratePath()
 	{
 		if (itemStacks[i].sourceSlot != itemStacks[i].targetSlot)
 		{
-			inventoryPath.push_back({ MainInventoryToWindowClick(itemStacks[i].targetSlot), 0, 0}); // pickup the wrong item
-			inventoryPath.push_back({ MainInventoryToWindowClick(itemStacks[i].sourceSlot), 0, 0 }); // swap the items
-			inventoryPath.push_back({ MainInventoryToWindowClick(itemStacks[i].targetSlot), 0, 0 }); // drop at the correct slot
+			m_inventoryPath.push_back({ mainInventoryToWindowClick(itemStacks[i].targetSlot), 0, 0}); // pickup the wrong item
+			m_inventoryPath.push_back({ mainInventoryToWindowClick(itemStacks[i].sourceSlot), 0, 0 }); // swap the items
+			m_inventoryPath.push_back({ mainInventoryToWindowClick(itemStacks[i].targetSlot), 0, 0 }); // drop at the correct slot
 
 			for (int j = 0; j < itemStacks.size(); j++)
 			{
@@ -628,25 +632,21 @@ void InventorySorter::GeneratePath()
 
 	// DEBUG: Log itemStacks
 	for (int i = 0; i < itemStacks.size(); i++) {
-		Logger::Log("Slot: %d, Source: %d, Target: %d, StackSize: %d, Priority: %d", i, itemStacks[i].sourceSlot, itemStacks[i].targetSlot, itemStacks[i].stackSize, itemStacks[i].priority);
+		LOG_INFO("Slot: %d, Source: %d, Target: %d, StackSize: %d, Priority: %d", i, itemStacks[i].sourceSlot, itemStacks[i].targetSlot, itemStacks[i].stackSize, itemStacks[i].priority);
 	}
 }
 
 void InventorySorter::ResetSort(bool enabled)
 {
-	isDroppingUselessItems = false;
-	isDoingArmor = false;
-	isCombiningStacks = false;
-	isDoingSwords = false;
-	isSorting = false;
-	inventoryPath.clear();
-	pathIndex = 0;
+	m_isDroppingUselessItems = false;
+	m_isDoingArmor = false;
+	m_isCombiningStacks = false;
+	m_isDoingSwords = false;
+	m_isSorting = false;
+	m_inventoryPath.clear();
+	m_pathIndex = 0;
 
 	settings::IS_Enabled = enabled;
-}
-
-void InventorySorter::RenderOverlay()
-{
 }
 
 void InventorySorter::RenderMenu()
@@ -700,12 +700,6 @@ void InventorySorter::RenderMenu()
 	//ImGui::PopStyleColor();
 
 	//ImGui::EndGroup();
-}
-
-static std::string toLower(const std::string& str) {
-	std::string lowerStr = str;
-	std::transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), ::tolower);
-	return lowerStr;
 }
 
 void InventorySorter::RenderInventoryEditor(bool& isOpen)
@@ -798,9 +792,9 @@ void InventorySorter::RenderInventoryEditor(bool& isOpen)
 	//					if (blockNameLower.find(filterLower) != std::string::npos) {
 	//						if (ImGui::Selectable(blockName.c_str())) {
 	//							// Add the selected block to userBlocks (ID, metadata pair)
-	//							Logger::Log("Block Name: %s", blockName.c_str());
+	//							LOG_INFO("Block Name: %s", blockName.c_str());
 	//							InventorySystem::AddItemToSlot(i + 9, blockData.id, blockData.metadata);
-	//							Logger::Log("Slot: %d", i + 9);
+	//							LOG_INFO("Slot: %d", i + 9);
 	//							ImGui::CloseCurrentPopup();
 	//						}
 	//					}
@@ -861,7 +855,7 @@ void InventorySorter::RenderInventoryEditor(bool& isOpen)
 	//					if (ImGui::Selectable(category.name.c_str()))
 	//					{
 	//						InventorySystem::AddCategoryToSlot(i, j);
-	//						Logger::Log("Slot: %d", i);
+	//						LOG_INFO("Slot: %d", i);
 	//						ImGui::CloseCurrentPopup();
 	//					}
 	//				}
@@ -884,7 +878,7 @@ void InventorySorter::RenderInventoryEditor(bool& isOpen)
 	//					if (blockNameLower.find(filterLower) != std::string::npos) {
 	//						if (ImGui::Selectable(blockName.c_str())) {
 	//							InventorySystem::AddItemToSlot(i, blockData.id, blockData.metadata);
-	//							Logger::Log("Slot: %d", i);
+	//							LOG_INFO("Slot: %d", i);
 	//							ImGui::CloseCurrentPopup();
 	//						}
 	//					}
@@ -913,7 +907,7 @@ void InventorySorter::RenderInventoryEditor(bool& isOpen)
 	//			{
 	//				if (ImGui::IsMouseDoubleClicked(0))
 	//				{
-	//					Logger::Log("Double Clicked Category %s", categories[i].name.c_str());
+	//					LOG_INFO("Double Clicked Category %s", categories[i].name.c_str());
 	//					selectedCategory = i;
 	//					renderCreateCategory = true;
 	//				}

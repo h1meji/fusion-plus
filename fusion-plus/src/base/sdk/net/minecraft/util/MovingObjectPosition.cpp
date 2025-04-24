@@ -2,53 +2,51 @@
 
 #include "java/java.h"
 #include "sdk/strayCache.h"
-#include <iostream>
 
 CMovingObjectPosition::CMovingObjectPosition()
 {
-	if (!StrayCache::initialized) StrayCache::Initialize();
-	this->Class = StrayCache::movingObjectPosition_class;
+	this->clazz = StrayCache::movingObjectPosition_class;
 }
 
 CMovingObjectPosition::CMovingObjectPosition(jobject instance) : CMovingObjectPosition()
 {
-	this->Instance = instance;
+	this->instance = instance;
 }
 
 jclass CMovingObjectPosition::GetClass()
 {
-	return this->Class;
+	return this->clazz;
 }
 
 jobject CMovingObjectPosition::GetInstance()
 {
-	return this->Instance;
+	return this->instance;
 }
 
 CVec3 CMovingObjectPosition::GetBlockPosition()
 {
-	return CVec3(Java::Env->GetObjectField(this->GetInstance(), StrayCache::movingObjectPosition_hitVec));
+	return CVec3(Java::env->GetObjectField(this->GetInstance(), StrayCache::movingObjectPosition_hitVec));
 }
 
 bool CMovingObjectPosition::IsTypeOfBlock()
 {
-	jobject typeOfHit = Java::Env->GetObjectField(this->GetInstance(), StrayCache::movingObjectPosition_typeOfHit);
+	jobject typeOfHit = Java::env->GetObjectField(this->GetInstance(), StrayCache::movingObjectPosition_typeOfHit);
 	if (!typeOfHit) return false;
 
-	jclass movingObjectType = Java::Env->GetObjectClass(typeOfHit);
+	jclass movingObjectType = Java::env->GetObjectClass(typeOfHit);
 	if (!movingObjectType) return false;
 	jfieldID block = StrayCache::GetMovingBlockPositionBLOCK(movingObjectType);
 	if (!block) return false;
-	jobject object = Java::Env->GetStaticObjectField(movingObjectType, block);
+	jobject object = Java::env->GetStaticObjectField(movingObjectType, block);
 	if (!object) return false;
 
-	return Java::Env->IsSameObject(object, typeOfHit);
+	return Java::env->IsSameObject(object, typeOfHit);
 }
 
 CEntity CMovingObjectPosition::GetEntityHit()
 {
-	jobject typeOfHit = Java::Env->GetObjectField(this->GetInstance(), StrayCache::movingObjectPosition_typeOfHit);
+	jobject typeOfHit = Java::env->GetObjectField(this->GetInstance(), StrayCache::movingObjectPosition_typeOfHit);
 	if (!typeOfHit) return CEntity();
 
-	return CEntity(Java::Env->GetObjectField(this->GetInstance(), StrayCache::movingObjectPosition_entityHit));
+	return CEntity(Java::env->GetObjectField(this->GetInstance(), StrayCache::movingObjectPosition_entityHit));
 }

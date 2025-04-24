@@ -5,26 +5,26 @@
 
 CBlock::CBlock()
 {
-	if (!StrayCache::initialized) StrayCache::Initialize();
-	this->Class = StrayCache::block_class;
+	if (!StrayCache::initialized) StrayCache::Init();
+	this->clazz = StrayCache::block_class;
 }
 
 CBlock::CBlock(jobject instance) : CBlock()
 {
-	this->Instance = instance;
+	this->instance = instance;
 }
 
 jclass CBlock::GetClass()
 {
-	return this->Class;
+	return this->clazz;
 }
 
 jobject CBlock::GetInstance()
 {
-	return this->Instance;
+	return this->instance;
 }
 
 int CBlock::GetBlockId()
 {
-	return Java::Env->CallStaticIntMethod(this->GetClass(), StrayCache::block_getIdFromBlock, this->GetInstance());
+	return Java::env->CallStaticIntMethod(this->GetClass(), StrayCache::block_getIdFromBlock, this->GetInstance());
 }

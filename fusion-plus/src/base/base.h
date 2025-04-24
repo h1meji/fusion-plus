@@ -1,19 +1,18 @@
 #pragma once
-#include <Windows.h>
+
 #include <string>
+
+#include <Windows.h>
 
 struct Base
 {
 	static void Init();
-	static void Kill();
+	static void Shutdown();
 
-	static void RenderLoop();
+	static void renderLoop();
 
-	static inline bool Running;
+	static inline bool m_running;
 
-	static inline std::string CrashReportPath;
-	static void WriteCrashReport(EXCEPTION_POINTERS* pException);
-
-	static inline const char* version = "v0.5";
+	static inline const char* m_version = "v0.5";
 };
 

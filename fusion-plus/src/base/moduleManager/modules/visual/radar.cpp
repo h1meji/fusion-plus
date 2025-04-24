@@ -1,36 +1,33 @@
 #include "radar.h"
-#include <moduleManager/commonData.h>
-#include <imgui/imgui.h>
+
+#include "moduleManager/commonData.h"
 #include "menu/menu.h"
-#include <util/math/math.h>
+#include "util/math/math.h"
 #include "util/window/windowHelpers.h"
-#include <configManager/configManager.h>
-#include <imgui/imgui_internal.h>
+#include "configManager/configManager.h"
 
 void Radar::Update()
 {
 	if (!settings::Radar_Enabled)
 	{
-		renderData.clear();
+		m_renderData.clear();
 		return;
 	}
 	if (!CommonData::SanityCheck())
 	{
-		renderData.clear();
+		m_renderData.clear();
 		return;
 	}
 
-	CEntityPlayerSP* player = SDK::Minecraft->thePlayer;
-	CWorld* world = SDK::Minecraft->theWorld;
 	std::vector<CommonData::PlayerData> playerList = CommonData::nativePlayerList;
 	if (playerList.empty())
 	{
-		renderData.clear();
+		m_renderData.clear();
 		return;
 	}
 
-	Vector3 pos = player->GetPos();
-	playerYaw = player->GetRotationYaw();
+	Vector3 pos = SDK::minecraft->thePlayer->GetPos();
+	m_playerYaw = SDK::minecraft->thePlayer->GetRotationYaw();
 
 	std::vector<Data> newData;
 
@@ -41,7 +38,8 @@ void Radar::Update()
 		Vector3 diff = pos - entity.pos;
 		float dist = sqrt(pow(diff.x, 2.f) + pow(diff.y, 2.f) + pow(diff.z, 2.f)); // Sqrt((x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2)
 		// Regular distance check.
-		if (dist > settings::Radar_Radius) {
+		if (dist > settings::Radar_Radius)
+		{
 			continue;
 		}
 
@@ -52,7 +50,7 @@ void Radar::Update()
 			Vector2(diff.x, diff.z)
 		});
 	}
-	renderData = newData;
+	m_renderData = newData;
 }
 
 void Radar::RenderHud()
@@ -70,7 +68,7 @@ void Radar::RenderHud()
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, settings::Radar_SquareRoundness);
 
 	ImGuiWindowFlags windowFlags;
-	if (!Menu::OpenHudEditor)
+	if (!Menu::openHudEditor)
 	{
 		windowFlags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoResize;
 	}
@@ -98,35 +96,38 @@ void Radar::RenderHud()
 				x * cosA - y * sinA,
 				x * sinA + y * cosA
 			);
-			};
+		};
 
 		ImVec2 localPlayerPos[3] = {};
-		for (Data data : renderData)
+		for (Data data : m_renderData)
 		{
 			float relX = data.relativePosition.x / settings::Radar_Radius * (settings::Radar_Size / 2);
 			float relY = data.relativePosition.y / settings::Radar_Radius * (settings::Radar_Size / 2);
 
 			ImVec2 radarPos(relX, relY);
 
-			if (settings::Radar_RotateWithPlayer) {
-				radarPos = rotatePoint(radarPos.x, radarPos.y, -playerYaw);
+			if (settings::Radar_RotateWithPlayer)
+			{
+				radarPos = rotatePoint(radarPos.x, radarPos.y, -m_playerYaw);
 			}
 
 			radarPos.x += zerozero.x;
 			radarPos.y += zerozero.y;
 
 			// if local player, draw a triangle instead of a square.
-			if (data.isLocalPlayer) {
+			if (data.isLocalPlayer)
+			{
 				// Draw player triangle
 				ImVec2 p1 = ImVec2(0, -5);
 				ImVec2 p2 = ImVec2(-5, 5);
 				ImVec2 p3 = ImVec2(5, 5);
 
 				// Rotate triangle points
-				if (!settings::Radar_RotateWithPlayer) {
-					p1 = rotatePoint(p1.x, p1.y, playerYaw);
-					p2 = rotatePoint(p2.x, p2.y, playerYaw);
-					p3 = rotatePoint(p3.x, p3.y, playerYaw);
+				if (!settings::Radar_RotateWithPlayer)
+				{
+					p1 = rotatePoint(p1.x, p1.y, m_playerYaw);
+					p2 = rotatePoint(p2.x, p2.y, m_playerYaw);
+					p3 = rotatePoint(p3.x, p3.y, m_playerYaw);
 				}
 
 				// Translate triangle to radar position
@@ -138,7 +139,8 @@ void Radar::RenderHud()
 				localPlayerPos[1] = p2;
 				localPlayerPos[2] = p3;
 			}
-			else {
+			else
+			{
 				ImColor playerColor = ImColor(settings::Radar_PlayerColor[0], settings::Radar_PlayerColor[1], settings::Radar_PlayerColor[2], settings::Radar_PlayerColor[3]);
 				ImColor friendColor = ImColor(settings::Radar_FriendColor[0], settings::Radar_FriendColor[1], settings::Radar_FriendColor[2], settings::Radar_FriendColor[3]);
 
@@ -146,11 +148,12 @@ void Radar::RenderHud()
 				ImGui::GetWindowDrawList()->AddRectFilled(
 					ImVec2(radarPos.x - 2.5f, radarPos.y - 2.5f),
 					ImVec2(radarPos.x + 2.5f, radarPos.y + 2.5f),
-					ConfigManager::IsFriend(data.name) ? friendColor : playerColor
+					configmanager::IsFriend(data.name) ? friendColor : playerColor
 				);
 
 				// Show names if enabled
-				if (settings::Radar_ShowNames) {
+				if (settings::Radar_ShowNames)
+				{
 					ImVec2 textSize = ImGui::CalcTextSize(data.name.c_str());
 					ImGui::GetWindowDrawList()->AddText(
 						ImVec2(radarPos.x - textSize.x / 2, radarPos.y + 5),

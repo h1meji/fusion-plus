@@ -1,51 +1,56 @@
 #include "velocity.h"
 
-#include <imgui/imgui.h>
 #include "menu/menu.h"
-#include <moduleManager/commonData.h>
+#include "moduleManager/commonData.h"
 
-inline static void send_key(WORD vk_key, bool send_down = true)
+inline static void sendKey(WORD vkKey, bool sendDown = true)
 {
 	static INPUT ip{ INPUT_KEYBOARD };
 
 	ip.ki.wScan = 0;
 	ip.ki.time = 0;
 	ip.ki.dwExtraInfo = 0;
-	ip.ki.wVk = vk_key;
-	ip.ki.dwFlags = send_down ? 0 : KEYEVENTF_KEYUP;
+	ip.ki.wVk = vkKey;
+	ip.ki.dwFlags = sendDown ? 0 : KEYEVENTF_KEYUP;
 
 	SendInput(1, &ip, sizeof(INPUT));
 }
 
+inline static int randInt(int min, int max)
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<int> dis(min, max);
+	return dis(gen);
+}
+
 void Velocity::Update()
 {
-	static int lasting_time = 0;
-	if (lasting_time == 1)
+	static int lastingTime = 0;
+	if (lastingTime == 1)
 	{
-		send_key(VK_SPACE, false);
-		lasting_time = 0;
+		sendKey(VK_SPACE, false);
+		lastingTime = 0;
 	}
-	else if (lasting_time > 1)
+	else if (lastingTime > 1)
 	{
-		lasting_time--;
+		lastingTime--;
 	}
 
-	if (!settings::Velocity_Enabled || !CommonData::SanityCheck() || SDK::Minecraft->IsInGuiState())
+	if (!settings::Velocity_Enabled || !CommonData::SanityCheck() || SDK::minecraft->IsInGuiState())
 	{
 		return;
 	}
 
-	CEntityPlayerSP* player = SDK::Minecraft->thePlayer;
+	int hurtResistantTime = SDK::minecraft->thePlayer->GetHurtResistantTime();
 
-	int hurtResistantTime = player->GetHurtResistantTime();
-
-	static bool can_be_hit = true;
-	if (!can_be_hit && hurtResistantTime == 0)
+	static bool canBeHit = true;
+	if (!canBeHit && hurtResistantTime == 0)
 	{
-		can_be_hit = true;
+		canBeHit = true;
 	}
 
-	if (!can_be_hit)
+	if (!canBeHit)
 	{
 		return;
 	}
@@ -57,11 +62,11 @@ void Velocity::Update()
 
 	if (settings::Velocity_Mode == 0)
 	{
-		if (rand_int(0, 100) <= settings::Velocity_JRChange)
+		if (randInt(0, 100) <= settings::Velocity_JRChange)
 		{
-			send_key(VK_SPACE);
-			lasting_time = rand_int(40, 70);
-			can_be_hit = false;
+			sendKey(VK_SPACE);
+			lastingTime = randInt(40, 70);
+			canBeHit = false;
 		}
 	}
 }

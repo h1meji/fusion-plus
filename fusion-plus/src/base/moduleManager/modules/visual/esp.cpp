@@ -1,32 +1,32 @@
 #include "esp.h"
+
+#include <gl/GL.h>
+
 #include "moduleManager/commonData.h"
 #include "sdk/sdk.h"
 #include "util/logger/logger.h"
-#include "imgui/imgui.h"
 #include "util/math/math.h"
 #include "util/math/worldToScreen.h"
 #include "util/render/renderqolf.h"
 #include "menu/menu.h"
-#include <gl/GL.h>
-#include <configManager/configManager.h>
+#include "configManager/configManager.h"
 
 void Esp::Update()
 {
 	if (!settings::ESP_Enabled) return;
 	if (!CommonData::SanityCheck()) return;
 
-	CEntityPlayerSP* player = SDK::Minecraft->thePlayer;
-	CWorld* world = SDK::Minecraft->theWorld;
 	std::vector<CommonData::PlayerData> playerList = CommonData::nativePlayerList;
 	if (playerList.empty()) return;
 
 	Vector3 renderPos = CommonData::renderPos;
-	Vector3 pos = player->GetPos();
+	Vector3 pos = SDK::minecraft->thePlayer->GetPos();
 
-	if (CommonData::thirdPersonView != 0) {
+	if (CommonData::thirdPersonView != 0)
+	{
 		Vector3 cameraPos = CWorldToScreen::GetCameraPosition(CommonData::modelView);
-		Vector2 angles = player->GetAngles();
-		float eyeHeight = player->IsSneaking() ? 1.54f : 1.62f;
+		Vector2 angles = SDK::minecraft->thePlayer->GetAngles();
+		float eyeHeight = SDK::minecraft->thePlayer->IsSneaking() ? 1.54f : 1.62f;
 
 		Vector3 relativeEyePosToPlayer = { 0, eyeHeight, 0 };
 		cameraPos = cameraPos - relativeEyePosToPlayer;
@@ -38,19 +38,14 @@ void Esp::Update()
 		}
 
 		// This whole calculation came from gaspers source from their reach module, which you can find in this cheat as well
-		float cos = std::cos(Math::degToRadiants(angles.x + 90.0f));
-		float sin = std::sin(Math::degToRadiants(angles.x + 90.0f));
-		float cosPitch = std::cos(Math::degToRadiants(angles.y));
-		float sinPitch = std::sin(Math::degToRadiants(angles.y));
+		float cos = std::cos(Math::DegToRadiants(angles.x + 90.0f));
+		float sin = std::sin(Math::DegToRadiants(angles.x + 90.0f));
+		float cosPitch = std::cos(Math::DegToRadiants(angles.y));
+		float sinPitch = std::sin(Math::DegToRadiants(angles.y));
 
 		float x = renderPos.x - (cos * distance * cosPitch);
 		float y = renderPos.y + (distance * sinPitch);
 		float z = renderPos.z - (sin * distance * cosPitch);
-
-		// The raycast that is commented out below does not work that well for some reason, acts weirdly when colliding with chests, and other things.
-		// Also might be poor in performance.
-		//Vector3 ray = world->rayTraceBlocks(renderPos, Vector3{ x, y, z }, false, false, false);
-		//renderPos = ray.x == 0 ? Vector3{ x,y,z } : ray;
 
 		renderPos = Vector3{ x,y,z };
 	}
@@ -143,14 +138,14 @@ void Esp::Update()
 			boundingBoxVerticies,
 		});
 	}
-	renderData = newData;
+	m_renderData = newData;
 }
 
 void Esp::RenderOverlay()
 {
 	if (!settings::ESP_Enabled || !CommonData::dataUpdated) return;
 
-	for (Data data : renderData)
+	for (Data data : m_renderData)
 	{
 		ImVec2 screenSize = ImGui::GetWindowSize();
 		bool skip = false;
@@ -213,7 +208,7 @@ void Esp::RenderOverlay()
 		if (skip)
 			continue;
 
-		bool isFriend = ConfigManager::IsFriend(data.name) && settings::ESP_HighlightFriends;
+		bool IsFriend = configmanager::IsFriend(data.name) && settings::ESP_HighlightFriends;
 
 		// The rest is just rendering the ESP with the customizable options, self explanitory.
 
@@ -226,7 +221,7 @@ void Esp::RenderOverlay()
 				ImColor topColor = ImColor(settings::ESP_FilledBoxColor[0], settings::ESP_FilledBoxColor[1], settings::ESP_FilledBoxColor[2], settings::ESP_FilledBoxColor[3] * data.opacityFadeFactor);
 				ImColor topColorFriend = ImColor(settings::ESP_FriendFilledBoxColor[0], settings::ESP_FriendFilledBoxColor[1], settings::ESP_FriendFilledBoxColor[2], settings::ESP_FriendFilledBoxColor[3] * data.opacityFadeFactor);
 
-				ImGui::GetWindowDrawList()->AddRectFilledMultiColor(ImVec2(left, top), ImVec2(right, bottom), isFriend ? topColorFriend : topColor, isFriend ? topColorFriend : topColor, isFriend ? bottomColorFriend : bottomColor, isFriend ? bottomColorFriend : bottomColor);
+				ImGui::GetWindowDrawList()->AddRectFilledMultiColor(ImVec2(left, top), ImVec2(right, bottom), IsFriend ? topColorFriend : topColor, IsFriend ? topColorFriend : topColor, IsFriend ? bottomColorFriend : bottomColor, IsFriend ? bottomColorFriend : bottomColor);
 			}
 
 			if (settings::ESP_Box)
@@ -234,7 +229,7 @@ void Esp::RenderOverlay()
 				ImColor color = ImColor(settings::ESP_BoxColor[0], settings::ESP_BoxColor[1], settings::ESP_BoxColor[2], settings::ESP_BoxColor[3] * data.opacityFadeFactor);
 				ImColor colorFriend = ImColor(settings::ESP_FriendBoxColor[0], settings::ESP_FriendBoxColor[1], settings::ESP_FriendBoxColor[2], settings::ESP_FriendBoxColor[3] * data.opacityFadeFactor);
 
-				ImGui::GetWindowDrawList()->AddRect(ImVec2(left, top), ImVec2(right, bottom), isFriend ? colorFriend : color);
+				ImGui::GetWindowDrawList()->AddRect(ImVec2(left, top), ImVec2(right, bottom), IsFriend ? colorFriend : color);
 			}
 
 			if (settings::ESP_Outline)
@@ -242,8 +237,8 @@ void Esp::RenderOverlay()
 				ImColor color = ImColor(settings::ESP_OutlineColor[0], settings::ESP_OutlineColor[1], settings::ESP_OutlineColor[2], settings::ESP_OutlineColor[3] * data.opacityFadeFactor);
 				ImColor colorFriend = ImColor(settings::ESP_FriendOutlineColor[0], settings::ESP_FriendOutlineColor[1], settings::ESP_FriendOutlineColor[2], settings::ESP_FriendOutlineColor[3] * data.opacityFadeFactor);
 
-				ImGui::GetWindowDrawList()->AddRect(ImVec2(left - 1, top - 1), ImVec2(right + 1, bottom + 1), isFriend ? colorFriend : color);
-				ImGui::GetWindowDrawList()->AddRect(ImVec2(left + 1, top + 1), ImVec2(right - 1, bottom - 1), isFriend ? colorFriend : color);
+				ImGui::GetWindowDrawList()->AddRect(ImVec2(left - 1, top - 1), ImVec2(right + 1, bottom + 1), IsFriend ? colorFriend : color);
+				ImGui::GetWindowDrawList()->AddRect(ImVec2(left + 1, top + 1), ImVec2(right - 1, bottom - 1), IsFriend ? colorFriend : color);
 			}
 		}
 
@@ -254,20 +249,20 @@ void Esp::RenderOverlay()
 				ImColor colorOutline = ImColor(settings::ESP_OutlineColor[0], settings::ESP_OutlineColor[1], settings::ESP_OutlineColor[2], settings::ESP_OutlineColor[3] * data.opacityFadeFactor);
 				ImColor colorOutlineFriend = ImColor(settings::ESP_FriendOutlineColor[0], settings::ESP_FriendOutlineColor[1], settings::ESP_FriendOutlineColor[2], settings::ESP_FriendOutlineColor[3] * data.opacityFadeFactor);
 
-				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[0].x, boxCorners[0].y), ImVec2(boxCorners[1].x, boxCorners[1].y), isFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
-				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[1].x, boxCorners[1].y), ImVec2(boxCorners[2].x, boxCorners[2].y), isFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
-				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[2].x, boxCorners[2].y), ImVec2(boxCorners[3].x, boxCorners[3].y), isFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
-				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[3].x, boxCorners[3].y), ImVec2(boxCorners[0].x, boxCorners[0].y), isFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[0].x, boxCorners[0].y), ImVec2(boxCorners[1].x, boxCorners[1].y), IsFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[1].x, boxCorners[1].y), ImVec2(boxCorners[2].x, boxCorners[2].y), IsFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[2].x, boxCorners[2].y), ImVec2(boxCorners[3].x, boxCorners[3].y), IsFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[3].x, boxCorners[3].y), ImVec2(boxCorners[0].x, boxCorners[0].y), IsFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
 
-				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[4].x, boxCorners[4].y), ImVec2(boxCorners[5].x, boxCorners[5].y), isFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
-				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[5].x, boxCorners[5].y), ImVec2(boxCorners[6].x, boxCorners[6].y), isFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
-				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[6].x, boxCorners[6].y), ImVec2(boxCorners[7].x, boxCorners[7].y), isFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
-				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[7].x, boxCorners[7].y), ImVec2(boxCorners[4].x, boxCorners[4].y), isFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[4].x, boxCorners[4].y), ImVec2(boxCorners[5].x, boxCorners[5].y), IsFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[5].x, boxCorners[5].y), ImVec2(boxCorners[6].x, boxCorners[6].y), IsFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[6].x, boxCorners[6].y), ImVec2(boxCorners[7].x, boxCorners[7].y), IsFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[7].x, boxCorners[7].y), ImVec2(boxCorners[4].x, boxCorners[4].y), IsFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
 
-				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[0].x, boxCorners[0].y), ImVec2(boxCorners[4].x, boxCorners[4].y), isFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
-				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[1].x, boxCorners[1].y), ImVec2(boxCorners[5].x, boxCorners[5].y), isFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
-				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[2].x, boxCorners[2].y), ImVec2(boxCorners[6].x, boxCorners[6].y), isFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
-				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[3].x, boxCorners[3].y), ImVec2(boxCorners[7].x, boxCorners[7].y), isFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[0].x, boxCorners[0].y), ImVec2(boxCorners[4].x, boxCorners[4].y), IsFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[1].x, boxCorners[1].y), ImVec2(boxCorners[5].x, boxCorners[5].y), IsFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[2].x, boxCorners[2].y), ImVec2(boxCorners[6].x, boxCorners[6].y), IsFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(boxCorners[3].x, boxCorners[3].y), ImVec2(boxCorners[7].x, boxCorners[7].y), IsFriend ? colorOutlineFriend : colorOutline, settings::ESP_3DBoxThickness);
 			}
 
 			if (settings::ESP_FilledBox)
@@ -282,12 +277,12 @@ void Esp::RenderOverlay()
 				ImVec2 faceFront[] = { ImVec2(boxCorners[0].x, boxCorners[0].y), ImVec2(boxCorners[1].x, boxCorners[1].y), ImVec2(boxCorners[5].x, boxCorners[5].y), ImVec2(boxCorners[4].x, boxCorners[4].y) };
 				ImVec2 faceBack[] = { ImVec2(boxCorners[2].x, boxCorners[2].y), ImVec2(boxCorners[3].x, boxCorners[3].y), ImVec2(boxCorners[7].x, boxCorners[7].y), ImVec2(boxCorners[6].x, boxCorners[6].y) };
 
-				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceTop, 4, isFriend ? colorFilledBoxFriend : colorFilledBox);
-				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceBottom, 4, isFriend ? colorFilledBoxFriend : colorFilledBox);
-				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceLeft, 4, isFriend ? colorFilledBoxFriend : colorFilledBox);
-				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceRight, 4, isFriend ? colorFilledBoxFriend : colorFilledBox);
-				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceFront, 4, isFriend ? colorFilledBoxFriend : colorFilledBox);
-				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceBack, 4, isFriend ? colorFilledBoxFriend : colorFilledBox);
+				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceTop, 4, IsFriend ? colorFilledBoxFriend : colorFilledBox);
+				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceBottom, 4, IsFriend ? colorFilledBoxFriend : colorFilledBox);
+				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceLeft, 4, IsFriend ? colorFilledBoxFriend : colorFilledBox);
+				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceRight, 4, IsFriend ? colorFilledBoxFriend : colorFilledBox);
+				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceFront, 4, IsFriend ? colorFilledBoxFriend : colorFilledBox);
+				ImGui::GetWindowDrawList()->AddConvexPolyFilled(faceBack, 4, IsFriend ? colorFilledBoxFriend : colorFilledBox);
 			}
 		}
 
@@ -361,89 +356,4 @@ void Esp::RenderMenu()
 	{
 		Menu::Slider("Box Thickness", &settings::ESP_3DBoxThickness, 0.5f, 5.0f);
 	}
-	//static bool renderSettings = false;
-
-	//ImGui::BeginGroup();
-	//ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	//ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.5));
-	//ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10);
-
-	//if (ImGui::BeginChild("esp_header", ImVec2(425.f, renderSettings ? 260.f : 35.f), false))
-	//{
-	//	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3);
-	//	ImGui::BeginGroup();
-	//	Menu::ToggleButton(29, ("Toggle " + this->GetName()).c_str(), ImVec2(368, 0), &settings::ESP_Enabled);
-	//	ImGui::EndGroup();
-	//	if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-	//	{
-	//		renderSettings = !renderSettings;
-	//	}
-
-	//	ImGui::PopStyleColor();
-	//	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.12f, 0.12f, 0.0));
-
-	//	if (renderSettings)
-	//	{
-	//		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-	//		ImGui::Separator();
-	//		if (ImGui::BeginChild("esp_settings", ImVec2(425, 215), false))
-	//		{
-	//			Menu::KeybindButton(164, "Keybind", ImVec2(297, 0), settings::ESP_Key);
-	//			Menu::ToggleButton(30, "Show Healthbar", ImVec2(368, 0), &settings::ESP_HealthBar);
-	//			Menu::Slider(37, "Fade Distance", ImVec2(225, 0), &settings::ESP_FadeDistance, 0.0f, 10.0f);
-
-	//			Menu::ComboBox(38, "Box Type", ImVec2(270, 0), &settings::ESP_BoxType, settings::ESP_BoxTypeList, 2);
-
-	//			Menu::ToggleButton(39, "Highlight Friends", ImVec2(368, 0), &settings::ESP_HighlightFriends);
-
-	//			if (settings::ESP_BoxType == 0)
-	//			{
-	//				Menu::ToggleButton(40, "Show Box", ImVec2(368, 0), &settings::ESP_Box);
-	//				if (settings::ESP_Box)
-	//				{
-	//					Menu::ColorPicker(41, "Box Color", ImVec2(374, 0), settings::ESP_BoxColor);
-	//					if (settings::ESP_HighlightFriends)
-	//					{
-	//						Menu::ColorPicker(42, "Friend Box Color", ImVec2(374, 0), settings::ESP_FriendBoxColor);
-	//					}
-	//				}
-	//			}
-	//			else if (settings::ESP_BoxType == 1)
-	//			{
-	//				Menu::Slider(43, "Box Thickness", ImVec2(225, 0), &settings::ESP_3DBoxThickness, 0.5f, 5.0f);
-	//			}
-
-	//			Menu::ToggleButton(44, "Show Filled Box", ImVec2(368, 0), &settings::ESP_FilledBox);
-	//			if (settings::ESP_FilledBox)
-	//			{
-	//				Menu::ColorPicker(45, "Filled Box Color", ImVec2(374, 0), settings::ESP_FilledBoxColor);
-	//				if (settings::ESP_BoxType == 0)
-	//					Menu::ColorPicker(46, "Second Filled Box Color", ImVec2(374, 0), settings::ESP_SecondFilledBoxColor);
-	//				if (settings::ESP_HighlightFriends)
-	//				{
-	//					Menu::ColorPicker(47, "Friend Filled Box Color", ImVec2(374, 0), settings::ESP_FriendFilledBoxColor);
-	//					if (settings::ESP_BoxType == 0)
-	//						Menu::ColorPicker(48, "Friend Second Filled Box Color", ImVec2(374, 0), settings::ESP_FriendSecondFilledBoxColor);
-	//				}
-	//			}
-
-	//			Menu::ToggleButton(49, "Show Outline", ImVec2(368, 0), &settings::ESP_Outline);
-	//			if (settings::ESP_Outline)
-	//			{
-	//				Menu::ColorPicker(50, "Outline Color", ImVec2(374, 0), settings::ESP_OutlineColor);
-	//				if (settings::ESP_HighlightFriends)
-	//				{
-	//					Menu::ColorPicker(51, "Friend Outline Color", ImVec2(374, 0), settings::ESP_FriendOutlineColor);
-	//				}
-	//			}
-	//		}
-	//		ImGui::EndChild();
-	//		ImGui::Spacing();
-	//	}
-	//}
-	//ImGui::EndChild();
-
-	//ImGui::PopStyleVar();
-	//ImGui::PopStyleColor();
-	//ImGui::EndGroup();
 }

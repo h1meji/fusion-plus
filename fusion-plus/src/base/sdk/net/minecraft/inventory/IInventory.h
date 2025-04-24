@@ -1,7 +1,6 @@
 #pragma once
 
 #include "sdk/java/IClass.h"
-
 #include "sdk/net/minecraft/item/ItemStack.h"
 
 struct IInventory : IClass
@@ -12,5 +11,5 @@ struct IInventory : IClass
 	jobject GetInstance();
 
 	int GetSizeInventory();
-	CItemStack* GetStackInSlot(int slot);
+	CItemStack GetStackInSlot(int slot);
 };

@@ -1,25 +1,26 @@
 #include "Set.h"
+
 #include "java/java.h"
 
 Set::Set(jobject jset)
 {
-	this->Instance = jset;
+	this->instance = jset;
 
-	this->Class = Java::Env->FindClass("java/util/Set");
-	this->MethodIDs["toArray"] = Java::Env->GetMethodID(this->Class, "toArray", "()[Ljava/util/Object;");
+	this->clazz = Java::env->FindClass("java/util/Set");
+	toArrayId = Java::env->GetMethodID(this->clazz, "toArray", "()[Ljava/util/Object;");
 }
 
 jclass Set::GetClass()
 {
-	return this->Class;
+	return this->clazz;
 }
 
 jobject Set::GetInstance()
 {
-	return this->Instance;
+	return this->instance;
 }
 
 jobjectArray Set::toArray()
 {
-	return (jobjectArray)Java::Env->CallObjectMethod(this->Instance, this->MethodIDs["toArray"]);
+	return (jobjectArray)Java::env->CallObjectMethod(this->instance, toArrayId);
 }

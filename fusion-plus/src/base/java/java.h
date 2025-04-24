@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "jni/jni.h"
-#include "jni/jvmti.h"
+#include <jni/jni.h>
+#include <jni/jvmti.h>
 
 enum MinecraftVersion
 {
@@ -19,17 +19,17 @@ enum MinecraftVersion
 struct Java
 {
 	static void Init();
-	static void Kill();
+	static void Shutdown();
 
 	static bool AssignClass(std::string name, jclass &out);
 	static jclass GetClass(std::string name);
-	static jclass findClass(JNIEnv* p_env, jvmtiEnv* p_tienv, const std::string& path);
+	static jclass FindClass(JNIEnv* env, jvmtiEnv* tienv, const std::string& path);
 
 	static void GetMinecraftVersion();
 
-	static inline JNIEnv* Env;
+	static inline JNIEnv* env;
 	static inline jvmtiEnv* tiEnv;
-	static inline bool Initialized;
-	static inline MinecraftVersion Version;
+	static inline bool initialized;
+	static inline MinecraftVersion version;
 };
 

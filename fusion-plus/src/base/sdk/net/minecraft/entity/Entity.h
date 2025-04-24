@@ -1,13 +1,12 @@
 #pragma once
 
 #include "sdk/java/IClass.h"
-#include "util/math/geometry.h"
 #include "sdk/net/minecraft/util/AxisAlignedBB.h"
+#include "util/math/geometry.h"
 
 struct CEntity : IClass
 {
 	CEntity();
-
 	CEntity(jobject instance);
 
 	jclass GetClass();

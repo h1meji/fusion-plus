@@ -1,26 +1,31 @@
 #pragma once
 
 #include "moduleManager/moduleBase.h"
-#include <util/math/geometry.h>
+#include "util/math/geometry.h"
 
 class Nametag : public ModuleBase
 {
 public:
 	void Update() override;
+
 	void RenderOverlay() override;
 	void RenderHud() override {};
-
 	void RenderMenu() override;
 
-	bool IsEnabled() override { return settings::NT_Enabled; }
-	std::string GetName() override { return Name; }
-	std::string GetCategory() override { return Category; }
+	std::string GetName() override { return m_name; }
+	std::string GetCategory() override { return m_category; }
 	int GetKey() override { return settings::NT_Key; }
 
+	bool IsEnabled() override { return settings::NT_Enabled; }
 	void SetEnabled(bool enabled) override { settings::NT_Enabled = enabled; }
 	void Toggle() override { settings::NT_Enabled = !settings::NT_Enabled; }
 
-	struct Data {
+private:
+	std::string m_name = "Nametags";
+	std::string m_category = "Visual";
+
+	struct Data
+	{
 		std::vector<Vector3> boxVerticies;
 		std::vector<Vector3> boundingBoxVerticies;
 		std::string name;
@@ -31,9 +36,5 @@ public:
 		float opacityFadeFactor;
 	};
 
-private:
-	std::string Name = "Nametags";
-	std::string Category = "Visual";
-
-	std::vector<Data> nametagData;
+	std::vector<Data> m_nametagData;
 };

@@ -2,33 +2,32 @@
 
 #include "java/java.h"
 #include "sdk/strayCache.h"
-
 #include "util/logger/logger.h"
 #include "Container.h"
 
 IInventory::IInventory(jobject instance)
 {
-	this->Instance = instance;
-	this->Class = nullptr;
+	this->instance = instance;
+	this->clazz = nullptr;
 }
 
 jclass IInventory::GetClass()
 {
-	return this->Class;
+	return this->clazz;
 }
 
 jobject IInventory::GetInstance()
 {
-	return this->Instance;
+	return this->instance;
 }
 
 int IInventory::GetSizeInventory()
 {
-	return Java::Env->CallIntMethod(this->GetInstance(), StrayCache::iInventory_getSizeInventory);
+	return Java::env->CallIntMethod(this->GetInstance(), StrayCache::iInventory_getSizeInventory);
 }
 
-CItemStack* IInventory::GetStackInSlot(int slot)
+CItemStack IInventory::GetStackInSlot(int slot)
 {
-	jobject stackInSlot = Java::Env->CallObjectMethod(this->GetInstance(), StrayCache::iInventory_getStackInSlot, slot);
-	return new CItemStack(stackInSlot);
+	jobject stackInSlot = Java::env->CallObjectMethod(this->GetInstance(), StrayCache::iInventory_getStackInSlot, slot);
+	return CItemStack(stackInSlot);
 }

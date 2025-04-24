@@ -5,31 +5,30 @@
 
 CEntityLivingBase::CEntityLivingBase()
 {
-	if (!StrayCache::initialized) StrayCache::Initialize();
-	this->Class = StrayCache::entityLivingBase_class;
+	this->clazz = StrayCache::entityLivingBase_class;
 }
 
 jclass CEntityLivingBase::GetClass()
 {
-	return this->Class;
+	return this->clazz;
 }
 
 jobject CEntityLivingBase::GetInstance()
 {
-	return this->Instance;
+	return this->instance;
 }
 
 float CEntityLivingBase::GetHealth()
 {
-	return Java::Env->CallFloatMethod(this->GetInstance(), StrayCache::entityLivingBase_getHealth);
+	return Java::env->CallFloatMethod(this->GetInstance(), StrayCache::entityLivingBase_getHealth);
 }
 
 float CEntityLivingBase::GetMaxHealth()
 {
-	return Java::Env->CallFloatMethod(this->GetInstance(), StrayCache::entityLivingBase_getMaxHealth);
+	return Java::env->CallFloatMethod(this->GetInstance(), StrayCache::entityLivingBase_getMaxHealth);
 }
 
 bool CEntityLivingBase::CanEntityBeSeen(jobject entity) 
 {
-	return Java::Env->CallBooleanMethod(this->GetInstance(), StrayCache::entityLivingBase_canEntityBeSeen, entity);
+	return Java::env->CallBooleanMethod(this->GetInstance(), StrayCache::entityLivingBase_canEntityBeSeen, entity);
 }

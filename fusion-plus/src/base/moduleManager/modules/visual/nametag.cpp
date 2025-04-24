@@ -1,13 +1,14 @@
 #include "nametag.h"
-#include <moduleManager/commonData.h>
-#include <util/math/math.h>
-#include <util/math/worldToScreen.h>
-#include <imgui/imgui.h>
-#include <configManager/configManager.h>
-#include <menu/menu.h>
-#include <util/render/renderqolf.h>
 
-static std::string floatToString(float value, int precision) {
+#include "moduleManager/commonData.h"
+#include "util/math/math.h"
+#include "util/math/worldToScreen.h"
+#include "util/render/renderqolf.h"
+#include "configManager/configManager.h"
+#include "menu/menu.h"
+
+static std::string floatToString(float value, int precision)
+{
 	std::ostringstream out;
 	out << std::fixed << std::setprecision(precision) << value;
 	return out.str();
@@ -18,18 +19,17 @@ void Nametag::Update()
 	if (!settings::NT_Enabled) return;
 	if (!CommonData::SanityCheck()) return;
 
-	CEntityPlayerSP* player = SDK::Minecraft->thePlayer;
-	CWorld* world = SDK::Minecraft->theWorld;
 	std::vector<CommonData::PlayerData> playerList = CommonData::nativePlayerList;
 	if (playerList.empty()) return;
 
 	Vector3 renderPos = CommonData::renderPos;
-	Vector3 pos = player->GetPos();
+	Vector3 pos = SDK::minecraft->thePlayer->GetPos();
 
-	if (CommonData::thirdPersonView != 0) {
+	if (CommonData::thirdPersonView != 0)
+	{
 		Vector3 cameraPos = CWorldToScreen::GetCameraPosition(CommonData::modelView);
-		Vector2 angles = player->GetAngles();
-		float eyeHeight = player->IsSneaking() ? 1.54f : 1.62f;
+		Vector2 angles = SDK::minecraft->thePlayer->GetAngles();
+		float eyeHeight = SDK::minecraft->thePlayer->IsSneaking() ? 1.54f : 1.62f;
 
 		Vector3 relativeEyePosToPlayer = { 0, eyeHeight, 0 };
 		cameraPos = cameraPos - relativeEyePosToPlayer;
@@ -40,10 +40,10 @@ void Nametag::Update()
 			distance = -distance;
 		}
 
-		float cos = std::cos(Math::degToRadiants(angles.x + 90.0f));
-		float sin = std::sin(Math::degToRadiants(angles.x + 90.0f));
-		float cosPitch = std::cos(Math::degToRadiants(angles.y));
-		float sinPitch = std::sin(Math::degToRadiants(angles.y));
+		float cos = std::cos(Math::DegToRadiants(angles.x + 90.0f));
+		float sin = std::sin(Math::DegToRadiants(angles.x + 90.0f));
+		float cosPitch = std::cos(Math::DegToRadiants(angles.y));
+		float sinPitch = std::sin(Math::DegToRadiants(angles.y));
 
 		float x = renderPos.x - (cos * distance * cosPitch);
 		float y = renderPos.y + (distance * sinPitch);
@@ -121,7 +121,7 @@ void Nametag::Update()
 		std::string distS(distC);
 
 		std::string health = floatToString(entity.health, 1) + "/" + floatToString(entity.maxHealth, 1) + "hp";
-		std::string invisble = entity.obj.IsInvisibleToPlayer(player->GetInstance()) ? "Invisible" : "";
+		std::string invisble = entity.obj.IsInvisibleToPlayer(SDK::minecraft->thePlayer->GetInstance()) ? "Invisible" : "";
 
 		newData.push_back(Data{
 			boxVerticies, // Box data
@@ -134,14 +134,14 @@ void Nametag::Update()
 			fadeFactor, // Fade factor
 			});
 	}
-	nametagData = newData;
+	m_nametagData = newData;
 }
 
 void Nametag::RenderOverlay()
 {
 	if (!settings::NT_Enabled || !CommonData::dataUpdated) return;
 
-	for (Data data : nametagData)
+	for (Data data : m_nametagData)
 	{
 		if (data.dist < settings::NT_TextUnrenderDistance) continue;
 
@@ -171,7 +171,7 @@ void Nametag::RenderOverlay()
 		if (skip)
 			continue;
 
-		if (ConfigManager::IsFriend(data.name) && settings::NT_IgnoreFriends)
+		if (configmanager::IsFriend(data.name) && settings::NT_IgnoreFriends)
 			continue;
 
 		if (settings::NT_MultiLine)
@@ -191,7 +191,7 @@ void Nametag::RenderOverlay()
 					finalText += text + "\n";
 				}
 
-				ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::NT_TextSize, FLT_MAX, 0.0f, finalText.c_str());
+				ImVec2 textSize = Menu::font->CalcTextSizeA(settings::NT_TextSize, FLT_MAX, 0.0f, finalText.c_str());
 				float posX = left + ((right - left) / 2) - (textSize.x / 2);
 				float posY = top - textSize.y - 1;
 
@@ -208,7 +208,7 @@ void Nametag::RenderOverlay()
 
 			for (const std::string& text : texts)
 			{
-				ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::NT_TextSize, FLT_MAX, 0.0f, text.c_str());
+				ImVec2 textSize = Menu::font->CalcTextSizeA(settings::NT_TextSize, FLT_MAX, 0.0f, text.c_str());
 				textSizes.push_back(textSize);
 				totalHeight += textSize.y;
 			}
@@ -224,11 +224,11 @@ void Nametag::RenderOverlay()
 
 				if (settings::NT_TextOutline)
 				{
-					RenderQOLF::DrawOutlinedText(Menu::Font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), ImColor(settings::NT_TextOutlineColor[0], settings::NT_TextOutlineColor[1], settings::NT_TextOutlineColor[2], settings::NT_TextOutlineColor[3] * data.opacityFadeFactor), texts[i].c_str());
+					RenderQOLF::DrawOutlinedText(Menu::font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), ImColor(settings::NT_TextOutlineColor[0], settings::NT_TextOutlineColor[1], settings::NT_TextOutlineColor[2], settings::NT_TextOutlineColor[3] * data.opacityFadeFactor), texts[i].c_str());
 				}
 				else
 				{
-					ImGui::GetWindowDrawList()->AddText(Menu::Font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), texts[i].c_str());
+					ImGui::GetWindowDrawList()->AddText(Menu::font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), texts[i].c_str());
 				}
 			}
 		}
@@ -239,7 +239,7 @@ void Nametag::RenderOverlay()
 			if (settings::NT_DisplayDistance && !data.distText.empty()) finalText += " | " + data.distText;
 			if (settings::NT_DisplayInvisible && !data.invisbleText.empty()) finalText += " | " + data.invisbleText;
 
-			ImVec2 textSize = Menu::Font->CalcTextSizeA(settings::NT_TextSize, FLT_MAX, 0.0f, finalText.c_str());
+			ImVec2 textSize = Menu::font->CalcTextSizeA(settings::NT_TextSize, FLT_MAX, 0.0f, finalText.c_str());
 			if (settings::NT_Background)
 			{
 				float posX = left + ((right - left) / 2) - (textSize.x / 2);
@@ -257,11 +257,11 @@ void Nametag::RenderOverlay()
 			float posY = top - textSize.y - 1;
 			if (settings::NT_TextOutline)
 			{
-				RenderQOLF::DrawOutlinedText(Menu::Font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), ImColor(settings::NT_TextOutlineColor[0], settings::NT_TextOutlineColor[1], settings::NT_TextOutlineColor[2], settings::NT_TextOutlineColor[3] * data.opacityFadeFactor), finalText.c_str());
+				RenderQOLF::DrawOutlinedText(Menu::font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), ImColor(settings::NT_TextOutlineColor[0], settings::NT_TextOutlineColor[1], settings::NT_TextOutlineColor[2], settings::NT_TextOutlineColor[3] * data.opacityFadeFactor), finalText.c_str());
 			}
 			else
 			{
-				ImGui::GetWindowDrawList()->AddText(Menu::Font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), finalText.c_str());
+				ImGui::GetWindowDrawList()->AddText(Menu::font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), finalText.c_str());
 			}
 		}
 	}

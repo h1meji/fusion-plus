@@ -27,7 +27,8 @@ Item Categories:
 User can make custom categories and set the priority of each item in the category
 */
 
-struct InventorySystem {
+struct InventorySystem
+{
     enum Material
     {
         MATERIAL_UNKNOWN,
@@ -63,7 +64,8 @@ struct InventorySystem {
         Custom
     };
 
-    struct Item {
+    struct Item
+    {
         int id;
         int metadata;
         int priority;
@@ -116,7 +118,7 @@ struct InventorySystem {
 
     static inline void AddCategoryToSlot(int slotIndex, int categoryIndex)
     {
-		if (!IsInitialized) Init();
+		if (!isInitialized) Init();
 
 		if (categoryIndex >= categoryList.size())
 			return;
@@ -127,7 +129,7 @@ struct InventorySystem {
 
     static inline void AddItemToSlot(int slotIndex, int id, int meta)
     {
-        if (!IsInitialized) Init();
+        if (!isInitialized) Init();
 
 		inventorySlots[slotIndex].item = Item(id, meta, 0);
 		inventorySlots[slotIndex].category = categoryList[0];
@@ -135,7 +137,7 @@ struct InventorySystem {
 
     static inline void AddItemToCategory(int categoryIndex, const Item& item)
     {
-        if (!IsInitialized) Init();
+        if (!isInitialized) Init();
         categoryIndex += defaultCategories;
 
 		if (categoryIndex >= categoryList.size())
@@ -146,7 +148,7 @@ struct InventorySystem {
 
     static inline void RemoveItemFromCategory(int categoryIndex, int itemIndex)
     {
-        if (!IsInitialized) Init();
+        if (!isInitialized) Init();
 
 		if (categoryIndex >= categoryList.size() || itemIndex >= categoryList[categoryIndex].items.size())
 			return;
@@ -156,7 +158,7 @@ struct InventorySystem {
 
     static inline void EditItemInCategory(int categoryIndex, int itemIndex, const Item& item)
     {
-        if (!IsInitialized) Init();
+        if (!isInitialized) Init();
 
         if (categoryIndex >= categoryList.size() || itemIndex >= categoryList[categoryIndex].items.size())
             return;
@@ -166,7 +168,7 @@ struct InventorySystem {
 
     static inline void CreateCustomCategory(std::vector<Item> items, const char* name)
     {
-        if (!IsInitialized) Init();
+        if (!isInitialized) Init();
 
         std::string categoryNameCopy(name);
 
@@ -175,7 +177,7 @@ struct InventorySystem {
 
 	static inline void EditCustomCategory(int categoryIndex, std::vector<Item> items, const char* name)
 	{
-		if (!IsInitialized) Init();
+		if (!isInitialized) Init();
 
 		if (categoryIndex >= categoryList.size())
 			return;
@@ -187,7 +189,7 @@ struct InventorySystem {
 
     static inline void RemoveCategory(int categoryIndex)
     {
-        if (!IsInitialized) Init();
+        if (!isInitialized) Init();
 
         if (categoryIndex >= categoryList.size())
             return;
@@ -195,7 +197,8 @@ struct InventorySystem {
         categoryList.erase(categoryList.begin() + categoryIndex);
     }
 
-    static inline float CalculateDamageReduction(Material material, ArmorType armorType, int protectionLevel) {
+    static inline float CalculateDamageReduction(Material material, ArmorType armorType, int protectionLevel)
+    {
 		if (material == Material::WOOD || material == Material::STONE || material == Material::MATERIAL_UNKNOWN || armorType == ArmorType::ARMOR_UNKNOWN)
 			return -1.0f;
         
@@ -255,7 +258,8 @@ struct InventorySystem {
 	}
 
 // === Helpers === //
-    static inline Material GetMaterialFromName(const std::string& unlocalizedName) {
+    static inline Material GetMaterialFromName(const std::string& unlocalizedName)
+    {
         if (unlocalizedName.find("Cloth") != std::string::npos)
             return Material::LEATHER;
         else if (unlocalizedName.find("Chain") != std::string::npos)
@@ -274,7 +278,8 @@ struct InventorySystem {
         return Material::MATERIAL_UNKNOWN;
     }
 
-	static inline std::string ArmorTypeToString(ArmorType type) {
+	static inline std::string ArmorTypeToString(ArmorType type)
+    {
 		switch (type)
 		{
 		case HELMET:
@@ -314,7 +319,7 @@ struct InventorySystem {
 	};
 
 // === INIT === //
-	static inline bool IsInitialized = false;
+	static inline bool isInitialized = false;
     static inline void Init()
     {
         categoryList.push_back(Category("None", ItemCategory::None, {})); defaultCategories++;
@@ -351,6 +356,6 @@ struct InventorySystem {
 			inventorySlots.push_back({ categoryList[0], i });
 		}
 
-		IsInitialized = true;
+		isInitialized = true;
     }
 };

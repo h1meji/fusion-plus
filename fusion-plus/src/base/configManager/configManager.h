@@ -5,15 +5,16 @@
 #include <fstream>
 #include <iostream>
 
-#include <windows.h>
+#include <Windows.h>
 #include <shlobj.h>
 
-#include "nlohmann/json.hpp"
+#include <nlohmann/json.hpp>
+
 #include "settings.h"
 
 using json = nlohmann::json;
 
-namespace ConfigManager
+namespace configmanager
 {
 	const std::string FILE_SUFFIX = ".fusion";
 
@@ -33,16 +34,22 @@ namespace ConfigManager
     template<typename T>
     bool GetJsonValue(const json& j, T& value, const std::string& key)
     {
-        if constexpr (is_json_deserializable<T>::value) {  // Check if T is deserializable from json
-            if (j.contains(key) && !j.at(key).is_null()) {
+        if constexpr (is_json_deserializable<T>::value) // Check if T is deserializable from json
+		{
+            if (j.contains(key) && !j.at(key).is_null())
+			{
                 value = j.at(key).get<T>();
                 return true;
             }
         }
-		else if (std::is_same<T, float[4]>::value) {
-			if (j.contains(key) && j.at(key).is_array() && j.at(key).size() == 4) {
-				for (size_t i = 0; i < 4; ++i) {
-					if (!j.at(key)[i].is_number()) {
+		else if (std::is_same<T, float[4]>::value)
+		{
+			if (j.contains(key) && j.at(key).is_array() && j.at(key).size() == 4)
+			{
+				for (size_t i = 0; i < 4; ++i)
+				{
+					if (!j.at(key)[i].is_number())
+					{
 						return false;
 					}
 					value[i] = j.at(key)[i].get<float>();
@@ -52,9 +59,12 @@ namespace ConfigManager
 		}
 		else if (std::is_same<T, float[3]>::value)
 		{
-			if (j.contains(key) && j.at(key).is_array() && j.at(key).size() == 3) {
-				for (size_t i = 0; i < 3; ++i) {
-					if (!j.at(key)[i].is_number()) {
+			if (j.contains(key) && j.at(key).is_array() && j.at(key).size() == 3)
+			{
+				for (size_t i = 0; i < 3; ++i)
+				{
+					if (!j.at(key)[i].is_number())
+					{
 						return false;
 					}
 					value[i] = j.at(key)[i].get<float>();
@@ -65,8 +75,10 @@ namespace ConfigManager
 		else if (std::is_same<T, float[2]>::value)
 		{
 			if (j.contains(key) && j.at(key).is_array() && j.at(key).size() == 2) {
-				for (size_t i = 0; i < 2; ++i) {
-					if (!j.at(key)[i].is_number()) {
+				for (size_t i = 0; i < 2; ++i)
+				{
+					if (!j.at(key)[i].is_number())
+					{
 						return false;
 					}
 					value[i] = j.at(key)[i].get<float>();

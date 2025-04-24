@@ -1,45 +1,45 @@
 #include "sprint.h"
+
 #include "moduleManager/commonData.h"
 #include "menu/menu.h"
+#include "util/keys.h"
 
-inline static void send_key(WORD vk_key, bool send_down = true) {
-    unsigned long dwFlags = send_down ? 0 : KEYEVENTF_KEYUP;
+inline static void sendKey(WORD vkKey, bool sendDown = true)
+{
     static INPUT ip{ INPUT_KEYBOARD };
-    ip.ki = {
-        vk_key,
-        0,
-        dwFlags,
-        0,
-        0
-    };
+
+    ip.ki.wScan = 0;
+    ip.ki.time = 0;
+    ip.ki.dwExtraInfo = 0;
+    ip.ki.wVk = vkKey;
+    ip.ki.dwFlags = sendDown ? 0 : KEYEVENTF_KEYUP;
+
     SendInput(1, &ip, sizeof(INPUT));
 }
 
-bool isHoldingCtrl = false;
-
 void Sprint::Update()
 {
-    if (!settings::S_Enabled || !CommonData::SanityCheck() || SDK::Minecraft->IsInGuiState() || Menu::Open)
+    if (!settings::S_Enabled || !CommonData::SanityCheck() || SDK::minecraft->IsInGuiState() || Menu::open)
     {
-        if (isHoldingCtrl)
+        if (m_isHoldingCtrl)
         {
-            send_key(VK_CONTROL, false);
-            isHoldingCtrl = false;
+            sendKey(VK_CONTROL, false);
+            m_isHoldingCtrl = false;
         }
         return;
     }
 
-    bool isPressingW = GetAsyncKeyState(0x57) & 0x8000;
+    bool isPressingW = Keys::IsKeyPressed(0x57);
 
-    if (isPressingW && !isHoldingCtrl)
+    if (isPressingW && !m_isHoldingCtrl)
     {
-        send_key(VK_CONTROL, true);
-        isHoldingCtrl = true;
+        sendKey(VK_CONTROL, true);
+        m_isHoldingCtrl = true;
     }
-    else if (!isPressingW && isHoldingCtrl)
+    else if (!isPressingW && m_isHoldingCtrl)
     {
-        send_key(VK_CONTROL, false);
-        isHoldingCtrl = false;
+        sendKey(VK_CONTROL, false);
+        m_isHoldingCtrl = false;
     }
 }
 

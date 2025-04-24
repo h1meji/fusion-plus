@@ -1,34 +1,27 @@
 #include "leftAutoClicker.h"
+
+#include <chrono>
+#include <random>
+
 #include "sdk/sdk.h"
 #include "menu/menu.h"
 #include "util/logger/logger.h"
 #include "util/minecraft/minecraft.h"
 
-#include <chrono>
-#include <random>
-
-long lastClickTime = 0;
-int nextCps = 10;
-bool shouldDrop = false;
-bool shouldSpike = false;
-
-float normalCps = 0.0f;
-float lastKurtosisValue = 0.0f;
-
 void LeftAutoClicker::Update()
 {
 	static bool fix = false;
 	if (!settings::LAC_Enabled) return;
-	if (Menu::Open) return;
-	if (SDK::Minecraft->IsInGuiState() && !(settings::LAC_allowInventory && SDK::Minecraft->IsInInventory())) return;
-	if (settings::LAC_weaponOnly && !MinecraftUtils::IsWeapon(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem())) return;
-	if (settings::LAC_ignoreBlocks && SDK::Minecraft->GetMouseOver().IsTypeOfBlock())
+	if (Menu::open) return;
+	if (SDK::minecraft->IsInGuiState() && !(settings::LAC_allowInventory && SDK::minecraft->IsInInventory())) return;
+	if (settings::LAC_weaponOnly && !MinecraftUtils::IsWeapon(SDK::minecraft->thePlayer->GetInventory().GetCurrentItem())) return;
+	if (settings::LAC_ignoreBlocks && SDK::minecraft->GetMouseOver().IsTypeOfBlock())
 	{
 		if ((GetAsyncKeyState(VK_LBUTTON) & 0x8000) && !fix)
 		{
 			POINT pos_cursor;
 			GetCursorPos(&pos_cursor);
-			SendMessage(Menu::HandleWindow, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(pos_cursor.x, pos_cursor.y));
+			SendMessage(Menu::handleWindow, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(pos_cursor.x, pos_cursor.y));
 			fix = true;
 		}
 		return;
@@ -36,53 +29,53 @@ void LeftAutoClicker::Update()
 	fix = false;
 
 	long milli = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-	if (lastClickTime == 0) lastClickTime = milli;
-	if ((milli - lastClickTime) < (1000 / nextCps)) return;
+	if (m_lastClickTime == 0) m_lastClickTime = milli;
+	if ((milli - m_lastClickTime) < (1000 / m_nextCps)) return;
 
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	if (settings::LAC_advancedMode && settings::LAC_dropChance > 0)
 	{
 		std::uniform_real_distribution<> dropDist(0.0, 100.0);
-		shouldDrop = dropDist(gen) < settings::LAC_dropChance;
+		m_shouldDrop = dropDist(gen) < settings::LAC_dropChance;
 	}
 	else
 	{
-		shouldDrop = false;
+		m_shouldDrop = false;
 	}
 
 	if (settings::LAC_advancedMode && settings::LAC_spikeChance > 0)
 	{
 		std::uniform_real_distribution<> spikeDist(0.0, 100.0);
-		shouldSpike = spikeDist(gen) < settings::LAC_spikeChance;
+		m_shouldSpike = spikeDist(gen) < settings::LAC_spikeChance;
 	}
 	else
 	{
-		shouldSpike = false;
+		m_shouldSpike = false;
 	}
 
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000) {
-		if (shouldDrop)
+		if (m_shouldDrop)
 		{
-			lastClickTime = milli;
+			m_lastClickTime = milli;
 			return;
 		}
 
 		POINT pos_cursor;
 		GetCursorPos(&pos_cursor);
-		SendMessage(Menu::HandleWindow, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(pos_cursor.x, pos_cursor.y));
-		SendMessage(Menu::HandleWindow, WM_LBUTTONUP, 0, MAKELPARAM(pos_cursor.x, pos_cursor.y));
+		SendMessage(Menu::handleWindow, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(pos_cursor.x, pos_cursor.y));
+		SendMessage(Menu::handleWindow, WM_LBUTTONUP, 0, MAKELPARAM(pos_cursor.x, pos_cursor.y));
 
-		lastClickTime = milli;
+		m_lastClickTime = milli;
 
-		float multiplier = SDK::Minecraft->IsInInventory() ? settings::LAC_inventoryMultiplier : 1.0f;
+		float multiplier = SDK::minecraft->IsInInventory() ? settings::LAC_inventoryMultiplier : 1.0f;
 
 		if (settings::LAC_advancedMode)
 		{
 			float minCps = settings::LAC_leftMinCps * multiplier;
 			float maxCps = settings::LAC_leftMaxCps * multiplier;
 
-			if (shouldSpike)
+			if (m_shouldSpike)
 			{
 				maxCps = (std::min)(maxCps * settings::LAC_spikeMultiplier, 25.0f);
 			}
@@ -91,23 +84,23 @@ void LeftAutoClicker::Update()
 			{
 				float meanCps = (minCps + maxCps) / 2.0f;
 
-				if (normalCps == 0.0f || std::abs(settings::LAC_kurtosis - lastKurtosisValue) > 0.1f)
+				if (m_normalCps == 0.0f || std::abs(settings::LAC_kurtosis - m_lastKurtosisValue) > 0.1f)
 				{
 					std::normal_distribution<float> normalDist(meanCps, (maxCps - minCps) / (4.0f + settings::LAC_kurtosis * 2.0f));
-					normalCps = normalDist(gen);
-					lastKurtosisValue = settings::LAC_kurtosis;
+					m_normalCps = normalDist(gen);
+					m_lastKurtosisValue = settings::LAC_kurtosis;
 				}
 
 				std::normal_distribution<float> walkDist(0.0f, 0.5f);
-				normalCps += walkDist(gen);
+				m_normalCps += walkDist(gen);
 
-				normalCps = std::max<float>(minCps, std::min<float>(maxCps, normalCps));
-				nextCps = static_cast<int>(normalCps);
+				m_normalCps = std::max<float>(minCps, std::min<float>(maxCps, m_normalCps));
+				m_nextCps = static_cast<int>(m_normalCps);
 			}
 			else
 			{
 				std::uniform_int_distribution<> distrib(minCps, maxCps);
-				nextCps = distrib(gen);
+				m_nextCps = distrib(gen);
 			}
 
 			if (settings::LAC_burstEnabled)
@@ -116,26 +109,26 @@ void LeftAutoClicker::Update()
 				if (burstChanceDist(gen) < settings::LAC_burstChance)
 				{
 					float meanCps = (settings::LAC_leftMinCps + settings::LAC_leftMaxCps) / 2.0f;
-					nextCps = static_cast<int>(meanCps * multiplier);
+					m_nextCps = static_cast<int>(meanCps * multiplier);
 				}
 			}
 		}
 		else
 		{
 			std::uniform_int_distribution<> distrib(settings::LAC_leftMinCps * multiplier, settings::LAC_leftMaxCps * multiplier);
-			nextCps = distrib(gen);
+			m_nextCps = distrib(gen);
 		}
 
-		if (settings::LAC_swordBlock && MinecraftUtils::IsWeapon(SDK::Minecraft->thePlayer->GetInventory().GetCurrentItem()))
+		if (settings::LAC_swordBlock && MinecraftUtils::IsWeapon(SDK::minecraft->thePlayer->GetInventory().GetCurrentItem()))
 		{
 			static bool blocked = false;
-			CEntity entity = SDK::Minecraft->GetMouseOver().GetEntityHit();
+			CEntity entity = SDK::minecraft->GetMouseOver().GetEntityHit();
 			if (entity.GetInstance() != nullptr)
 			{
 				if (entity.GetHurtResistantTime() > 11 && !blocked)
 				{
-					SendMessage(Menu::HandleWindow, WM_RBUTTONDOWN, MK_LBUTTON, MAKELPARAM(pos_cursor.x, pos_cursor.y));
-					SendMessage(Menu::HandleWindow, WM_RBUTTONUP, 0, MAKELPARAM(pos_cursor.x, pos_cursor.y));
+					SendMessage(Menu::handleWindow, WM_RBUTTONDOWN, MK_LBUTTON, MAKELPARAM(pos_cursor.x, pos_cursor.y));
+					SendMessage(Menu::handleWindow, WM_RBUTTONUP, 0, MAKELPARAM(pos_cursor.x, pos_cursor.y));
 					blocked = true;
 				}
 				else if (entity.GetHurtResistantTime() <= 11)

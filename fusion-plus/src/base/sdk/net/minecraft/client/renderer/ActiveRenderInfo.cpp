@@ -1,40 +1,38 @@
 #include "ActiveRenderInfo.h"
 
-#include "../../../../../java/java.h"
-#include "../../../../sdk.h"
-#include "../../../../java/nio/FloatBuffer.h"
-#include "../../../../../util/logger/logger.h"
+#include "java/java.h"
+#include "sdk/sdk.h"
+#include "sdk/java/nio/FloatBuffer.h"
+#include "util/logger/logger.h"
 
 CActiveRenderInfo::CActiveRenderInfo()
 {
-	this->Class = StrayCache::activeRenderInfo_class;
-	this->FieldIDs["PROJECTION"] = StrayCache::activeRenderInfo_PROJECTION;
-	this->FieldIDs["MODELVIEW"] = StrayCache::activeRenderInfo_MODELVIEW;
+	this->clazz = StrayCache::activeRenderInfo_class;
 }
 
 jclass CActiveRenderInfo::GetClass()
 {
-	return this->Class;
+	return this->clazz;
 }
 
 jobject CActiveRenderInfo::GetInstance()
 {
-	return NULL;
+	return nullptr;
 }
 
 Matrix CActiveRenderInfo::ProjectionMatrix()
 {
-	jobject projection = Java::Env->GetStaticObjectField(this->GetClass(), this->FieldIDs["PROJECTION"]);
+	jobject projection = Java::env->GetStaticObjectField(this->GetClass(), StrayCache::activeRenderInfo_PROJECTION);
 	Matrix m = FloatBuffer::FloatBuffer(projection).GetMatrix();
-	Java::Env->DeleteLocalRef(projection);
+	Java::env->DeleteLocalRef(projection);
 	return m;
 }
 
 Matrix CActiveRenderInfo::ModelViewMatrix()
 {
-	jobject modelView = Java::Env->GetStaticObjectField(this->GetClass(), this->FieldIDs["MODELVIEW"]);
+	jobject modelView = Java::env->GetStaticObjectField(this->GetClass(), StrayCache::activeRenderInfo_MODELVIEW);
 	Matrix m = FloatBuffer::FloatBuffer(modelView).GetMatrix();
-	Java::Env->DeleteLocalRef(modelView);
+	Java::env->DeleteLocalRef(modelView);
 	return m;
 }
 

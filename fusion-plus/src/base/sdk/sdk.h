@@ -4,8 +4,9 @@
 
 struct SDK
 {
-	static inline CMinecraft* Minecraft;
+	static inline CMinecraft* minecraft;
 
 	static void Init();
+	static void Shutdown();
 };
 

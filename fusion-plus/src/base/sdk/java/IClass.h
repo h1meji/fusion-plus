@@ -1,19 +1,17 @@
 #pragma once
 
-#include "jni/jni.h"
-
 #include <string>
 #include <map>
 
+#include "jni/jni.h"
+
 struct IClass
 {
-	std::map<std::string, jmethodID> MethodIDs;
-	std::map<std::string, jfieldID> FieldIDs;
-
-	jobject Instance = 0;
-	jclass Class = 0;
-
 	virtual jobject GetInstance() = 0;
 	virtual jclass GetClass() = 0;
+
+protected:
+	jobject instance = 0;
+	jclass clazz = 0;
 };
 

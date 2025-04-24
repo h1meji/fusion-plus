@@ -10,6 +10,8 @@ struct Set : IClass
 	jobject GetInstance();
 
 	jobjectArray toArray();
-	int size();
+
+private:
+	jmethodID toArrayId;
 };
 

@@ -23,8 +23,8 @@ namespace NotificationManager
 
 	static std::vector<Notification> notifications;
 
-	static const int max_notifications = 3;
-	static const float font_size = 28;
+	static const int maxNotifications = 3;
+	static const float fontSize = 28;
 
 	static const double ALIVE_TIME_S = 5;
 	static const double SLIDE_OUT_TIME_S = 0.5;
