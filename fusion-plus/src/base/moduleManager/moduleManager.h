@@ -5,23 +5,20 @@
 
 #include "moduleBase.h"
 
-class ModuleManager
+struct ModuleManager
 {
-public:
-	void Init();
+	static void Init();
 
-	void UpdateModules();
-	void RenderOverlay();
-	void RenderHud();
+	static void UpdateModules();
+	static void RenderOverlay();
+	static void RenderHud();
 
-	void RenderMenu(int index);
+	static void RenderMenu(int index);
 
-	std::vector<std::string> GetCategories();
-	std::vector<std::unique_ptr<ModuleBase>>& GetModules() { return m_modules; }
-	int GetFirstModuleIndexByCategory(const std::string& category);
+	static std::vector<std::string> GetCategories();
+	static std::vector<std::unique_ptr<ModuleBase>>& GetModules() { return m_modules; }
+	static int GetFirstModuleIndexByCategory(const std::string& category);
 
 private:
-	std::vector<std::unique_ptr<ModuleBase>> m_modules;
+	static inline std::vector<std::unique_ptr<ModuleBase>> m_modules;
 };
-
-inline std::unique_ptr<ModuleManager> g_moduleManager;

@@ -4,7 +4,7 @@
 #include <string>
 #include <chrono>
 
-namespace NotificationManager
+struct NotificationManager
 {
 	struct Notification
 	{
@@ -16,19 +16,19 @@ namespace NotificationManager
 			: title(t), message(m), startTime(s) {}
 	};
 
-	bool Render();
-	bool RenderNotification(Notification notification, int x, int y, int width, int height);
+	static bool Render();
+	static bool RenderNotification(Notification notification, int x, int y, int width, int height);
 
-	bool Send(const char* title, const char* format, ...);
+	static bool Send(const char* title, const char* format, ...);
 
-	static std::vector<Notification> notifications;
+	static inline std::vector<Notification> notifications;
 
-	static const int maxNotifications = 3;
-	static const float fontSize = 28;
+	static inline const int maxNotifications = 3;
+	static inline const float fontSize = 28;
 
-	static const double ALIVE_TIME_S = 5;
-	static const double SLIDE_OUT_TIME_S = 0.5;
-	static const double SLIDE_IN_TIME_S = 0.5;
+	static inline const double ALIVE_TIME_S = 5;
+	static inline const double SLIDE_OUT_TIME_S = 0.5;
+	static inline const double SLIDE_IN_TIME_S = 0.5;
 };
 
 #define NotificationInfo(message, ...) NotificationManager::Send("Fusion+ :: Info", message, ##__VA_ARGS__)

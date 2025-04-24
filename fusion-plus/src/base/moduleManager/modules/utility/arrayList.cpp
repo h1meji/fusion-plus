@@ -11,7 +11,7 @@ void ArrayList::RenderHud() {
     std::vector<std::string> enabledModules;
     
     // Collect enabled modules
-	for (std::unique_ptr<ModuleBase>& module : g_moduleManager->GetModules())
+	for (std::unique_ptr<ModuleBase>& module : ModuleManager::GetModules())
     {
         if (module->IsEnabled())
         {

@@ -20,9 +20,9 @@ std::unique_ptr<std::once_flag> setConfigName = std::make_unique<std::once_flag>
 void Menu::RenderMenu()
 {
 	static int selectedCategory = 0;
-	static std::vector<std::string> categories = g_moduleManager->GetCategories();
+	static std::vector<std::string> categories = ModuleManager::GetCategories();
 	static int selectedModule = 0;
-	static std::vector<std::unique_ptr<ModuleBase>>& modules = g_moduleManager->GetModules();
+	static std::vector<std::unique_ptr<ModuleBase>>& modules = ModuleManager::GetModules();
 
 	// Hud Boolean
 	if (!Menu::openHudEditor && selectedCategory == -2 && selectedModule == 3)
@@ -221,7 +221,7 @@ void Menu::RenderMenu()
 				if (Menu::TransparentButton(categories[i].c_str(), ImVec2(0.f, 0.f), CATEGORY_FONT_SIZE))
 				{
 					selectedCategory = i;
-					selectedModule = g_moduleManager->GetFirstModuleIndexByCategory(categories[i]);
+					selectedModule = ModuleManager::GetFirstModuleIndexByCategory(categories[i]);
 				}
 				ImGui::SameLine();
 
@@ -245,7 +245,7 @@ void Menu::RenderMenu()
 					selectedCategory = 0;
 
 				if (selectedModule >= modules.size() || selectedModule < 0)
-					selectedModule = g_moduleManager->GetFirstModuleIndexByCategory(categories[selectedCategory]);
+					selectedModule = ModuleManager::GetFirstModuleIndexByCategory(categories[selectedCategory]);
 
 				modules[selectedModule]->RenderMenu();
 			}

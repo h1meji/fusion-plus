@@ -115,26 +115,20 @@ void Base::Init()
 	}
 	
 	Menu::Init();
-
-	g_moduleManager = std::make_unique<ModuleManager>();
-	g_moduleManager->Init();
-
+	ModuleManager::Init();
 	MinecraftItems::Init();
 
 	Base::m_running = true;
 
 	while (Base::m_running)
 	{
-		//LOG_DEBUG("CHEAT LOOP!");
 		if (Keys::IsKeyPressed(VK_END))
 		{
 			Base::m_running = false;
 		}
-		//LOG_DEBUG("Key Check Passed!");
-		g_moduleManager->UpdateModules();
-		//LOG_DEBUG("Modules Updated.");
+
+		ModuleManager::UpdateModules();
 		std::this_thread::sleep_for(std::chrono::milliseconds(5));
-		//LOG_DEBUG("Slept!");
 	}
 
 	Main::Shutdown();
@@ -156,7 +150,7 @@ void Base::renderLoop() // Runs every frame
 {
 	if (!Base::m_running || settings::Hud_DisableAllRendering) return;
 
-	g_moduleManager->RenderOverlay();
+	ModuleManager::RenderOverlay();
 
 	if (Menu::openHudEditor)
 	{
@@ -320,7 +314,7 @@ void Base::renderLoop() // Runs every frame
 		ImGui::PopStyleVar();
 	}
 
-	g_moduleManager->RenderHud();
+	ModuleManager::RenderHud();
 
 	NotificationManager::Render();
 }
