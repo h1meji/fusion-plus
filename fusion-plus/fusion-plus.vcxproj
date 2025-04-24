@@ -185,7 +185,6 @@
     <ClInclude Include="src\base\moduleManager\modules\utility\arrayList.h" />
     <ClInclude Include="src\base\moduleManager\modules\visual\blockEsp.h" />
     <ClInclude Include="src\base\moduleManager\modules\visual\radar.h" />
-    <ClInclude Include="src\base\sdk\java\util\Array.h" />
     <ClInclude Include="src\base\sdk\java\util\Map.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\block\Block.h" />
     <ClInclude Include="src\base\sdk\net\minecraft\block\state\IBlockState.h" />
@@ -288,7 +287,6 @@
     <ClCompile Include="src\base\moduleManager\modules\utility\arrayList.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\visual\blockEsp.cpp" />
     <ClCompile Include="src\base\moduleManager\modules\visual\radar.cpp" />
-    <ClCompile Include="src\base\sdk\java\util\Array.cpp" />
     <ClCompile Include="src\base\sdk\java\util\Map.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\block\Block.cpp" />
     <ClCompile Include="src\base\sdk\net\minecraft\block\state\IBlockState.cpp" />

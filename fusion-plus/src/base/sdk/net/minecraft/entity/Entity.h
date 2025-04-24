@@ -18,6 +18,8 @@ struct CEntity : IClass
 	Vector3 GetEyePos();
 	Vector3 GetLastTickPos();
 
+	float GetEyeHeight();
+
 	Vector3 GetMotion();
 
 	bool IsSneaking();

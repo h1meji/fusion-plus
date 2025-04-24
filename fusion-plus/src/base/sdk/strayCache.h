@@ -80,6 +80,7 @@ struct StrayCache
 	inline static jmethodID entity_isSprinting;
 	inline static jmethodID entity_setSprinting;
 	inline static jmethodID entity_isInvisibleToPlayer;
+	inline static jmethodID entity_getEyeHeight;
 	inline static jfieldID entity_posX;
 	inline static jfieldID entity_posY;
 	inline static jfieldID entity_posZ;
@@ -361,6 +362,8 @@ struct StrayCache
 				if (!entity_setSprinting) LOG_INFO("entity_setSprinting: %p", entity_setSprinting);
 				entity_isInvisibleToPlayer = Java::env->GetMethodID(entity_class, "isInvisibleToPlayer", "(Lnet/minecraft/entity/player/EntityPlayer;)Z");
 				if (!entity_isInvisibleToPlayer) LOG_INFO("entity_isInvisibleToPlayer: %p", entity_isInvisibleToPlayer);
+				entity_getEyeHeight = Java::env->GetMethodID(entity_class, "getEyeHeight", "()F");
+				if (!entity_getEyeHeight) LOG_INFO("entity_getEyeHeight: %p", entity_getEyeHeight);
 				entity_posX = Java::env->GetFieldID(entity_class, "posX", "D");
 				if (!entity_posX) LOG_INFO("entity_posX: %p", entity_posX);
 				entity_posY = Java::env->GetFieldID(entity_class, "posY", "D");
@@ -762,6 +765,8 @@ struct StrayCache
 				if (!entity_setSprinting) LOG_INFO("entity_setSprinting: %p", entity_setSprinting);
 				entity_isInvisibleToPlayer = Java::env->GetMethodID(entity_class, "isInvisibleToPlayer", "(Lnet/minecraft/entity/player/EntityPlayer;)Z");
 				if (!entity_isInvisibleToPlayer) LOG_INFO("entity_isInvisibleToPlayer: %p", entity_isInvisibleToPlayer);
+				entity_getEyeHeight = Java::env->GetMethodID(entity_class, "getEyeHeight", "()F");
+				if (!entity_getEyeHeight) LOG_INFO("entity_getEyeHeight: %p", entity_getEyeHeight);
 				entity_posX = Java::env->GetFieldID(entity_class, "posX", "D");
 				if (!entity_posX) LOG_INFO("entity_posX: %p", entity_posX);
 				entity_posY = Java::env->GetFieldID(entity_class, "posY", "D");
@@ -1163,6 +1168,8 @@ struct StrayCache
 				if (!entity_setSprinting) LOG_INFO("entity_setSprinting: %p", entity_setSprinting);
 				entity_isInvisibleToPlayer = Java::env->GetMethodID(entity_class, "f", "(Lwn;)Z");
 				if (!entity_isInvisibleToPlayer) LOG_INFO("entity_isInvisibleToPlayer: %p", entity_isInvisibleToPlayer);
+				entity_getEyeHeight = Java::env->GetMethodID(entity_class, "aS", "()F");
+				if (!entity_getEyeHeight) LOG_INFO("entity_getEyeHeight: %p", entity_getEyeHeight);
 				entity_posX = Java::env->GetFieldID(entity_class, "s", "D");
 				if (!entity_posX) LOG_INFO("entity_posX: %p", entity_posX);
 				entity_posY = Java::env->GetFieldID(entity_class, "t", "D");
@@ -1564,6 +1571,8 @@ struct StrayCache
 				if (!entity_setSprinting) LOG_INFO("entity_setSprinting: %p", entity_setSprinting);
 				entity_isInvisibleToPlayer = Java::env->GetMethodID(entity_class, "d", "(Lyz;)Z");
 				if (!entity_isInvisibleToPlayer) LOG_INFO("entity_isInvisibleToPlayer: %p", entity_isInvisibleToPlayer);
+				entity_getEyeHeight = Java::env->GetMethodID(entity_class, "g", "()F");
+				if (!entity_getEyeHeight) LOG_INFO("entity_getEyeHeight: %p", entity_getEyeHeight);
 				entity_posX = Java::env->GetFieldID(entity_class, "s", "D");
 				if (!entity_posX) LOG_INFO("entity_posX: %p", entity_posX);
 				entity_posY = Java::env->GetFieldID(entity_class, "t", "D");
@@ -1965,6 +1974,8 @@ struct StrayCache
 				if (!entity_setSprinting) LOG_INFO("entity_setSprinting: %p", entity_setSprinting);
 				entity_isInvisibleToPlayer = Java::env->GetMethodID(entity_class, "func_98034_c", "(Lnet/minecraft/entity/player/EntityPlayer;)Z");
 				if (!entity_isInvisibleToPlayer) LOG_INFO("entity_isInvisibleToPlayer: %p", entity_isInvisibleToPlayer);
+				entity_getEyeHeight = Java::env->GetMethodID(entity_class, "func_70047_e", "()F");
+				if (!entity_getEyeHeight) LOG_INFO("entity_getEyeHeight: %p", entity_getEyeHeight);
 				entity_posX = Java::env->GetFieldID(entity_class, "field_70165_t", "D");
 				if (!entity_posX) LOG_INFO("entity_posX: %p", entity_posX);
 				entity_posY = Java::env->GetFieldID(entity_class, "field_70163_u", "D");
@@ -2366,6 +2377,8 @@ struct StrayCache
 				if (!entity_setSprinting) LOG_INFO("entity_setSprinting: %p", entity_setSprinting);
 				entity_isInvisibleToPlayer = Java::env->GetMethodID(entity_class, "func_98034_c", "(Lnet/minecraft/entity/player/EntityPlayer;)Z");
 				if (!entity_isInvisibleToPlayer) LOG_INFO("entity_isInvisibleToPlayer: %p", entity_isInvisibleToPlayer);
+				entity_getEyeHeight = Java::env->GetMethodID(entity_class, "func_70047_e", "()F");
+				if (!entity_getEyeHeight) LOG_INFO("entity_getEyeHeight: %p", entity_getEyeHeight);
 				entity_posX = Java::env->GetFieldID(entity_class, "field_70165_t", "D");
 				if (!entity_posX) LOG_INFO("entity_posX: %p", entity_posX);
 				entity_posY = Java::env->GetFieldID(entity_class, "field_70163_u", "D");

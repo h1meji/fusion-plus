@@ -26,4 +26,4 @@ struct Logger
 #define LOG_INFO(message, ...) Logger::Log(Logger::LogLevel::INFO, message, ##__VA_ARGS__)
 #define LOG_WARNING(message, ...) Logger::Log(Logger::LogLevel::WARNING, message, ##__VA_ARGS__)
 #define LOG_ERROR(message, ...) Logger::Log(Logger::LogLevel::LOG_ERROR, message, ##__VA_ARGS__)
-#define LOG_POS(pos) Logger::LogPosition(Logger::LogLevel::INFO, pos)
+#define LOG_POS(pos) Logger::LogPosition(pos)

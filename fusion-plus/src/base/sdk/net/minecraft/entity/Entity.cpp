@@ -36,10 +36,10 @@ Vector3 CEntity::GetPos()
 {
 	if ((Java::version == MinecraftVersion::LUNAR_1_7_10 || Java::version == MinecraftVersion::VANILLA_1_7_10 || Java::version == MinecraftVersion::FORGE_1_7_10) && this->GetName() == SDK::minecraft->thePlayer->GetName())
 	{
-		// In 1.7.10, the entity position is the "eye" position, so we need to subtract the eye height to get the actual position. But only for the main player entity
+		// In 1.7.10, the entity position is the "eye" position, so we need to subtract the eye height to get the actual position. But only for the main player entity (work)
 		return Vector3{
 			(float)(double)Java::env->GetDoubleField(this->GetInstance(), StrayCache::entity_posX),
-			(float)(double)Java::env->GetDoubleField(this->GetInstance(), StrayCache::entity_posY) - (this->GetHeight() * 0.85f),
+			(float)this->GetBB().GetNativeBoundingBox().minY,
 			(float)(double)Java::env->GetDoubleField(this->GetInstance(), StrayCache::entity_posZ)
 		};
 	}
@@ -55,12 +55,24 @@ Vector3 CEntity::GetPos()
 
 Vector3 CEntity::GetEyePos()
 {
-	Vector3 pos = GetPos();
-	return Vector3{
-		pos.x,
-		(float)(double)(pos.y + (this->GetHeight() * 0.85f)),
-		pos.z
-	};
+	if ((Java::version == MinecraftVersion::LUNAR_1_7_10 || Java::version == MinecraftVersion::VANILLA_1_7_10 || Java::version == MinecraftVersion::FORGE_1_7_10) && this->GetName() == SDK::minecraft->thePlayer->GetName())
+	{
+		Vector3 pos = GetPos();
+		return Vector3{
+			pos.x,
+			(float)(double)Java::env->GetDoubleField(this->GetInstance(), StrayCache::entity_posY),
+			pos.z
+		};
+	}
+	else
+	{
+		Vector3 pos = GetPos();
+		return Vector3{
+			pos.x,
+			(float)(double)(pos.y + this->GetEyeHeight()),
+			pos.z
+		};
+	}
 }
 
 Vector3 CEntity::GetLastTickPos()
@@ -68,9 +80,15 @@ Vector3 CEntity::GetLastTickPos()
 	if ((Java::version == MinecraftVersion::LUNAR_1_7_10 || Java::version == MinecraftVersion::VANILLA_1_7_10 || Java::version == MinecraftVersion::FORGE_1_7_10) && this->GetName() == SDK::minecraft->thePlayer->GetName())
 	{
 		// In 1.7.10, the entity position is the "eye" position, so we need to subtract the eye height to get the actual position. But only for the main player entity
+
+		// Calculate the height diff using the current Y and bounding box min, then subtract that from the pos.
+		float currentY = (float)(double)Java::env->GetDoubleField(this->GetInstance(), StrayCache::entity_posY);
+		double bbMinY = this->GetBB().GetNativeBoundingBox().minY;
+		float heightDiff = abs(bbMinY - currentY);
+
 		return Vector3{
 			(float)(double)Java::env->GetDoubleField(this->GetInstance(), StrayCache::entity_lastTickPosX),
-			(float)(double)Java::env->GetDoubleField(this->GetInstance(), StrayCache::entity_lastTickPosY) - (this->GetHeight() * 0.85f),
+			(float)(double)Java::env->GetDoubleField(this->GetInstance(), StrayCache::entity_lastTickPosY) - heightDiff,
 			(float)(double)Java::env->GetDoubleField(this->GetInstance(), StrayCache::entity_lastTickPosZ)
 		};
 	}
@@ -82,6 +100,11 @@ Vector3 CEntity::GetLastTickPos()
 			(float)(double)Java::env->GetDoubleField(this->GetInstance(), StrayCache::entity_lastTickPosZ)
 		};
 	}
+}
+
+float CEntity::GetEyeHeight()
+{
+	return Java::env->CallFloatMethod(this->GetInstance(), StrayCache::entity_getEyeHeight);
 }
 
 Vector3 CEntity::GetMotion()
