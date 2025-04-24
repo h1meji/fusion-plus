@@ -3,8 +3,11 @@
 #include "util/logger/logger.h"
 #include "java/java.h"
 
-bool configmanager::LoadConfig(const char* name)
+bool configmanager::LoadConfig(int index)
 {
+	std::vector<std::string> configList = GetConfigList();
+	std::string name = configList[index];
+
 	std::ifstream file(configmanager::GetConfigPath() + name + FILE_SUFFIX);
 
 	if (!file.is_open())
@@ -46,8 +49,11 @@ int configmanager::SaveConfig(const char* name)
 	return -1;
 }
 
-bool configmanager::RemoveConfig(const char* name)
+bool configmanager::RemoveConfig(int index)
 {
+	std::vector<std::string> configList = GetConfigList();
+	std::string name = configList[index];
+
 	return std::filesystem::remove(configmanager::GetConfigPath() + name + FILE_SUFFIX);
 }
 

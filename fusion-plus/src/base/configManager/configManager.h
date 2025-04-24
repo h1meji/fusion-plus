@@ -18,9 +18,9 @@ namespace configmanager
 {
 	const std::string FILE_SUFFIX = ".fusion";
 
-	bool LoadConfig(const char* name);
+	bool LoadConfig(int index);
 	int SaveConfig(const char* name);
-	bool RemoveConfig(const char* name);
+	bool RemoveConfig(int index);
 
 	std::vector<std::string> GetConfigList();
 

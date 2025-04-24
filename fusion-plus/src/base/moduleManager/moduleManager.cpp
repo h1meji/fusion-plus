@@ -52,7 +52,7 @@ void ModuleManager::Init()
 	std::vector<std::string> configList = configmanager::GetConfigList();
 	if (!configList.empty())
 	{
-		configmanager::LoadConfig(configList[0].c_str());
+		configmanager::LoadConfig(0);
 		LOG_INFO("Config loaded: %s", configList[0].c_str());
 	}
 

@@ -273,7 +273,7 @@ void Menu::RenderMenu()
 
 							if (deleted)
 							{
-								if (configmanager::RemoveConfig(configFiles[i].c_str()))
+								if (configmanager::RemoveConfig(i))
 								{
 									NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been removed.", configFiles[i].c_str());
 								}
@@ -304,7 +304,7 @@ void Menu::RenderMenu()
 					{
 						if (configFiles.size() > 0)
 						{
-							if (configmanager::LoadConfig(selectedConfigName.c_str()))
+							if (configmanager::LoadConfig(selectedConfig))
 							{
 								NotificationManager::Send("Fusion+ :: Config", "Config \"%s\" has been loaded.", selectedConfigName.c_str());
 								Menu::ResetSetupFlags();
