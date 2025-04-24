@@ -5,6 +5,7 @@
 
 bool configmanager::LoadConfig(int index)
 {
+
 	std::vector<std::string> configList = GetConfigList();
 	std::string name = configList[index];
 
@@ -13,12 +14,20 @@ bool configmanager::LoadConfig(int index)
 	if (!file.is_open())
 		return false;
 
-	json j;
-	file >> j;
-	file.close();
+	try
+	{
+		json j;
+		file >> j;
+		file.close();
 
-	if (!JsonToSettings(j))
+		if (!JsonToSettings(j))
+			return false;
+	}
+	catch (const std::exception& e)
+	{
+		LOG_ERROR("Failed to load config: %s (%s)", name, e.what());
 		return false;
+	}
 
 	return true;
 }

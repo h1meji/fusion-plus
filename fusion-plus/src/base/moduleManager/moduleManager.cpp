@@ -52,8 +52,14 @@ void ModuleManager::Init()
 	std::vector<std::string> configList = configmanager::GetConfigList();
 	if (!configList.empty())
 	{
-		configmanager::LoadConfig(0);
-		LOG_INFO("Config loaded: %s", configList[0].c_str());
+		if (configmanager::LoadConfig(0))
+		{
+			LOG_INFO("Config loaded: %s", configList[0].c_str());
+		}
+		else
+		{
+			LOG_WARNING("Failed to load the first config.");
+		}
 	}
 
 	// init inventory system
