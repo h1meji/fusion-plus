@@ -43,7 +43,6 @@ void ChestStealer::Update()
 		if (m_chestSlotIndex >= m_chestSlots.size())
 		{
 			ResetSteal();
-			LOG_INFO("Finished Stealing");
 			return;
 		}
 

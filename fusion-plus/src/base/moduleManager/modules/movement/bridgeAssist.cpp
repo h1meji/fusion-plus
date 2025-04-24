@@ -98,7 +98,7 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 		}
 	}
 
-	if (SDK::minecraft->thePlayer->GetRotationPitch() < settings::BA_PitchCheck)
+	if (CommonData::playerPitch < settings::BA_PitchCheck)
 	{
 		if (!m_hasPressedShift && isSneaking && !settings::BA_OnlyOnShift)
 		{
@@ -116,14 +116,14 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 		return;
 	}
 
-	m_from = SDK::minecraft->thePlayer->GetPos();
+	m_from = CommonData::playerPos;
 	m_from.y += 1;
 	Vector3 hitBlockPos;
 
 	bool res = SDK::minecraft->theWorld->RayTraceBlocks(m_from, m_direction, hitBlockPos, false, false, false);
 
 	// the vertical diff between the player and block under the player
-	auto diffY = SDK::minecraft->thePlayer->GetPos().y - hitBlockPos.y;
+	auto diffY = CommonData::playerPos.y - hitBlockPos.y;
 	diffY -= 1;
 
 	static bool jumped = false;

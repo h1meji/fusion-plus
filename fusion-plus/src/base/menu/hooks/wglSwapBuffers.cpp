@@ -120,21 +120,16 @@ bool __stdcall hook_wglSwapBuffers(_In_ HDC hdc)
 
 void Menu::Hook_wglSwapBuffers()
 {
-	LOG_DEBUG("Hook_wglSwapBuffers called.");
 	HMODULE opengl32Handle = GetModuleHandle("opengl32.dll");
 	if (opengl32Handle == 0)
 	{
 		LOG_ERROR("Failed to find \"opengl32.dll\".");
 		return;
 	}
-	LOG_DEBUG("Got opengl32.dll");
 
 	LPVOID wglSwapBuffers = (LPVOID)GetProcAddress(opengl32Handle, "wglSwapBuffers");
-	LOG_DEBUG("wglSwapBuffer: %p", wglSwapBuffers);
 	MH_CreateHook(wglSwapBuffers, (LPVOID)hook_wglSwapBuffers, (LPVOID*)&original_wglSwapBuffers);
-	LOG_DEBUG("Created MH Hook.");
 	MH_EnableHook(wglSwapBuffers);
-	LOG_DEBUG("Enabled MH Hook.");
 }
 
 void Menu::Unhook_wglSwapBuffers()

@@ -831,7 +831,6 @@ void Menu::Shutdown()
 
 void Menu::PlaceHooks()
 {
-	LOG_DEBUG("PlaceHooks called.");
 	Menu::Hook_wglSwapBuffers();
 }
 

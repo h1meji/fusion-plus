@@ -28,7 +28,7 @@ void Nametag::Update()
 	if (CommonData::thirdPersonView != 0)
 	{
 		Vector3 cameraPos = CWorldToScreen::GetCameraPosition(CommonData::modelView);
-		Vector2 angles = SDK::minecraft->thePlayer->GetAngles();
+		Vector2 angles = CommonData::playerAngles;
 		float eyeHeight = SDK::minecraft->thePlayer->IsSneaking() ? 1.54f : 1.62f;
 
 		Vector3 relativeEyePosToPlayer = { 0, eyeHeight, 0 };

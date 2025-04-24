@@ -9,8 +9,7 @@ void BlockEsp::Update()
 	if (!settings::BlockESP_Enabled) return;
 	if (!CommonData::SanityCheck()) return;
 
-	Vector3 lastTickPos = SDK::minecraft->thePlayer->GetLastTickPos();
-	Vector3 playerPosition = lastTickPos + (SDK::minecraft->thePlayer->GetPos() - lastTickPos) * CommonData::renderPartialTicks;
+	Vector3 playerPosition = CommonData::playerLastPos + (CommonData::playerPos - CommonData::playerLastPos) * CommonData::renderPartialTicks;
 
 	int xLimit = (int)playerPosition.x + m_range * 2;
 	int yLimit = (int)playerPosition.y + m_range * 2;

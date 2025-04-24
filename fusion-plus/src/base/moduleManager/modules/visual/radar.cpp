@@ -26,8 +26,8 @@ void Radar::Update()
 		return;
 	}
 
-	Vector3 pos = SDK::minecraft->thePlayer->GetPos();
-	m_playerYaw = SDK::minecraft->thePlayer->GetRotationYaw();
+	Vector3 pos = CommonData::playerPos;
+	m_playerYaw = CommonData::playerYaw;
 
 	std::vector<Data> newData;
 

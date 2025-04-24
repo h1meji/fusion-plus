@@ -80,9 +80,9 @@ void AimAssist::Update()
 		return;
 	}
 
-	Vector3 pos = SDK::minecraft->thePlayer->GetPos();
-	Vector3 headPos = SDK::minecraft->thePlayer->GetEyePos();
-	Vector2 currentLookAngles = SDK::minecraft->thePlayer->GetAngles();
+	Vector3 pos = CommonData::playerPos;
+	Vector3 headPos = CommonData::playerEyePos;
+	Vector2 currentLookAngles = CommonData::playerAngles;
 
 	std::vector<CommonData::PlayerData> playerList = CommonData::nativePlayerList;
 	if (playerList.empty()) return;
