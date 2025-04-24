@@ -2,21 +2,10 @@
 
 #include <imgui/imgui_internal.h>
 
-#include "util/logger/logger.h"
+#include "util/logger.h"
 #include "util/keys.h"
+#include "util/string.h"
 #include "configManager/settings.h"
-
-static const char* extractBeforeDoubleHash(const char* label) {
-	const char* pos = strstr(label, "##"); // Find occurrence of ##
-	if (pos) {
-		size_t len = pos - label; // Length before ##
-		char* newLabel = new char[len + 1]; // Allocate new string
-		strncpy_s(newLabel, len + 1, label, len); // Copy up to ##
-		newLabel[len] = '\0'; // Null-terminate
-		return newLabel; // Return new string
-	}
-	return label; // No ## found, return original
-}
 
 void Menu::Init()
 {
@@ -472,10 +461,10 @@ bool Menu::Slider(const char* label, int* value, int min, int max, ImVec2 size, 
 	}
 
 	const float w = ImGui::CalcItemWidth() - 150; // Width of the slider
-	const float space = size.x - font18->CalcTextSizeA(18, FLT_MAX, 0.0f, extractBeforeDoubleHash(label)).x - w;
+	const float space = size.x - font18->CalcTextSizeA(18, FLT_MAX, 0.0f, StringUtils::ExtractBeforeDoubleHash(label)).x - w;
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5.f);
-	Menu::Text(extractBeforeDoubleHash(label), FontSize::SIZE_18);
+	Menu::Text(StringUtils::ExtractBeforeDoubleHash(label), FontSize::SIZE_18);
 	ImGui::SameLine();
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5.f);
@@ -577,10 +566,10 @@ bool Menu::Slider(const char* label, float* value, float min, float max, ImVec2 
 	}
 
 	const float w = ImGui::CalcItemWidth() - 150; // Width of the slider
-	const float space = size.x - font18->CalcTextSizeA(18, FLT_MAX, 0.0f, extractBeforeDoubleHash(label)).x - w;
+	const float space = size.x - font18->CalcTextSizeA(18, FLT_MAX, 0.0f, StringUtils::ExtractBeforeDoubleHash(label)).x - w;
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5.f);
-	Menu::Text(extractBeforeDoubleHash(label), FontSize::SIZE_18);
+	Menu::Text(StringUtils::ExtractBeforeDoubleHash(label), FontSize::SIZE_18);
 	ImGui::SameLine();
 
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5.f);

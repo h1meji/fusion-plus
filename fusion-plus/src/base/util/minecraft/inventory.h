@@ -96,7 +96,6 @@ struct InventorySystem
         }
     };
 
-
     struct Slot
     {
         Category category;
@@ -116,7 +115,7 @@ struct InventorySystem
 	static inline int defaultCategories = 0;
 	static inline std::vector<Category> categoryList = std::vector<Category>{};
 
-    static inline void AddCategoryToSlot(int slotIndex, int categoryIndex)
+    static void AddCategoryToSlot(int slotIndex, int categoryIndex)
     {
 		if (!isInitialized) Init();
 
@@ -127,7 +126,7 @@ struct InventorySystem
 		inventorySlots[slotIndex].item = Item(-1, -1, -1);
     }
 
-    static inline void AddItemToSlot(int slotIndex, int id, int meta)
+    static void AddItemToSlot(int slotIndex, int id, int meta)
     {
         if (!isInitialized) Init();
 
@@ -135,7 +134,7 @@ struct InventorySystem
 		inventorySlots[slotIndex].category = categoryList[0];
     }
 
-    static inline void AddItemToCategory(int categoryIndex, const Item& item)
+    static void AddItemToCategory(int categoryIndex, const Item& item)
     {
         if (!isInitialized) Init();
         categoryIndex += defaultCategories;
@@ -146,7 +145,7 @@ struct InventorySystem
 		categoryList[categoryIndex].items.push_back(item);
     }
 
-    static inline void RemoveItemFromCategory(int categoryIndex, int itemIndex)
+    static void RemoveItemFromCategory(int categoryIndex, int itemIndex)
     {
         if (!isInitialized) Init();
 
@@ -156,7 +155,7 @@ struct InventorySystem
 		categoryList[categoryIndex].items.erase(categoryList[categoryIndex].items.begin() + itemIndex);
     }
 
-    static inline void EditItemInCategory(int categoryIndex, int itemIndex, const Item& item)
+    static void EditItemInCategory(int categoryIndex, int itemIndex, const Item& item)
     {
         if (!isInitialized) Init();
 
@@ -166,7 +165,7 @@ struct InventorySystem
         categoryList[categoryIndex].items[itemIndex] = item;
     }
 
-    static inline void CreateCustomCategory(std::vector<Item> items, const char* name)
+    static void CreateCustomCategory(std::vector<Item> items, const char* name)
     {
         if (!isInitialized) Init();
 
@@ -175,7 +174,7 @@ struct InventorySystem
         categoryList.push_back(Category(categoryNameCopy.c_str(), ItemCategory::Custom, items));
     }
 
-	static inline void EditCustomCategory(int categoryIndex, std::vector<Item> items, const char* name)
+	static void EditCustomCategory(int categoryIndex, std::vector<Item> items, const char* name)
 	{
 		if (!isInitialized) Init();
 
@@ -187,7 +186,7 @@ struct InventorySystem
 		categoryList[categoryIndex] = Category(categoryNameCopy.c_str(), ItemCategory::Custom, items);
 	}
 
-    static inline void RemoveCategory(int categoryIndex)
+    static void RemoveCategory(int categoryIndex)
     {
         if (!isInitialized) Init();
 
@@ -197,7 +196,7 @@ struct InventorySystem
         categoryList.erase(categoryList.begin() + categoryIndex);
     }
 
-    static inline float CalculateDamageReduction(Material material, ArmorType armorType, int protectionLevel)
+    static float CalculateDamageReduction(Material material, ArmorType armorType, int protectionLevel)
     {
 		if (material == Material::WOOD || material == Material::STONE || material == Material::MATERIAL_UNKNOWN || armorType == ArmorType::ARMOR_UNKNOWN)
 			return -1.0f;
@@ -212,7 +211,7 @@ struct InventorySystem
         return totalReduction;
     }
 
-    static inline float CalculateDamage(Material material, int shaprnessLevel) {
+    static float CalculateDamage(Material material, int shaprnessLevel) {
         if (material == Material::CHAINMAIL || material == Material::LEATHER)
             return -1.0f;
 
@@ -222,12 +221,44 @@ struct InventorySystem
         return baseDamage;
     }
 
-	static inline std::vector<Category> GetCategories()
+    static float CalculateBestArmorValue(CItemStack& armorPiece, InventorySystem::ArmorType armorType)
+    {
+        if (armorPiece.GetInstance() == nullptr)
+            return 0;
+
+        InventorySystem::Material material = InventorySystem::GetMaterialFromName(armorPiece.GetItem().GetUnlocalizedName());
+        for (const auto& enchantment : SDK::minecraft->enchantmentHelper->GetEnchantments(armorPiece))
+        {
+            if (enchantment.first == 0) // Check if enchantment ID is 0
+            {
+                return InventorySystem::CalculateDamageReduction(material, armorType, enchantment.second);
+            }
+        }
+        return InventorySystem::CalculateDamageReduction(material, armorType, 0);
+    }
+
+    static float CalculateSwordDamage(CItemStack& swordPiece)
+    {
+        if (swordPiece.GetInstance() == nullptr)
+            return 0;
+
+        InventorySystem::Material material = InventorySystem::GetMaterialFromName(swordPiece.GetItem().GetUnlocalizedName());
+        for (const auto& enchantment : SDK::minecraft->enchantmentHelper->GetEnchantments(swordPiece))
+        {
+            if (enchantment.first == 16) // Check if enchantment ID is 16
+            {
+                return InventorySystem::CalculateDamage(material, enchantment.second);
+            }
+        }
+        return InventorySystem::CalculateDamage(material, 0);
+    }
+
+	static std::vector<Category> GetCategories()
     {
 		return categoryList;
 	}
 
-    static inline std::vector<Category> GetCustomCategories()
+    static std::vector<Category> GetCustomCategories()
     {
         std::vector<Category> customCategories;
         for (Category cat : categoryList)
@@ -239,7 +270,7 @@ struct InventorySystem
         return customCategories;
     }
 
-	static inline std::vector<Item> GetItemsInCategory(int categoryIndex)
+	static std::vector<Item> GetItemsInCategory(int categoryIndex)
 	{
 		if (categoryIndex >= categoryList.size())
 			return {};
@@ -247,18 +278,18 @@ struct InventorySystem
 		return categoryList[categoryIndex].items;
 	}
 
-	static inline std::vector<Slot> GetInventorySlots()
+	static std::vector<Slot> GetInventorySlots()
 	{
 		return inventorySlots;
 	}
 
-	static inline std::vector<Slot> GetArmorSlots()
+	static std::vector<Slot> GetArmorSlots()
 	{
 		return armorSlots;
 	}
 
 // === Helpers === //
-    static inline Material GetMaterialFromName(const std::string& unlocalizedName)
+    static Material GetMaterialFromName(const std::string& unlocalizedName)
     {
         if (unlocalizedName.find("Cloth") != std::string::npos)
             return Material::LEATHER;
@@ -278,7 +309,7 @@ struct InventorySystem
         return Material::MATERIAL_UNKNOWN;
     }
 
-	static inline std::string ArmorTypeToString(ArmorType type)
+	static std::string ArmorTypeToString(ArmorType type)
     {
 		switch (type)
 		{
@@ -320,7 +351,7 @@ struct InventorySystem
 
 // === INIT === //
 	static inline bool isInitialized = false;
-    static inline void Init()
+    static void Init()
     {
         categoryList.push_back(Category("None", ItemCategory::None, {})); defaultCategories++;
 		categoryList.push_back(Category( "Food", ItemCategory::Food, {

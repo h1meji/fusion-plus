@@ -1,6 +1,6 @@
 #include "configManager.h"
 
-#include "util/logger/logger.h"
+#include "util/logger.h"
 #include "java/java.h"
 
 bool configmanager::LoadConfig(int index)

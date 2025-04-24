@@ -1,7 +1,5 @@
 #pragma once
 
-#include <chrono>
-
 #include "moduleManager/moduleBase.h"
 
 class Sprint : public ModuleBase

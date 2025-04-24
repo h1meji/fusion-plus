@@ -5,7 +5,7 @@
 #include <Windows.h>
 
 #include "java/java.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 
 // Source: https://github.com/Lefraudeur/RiptermsGhost/blob/master/Ripterms/Hook/JavaHook.cpp
 

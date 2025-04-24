@@ -1,6 +1,6 @@
 #include "java.h"
 
-#include "util/logger/logger.h"
+#include "util/logger.h"
 #include "sdk/java/lang/String.h"
 
 JavaVM* vm;
@@ -148,6 +148,19 @@ jclass Java::FindClass(JNIEnv* env, jvmtiEnv* tienv, const std::string& path)
     }
     tienv->Deallocate((unsigned char*)classes);
     return foundclass;
+}
+
+std::string Java::GetClazzName(jobject obj)
+{
+    jclass objClass = Java::env->GetObjectClass(obj);
+    jmethodID objMethod = Java::env->GetMethodID(objClass, "getClass", "()Ljava/lang/Class;");
+    jobject objClassObj = Java::env->CallObjectMethod(obj, objMethod);
+    jmethodID objClassNameMethod = Java::env->GetMethodID(Java::env->GetObjectClass(objClassObj), "getName", "()Ljava/lang/String;");
+    jstring objClassName = (jstring)Java::env->CallObjectMethod(objClassObj, objClassNameMethod);
+    const char* objClassNameChars = Java::env->GetStringUTFChars(objClassName, NULL);
+    std::string objClassNameStr = objClassNameChars;
+    Java::env->ReleaseStringUTFChars(objClassName, objClassNameChars);
+    return objClassNameStr;
 }
 
 static bool checkLunarClient

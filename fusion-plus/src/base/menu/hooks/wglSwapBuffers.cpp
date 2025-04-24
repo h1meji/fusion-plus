@@ -10,8 +10,7 @@
 #include <imgui/imgui_internal.h>
 #include <minhook/minhook.h>
 
-#include "util/logger/logger.h"
-#include "util/trimmer.h"
+#include "util/logger.h"
 #include "configManager/settings.h"
 #include "base.h"
 

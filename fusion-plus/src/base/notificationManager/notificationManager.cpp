@@ -3,7 +3,7 @@
 #include <cstdarg>
 
 #include "menu/menu.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 
 bool NotificationManager::Render()
 {

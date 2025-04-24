@@ -2,7 +2,7 @@
 
 #include "java/java.h"
 #include "sdk/strayCache.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 
 CGuiChest::CGuiChest(jobject instance) : CGuiContainer(instance)
 {

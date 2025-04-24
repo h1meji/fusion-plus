@@ -48,7 +48,7 @@
     <ClInclude Include="ext\jni\jvmticmlr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\util\logger\logger.h">
+    <ClInclude Include="src\base\util\logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\base\menu\menu.h">
@@ -162,7 +162,7 @@
     <ClInclude Include="src\base\util\math\math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\util\math\worldToScreen.h">
+    <ClInclude Include="src\base\util\math\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\base\moduleManager\commonData.h">
@@ -181,12 +181,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\base\sdk\net\minecraft\util\AxisAlignedBB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\base\util\trimmer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\base\util\render\renderqolf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\base\sdk\net\minecraft\util\MovingObjectPosition.h">
@@ -312,10 +306,7 @@
     <ClInclude Include="src\base\util\render\colorPresets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\util\render\renderUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\base\util\time\timeManager.h">
+    <ClInclude Include="src\base\util\render\render.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\base\moduleManager\modules\visual\nametag.h">
@@ -330,6 +321,15 @@
     <ClInclude Include="src\base\sdk\java\util\Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\base\util\time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\util\string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\util\math\random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -339,9 +339,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\java\java.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\base\util\logger\logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\menu\menu.cpp">
@@ -443,7 +440,7 @@
     <ClCompile Include="src\base\util\math\math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\util\math\worldToScreen.cpp">
+    <ClCompile Include="src\base\util\math\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\moduleManager\modules\visual\esp.cpp">
@@ -563,10 +560,7 @@
     <ClCompile Include="src\base\util\render\colorPresets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\util\render\renderUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\base\util\time\timeManager.cpp">
+    <ClCompile Include="src\base\util\render\render.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\base\moduleManager\modules\visual\nametag.cpp">

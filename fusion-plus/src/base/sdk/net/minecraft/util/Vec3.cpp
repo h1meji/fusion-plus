@@ -1,7 +1,7 @@
 #include "Vec3.h"
 
 #include "java/java.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 #include "sdk/strayCache.h"
 
 CVec3::CVec3()

@@ -1,7 +1,7 @@
 #pragma once
 #include "java/java.h"
 
-#include "util/logger/logger.h"
+#include "util/logger.h"
 
 struct StrayCache
 {

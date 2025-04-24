@@ -4,7 +4,7 @@
 #include "sdk/sdk.h"
 #include "sdk/java/lang/String.h"
 #include "sdk/strayCache.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 
 CEntity::CEntity()
 {

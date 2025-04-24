@@ -5,7 +5,7 @@
 
 #include "configManager/settings.h"
 #include "sdk/net/minecraft/item/ItemStack.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 
 // Structure to hold ID and metadata
 struct BlockData
@@ -696,5 +696,11 @@ struct MinecraftUtils
     static inline bool IsEmpty(CItemStack item)
     {
         return item.GetInstance() == nullptr;
+    }
+
+    static int MainInventoryToWindowClick(int index)
+    {
+        if (index < 9) return index + 36;
+        return index;
     }
 };

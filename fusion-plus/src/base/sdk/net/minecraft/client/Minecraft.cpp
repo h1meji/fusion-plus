@@ -1,22 +1,9 @@
 #include "Minecraft.h"
 
-#include "util/logger/logger.h"
+#include "util/logger.h"
 #include "java/java.h"
 #include "sdk/net/minecraft/entity/EntityLivingBase.h"
 #include "ClientBrandRetriever.h"
-
-static std::string GetClassName(jobject obj)
-{
-	jclass objClass = Java::env->GetObjectClass(obj);
-	jmethodID objMethod = Java::env->GetMethodID(objClass, "getClass", "()Ljava/lang/Class;");
-	jobject objClassObj = Java::env->CallObjectMethod(obj, objMethod);
-	jmethodID objClassNameMethod = Java::env->GetMethodID(Java::env->GetObjectClass(objClassObj), "getName", "()Ljava/lang/String;");
-	jstring objClassName = (jstring)Java::env->CallObjectMethod(objClassObj, objClassNameMethod);
-	const char* objClassNameChars = Java::env->GetStringUTFChars(objClassName, NULL);
-	std::string objClassNameStr = objClassNameChars;
-	Java::env->ReleaseStringUTFChars(objClassName, objClassNameChars);
-	return objClassNameStr;
-}
 
 CMinecraft::CMinecraft()
 {
@@ -81,7 +68,7 @@ bool CMinecraft::IsInInventory()
 {
 	if (Java::env->GetObjectField(this->GetInstance(), StrayCache::minecraft_currentScreen) != NULL)
 	{
-		if (GetClassName(Java::env->GetObjectField(this->GetInstance(), StrayCache::minecraft_currentScreen)) == StrayCache::inventory_class_name)
+		if (Java::GetClazzName(Java::env->GetObjectField(this->GetInstance(), StrayCache::minecraft_currentScreen)) == StrayCache::inventory_class_name)
 			return true;
 	}
 	return false;
@@ -91,7 +78,7 @@ bool CMinecraft::IsInChest()
 {
 	if (Java::env->GetObjectField(this->GetInstance(), StrayCache::minecraft_currentScreen) != NULL)
 	{
-		if (GetClassName(Java::env->GetObjectField(this->GetInstance(), StrayCache::minecraft_currentScreen)) == StrayCache::chest_gui_class_name)
+		if (Java::GetClazzName(Java::env->GetObjectField(this->GetInstance(), StrayCache::minecraft_currentScreen)) == StrayCache::chest_gui_class_name)
 			return true;
 	}
 	return false;

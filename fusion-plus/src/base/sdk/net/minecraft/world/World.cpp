@@ -5,7 +5,7 @@
 #include "sdk/java/util/List.h"
 #include "sdk/net/minecraft/util/Vec3.h"
 #include "sdk/net/minecraft/util/MovingObjectPosition.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 
 CWorld::CWorld() 
 {
@@ -64,7 +64,8 @@ bool CWorld::RayTraceBlocks(Vector3 from, Vector3 to, Vector3& result, bool stop
 		returnLastUncollidableBlock
 	);
 
-	if (movingObjPos_j == NULL) {
+	if (movingObjPos_j == nullptr)
+	{
 		Java::env->DeleteLocalRef(j_to);
 		Java::env->DeleteLocalRef(j_from);
 		Java::env->DeleteLocalRef(cls);

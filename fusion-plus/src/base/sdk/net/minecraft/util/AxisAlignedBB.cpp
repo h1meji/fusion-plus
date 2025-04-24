@@ -1,7 +1,7 @@
 #include "AxisAlignedBB.h"
 
 #include "java/java.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 #include "sdk/strayCache.h"
 
 CAxisAlignedBB::CAxisAlignedBB()

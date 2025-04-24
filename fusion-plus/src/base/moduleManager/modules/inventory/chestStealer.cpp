@@ -6,6 +6,7 @@
 #include "moduleManager/commonData.h"
 #include "util/minecraft/minecraft.h"
 #include "util/keys.h"
+#include "util/string.h"
 
 void ChestStealer::Update()
 {
@@ -86,12 +87,6 @@ void ChestStealer::ResetSteal()
 	settings::CS_Enabled = false;
 }
 
-static std::string toLower(const std::string& str) {
-	std::string lowerStr = str;
-	std::transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), ::tolower);
-	return lowerStr;
-}
-
 void ChestStealer::RenderItems(ImVec2 pos)
 {
 	static char filterBuffer[128] = "";
@@ -115,7 +110,7 @@ void ChestStealer::RenderItems(ImVec2 pos)
 		}
 		ImGui::InputTextWithHint("##filter", "Filter...", filterBuffer, IM_ARRAYSIZE(filterBuffer));
 
-		std::string filterLower = toLower(filterBuffer);
+		std::string filterLower = StringUtils::ToLower(filterBuffer);
 
 		// Filtered block list
 		if (ImGui::BeginListBox("##blockList", ImVec2(300, 200)))
@@ -123,7 +118,7 @@ void ChestStealer::RenderItems(ImVec2 pos)
 			for (const auto& [blockName, blockData] : MinecraftItems::nameToBlock)
 			{
 				// Convert block name to lowercase for comparison
-				std::string blockNameLower = toLower(blockName);
+				std::string blockNameLower = StringUtils::ToLower(blockName);
 				if (blockNameLower.find(filterLower) != std::string::npos)
 				{
 					if (ImGui::Selectable(blockName.c_str()))

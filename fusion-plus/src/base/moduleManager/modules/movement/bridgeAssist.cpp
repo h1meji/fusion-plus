@@ -1,38 +1,13 @@
 #include "bridgeAssist.h"
 
 #include "menu/menu.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 #include "util/keys.h"
 #include "moduleManager/commonData.h"
 
-inline static void sendKey(WORD vkKey, bool sendDown = true)
-{
-	static INPUT ip{ INPUT_KEYBOARD };
-
-	ip.ki.wScan = 0;
-	ip.ki.time = 0;
-	ip.ki.dwExtraInfo = 0;
-	ip.ki.wVk = vkKey;
-	ip.ki.dwFlags = sendDown ? 0 : KEYEVENTF_KEYUP;
-
-	SendInput(1, &ip, sizeof(INPUT));
-}
-
-static void sendShiftKey(HWND hWnd, bool sendDown)
-{
-	if (sendDown)
-	{
-		PostMessage(hWnd, WM_KEYDOWN, VK_SHIFT, static_cast<LPARAM>(MapVirtualKey(VK_SHIFT, 0) << 16));
-	}
-	else
-	{
-		PostMessage(hWnd, WM_KEYUP, VK_SHIFT, (static_cast<LPARAM>(MapVirtualKey(VK_SHIFT, 0)) << 16) | (static_cast<long long>(1) << 30) | (static_cast<long long>(1) << 31));
-	}
-}
-
 void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve987321/toadclient for the idea / implementation.
 {
-	bool isSneaking = Keys::IsKeyPressed(VK_SHIFT); //(bool)GetAsyncKeyState(VK_SHIFT);
+	bool isSneaking = Keys::IsKeyPressed(VK_SHIFT);
 
 	if (!settings::BA_Enabled || !CommonData::SanityCheck() || SDK::minecraft->IsInGuiState())
 	{
@@ -46,7 +21,7 @@ void BridgeAssist::Update() // Thanks to Steve987321 @ https://github.com/Steve9
 		return;
 	}
 
-	if (settings::BA_IgnoreForwardsMovement && (GetAsyncKeyState(0x57) & 0x8000))
+	if (settings::BA_IgnoreForwardsMovement && Keys::IsKeyPressed(0x57))
 	{
 		if (!m_hasPressedShift && isSneaking && !settings::BA_OnlyOnShift)
 		{
@@ -194,8 +169,8 @@ void BridgeAssist::Sneak()
 	m_isEdge = true;
 	if (!m_prev)
 	{
-		if (!settings::BA_OnlyOnShift) sendKey(VK_SHIFT, true);
-		if (settings::BA_OnlyOnShift) sendShiftKey(Menu::handleWindow, true);
+		if (!settings::BA_OnlyOnShift) Keys::SendKey(VK_SHIFT, true);
+		if (settings::BA_OnlyOnShift) Keys::SendKey(Menu::handleWindow, VK_SHIFT, true);
 		m_prev = true;
 	}
 }
@@ -205,8 +180,8 @@ void BridgeAssist::UnSneak()
 	m_isEdge = false;
 	if (m_prev)
 	{
-		if (!settings::BA_OnlyOnShift) sendKey(VK_SHIFT, false);
-		if (settings::BA_OnlyOnShift) sendShiftKey(Menu::handleWindow, false);
+		if (!settings::BA_OnlyOnShift) Keys::SendKey(VK_SHIFT, false);
+		if (settings::BA_OnlyOnShift) Keys::SendKey(Menu::handleWindow, VK_SHIFT, false);
 		m_prev = false;
 	}
 }

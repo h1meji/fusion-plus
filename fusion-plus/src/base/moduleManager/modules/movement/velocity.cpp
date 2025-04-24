@@ -2,34 +2,15 @@
 
 #include "menu/menu.h"
 #include "moduleManager/commonData.h"
-
-inline static void sendKey(WORD vkKey, bool sendDown = true)
-{
-	static INPUT ip{ INPUT_KEYBOARD };
-
-	ip.ki.wScan = 0;
-	ip.ki.time = 0;
-	ip.ki.dwExtraInfo = 0;
-	ip.ki.wVk = vkKey;
-	ip.ki.dwFlags = sendDown ? 0 : KEYEVENTF_KEYUP;
-
-	SendInput(1, &ip, sizeof(INPUT));
-}
-
-inline static int randInt(int min, int max)
-{
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<int> dis(min, max);
-	return dis(gen);
-}
+#include "util/keys.h"
+#include "util/math/random.h"
 
 void Velocity::Update()
 {
 	static int lastingTime = 0;
 	if (lastingTime == 1)
 	{
-		sendKey(VK_SPACE, false);
+		Keys::SendKey(VK_SPACE, false);
 		lastingTime = 0;
 	}
 	else if (lastingTime > 1)
@@ -62,10 +43,10 @@ void Velocity::Update()
 
 	if (settings::Velocity_Mode == 0)
 	{
-		if (randInt(0, 100) <= settings::Velocity_JRChange)
+		if (Random::Int(0, 100) <= settings::Velocity_JRChange)
 		{
-			sendKey(VK_SPACE);
-			lastingTime = randInt(40, 70);
+			Keys::SendKey(VK_SPACE);
+			lastingTime = Random::Int(40, 70);
 			canBeHit = false;
 		}
 	}

@@ -4,10 +4,9 @@
 
 #include "moduleManager/commonData.h"
 #include "sdk/sdk.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 #include "util/math/math.h"
-#include "util/math/worldToScreen.h"
-#include "util/render/renderqolf.h"
+#include "util/math/camera.h"
 #include "menu/menu.h"
 #include "configManager/configManager.h"
 
@@ -24,7 +23,7 @@ void Esp::Update()
 
 	if (CommonData::thirdPersonView != 0)
 	{
-		Vector3 cameraPos = CWorldToScreen::GetCameraPosition(CommonData::modelView);
+		Vector3 cameraPos = CameraUtils::GetCameraPosition(CommonData::modelView);
 		Vector2 angles = CommonData::playerAngles;
 		float eyeHeight = SDK::minecraft->thePlayer->IsSneaking() ? 1.54f : 1.62f;
 
@@ -162,7 +161,7 @@ void Esp::RenderOverlay()
 			{
 				Vector2 p;
 
-				if (!CWorldToScreen::WorldToScreen(position, CommonData::modelView, CommonData::projection, (int)screenSize.x, (int)screenSize.y, p))
+				if (!CameraUtils::WorldToScreen(position, CommonData::modelView, CommonData::projection, (int)screenSize.x, (int)screenSize.y, p))
 				{
 					skip = true;
 					break;
@@ -187,7 +186,7 @@ void Esp::RenderOverlay()
 			{
 				Vector2 p;
 
-				if (!CWorldToScreen::WorldToScreen(position, CommonData::modelView, CommonData::projection, (int)screenSize.x, (int)screenSize.y, p))
+				if (!CameraUtils::WorldToScreen(position, CommonData::modelView, CommonData::projection, (int)screenSize.x, (int)screenSize.y, p))
 				{
 					skip = true;
 					break;

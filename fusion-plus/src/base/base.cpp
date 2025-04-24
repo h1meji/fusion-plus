@@ -8,11 +8,13 @@
 #include "java/java.h"
 #include "java/hotspot/hotspot.h"
 #include "java/javahook.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 #include "util/minecraft/minecraft.h"
 #include "util/math/math.h"
 #include "util/window/borderless.h"
 #include "util/keys.h"
+#include "util/render/render.h"
+#include "util/string.h"
 #include "menu/menu.h"
 #include "moduleManager/moduleManager.h"
 #include "moduleManager/commonData.h"
@@ -20,39 +22,6 @@
 #include "sdk/net/minecraft/client/ClientBrandRetriever.h"
 #include "configManager/configManager.h"
 #include "notificationManager/notificationManager.h"
-
-static void drawLine(int x, int height, int padding)
-{
-	ImVec2 lineStart = ImVec2(x, settings::Hud_WatermarkPosition[1] + (padding * 1.5));
-	ImVec2 lineEnd = ImVec2(x, settings::Hud_WatermarkPosition[1] + height - (padding * 1.5));
-	ImGui::GetWindowDrawList()->AddLine(lineStart, lineEnd, IM_COL32(155, 155, 155, 255), 2);
-}
-
-static std::string floatToString(float value, int precision)
-{
-	if (value == NAN || value == INFINITY || value == -INFINITY) return "0";
-
-	std::ostringstream out;
-	out << std::fixed << std::setprecision(precision) << value;
-	return out.str();
-}
-
-static std::string yawToDirection(float yaw)
-{
-	float warpedYaw = Math::WrapAngleTo180(yaw);
-
-	// 0 = South, 45 = South-West, 90 = West, 135 = North-West, -180 = North, -135 = North-East, -90 = East, -45 = South-East
-	if (warpedYaw >= -22.5 && warpedYaw < 22.5) return "S";
-	if (warpedYaw >= 22.5 && warpedYaw < 67.5) return "SW";
-	if (warpedYaw >= 67.5 && warpedYaw < 112.5) return "W";
-	if (warpedYaw >= 112.5 && warpedYaw < 157.5) return "NW";
-	if (warpedYaw >= 157.5 || warpedYaw < -157.5) return "N";
-	if (warpedYaw >= -157.5 && warpedYaw < -112.5) return "NE";
-	if (warpedYaw >= -112.5 && warpedYaw < -67.5) return "E";
-	if (warpedYaw >= -67.5 && warpedYaw < -22.5) return "SE";
-
-	return "N/A";
-}
 
 void Base::Init()
 {
@@ -171,8 +140,8 @@ void Base::renderLoop() // Runs every frame
 		std::string version = Base::m_version;
 		std::string fps = std::to_string(CommonData::fps) + " FPS";
 		std::string ping = std::to_string(CommonData::ping) + "ms";
-		std::string coords = "X: " + floatToString(CommonData::playerPos.x, 1) + " Y: " + floatToString(CommonData::playerPos.y, 1) + " Z: " + floatToString(CommonData::playerPos.z, 1);
-		std::string direction = yawToDirection(CommonData::playerYaw);
+		std::string coords = "X: " + StringUtils::FloatToString(CommonData::playerPos.x, 1) + " Y: " + StringUtils::FloatToString(CommonData::playerPos.y, 1) + " Z: " + StringUtils::FloatToString(CommonData::playerPos.z, 1);
+		std::string direction = StringUtils::YawToDirection(CommonData::playerYaw);
 		std::string time = buffer;
 
 		int margin = 10;
@@ -251,7 +220,7 @@ void Base::renderLoop() // Runs every frame
 			int currentX = textPos.x + textSize.x;
 			if (settings::Hud_WatermarkVersion)
 			{
-				drawLine(currentX + padding, rectSize.y, padding);
+				Render::DrawLine(currentX + padding, rectSize.y, padding);
 
 				ImVec2 versionTextPos = ImVec2(currentX + padding * 2, textPos.y + 1);
 				ImGui::GetWindowDrawList()->AddText(Menu::fontBold, statsSize, versionTextPos, IM_COL32(255, 255, 255, 255), version.c_str());
@@ -261,7 +230,7 @@ void Base::renderLoop() // Runs every frame
 
 			if (settings::Hud_WatermarkFps)
 			{
-				drawLine(currentX + padding, rectSize.y, padding);
+				Render::DrawLine(currentX + padding, rectSize.y, padding);
 
 				ImVec2 fpsTextPos = ImVec2(currentX + padding * 2, textPos.y + 1);
 				ImGui::GetWindowDrawList()->AddText(Menu::fontBold, statsSize, fpsTextPos, IM_COL32(255, 255, 255, 255), fps.c_str());
@@ -271,7 +240,7 @@ void Base::renderLoop() // Runs every frame
 
 			if (settings::Hud_WatermarkPing)
 			{
-				drawLine(currentX + padding, rectSize.y, padding);
+				Render::DrawLine(currentX + padding, rectSize.y, padding);
 
 				ImVec2 pingTextPos = ImVec2(currentX + padding * 2, textPos.y + 1);
 				ImGui::GetWindowDrawList()->AddText(Menu::fontBold, statsSize, pingTextPos, IM_COL32(255, 255, 255, 255), ping.c_str());
@@ -281,7 +250,7 @@ void Base::renderLoop() // Runs every frame
 
 			if (settings::Hud_WatermarkCoords)
 			{
-				drawLine(currentX + padding, rectSize.y, padding);
+				Render::DrawLine(currentX + padding, rectSize.y, padding);
 
 				ImVec2 coordsTextPos = ImVec2(currentX + padding * 2, textPos.y + 1);
 				ImGui::GetWindowDrawList()->AddText(Menu::fontBold, statsSize, coordsTextPos, IM_COL32(255, 255, 255, 255), coords.c_str());
@@ -291,7 +260,7 @@ void Base::renderLoop() // Runs every frame
 
 			if (settings::Hud_WatermarkDirection)
 			{
-				drawLine(currentX + padding, rectSize.y, padding);
+				Render::DrawLine(currentX + padding, rectSize.y, padding);
 
 				ImVec2 directionTextPos = ImVec2(currentX + padding * 2, textPos.y + 1);
 				ImGui::GetWindowDrawList()->AddText(Menu::fontBold, statsSize, directionTextPos, IM_COL32(255, 255, 255, 255), direction.c_str());
@@ -301,7 +270,7 @@ void Base::renderLoop() // Runs every frame
 
 			if (settings::Hud_WatermarkTime)
 			{
-				drawLine(currentX + padding, rectSize.y, padding);
+				Render::DrawLine(currentX + padding, rectSize.y, padding);
 
 				ImVec2 timeTextPos = ImVec2(currentX + padding * 2, textPos.y + 1);
 				ImGui::GetWindowDrawList()->AddText(Menu::fontBold, statsSize, timeTextPos, IM_COL32(255, 255, 255, 255), time.c_str());

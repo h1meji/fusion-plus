@@ -1,10 +1,10 @@
-#include "renderUtils.h"
+#include "render.h"
 
 #include "colorPresets.h"
-#include "util/time/timeManager.h"
+#include "util/time.h"
 #include "configManager/settings.h"
 
-void RenderUtils::RenderModuleList(const std::vector<std::string>& modules, 
+void Render::RenderModuleList(const std::vector<std::string>& modules, 
                                  int position, float textSize, 
                                  float padding, ImVec4 bgColor,
                                  const ImFont* font,
@@ -23,7 +23,7 @@ void RenderUtils::RenderModuleList(const std::vector<std::string>& modules,
     }
 }
 
-void RenderUtils::RenderTopLeft(const std::vector<std::string>& modules, float textHeight, 
+void Render::RenderTopLeft(const std::vector<std::string>& modules, float textHeight, 
                               float padding, ImVec4 bgColor, const ImFont* font,
                               bool useRGB, int colorMode, float rgbSpeed)
 {
@@ -56,9 +56,9 @@ void RenderUtils::RenderTopLeft(const std::vector<std::string>& modules, float t
         {
             ImVec4 outlineColor = settings::AL_outlineRGB ? 
                 ColorPresets::GetPreset(colorMode, 
-                                      TimeManager::GetTime() * rgbSpeed + (i * 0.1f),
-                                      (sinf(TimeManager::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
-                                      TimeManager::GetTime()) :
+                                      Time::GetTime() * rgbSpeed + (i * 0.1f),
+                                      (sinf(Time::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
+                                      Time::GetTime()) :
                 ImVec4(settings::AL_outlineColor[0], settings::AL_outlineColor[1],
                       settings::AL_outlineColor[2], settings::AL_outlineColor[3]);
 
@@ -79,9 +79,9 @@ void RenderUtils::RenderTopLeft(const std::vector<std::string>& modules, float t
 
         ImVec4 textColor = useRGB ? 
             ColorPresets::GetPreset(colorMode, 
-                                  TimeManager::GetTime() * rgbSpeed + (i * 0.1f),
-                                  (sinf(TimeManager::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
-                                  TimeManager::GetTime()) :
+                                  Time::GetTime() * rgbSpeed + (i * 0.1f),
+                                  (sinf(Time::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
+                                  Time::GetTime()) :
             ImVec4(settings::AL_textColor[0], settings::AL_textColor[1], settings::AL_textColor[2], settings::AL_textColor[3]);
 
         ImGui::GetWindowDrawList()->AddText(font, textHeight,
@@ -92,7 +92,7 @@ void RenderUtils::RenderTopLeft(const std::vector<std::string>& modules, float t
     }
 }
 
-void RenderUtils::RenderTopRight(const std::vector<std::string>& modules, float textHeight, 
+void Render::RenderTopRight(const std::vector<std::string>& modules, float textHeight, 
                                float padding, ImVec4 bgColor, const ImFont* font,
                                bool useRGB, int colorMode, float rgbSpeed)
 {
@@ -126,9 +126,9 @@ void RenderUtils::RenderTopRight(const std::vector<std::string>& modules, float 
         {
             ImVec4 outlineColor = settings::AL_outlineRGB ? 
                 ColorPresets::GetPreset(colorMode, 
-                                      TimeManager::GetTime() * rgbSpeed + (i * 0.1f),
-                                      (sinf(TimeManager::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
-                                      TimeManager::GetTime()) :
+                                      Time::GetTime() * rgbSpeed + (i * 0.1f),
+                                      (sinf(Time::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
+                                      Time::GetTime()) :
                 ImVec4(settings::AL_outlineColor[0], settings::AL_outlineColor[1],
                       settings::AL_outlineColor[2], settings::AL_outlineColor[3]);
 
@@ -149,9 +149,9 @@ void RenderUtils::RenderTopRight(const std::vector<std::string>& modules, float 
 
         ImVec4 textColor = useRGB ? 
             ColorPresets::GetPreset(colorMode, 
-                                  TimeManager::GetTime() * rgbSpeed + (i * 0.1f),
-                                  (sinf(TimeManager::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
-                                  TimeManager::GetTime()) :
+                                  Time::GetTime() * rgbSpeed + (i * 0.1f),
+                                  (sinf(Time::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
+                                  Time::GetTime()) :
             ImVec4(settings::AL_textColor[0], settings::AL_textColor[1], settings::AL_textColor[2], settings::AL_textColor[3]);
 
         ImGui::GetWindowDrawList()->AddText(font, textHeight,
@@ -162,7 +162,7 @@ void RenderUtils::RenderTopRight(const std::vector<std::string>& modules, float 
     }
 }
 
-void RenderUtils::RenderBottomLeft(const std::vector<std::string>& modules, float textHeight, 
+void Render::RenderBottomLeft(const std::vector<std::string>& modules, float textHeight, 
                                  float padding, ImVec4 bgColor, const ImFont* font,
                                  bool useRGB, int colorMode, float rgbSpeed)
 {
@@ -201,9 +201,9 @@ void RenderUtils::RenderBottomLeft(const std::vector<std::string>& modules, floa
         {
             ImVec4 outlineColor = settings::AL_outlineRGB ? 
                 ColorPresets::GetPreset(colorMode, 
-                                      TimeManager::GetTime() * rgbSpeed + (i * 0.1f),
-                                      (sinf(TimeManager::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
-                                      TimeManager::GetTime()) :
+                                      Time::GetTime() * rgbSpeed + (i * 0.1f),
+                                      (sinf(Time::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
+                                      Time::GetTime()) :
                 ImVec4(settings::AL_outlineColor[0], settings::AL_outlineColor[1],
                       settings::AL_outlineColor[2], settings::AL_outlineColor[3]);
 
@@ -224,9 +224,9 @@ void RenderUtils::RenderBottomLeft(const std::vector<std::string>& modules, floa
 
         ImVec4 textColor = useRGB ? 
             ColorPresets::GetPreset(colorMode, 
-                                  TimeManager::GetTime() * rgbSpeed + (i * 0.1f),
-                                  (sinf(TimeManager::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
-                                  TimeManager::GetTime()) :
+                                  Time::GetTime() * rgbSpeed + (i * 0.1f),
+                                  (sinf(Time::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
+                                  Time::GetTime()) :
             ImVec4(settings::AL_textColor[0], settings::AL_textColor[1], settings::AL_textColor[2], settings::AL_textColor[3]);
 
         ImGui::GetWindowDrawList()->AddText(font, textHeight,
@@ -237,7 +237,7 @@ void RenderUtils::RenderBottomLeft(const std::vector<std::string>& modules, floa
     }
 }
 
-void RenderUtils::RenderBottomRight(const std::vector<std::string>& modules, float textHeight, 
+void Render::RenderBottomRight(const std::vector<std::string>& modules, float textHeight, 
                                   float padding, ImVec4 bgColor, const ImFont* font,
                                   bool useRGB, int colorMode, float rgbSpeed)
 {
@@ -277,9 +277,9 @@ void RenderUtils::RenderBottomRight(const std::vector<std::string>& modules, flo
         {
             ImVec4 outlineColor = settings::AL_outlineRGB ? 
                 ColorPresets::GetPreset(colorMode, 
-                                      TimeManager::GetTime() * rgbSpeed + (i * 0.1f),
-                                      (sinf(TimeManager::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
-                                      TimeManager::GetTime()) :
+                                      Time::GetTime() * rgbSpeed + (i * 0.1f),
+                                      (sinf(Time::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
+                                      Time::GetTime()) :
                 ImVec4(settings::AL_outlineColor[0], settings::AL_outlineColor[1],
                       settings::AL_outlineColor[2], settings::AL_outlineColor[3]);
 
@@ -300,9 +300,9 @@ void RenderUtils::RenderBottomRight(const std::vector<std::string>& modules, flo
 
         ImVec4 textColor = useRGB ? 
             ColorPresets::GetPreset(colorMode, 
-                                  TimeManager::GetTime() * rgbSpeed + (i * 0.1f),
-                                  (sinf(TimeManager::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
-                                  TimeManager::GetTime()) :
+                                  Time::GetTime() * rgbSpeed + (i * 0.1f),
+                                  (sinf(Time::GetTime() * rgbSpeed + (i * 0.1f)) + 1.0f) * 0.5f,
+                                  Time::GetTime()) :
             ImVec4(settings::AL_textColor[0], settings::AL_textColor[1], settings::AL_textColor[2], settings::AL_textColor[3]);
 
         ImGui::GetWindowDrawList()->AddText(font, textHeight,

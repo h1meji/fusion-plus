@@ -1,10 +1,10 @@
-#include "worldToScreen.h"
+#include "camera.h"
 
 #include "base.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
+#include "util/math/math.h"
 
-
-Vector3 CWorldToScreen::GetCameraPosition(const Matrix& modelView) {
+Vector3 CameraUtils::GetCameraPosition(const Matrix& modelView) {
 	Matrix inversed = modelView.Inverse();
 
 	// Position is relative to the position of the player.
@@ -15,19 +15,10 @@ Vector3 CWorldToScreen::GetCameraPosition(const Matrix& modelView) {
 	return Vector3{ inversed.m30, inversed.m31, inversed.m32 };
 }
 
-Vector4 CWorldToScreen::Multiply(Vector4 v, Matrix m) {
-	return Vector4{
-		v.x * m.m00 + v.y * m.m10 + v.z * m.m20 + v.w * m.m30,
-		v.x * m.m01 + v.y * m.m11 + v.z * m.m21 + v.w * m.m31,
-		v.x * m.m02 + v.y * m.m12 + v.z * m.m22 + v.w * m.m32,
-		v.x * m.m03 + v.y * m.m13 + v.z * m.m23 + v.w * m.m33
-	};
-}
-
-bool CWorldToScreen::WorldToScreen(Vector3 point, Matrix modelView, Matrix projection, int screenWidth, int screenHeight, Vector2 &screenPos) {
+bool CameraUtils::WorldToScreen(Vector3 point, Matrix modelView, Matrix projection, int screenWidth, int screenHeight, Vector2 &screenPos) {
 	// csp = Clip Space Position
-	Vector4 csp = Multiply(
-		Multiply(
+	Vector4 csp = Math::Multiply(
+		Math::Multiply(
 			Vector4 {point.x, point.y, point.z, 1.0f},
 			modelView
 		),

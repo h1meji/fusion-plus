@@ -3,7 +3,7 @@
 #include "sdk/sdk.h"
 #include "sdk/java/util/Set.h"
 #include "java/java.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 
 CWorldClient::CWorldClient()
 {

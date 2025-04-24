@@ -2,7 +2,7 @@
 
 #include "moduleManager/commonData.h"
 #include "menu/menu.h"
-#include "util/math/worldToScreen.h"
+#include "util/math/camera.h"
 
 void BlockEsp::Update()
 {
@@ -58,7 +58,7 @@ void BlockEsp::RenderOverlay()
 		ImVec2 screenSize = ImGui::GetWindowSize();
 
 		Vector2 p;
-		if (!CWorldToScreen::WorldToScreen(data.position, CommonData::modelView, CommonData::projection, (int)screenSize.x, (int)screenSize.y, p))
+		if (!CameraUtils::WorldToScreen(data.position, CommonData::modelView, CommonData::projection, (int)screenSize.x, (int)screenSize.y, p))
 		{
 			continue;
 		}

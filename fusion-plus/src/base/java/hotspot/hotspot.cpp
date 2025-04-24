@@ -1,6 +1,6 @@
 #include "hotspot.h"
 
-#include "util/logger/logger.h"
+#include "util/logger.h"
 
 // Source: https://github.com/Lefraudeur/RiptermsGhost/blob/master/HotSpot/HotSpot.cpp
 

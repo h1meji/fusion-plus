@@ -7,45 +7,7 @@
 #include "util/minecraft/inventory.h"
 #include "util/keys.h"
 #include "util/minecraft/minecraft.h"
-
-static float calculateBestArmorValue(CItemStack& armorPiece, InventorySystem::ArmorType armorType) {
-	if (armorPiece.GetInstance() == nullptr)
-		return 0;
-
-	InventorySystem::Material material = InventorySystem::GetMaterialFromName(armorPiece.GetItem().GetUnlocalizedName());
-	for (const auto& enchantment : SDK::minecraft->enchantmentHelper->GetEnchantments(armorPiece)) {
-		if (enchantment.first == 0) { // Check if enchantment ID is 0
-			return InventorySystem::CalculateDamageReduction(material, armorType, enchantment.second);
-		}
-	}
-	return InventorySystem::CalculateDamageReduction(material, armorType, 0);
-}
-
-static float calculateSwordDamage(CItemStack& swordPiece)
-{
-	if (swordPiece.GetInstance() == nullptr)
-		return 0;
-
-	InventorySystem::Material material = InventorySystem::GetMaterialFromName(swordPiece.GetItem().GetUnlocalizedName());
-	for (const auto& enchantment : SDK::minecraft->enchantmentHelper->GetEnchantments(swordPiece)) {
-		if (enchantment.first == 16) { // Check if enchantment ID is 16
-			return InventorySystem::CalculateDamage(material, enchantment.second);
-		}
-	}
-	return InventorySystem::CalculateDamage(material, 0);
-}
-
-static int mainInventoryToWindowClick(int index)
-{
-	if (index < 9) return index + 36;
-	return index;
-}
-
-static std::string toLower(const std::string& str) {
-	std::string lowerStr = str;
-	std::transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), ::tolower);
-	return lowerStr;
-}
+#include "util/string.h"
 
 void InventorySorter::Update()
 {
@@ -210,7 +172,7 @@ void InventorySorter::DropUselessItems()
 
 		if (!isUseful)
 		{
-			m_inventoryPath.push_back({ mainInventoryToWindowClick(i), 4, 1 });
+			m_inventoryPath.push_back({ MinecraftUtils::MainInventoryToWindowClick(i), 4, 1 });
 		}
 	}
 }
@@ -240,7 +202,7 @@ void InventorySorter::DoArmor()
 	for (auto& armor : armorTypes)
 	{
 		CItemStack currentArmor = armorInventory[armor.armorSlot];
-		armor.bestValue = calculateBestArmorValue(currentArmor, armor.type);
+		armor.bestValue = InventorySystem::CalculateBestArmorValue(currentArmor, armor.type);
 	}
 
 	std::vector<int> dropSlots;
@@ -256,7 +218,7 @@ void InventorySorter::DoArmor()
 		{
 			if (itemStack.GetItem().GetUnlocalizedName().find(InventorySystem::ArmorTypeToString(armor.type)) != std::string::npos)
 			{
-				float itemValue = calculateBestArmorValue(itemStack, armor.type);
+				float itemValue = InventorySystem::CalculateBestArmorValue(itemStack, armor.type);
 
 				if (itemValue > armor.bestValue)
 				{
@@ -281,13 +243,13 @@ void InventorySorter::DoArmor()
 		if (armor.bestSlot != -1)
 		{
 			m_inventoryPath.push_back({ armor.windowClickSlot, 4, 0 });
-			m_inventoryPath.push_back({ mainInventoryToWindowClick(armor.bestSlot), 1, 0 });
+			m_inventoryPath.push_back({ MinecraftUtils::MainInventoryToWindowClick(armor.bestSlot), 1, 0 });
 		}
 	}
 
 	for (int slot : dropSlots)
 	{
-		m_inventoryPath.push_back({ mainInventoryToWindowClick(slot), 4, 1 });
+		m_inventoryPath.push_back({ MinecraftUtils::MainInventoryToWindowClick(slot), 4, 1 });
 	}
 }
 
@@ -375,9 +337,9 @@ void InventorySorter::CombineStacks()
 
 	for (int i = 0; i < itemStacks.size(); i++)
 	{
-		m_inventoryPath.push_back({ mainInventoryToWindowClick(itemStacks[i].slot), 0, 0 });
-		m_inventoryPath.push_back({ mainInventoryToWindowClick(itemStacks[i].slot), 6, 0 });
-		m_inventoryPath.push_back({ mainInventoryToWindowClick(itemStacks[i].slot), 0, 0 });
+		m_inventoryPath.push_back({ MinecraftUtils::MainInventoryToWindowClick(itemStacks[i].slot), 0, 0 });
+		m_inventoryPath.push_back({ MinecraftUtils::MainInventoryToWindowClick(itemStacks[i].slot), 6, 0 });
+		m_inventoryPath.push_back({ MinecraftUtils::MainInventoryToWindowClick(itemStacks[i].slot), 0, 0 });
 	}
 }
 
@@ -400,7 +362,7 @@ void InventorySorter::DoSwords()
 			if (mainInventory[slotOrder[i]].GetInstance() == nullptr)
 				swordValues.push_back({ -1, 0 });
 			else
-				swordValues.push_back({ slotOrder[i], calculateSwordDamage(mainInventory[slotOrder[i]]) });
+				swordValues.push_back({ slotOrder[i], InventorySystem::CalculateSwordDamage(mainInventory[slotOrder[i]]) });
 		}
 	}
 
@@ -422,10 +384,10 @@ void InventorySorter::DoSwords()
 					break;
 				}
 
-				float itemValue = calculateSwordDamage(itemStack);
+				float itemValue = InventorySystem::CalculateSwordDamage(itemStack);
 				if (swordValues[j].second < itemValue)
 				{
-					std::pair<int, int> swordValue = { slotOrder[i], calculateSwordDamage(itemStack) };
+					std::pair<int, int> swordValue = { slotOrder[i], InventorySystem::CalculateSwordDamage(itemStack) };
 					swordValues.insert(swordValues.begin() + j, swordValue);
 					swordValues.pop_back();
 					break;
@@ -450,7 +412,7 @@ void InventorySorter::DoSwords()
 
 		if (!isUsed)
 		{
-			m_inventoryPath.push_back({ mainInventoryToWindowClick(slot), 4, 1 });
+			m_inventoryPath.push_back({ MinecraftUtils::MainInventoryToWindowClick(slot), 4, 1 });
 		}
 	}
 
@@ -459,9 +421,9 @@ void InventorySorter::DoSwords()
 	{
 		if (swordValues[i].first != -1 && swordSlots[i] != swordValues[i].first)
 		{
-			m_inventoryPath.push_back({ mainInventoryToWindowClick(swordSlots[i]), 0, 0 }); // pickup the wrong item
-			m_inventoryPath.push_back({ mainInventoryToWindowClick(swordValues[i].first), 0, 0 }); // swap the items
-			m_inventoryPath.push_back({ mainInventoryToWindowClick(swordSlots[i]), 0, 0 }); // drop at the correct slot
+			m_inventoryPath.push_back({ MinecraftUtils::MainInventoryToWindowClick(swordSlots[i]), 0, 0 }); // pickup the wrong item
+			m_inventoryPath.push_back({ MinecraftUtils::MainInventoryToWindowClick(swordValues[i].first), 0, 0 }); // swap the items
+			m_inventoryPath.push_back({ MinecraftUtils::MainInventoryToWindowClick(swordSlots[i]), 0, 0 }); // drop at the correct slot
 
 			for (int j = 0; j < swordSlots.size(); j++)
 			{
@@ -606,7 +568,7 @@ void InventorySorter::GeneratePath()
 
 		if (!isUsed)
 		{
-			m_inventoryPath.push_back({ mainInventoryToWindowClick(slotOrder[i]), 4, 1 });
+			m_inventoryPath.push_back({ MinecraftUtils::MainInventoryToWindowClick(slotOrder[i]), 4, 1 });
 		}
 	}
 
@@ -615,9 +577,9 @@ void InventorySorter::GeneratePath()
 	{
 		if (itemStacks[i].sourceSlot != itemStacks[i].targetSlot)
 		{
-			m_inventoryPath.push_back({ mainInventoryToWindowClick(itemStacks[i].targetSlot), 0, 0}); // pickup the wrong item
-			m_inventoryPath.push_back({ mainInventoryToWindowClick(itemStacks[i].sourceSlot), 0, 0 }); // swap the items
-			m_inventoryPath.push_back({ mainInventoryToWindowClick(itemStacks[i].targetSlot), 0, 0 }); // drop at the correct slot
+			m_inventoryPath.push_back({ MinecraftUtils::MainInventoryToWindowClick(itemStacks[i].targetSlot), 0, 0}); // pickup the wrong item
+			m_inventoryPath.push_back({ MinecraftUtils::MainInventoryToWindowClick(itemStacks[i].sourceSlot), 0, 0 }); // swap the items
+			m_inventoryPath.push_back({ MinecraftUtils::MainInventoryToWindowClick(itemStacks[i].targetSlot), 0, 0 }); // drop at the correct slot
 
 			for (int j = 0; j < itemStacks.size(); j++)
 			{
@@ -783,12 +745,12 @@ void InventorySorter::RenderInventoryEditor(bool& isOpen)
 	//			ImGui::SetNextItemWidth(400);
 	//			ImGui::InputTextWithHint("##filter", "Filter...", filterBuffer, IM_ARRAYSIZE(filterBuffer));
 
-	//			std::string filterLower = toLower(filterBuffer);
+	//			std::string filterLower = StringUtils::ToLower(filterBuffer);
 
 	//			if (ImGui::BeginListBox("##blockList", ImVec2(300, 100)))
 	//			{
 	//				for (const auto& [blockName, blockData] : MinecraftItems::nameToBlock) {
-	//					std::string blockNameLower = toLower(blockName);
+	//					std::string blockNameLower = StringUtils::ToLower(blockName);
 	//					if (blockNameLower.find(filterLower) != std::string::npos) {
 	//						if (ImGui::Selectable(blockName.c_str())) {
 	//							// Add the selected block to userBlocks (ID, metadata pair)
@@ -869,12 +831,12 @@ void InventorySorter::RenderInventoryEditor(bool& isOpen)
 	//			ImGui::SetNextItemWidth(400);
 	//			ImGui::InputTextWithHint("##filter", "Filter...", filterBuffer, IM_ARRAYSIZE(filterBuffer));
 
-	//			std::string filterLower = toLower(filterBuffer);
+	//			std::string filterLower = StringUtils::ToLower(filterBuffer);
 
 	//			if (ImGui::BeginListBox("##blockList", ImVec2(300, 100)))
 	//			{
 	//				for (const auto& [blockName, blockData] : MinecraftItems::nameToBlock) {
-	//					std::string blockNameLower = toLower(blockName);
+	//					std::string blockNameLower = StringUtils::ToLower(blockName);
 	//					if (blockNameLower.find(filterLower) != std::string::npos) {
 	//						if (ImGui::Selectable(blockName.c_str())) {
 	//							InventorySystem::AddItemToSlot(i, blockData.id, blockData.metadata);
@@ -1026,12 +988,12 @@ void InventorySorter::RenderCreateCategory(bool& isOpen, int categoryIndex = -1)
 		ImGui::SetNextItemWidth(400);
 		ImGui::InputTextWithHint("##filter", "Filter...", filterBuffer, IM_ARRAYSIZE(filterBuffer));
 
-		std::string filterLower = toLower(filterBuffer);
+		std::string filterLower = StringUtils::ToLower(filterBuffer);
 
 		if (ImGui::BeginListBox("##blockList", ImVec2(300, 200)))
 		{
 			for (const auto& [blockName, blockData] : MinecraftItems::nameToBlock) {
-				std::string blockNameLower = toLower(blockName);
+				std::string blockNameLower = StringUtils::ToLower(blockName);
 				if (blockNameLower.find(filterLower) != std::string::npos) {
 					if (ImGui::Selectable(blockName.c_str())) {
 						selectedBlock = { blockData.id, blockData.metadata };

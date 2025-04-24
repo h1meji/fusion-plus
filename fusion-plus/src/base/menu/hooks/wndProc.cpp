@@ -4,11 +4,6 @@
 #include "configManager/settings.h"
 #include "util/keys.h"
 
-static bool mouseButtonUp(UINT msg)
-{
-	return msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP;
-}
-
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 typedef LRESULT(CALLBACK* template_WndProc) (HWND, UINT, WPARAM, LPARAM);
@@ -41,7 +36,7 @@ LRESULT CALLBACK hook_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	if ((msg == WM_KEYUP || mouseButtonUp(msg)) && !Menu::isBindingKey)
+	if ((msg == WM_KEYUP || Keys::IsMouseButtonUp(msg)) && !Menu::isBindingKey)
 	{
 		listenForKeys = true;
 	}

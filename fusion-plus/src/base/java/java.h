@@ -24,6 +24,7 @@ struct Java
 	static bool AssignClass(std::string name, jclass &out);
 	static jclass GetClass(std::string name);
 	static jclass FindClass(JNIEnv* env, jvmtiEnv* tienv, const std::string& path);
+	static std::string GetClazzName(jobject obj);
 
 	static void GetMinecraftVersion();
 

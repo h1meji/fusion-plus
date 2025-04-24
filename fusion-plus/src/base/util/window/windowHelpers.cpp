@@ -1,6 +1,6 @@
 #include "windowHelpers.h"
 
-#include "util/logger/logger.h"
+#include "util/logger.h"
 
 void WindowHelpers::SetFixedAspectRatio(AspectRatioData* aspectData)
 {

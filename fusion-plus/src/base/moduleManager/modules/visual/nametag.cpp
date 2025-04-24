@@ -2,17 +2,11 @@
 
 #include "moduleManager/commonData.h"
 #include "util/math/math.h"
-#include "util/math/worldToScreen.h"
-#include "util/render/renderqolf.h"
+#include "util/math/camera.h"
+#include "util/render/render.h"
+#include "util/string.h"
 #include "configManager/configManager.h"
 #include "menu/menu.h"
-
-static std::string floatToString(float value, int precision)
-{
-	std::ostringstream out;
-	out << std::fixed << std::setprecision(precision) << value;
-	return out.str();
-}
 
 void Nametag::Update()
 {
@@ -27,7 +21,7 @@ void Nametag::Update()
 
 	if (CommonData::thirdPersonView != 0)
 	{
-		Vector3 cameraPos = CWorldToScreen::GetCameraPosition(CommonData::modelView);
+		Vector3 cameraPos = CameraUtils::GetCameraPosition(CommonData::modelView);
 		Vector2 angles = CommonData::playerAngles;
 		float eyeHeight = SDK::minecraft->thePlayer->IsSneaking() ? 1.54f : 1.62f;
 
@@ -120,7 +114,7 @@ void Nametag::Update()
 		std::snprintf(distC, sizeof(distC), "%.1f", dist);
 		std::string distS(distC);
 
-		std::string health = floatToString(entity.health, 1) + "/" + floatToString(entity.maxHealth, 1) + "hp";
+		std::string health = StringUtils::FloatToString(entity.health, 1) + "/" + StringUtils::FloatToString(entity.maxHealth, 1) + "hp";
 		std::string invisble = entity.obj.IsInvisibleToPlayer(SDK::minecraft->thePlayer->GetInstance()) ? "Invisible" : "";
 
 		newData.push_back(Data{
@@ -157,7 +151,7 @@ void Nametag::RenderOverlay()
 		{
 			Vector2 p;
 
-			if (!CWorldToScreen::WorldToScreen(position, CommonData::modelView, CommonData::projection, (int)screenSize.x, (int)screenSize.y, p))
+			if (!CameraUtils::WorldToScreen(position, CommonData::modelView, CommonData::projection, (int)screenSize.x, (int)screenSize.y, p))
 			{
 				skip = true;
 				break;
@@ -224,7 +218,7 @@ void Nametag::RenderOverlay()
 
 				if (settings::NT_TextOutline)
 				{
-					RenderQOLF::DrawOutlinedText(Menu::font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), ImColor(settings::NT_TextOutlineColor[0], settings::NT_TextOutlineColor[1], settings::NT_TextOutlineColor[2], settings::NT_TextOutlineColor[3] * data.opacityFadeFactor), texts[i].c_str());
+					Render::DrawOutlinedText(Menu::font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), ImColor(settings::NT_TextOutlineColor[0], settings::NT_TextOutlineColor[1], settings::NT_TextOutlineColor[2], settings::NT_TextOutlineColor[3] * data.opacityFadeFactor), texts[i].c_str());
 				}
 				else
 				{
@@ -257,7 +251,7 @@ void Nametag::RenderOverlay()
 			float posY = top - textSize.y - 1;
 			if (settings::NT_TextOutline)
 			{
-				RenderQOLF::DrawOutlinedText(Menu::font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), ImColor(settings::NT_TextOutlineColor[0], settings::NT_TextOutlineColor[1], settings::NT_TextOutlineColor[2], settings::NT_TextOutlineColor[3] * data.opacityFadeFactor), finalText.c_str());
+				Render::DrawOutlinedText(Menu::font, settings::NT_TextSize, ImVec2(posX, posY), ImColor(settings::NT_TextColor[0], settings::NT_TextColor[1], settings::NT_TextColor[2], settings::NT_TextColor[3] * data.opacityFadeFactor), ImColor(settings::NT_TextOutlineColor[0], settings::NT_TextOutlineColor[1], settings::NT_TextOutlineColor[2], settings::NT_TextOutlineColor[3] * data.opacityFadeFactor), finalText.c_str());
 			}
 			else
 			{

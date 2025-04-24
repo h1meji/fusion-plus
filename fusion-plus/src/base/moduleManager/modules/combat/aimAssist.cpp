@@ -1,8 +1,8 @@
 #include "aimAssist.h"
 
 #include "moduleManager/commonData.h"
-#include "util/logger/logger.h"
-#include "util/math/worldToScreen.h"
+#include "util/logger.h"
+#include "util/math/camera.h"
 #include "util/math/math.h"
 #include "util/minecraft/minecraft.h"
 #include "util/keys.h"
@@ -10,21 +10,6 @@
 #include "sdk/sdk.h"
 #include "java/java.h"
 #include "configManager/configManager.h"
-
-static bool isMouseMoving()
-{
-	static POINT lastMousePos;
-	POINT currentMousePos;
-	GetCursorPos(&currentMousePos);
-
-	if (lastMousePos.x == currentMousePos.x && lastMousePos.y == currentMousePos.y)
-	{
-		return false;
-	}
-
-	lastMousePos = currentMousePos;
-	return true;
-}
 
 /* 
 How this Aim Assist works :
@@ -75,7 +60,7 @@ void AimAssist::Update()
 		return;
 	}
 
-	if (!isMouseMoving() && settings::AA_mouseMoveCheck) {
+	if (!Keys::IsMouseMoving() && settings::AA_mouseMoveCheck) {
 		AimAssist::m_data = Vector3();
 		return;
 	}
@@ -251,7 +236,7 @@ void AimAssist::RenderOverlay()
 		ImVec2 screenSize = ImGui::GetWindowSize();
 
 		Vector2 w2s;
-		if (CWorldToScreen::WorldToScreen(m_data, CommonData::modelView, CommonData::projection, screenSize.x, screenSize.y, w2s))
+		if (CameraUtils::WorldToScreen(m_data, CommonData::modelView, CommonData::projection, screenSize.x, screenSize.y, w2s))
 		{
 			if (w2s.x == NAN) return;
 

@@ -3,7 +3,7 @@
 #include "sdk/sdk.h"
 #include "java/java.h"
 #include "moduleManager/commonData.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 #include "util/math/math.h"
 #include "menu/menu.h"
 

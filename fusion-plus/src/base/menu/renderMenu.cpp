@@ -5,7 +5,7 @@
 #include "base/base.h"
 #include "moduleManager/moduleManager.h"
 #include "sdk/net/minecraft/client/Minecraft.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 #include "util/window/borderless.h"
 #include "configManager/configManager.h"
 #include "notificationManager/notificationManager.h"

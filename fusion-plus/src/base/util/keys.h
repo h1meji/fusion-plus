@@ -1,4 +1,5 @@
 #pragma once
+
 #include <unordered_map>
 
 static inline const char* keys[] =
@@ -318,5 +319,50 @@ struct Keys
 			return "[unknown]";
 
 		return keys[key];
+	}
+
+	static bool IsMouseButtonUp(UINT msg)
+	{
+		return msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP;
+	}
+
+	static bool IsMouseMoving()
+	{
+		static POINT lastMousePos;
+		POINT currentMousePos;
+		GetCursorPos(&currentMousePos);
+
+		if (lastMousePos.x == currentMousePos.x && lastMousePos.y == currentMousePos.y)
+		{
+			return false;
+		}
+
+		lastMousePos = currentMousePos;
+		return true;
+	}
+
+	inline static void SendKey(WORD vkKey, bool sendDown = true)
+	{
+		static INPUT ip{ INPUT_KEYBOARD };
+
+		ip.ki.wScan = 0;
+		ip.ki.time = 0;
+		ip.ki.dwExtraInfo = 0;
+		ip.ki.wVk = vkKey;
+		ip.ki.dwFlags = sendDown ? 0 : KEYEVENTF_KEYUP;
+
+		SendInput(1, &ip, sizeof(INPUT));
+	}
+
+	static void SendKey(HWND hWnd, WORD vkKey, bool sendDown = true)
+	{
+		if (sendDown)
+		{
+			PostMessage(hWnd, WM_KEYDOWN, vkKey, static_cast<LPARAM>(MapVirtualKey(vkKey, 0) << 16));
+		}
+		else
+		{
+			PostMessage(hWnd, WM_KEYUP, vkKey, (static_cast<LPARAM>(MapVirtualKey(vkKey, 0)) << 16) | (static_cast<long long>(1) << 30) | (static_cast<long long>(1) << 31));
+		}
 	}
 };

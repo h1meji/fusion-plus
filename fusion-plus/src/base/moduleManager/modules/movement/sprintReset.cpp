@@ -2,19 +2,7 @@
 
 #include "moduleManager/commonData.h"
 #include "menu/menu.h"
-
-inline static void sendKey(WORD vkKey, bool sendDown = true)
-{
-	static INPUT ip{ INPUT_KEYBOARD };
-
-	ip.ki.wScan = 0;
-	ip.ki.time = 0;
-	ip.ki.dwExtraInfo = 0;
-	ip.ki.wVk = vkKey;
-	ip.ki.dwFlags = sendDown ? 0 : KEYEVENTF_KEYUP;
-
-	SendInput(1, &ip, sizeof(INPUT));
-}
+#include "util/keys.h"
 
 void SprintReset::Update()
 {
@@ -22,7 +10,7 @@ void SprintReset::Update()
 	std::chrono::duration<double> sinceStart = currentTime - m_startTime;
 	if (sinceStart.count() > settings::SR_LetGoDelay && m_sprintResetInAction)
 	{
-		sendKey(0x53, false);
+		Keys::SendKey(0x53, false);
 
 		m_sprintResetInAction = false;
 		m_pauseTime = std::chrono::steady_clock::now();
@@ -58,7 +46,7 @@ void SprintReset::Update()
 	{
 		if (!m_sprintResetInAction && m_canSprintReset)
 		{
-			sendKey(0x53, true);
+			Keys::SendKey(0x53, true);
 
 			m_sprintResetInAction = true;
 			m_canSprintReset = false;

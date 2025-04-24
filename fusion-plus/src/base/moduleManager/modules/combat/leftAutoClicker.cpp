@@ -5,7 +5,7 @@
 
 #include "sdk/sdk.h"
 #include "menu/menu.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 #include "util/minecraft/minecraft.h"
 
 void LeftAutoClicker::Update()

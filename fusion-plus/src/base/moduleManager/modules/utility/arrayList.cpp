@@ -1,6 +1,6 @@
 #include "arrayList.h"
 
-#include "util/render/renderUtils.h"
+#include "util/render/render.h"
 #include "menu/menu.h"
 #include "moduleManager/commonData.h"
 #include "moduleManager/moduleManager.h"
@@ -35,7 +35,7 @@ void ArrayList::RenderHud() {
         settings::AL_backgroundColor[3]
     );
 
-    RenderUtils::RenderModuleList(
+    Render::RenderModuleList(
         enabledModules,
         settings::AL_renderPosition,
         settings::AL_textSize,

@@ -4,26 +4,13 @@
 #include "menu/menu.h"
 #include "util/keys.h"
 
-inline static void sendKey(WORD vkKey, bool sendDown = true)
-{
-    static INPUT ip{ INPUT_KEYBOARD };
-
-    ip.ki.wScan = 0;
-    ip.ki.time = 0;
-    ip.ki.dwExtraInfo = 0;
-    ip.ki.wVk = vkKey;
-    ip.ki.dwFlags = sendDown ? 0 : KEYEVENTF_KEYUP;
-
-    SendInput(1, &ip, sizeof(INPUT));
-}
-
 void Sprint::Update()
 {
     if (!settings::S_Enabled || !CommonData::SanityCheck() || SDK::minecraft->IsInGuiState() || Menu::open)
     {
         if (m_isHoldingCtrl)
         {
-            sendKey(VK_CONTROL, false);
+            Keys::SendKey(VK_CONTROL, false);
             m_isHoldingCtrl = false;
         }
         return;
@@ -33,12 +20,12 @@ void Sprint::Update()
 
     if (isPressingW && !m_isHoldingCtrl)
     {
-        sendKey(VK_CONTROL, true);
+        Keys::SendKey(VK_CONTROL, true);
         m_isHoldingCtrl = true;
     }
     else if (!isPressingW && m_isHoldingCtrl)
     {
-        sendKey(VK_CONTROL, false);
+        Keys::SendKey(VK_CONTROL, false);
         m_isHoldingCtrl = false;
     }
 }

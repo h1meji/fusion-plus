@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "java/java.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 
 FloatBuffer::FloatBuffer(jobject obj)
 {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "util/math/geometry.h"
-#include "util/logger/logger.h"
+#include "util/logger.h"
 #include "sdk/sdk.h"
 
 /*
